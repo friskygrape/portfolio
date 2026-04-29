@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Style Guide — Deron Li</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Open+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    /* ════════════════════════════════════════════════════════
+       DESIGN TOKENS — edit these to update the entire guide
+    ════════════════════════════════════════════════════════ */
+    :root {
+      /* Brand */
+      --purple:  #4D00C0;
+      --font-heading: 'Geist', system-ui, sans-serif;
+      --font-body:    'Open Sans', system-ui, sans-serif;
+      --font:    var(--font-body);
+
+      /* Type scale */
+      --text-display:  72px;
+      --text-h1:       56px;
+      --text-h2:       40px;
+      --text-h3:       28px;
+      --text-h4:       20px;
+      --text-body-lg:  18px;
+      --text-body:     16px;
+      --text-body-sm:  16px;
+      --text-label:    16px;
+      --text-caption:  16px;
+      --text-overline: 16px;
+
+      /* Weights */
+      --weight-regular:   400;
+      --weight-medium:    500;
+      --weight-semibold:  600;
+      --weight-bold:      700;
+      --weight-extrabold: 800;
+
+      /* Leading */
+      --leading-none:    1;
+      --leading-tight:   1.08;
+      --leading-snug:    1.25;
+      --leading-normal:  1.5;
+      --leading-relaxed: 1.7;
+      --leading-loose:   1.85;
+
+      /* Tracking */
+      --tracking-tightest: -0.04em;
+      --tracking-tight:    -0.025em;
+      --tracking-snug:     -0.01em;
+      --tracking-normal:    0em;
+      --tracking-wide:      0.04em;
+      --tracking-wider:     0.08em;
+      --tracking-widest:    0.14em;
+
+      /* Text colours */
+      --color-primary:   #1e2035;
+      --color-secondary: #374151;
+      --color-tertiary:  #6b7280;
+      --color-subtle:    #9ca3af;
+      --color-accent:    #4D00C0;
+      --color-inverse:   #ffffff;
+    }
+
+    /* ════════════════════════════════════════════════════════
+       TYPE UTILITY CLASSES
+    ════════════════════════════════════════════════════════ */
+    .text-display {
+      font-family: var(--font-heading);
+      font-size: var(--text-display);
+      font-weight: var(--weight-extrabold);
+      line-height: var(--leading-tight);
+      letter-spacing: var(--tracking-tightest);
+    }
+    .text-h1 {
+      font-family: var(--font-heading);
+      font-size: var(--text-h1);
+      font-weight: var(--weight-extrabold);
+      line-height: var(--leading-tight);
+      letter-spacing: var(--tracking-tight);
+    }
+    .text-h2 {
+      font-family: var(--font-heading);
+      font-size: var(--text-h2);
+      font-weight: var(--weight-bold);
+      line-height: var(--leading-snug);
+      letter-spacing: var(--tracking-tight);
+    }
+    .text-h3 {
+      font-family: var(--font-heading);
+      font-size: var(--text-h3);
+      font-weight: var(--weight-semibold);
+      line-height: var(--leading-snug);
+      letter-spacing: var(--tracking-snug);
+    }
+    .text-h4 {
+      font-family: var(--font-heading);
+      font-size: var(--text-h4);
+      font-weight: var(--weight-semibold);
+      line-height: var(--leading-normal);
+      letter-spacing: var(--tracking-snug);
+    }
+    .text-body-lg {
+      font-size: var(--text-body-lg);
+      font-weight: var(--weight-regular);
+      line-height: var(--leading-relaxed);
+      letter-spacing: var(--tracking-normal);
+    }
+    .text-body {
+      font-size: var(--text-body);
+      font-weight: var(--weight-regular);
+      line-height: var(--leading-relaxed);
+      letter-spacing: var(--tracking-normal);
+    }
+    .text-body-sm {
+      font-size: var(--text-body-sm);
+      font-weight: var(--weight-regular);
+      line-height: var(--leading-normal);
+      letter-spacing: var(--tracking-normal);
+    }
+    .text-label {
+      font-size: var(--text-label);
+      font-weight: var(--weight-medium);
+      line-height: var(--leading-normal);
+      letter-spacing: var(--tracking-normal);
+    }
+    .text-caption {
+      font-size: var(--text-caption);
+      font-weight: var(--weight-regular);
+      line-height: var(--leading-normal);
+      letter-spacing: var(--tracking-normal);
+    }
+    .text-overline {
+      font-size: var(--text-overline);
+      font-weight: var(--weight-semibold);
+      line-height: var(--leading-normal);
+      letter-spacing: var(--tracking-widest);
+      text-transform: uppercase;
+    }
+
+    /* Colour modifiers */
+    .color-primary   { color: var(--color-primary);   }
+    .color-secondary { color: var(--color-secondary); }
+    .color-tertiary  { color: var(--color-tertiary);  }
+    .color-subtle    { color: var(--color-subtle);    }
+    .color-accent    { color: var(--color-accent);    }
+    .color-inverse   { color: var(--color-inverse);   }
+
+    /* Weight modifiers */
+    .weight-regular   { font-weight: var(--weight-regular);   }
+    .weight-medium    { font-weight: var(--weight-medium);    }
+    .weight-semibold  { font-weight: var(--weight-semibold);  }
+    .weight-bold      { font-weight: var(--weight-bold);      }
+    .weight-extrabold { font-weight: var(--weight-extrabold); }
+
+    /* ════════════════════════════════════════════════════════
+       PAGE CHROME
+    ════════════════════════════════════════════════════════ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font);
+      background: #f8f8fb;
+      color: var(--color-primary);
+      padding: 0 0 80px;
+    }
+
+    /* Sticky nav */
+    .sg-nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(255,255,255,0.94);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(0,0,0,0.07);
+      padding: 0 48px;
+      height: 56px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .sg-nav-title { font-size: 14px; font-weight: 700; color: var(--color-primary); }
+    .sg-nav-links { display: flex; gap: 6px; }
+    .sg-nav-links a {
+      font-size: 12px; font-weight: 500; color: var(--color-tertiary);
+      text-decoration: none; padding: 5px 12px; border-radius: 6px;
+      transition: background .15s, color .15s;
+    }
+    .sg-nav-links a:hover { background: #f0effe; color: var(--color-accent); }
+
+    /* Layout */
+    .sg-page { max-width: 960px; margin: 0 auto; padding: 0 48px; }
+
+    .sg-hero {
+      padding: 64px 0 56px;
+      border-bottom: 1px solid rgba(0,0,0,0.07);
+      margin-bottom: 64px;
+    }
+    .sg-hero-label {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--color-accent);
+      margin-bottom: 14px;
+    }
+    .sg-hero-title {
+      font-size: 36px; font-weight: 800; letter-spacing: -0.03em;
+      line-height: 1.1; color: var(--color-primary); margin-bottom: 12px;
+    }
+    .sg-hero-sub {
+      font-size: 15px; color: var(--color-tertiary); line-height: 1.6; max-width: 520px;
+    }
+
+    /* Section */
+    .sg-section { margin-bottom: 72px; scroll-margin-top: 72px; }
+    .sg-section-header {
+      display: flex; align-items: baseline; gap: 16px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid rgba(0,0,0,0.07);
+      margin-bottom: 32px;
+    }
+    .sg-section-name {
+      font-size: 13px; font-weight: 700; letter-spacing: 0.06em;
+      text-transform: uppercase; color: var(--color-accent);
+    }
+    .sg-section-desc { font-size: 13px; color: var(--color-tertiary); }
+
+    /* Type row */
+    .sg-type-row {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      align-items: baseline;
+      gap: 24px;
+      padding: 20px 0;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+    .sg-type-row:last-child { border-bottom: none; }
+    .sg-type-meta { flex-shrink: 0; }
+    .sg-type-class {
+      font-size: 11px; font-weight: 600; font-family: 'SF Mono', 'Fira Code', monospace;
+      color: var(--color-accent); background: #f0effe;
+      padding: 2px 7px; border-radius: 4px; display: inline-block; margin-bottom: 4px;
+    }
+    .sg-type-specs {
+      font-size: 11px; color: var(--color-subtle); line-height: 1.7;
+    }
+    .sg-type-preview { color: var(--color-primary); }
+
+    /* Colour grid */
+    .sg-color-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 16px;
+    }
+    .sg-color-swatch {
+      border-radius: 12px; overflow: hidden;
+      border: 1px solid rgba(0,0,0,0.07);
+    }
+    .sg-color-block { height: 72px; }
+    .sg-color-info { padding: 10px 12px; background: #fff; }
+    .sg-color-name { font-size: 12px; font-weight: 600; color: var(--color-primary); margin-bottom: 2px; }
+    .sg-color-value { font-size: 11px; font-family: 'SF Mono','Fira Code',monospace; color: var(--color-tertiary); }
+
+    /* Token table */
+    .sg-token-table { width: 100%; border-collapse: collapse; }
+    .sg-token-table th {
+      text-align: left; font-size: 11px; font-weight: 600;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--color-subtle); padding: 0 0 12px;
+      border-bottom: 1px solid rgba(0,0,0,0.07);
+    }
+    .sg-token-table td {
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+      vertical-align: middle;
+    }
+    .sg-token-table tr:last-child td { border-bottom: none; }
+    .sg-token-name {
+      font-size: 12px; font-weight: 600; font-family: 'SF Mono','Fira Code',monospace;
+      color: var(--color-accent);
+    }
+    .sg-token-value {
+      font-size: 12px; font-family: 'SF Mono','Fira Code',monospace;
+      color: var(--color-tertiary);
+    }
+    .sg-token-preview-text { font-size: 15px; color: var(--color-primary); }
+
+    /* Two-col token layout */
+    .sg-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }
+    @media (max-width: 680px) { .sg-two-col { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav class="sg-nav">
+  <span class="sg-nav-title">Style Guide</span>
+  <div class="sg-nav-links">
+    <a href="#type-scale">Type Scale</a>
+    <a href="#colours">Colours</a>
+    <a href="#weights">Weights</a>
+    <a href="#leading">Leading</a>
+    <a href="#tracking">Tracking</a>
+    <a href="../Portfolio/index.html">← Landing Page</a>
+  </div>
+</nav>
+
+<div class="sg-page">
+
+  <!-- Hero -->
+  <header class="sg-hero">
+    <p class="sg-hero-label">Deron Li · Portfolio</p>
+    <h1 class="sg-hero-title">Style Guide</h1>
+    <p class="sg-hero-sub">
+      All design tokens and utility classes are defined in <code>:root</code> at the top of this file and in <code>index.html</code>. Edit the CSS variables once to update every usage.
+    </p>
+  </header>
+
+
+  <!-- ── Type Scale ─────────────────────────────────────── -->
+  <section class="sg-section" id="type-scale">
+    <div class="sg-section-header">
+      <span class="sg-section-name">Type Scale</span>
+      <span class="sg-section-desc">Add the class to any element — size, weight, leading &amp; tracking are preset.</span>
+    </div>
+
+    <div class="sg-type-row">
+      <div class="sg-type-meta">
+        <span class="sg-type-class">.text-display</span>
+        <div class="sg-type-specs">72px · 800 · −0.04em</div>
+      </div>
+      <div class="sg-type-preview text-display" style="font-size:clamp(36px,5vw,72px)">Display</div>
+    </div>
+
+    <div class="sg-type-row">
+      <div class="sg-type-meta">
+        <span class="sg-type-class">.text-h1</span>
+        <div class="sg-type-specs">56px · 800 · −0.025em</div>
+      </div>
+      <div class="sg-type-preview text-h1" style="font-size:clamp(28px,4vw,56px)">Heading 1</div>
+    </div>
+
+    <div class="sg-type-row">
+      <div class="sg-type-meta">
+        <span class="sg-type-class">.text-h2</span>
+        <div class="sg-type-specs">40px · 700 · −0.025em</div>
+      </div>
+      <div class="sg-type-preview text-h2">Heading 2</div>
+    </div>
+
+    <div class="sg-type-row">
+      <div class="sg-type-meta">
+        <span class="sg-type-class">.text-h3</span>
+        <div class="sg-type-specs">28px · 600 · −0.01em</div>
+      </div>
+      <div class="sg-type-preview text-h3">Heading 3</div>
+    </div>
+
+    <div class="sg-type-row">
+      <div class="sg-type-meta">
+        <span class="sg-type-class">.text-h4</span>
+        <div class="sg-type-specs">20px · 600 · −0.01em</div>
+      </div>
+      <div class="sg-type-preview text-h4">Heading 4</div>
+    </div>
+
+    <div class="sg-type-row">
+      <div class="sg-type-meta">
+        <span class="sg-type-class">.text-body-lg</span>
+        <div class="sg-type-specs">18px · 400 · 0em</div>
+      </div>
+      <div class="sg-type-preview text-body-lg">The quick brown fox jumps over the lazy dog.</div>
+    </div>
+
+    <div class="sg-type-row">
+      <div class="sg-type-meta">
+        <span class="sg-type-class">.text-body</span>
+        <div class="sg-type-specs">16px · 400 · 0em</div>
+      </div>
+      <div class="sg-type-preview text-body">The quick brown fox jumps over the lazy dog.</div>
+    </div>
+
+    <div class="sg-type-row">
+      <div class="sg-type-meta">
+        <span class="sg-type-class">.text-body-sm</span>
+        <div class="sg-type-specs">14px · 400 · 0em</div>
+      </div>
+      <div class="sg-type-preview text-body-sm">The quick brown fox jumps over the lazy dog.</div>
+    </div>
+
+    <div class="sg-type-row">
+      <div class="sg-type-meta">
+        <span class="sg-type-class">.text-label</span>
+        <div class="sg-type-specs">13px · 500 · 0em</div>
+      </div>
+      <div class="sg-type-preview text-label">Interface label text</div>
+    </div>
+
+    <div class="sg-type-row">
+      <div class="sg-type-meta">
+        <span class="sg-type-class">.text-caption</span>
+        <div class="sg-type-specs">12px · 400 · 0em</div>
+      </div>
+      <div class="sg-type-preview text-caption">Caption or helper text below a field</div>
+    </div>
+
+    <div class="sg-type-row">
+      <div class="sg-type-meta">
+        <span class="sg-type-class">.text-overline</span>
+        <div class="sg-type-specs">11px · 600 · 0.14em · uppercase</div>
+      </div>
+      <div class="sg-type-preview text-overline color-accent">Section label</div>
+    </div>
+  </section>
+
+
+  <!-- ── Colours ────────────────────────────────────────── -->
+  <section class="sg-section" id="colours">
+    <div class="sg-section-header">
+      <span class="sg-section-name">Colours</span>
+      <span class="sg-section-desc">Text colour utilities. Combine with any type class.</span>
+    </div>
+
+    <div class="sg-color-grid">
+      <div class="sg-color-swatch">
+        <div class="sg-color-block" style="background:var(--color-primary)"></div>
+        <div class="sg-color-info">
+          <div class="sg-color-name">.color-primary</div>
+          <div class="sg-color-value">#1e2035</div>
+        </div>
+      </div>
+      <div class="sg-color-swatch">
+        <div class="sg-color-block" style="background:var(--color-secondary)"></div>
+        <div class="sg-color-info">
+          <div class="sg-color-name">.color-secondary</div>
+          <div class="sg-color-value">#374151</div>
+        </div>
+      </div>
+      <div class="sg-color-swatch">
+        <div class="sg-color-block" style="background:var(--color-tertiary)"></div>
+        <div class="sg-color-info">
+          <div class="sg-color-name">.color-tertiary</div>
+          <div class="sg-color-value">#6b7280</div>
+        </div>
+      </div>
+      <div class="sg-color-swatch">
+        <div class="sg-color-block" style="background:var(--color-subtle)"></div>
+        <div class="sg-color-info">
+          <div class="sg-color-name">.color-subtle</div>
+          <div class="sg-color-value">#9ca3af</div>
+        </div>
+      </div>
+      <div class="sg-color-swatch">
+        <div class="sg-color-block" style="background:var(--color-accent)"></div>
+        <div class="sg-color-info">
+          <div class="sg-color-name">.color-accent</div>
+          <div class="sg-color-value">#4D00C0</div>
+        </div>
+      </div>
+      <div class="sg-color-swatch">
+        <div class="sg-color-block" style="background:var(--color-primary)"></div>
+        <div class="sg-color-info">
+          <div class="sg-color-name">.color-inverse</div>
+          <div class="sg-color-value">#ffffff</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ── Weights / Leading / Tracking ──────────────────── -->
+  <div class="sg-two-col">
+
+    <!-- Weights -->
+    <section class="sg-section" id="weights">
+      <div class="sg-section-header">
+        <span class="sg-section-name">Weights</span>
+      </div>
+      <table class="sg-token-table">
+        <thead><tr><th>Class</th><th>Value</th><th style="width:40%">Preview</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="sg-token-name">.weight-regular</span></td>
+            <td><span class="sg-token-value">400</span></td>
+            <td><span class="sg-token-preview-text weight-regular">Portfolio</span></td>
+          </tr>
+          <tr>
+            <td><span class="sg-token-name">.weight-medium</span></td>
+            <td><span class="sg-token-value">500</span></td>
+            <td><span class="sg-token-preview-text weight-medium">Portfolio</span></td>
+          </tr>
+          <tr>
+            <td><span class="sg-token-name">.weight-semibold</span></td>
+            <td><span class="sg-token-value">600</span></td>
+            <td><span class="sg-token-preview-text weight-semibold">Portfolio</span></td>
+          </tr>
+          <tr>
+            <td><span class="sg-token-name">.weight-bold</span></td>
+            <td><span class="sg-token-value">700</span></td>
+            <td><span class="sg-token-preview-text weight-bold">Portfolio</span></td>
+          </tr>
+          <tr>
+            <td><span class="sg-token-name">.weight-extrabold</span></td>
+            <td><span class="sg-token-value">800</span></td>
+            <td><span class="sg-token-preview-text weight-extrabold">Portfolio</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Leading -->
+    <section class="sg-section" id="leading">
+      <div class="sg-section-header">
+        <span class="sg-section-name">Leading</span>
+      </div>
+      <table class="sg-token-table">
+        <thead><tr><th>Token</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="sg-token-name">--leading-none</span></td>
+            <td><span class="sg-token-value">1</span></td>
+          </tr>
+          <tr>
+            <td><span class="sg-token-name">--leading-tight</span></td>
+            <td><span class="sg-token-value">1.08</span></td>
+          </tr>
+          <tr>
+            <td><span class="sg-token-name">--leading-snug</span></td>
+            <td><span class="sg-token-value">1.25</span></td>
+          </tr>
+          <tr>
+            <td><span class="sg-token-name">--leading-normal</span></td>
+            <td><span class="sg-token-value">1.5</span></td>
+          </tr>
+          <tr>
+            <td><span class="sg-token-name">--leading-relaxed</span></td>
+            <td><span class="sg-token-value">1.7</span></td>
+          </tr>
+          <tr>
+            <td><span class="sg-token-name">--leading-loose</span></td>
+            <td><span class="sg-token-value">1.85</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+  </div>
+
+
+  <!-- Tracking -->
+  <section class="sg-section" id="tracking">
+    <div class="sg-section-header">
+      <span class="sg-section-name">Tracking (letter-spacing)</span>
+      <span class="sg-section-desc">Apply via CSS variable or set <code>letter-spacing</code> directly.</span>
+    </div>
+    <table class="sg-token-table">
+      <thead><tr><th>Token</th><th>Value</th><th>Preview</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="sg-token-name">--tracking-tightest</span></td>
+          <td><span class="sg-token-value">−0.04em</span></td>
+          <td><span class="sg-token-preview-text" style="letter-spacing:-0.04em;font-weight:700;font-size:18px">The quick brown fox</span></td>
+        </tr>
+        <tr>
+          <td><span class="sg-token-name">--tracking-tight</span></td>
+          <td><span class="sg-token-value">−0.025em</span></td>
+          <td><span class="sg-token-preview-text" style="letter-spacing:-0.025em;font-weight:700;font-size:18px">The quick brown fox</span></td>
+        </tr>
+        <tr>
+          <td><span class="sg-token-name">--tracking-snug</span></td>
+          <td><span class="sg-token-value">−0.01em</span></td>
+          <td><span class="sg-token-preview-text" style="letter-spacing:-0.01em;font-size:18px">The quick brown fox</span></td>
+        </tr>
+        <tr>
+          <td><span class="sg-token-name">--tracking-normal</span></td>
+          <td><span class="sg-token-value">0em</span></td>
+          <td><span class="sg-token-preview-text" style="letter-spacing:0;font-size:18px">The quick brown fox</span></td>
+        </tr>
+        <tr>
+          <td><span class="sg-token-name">--tracking-wide</span></td>
+          <td><span class="sg-token-value">0.04em</span></td>
+          <td><span class="sg-token-preview-text" style="letter-spacing:0.04em;font-size:15px">The quick brown fox</span></td>
+        </tr>
+        <tr>
+          <td><span class="sg-token-name">--tracking-wider</span></td>
+          <td><span class="sg-token-value">0.08em</span></td>
+          <td><span class="sg-token-preview-text" style="letter-spacing:0.08em;font-size:14px">The quick brown fox</span></td>
+        </tr>
+        <tr>
+          <td><span class="sg-token-name">--tracking-widest</span></td>
+          <td><span class="sg-token-value">0.14em</span></td>
+          <td><span class="sg-token-preview-text" style="letter-spacing:0.14em;font-size:12px;font-weight:600;text-transform:uppercase">Section label</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+</div><!-- /sg-page -->
+</body>
+</html>
