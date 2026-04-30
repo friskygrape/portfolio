@@ -4,18 +4,18 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Deron Li — Product Designer</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="css/site.css">
 </head>
-<body>
+<body class="home">
 
 <div id="splash">
-  <span id="spl-hi">Hi</span>
-  <span id="spl-name">I'm Deron.</span>
+  <span id="spl-hi" class="display">Hi</span>
+  <span id="spl-name" class="display">I'm Deron.</span>
 </div>
 
 <nav>
-  <span class="logo">Deron Li</span>
-  <div class="nav-links"><a href="#work">Work</a><a href="#">About</a></div>
+  <span class="logo label">Deron Li</span>
+  <div class="nav-links"><a href="#work" class="label">Work</a><a href="#" class="label">About</a></div>
 </nav>
 
 <main class="hero">
@@ -23,8 +23,8 @@
 
     <!-- Left -->
     <div class="left-col">
-      <h1 id="hero-h1"><span class="h1-hi">Hi</span> <span class="h1-name">I'm Deron.</span></h1>
-      <p class="bio">
+      <h1 id="hero-h1" class="display"><span class="h1-hi">Hi</span> <span class="h1-name">I'm Deron.</span></h1>
+      <p class="bio body-lg">
         <span class="hl">Senior Product Designer</span> with <span class="hl">9 Years of experience</span> in <span class="hl">B2B and B2C</span>. I specialize
         in simplifying complexity and shipping high-utility products that balance
         business goals with a deep obsession for the user.
@@ -48,16 +48,16 @@
 
 <section class="featured-work" id="work">
   <div class="fw-inner">
-    <h2 class="fw-heading"><span class="fw-slash">//</span> Featured Work</h2>
+    <h2 class="fw-heading h1"><span class="fw-slash">//</span> Featured Work</h2>
     <div class="fw-grid">
 
       <a class="fw-card" href="discounts.html">
-        <p class="fw-company">TouchBistro</p>
-        <h3 class="fw-title">Securing a Restaurant with 10+ Locations through Advanced Discounts</h3>
+        <p class="fw-company overline">TouchBistro</p>
+        <h3 class="fw-title h3">Securing a Restaurant with 10+ Locations through Advanced Discounts</h3>
         <div class="fw-tags">
-          <span class="fw-tag">Restaurant</span>
-          <span class="fw-tag">POS</span>
-          <span class="fw-tag">Discounts</span>
+          <span class="fw-tag tag">Restaurant</span>
+          <span class="fw-tag tag">POS</span>
+          <span class="fw-tag tag">Discounts</span>
         </div>
         <div class="fw-image">
           <img src="images/homepage/discounts.png" alt="TouchBistro Advanced Discounts" />
@@ -65,12 +65,12 @@
       </a>
 
       <a class="fw-card" href="support.html">
-        <p class="fw-company">TouchBistro</p>
-        <h3 class="fw-title">Reducing Customer Call Times by 33% by Improving the Information Architecture</h3>
+        <p class="fw-company overline">TouchBistro</p>
+        <h3 class="fw-title h3">Reducing Customer Call Times by 33% by Improving the Information Architecture</h3>
         <div class="fw-tags">
-          <span class="fw-tag">Support</span>
-          <span class="fw-tag">Call Time Reduction</span>
-          <span class="fw-tag">IA</span>
+          <span class="fw-tag tag">Support</span>
+          <span class="fw-tag tag">Call Time Reduction</span>
+          <span class="fw-tag tag">IA</span>
         </div>
         <div class="fw-image">
           <img src="images/homepage/support.png" alt="TouchBistro Call Times" />
@@ -78,12 +78,12 @@
       </a>
 
       <a class="fw-card" href="optik.html">
-        <p class="fw-company">TELUS</p>
-        <h3 class="fw-title">Growing Optik TV Daily Orders from 200 to 2,500+</h3>
+        <p class="fw-company overline">TELUS</p>
+        <h3 class="fw-title h3">Growing Optik TV Daily Orders from 200 to 2,500+</h3>
         <div class="fw-tags">
-          <span class="fw-tag">TV Subscription</span>
-          <span class="fw-tag">Mobile</span>
-          <span class="fw-tag">Self-Service</span>
+          <span class="fw-tag tag">TV Subscription</span>
+          <span class="fw-tag tag">Mobile</span>
+          <span class="fw-tag tag">Self-Service</span>
         </div>
         <div class="fw-image">
           <img src="images/homepage/optik.png" alt="TELUS Optik TV" />
@@ -91,12 +91,12 @@
       </a>
 
       <a class="fw-card" href="onboarding.html">
-        <p class="fw-company">TELUS</p>
-        <h3 class="fw-title">Increasing My TELUS App Retention from 40.6% to 62.6%</h3>
+        <p class="fw-company overline">TELUS</p>
+        <h3 class="fw-title h3">Increasing My TELUS App Retention from 40.6% to 62.6%</h3>
         <div class="fw-tags">
-          <span class="fw-tag">Onboarding</span>
-          <span class="fw-tag">Retention</span>
-          <span class="fw-tag">High-Value-Self-Service</span>
+          <span class="fw-tag tag">Onboarding</span>
+          <span class="fw-tag tag">Retention</span>
+          <span class="fw-tag tag">High-Value-Self-Service</span>
         </div>
         <div class="fw-image">
           <img src="images/homepage/onboarding.png" alt="TELUS Retention" />
@@ -107,7 +107,7 @@
   </div>
 </section>
 
-<script src="script.js" defer></script>
+<script src="js/script.js" defer></script>
 
 </body>
 </html>

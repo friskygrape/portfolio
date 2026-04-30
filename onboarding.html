@@ -4,31 +4,19 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TELUS — App Retention · Deron Li</title>
-  <link rel="stylesheet" href="case-study.css">
+  <link rel="stylesheet" href="css/site.css">
 </head>
 <body>
 
 <nav>
-  <a class="logo" href="index.html">Deron Li</a>
+  <a class="logo label" href="index.html">Deron Li</a>
   <div class="nav-links">
-    <a href="index.html#work">Work</a>
-    <a href="#">About</a>
+    <a href="index.html#work" class="label">Work</a>
+    <a href="#" class="label">About</a>
   </div>
 </nav>
 
 <div class="cs-page">
-
-  <div class="cs-back"><a href="index.html">← Featured Work</a></div>
-
-  <header class="cs-hero">
-    <p class="cs-company">TELUS</p>
-    <h1 class="cs-title">Increasing My TELUS App Retention from 40.6% to 62.6%</h1>
-    <div class="cs-tags">
-      <span class="cs-tag">Onboarding</span>
-      <span class="cs-tag">Retention</span>
-      <span class="cs-tag">High-Value Self-Service</span>
-    </div>
-  </header>
 
   <div class="cs-cover">
     <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1400&q=80" alt="TELUS My App Retention" />
@@ -36,49 +24,60 @@
 
   <div class="cs-body">
 
+    <header class="cs-hero">
+      <p class="cs-company overline">TELUS</p>
+      <h1 class="cs-title h1">Increasing My TELUS App Retention from 40.6% to 62.6%</h1>
+      <p class="cs-summary lead">A redesign of the My TELUS onboarding and first-run experience that lifted 30-day retention by 22 points and saved an estimated $3.1M in annual support costs.</p>
+      <div class="cs-tags">
+        <span class="cs-tag tag">Onboarding</span>
+        <span class="cs-tag tag">Retention</span>
+        <span class="cs-tag tag">High-Value Self-Service</span>
+      </div>
+    </header>
+
     <div class="cs-meta">
-      <div class="cs-meta-item"><p>Role</p><p>Senior Product Designer</p></div>
-      <div class="cs-meta-item"><p>Timeline</p><p>Q2 – Q4 2022</p></div>
-      <div class="cs-meta-item"><p>Platform</p><p>iOS · Android</p></div>
+      <div class="cs-meta-item"><p class="overline">Role</p><p class="label">Senior Product Designer</p></div>
+      <div class="cs-meta-item"><p class="overline">Timeline</p><p class="label">Q2 – Q4 2022</p></div>
+      <div class="cs-meta-item"><p class="overline">Platform</p><p class="label">iOS · Android</p></div>
     </div>
 
     <section class="cs-section">
-      <h2>Overview</h2>
-      <p>My TELUS is the primary self-service app for millions of Canadians to manage their wireless and home services. Despite strong install numbers, 30-day retention sat at 40.6% — most customers opened the app once and never returned.</p>
-      <p>I redesigned the onboarding and first-run experience to drive habitual engagement, increasing 30-day retention from 40.6% to 62.6% — a 22-point lift — within the first three months post-launch.</p>
+      <h2 class="h3">Overview</h2>
+      <p class="body-lg">My TELUS is the primary self-service app for millions of Canadians to manage their wireless and home services. Despite strong install numbers, 30-day retention sat at 40.6% — most customers opened the app once and never returned.</p>
+      <p class="body-lg">I redesigned the onboarding and first-run experience to drive habitual engagement, increasing 30-day retention from 40.6% to 62.6% — a 22-point lift — within the first three months post-launch.</p>
     </section>
 
     <section class="cs-section">
-      <h2>The Challenge</h2>
-      <p>Usage data told a clear story: customers opened the app when something went wrong — a billing question, a service outage — then left. There was no pull to return. The app's home screen presented a static summary of account details that gave customers no reason to come back unless they had a specific task.</p>
-      <p>A deeper problem surfaced in diary studies: customers didn't know what the app could do for them. They associated My TELUS exclusively with bill payment, missing the self-service capabilities that would have saved them a trip to a store or a 20-minute support call.</p>
+      <h2 class="h3">The Challenge</h2>
+      <p class="body-lg">Usage data told a clear story: customers opened the app when something went wrong — a billing question, a service outage — then left. There was no pull to return. The app's home screen presented a static summary of account details that gave customers no reason to come back unless they had a specific task.</p>
+      <p class="body-lg">A deeper problem surfaced in diary studies: customers didn't know what the app could do for them. They associated My TELUS exclusively with bill payment, missing the self-service capabilities that would have saved them a trip to a store or a 20-minute support call.</p>
       <img class="cs-img" src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&q=80" alt="Retention data and user research" />
     </section>
 
     <section class="cs-section">
-      <h2>The Approach</h2>
-      <p>I started with a cohort analysis of retained versus churned users. The single strongest predictor of 30-day retention was completing at least two distinct self-service actions in the first session — customers who did this retained at 3× the baseline rate. The redesign focused on making that second action easy to discover.</p>
-      <p>I redesigned the onboarding flow to front-load the app's highest-value capabilities, contextualised to the customer's actual account. Rather than a generic feature tour, each customer saw prompts tied to their plan — a nudge to set up autopay for a wireless subscriber, a recommendation to check usage trends for a heavy data user.</p>
-      <p>The home screen was rebuilt around a personalised action card system — surfacing timely, relevant tasks (upcoming bill, data usage milestone, plan upgrade eligibility) instead of static account information. I worked closely with data science to define the ranking logic, ensuring cards were genuinely useful rather than manufactured engagement.</p>
+      <h2 class="h3">The Approach</h2>
+      <p class="body-lg">I started with a cohort analysis of retained versus churned users. The single strongest predictor of 30-day retention was completing at least two distinct self-service actions in the first session — customers who did this retained at 3× the baseline rate. The redesign focused on making that second action easy to discover.</p>
+      <p class="body-lg">I redesigned the onboarding flow to front-load the app's highest-value capabilities, contextualised to the customer's actual account. Rather than a generic feature tour, each customer saw prompts tied to their plan — a nudge to set up autopay for a wireless subscriber, a recommendation to check usage trends for a heavy data user.</p>
+      <p class="body-lg">The home screen was rebuilt around a personalised action card system — surfacing timely, relevant tasks (upcoming bill, data usage milestone, plan upgrade eligibility) instead of static account information. I worked closely with data science to define the ranking logic, ensuring cards were genuinely useful rather than manufactured engagement.</p>
     </section>
 
     <section class="cs-section">
-      <h2>The Outcome</h2>
+      <h2 class="h3">The Outcome</h2>
       <div class="cs-stats">
         <div class="cs-stat">
-          <div class="cs-stat-val">+22pt</div>
-          <div class="cs-stat-label">30-day retention increase</div>
+          <div class="cs-stat-val h2">+22pt</div>
+          <div class="cs-stat-label body">30-day retention increase</div>
         </div>
         <div class="cs-stat">
-          <div class="cs-stat-val">2.1×</div>
-          <div class="cs-stat-label">Self-service actions per session</div>
+          <div class="cs-stat-val h2">2.1×</div>
+          <div class="cs-stat-label body">Self-service actions per session</div>
         </div>
         <div class="cs-stat">
-          <div class="cs-stat-val">−$3.1M</div>
-          <div class="cs-stat-label">Reduction in annual support costs</div>
+          <div class="cs-stat-val h2">−$3.1M</div>
+          <div class="cs-stat-label body">Reduction in annual support costs</div>
         </div>
       </div>
-      <p>30-day retention climbed from 40.6% to 62.6% within the first quarter post-launch. Customers who completed the redesigned onboarding averaged 2.1 self-service actions per session, up from 0.9. The reduction in support call volume tied directly to the retention improvement, delivering an estimated $3.1M in annual cost savings.</p>
+      <p class="body-lg">30-day retention climbed from 40.6% to 62.6% within the first quarter post-launch. Customers who completed the redesigned onboarding averaged 2.1 self-service actions per session, up from 0.9. The reduction in support call volume tied directly to the retention improvement, delivering an estimated $3.1M in annual cost savings.</p>
     </section>
 
   </div>

@@ -4,29 +4,29 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TouchBistro — Advanced Discounts · Deron Li</title>
-  <link rel="stylesheet" href="case-study.css">
+  <link rel="stylesheet" href="css/site.css">
 </head>
 <body>
 
 <nav>
-  <a class="logo" href="index.html">Deron Li</a>
+  <a class="logo label" href="index.html">Deron Li</a>
   <div class="nav-links">
-    <a href="index.html#work">Work</a>
-    <a href="#">About</a>
+    <a href="index.html#work" class="label">Work</a>
+    <a href="#" class="label">About</a>
   </div>
 </nav>
 
 <div class="cs-page">
 
-  <div class="cs-back"><a href="index.html">← Featured Work</a></div>
+  <div class="cs-back"><a class="label" href="index.html">← Featured Work</a></div>
 
   <header class="cs-hero">
-    <p class="cs-company">TouchBistro</p>
-    <h1 class="cs-title">Securing a Restaurant with 10+ Locations through Advanced Discounts</h1>
+    <p class="cs-company overline">TouchBistro</p>
+    <h1 class="cs-title h1">Securing a Restaurant with 10+ Locations through Advanced Discounts</h1>
     <div class="cs-tags">
-      <span class="cs-tag">Restaurant</span>
-      <span class="cs-tag">POS</span>
-      <span class="cs-tag">Discounts</span>
+      <span class="cs-tag tag">Restaurant</span>
+      <span class="cs-tag tag">POS</span>
+      <span class="cs-tag tag">Discounts</span>
     </div>
   </header>
 
@@ -52,42 +52,42 @@
     </div>
 
     <section class="cs-section">
-      <h2>Overview</h2>
-      <p>TouchBistro is a restaurant POS and management platform used by thousands of venues across North America. Multi-location restaurant groups needed a way to create, manage, and apply discounts consistently across all their locations — without requiring staff to manually configure each site.</p>
-      <p>I led design end-to-end on a new Advanced Discounts feature that allowed restaurant operators to define complex discount rules once and deploy them across 10+ locations simultaneously.</p>
+      <h2 class="h3">Overview</h2>
+      <p class="body-lg">TouchBistro is a restaurant POS and management platform used by thousands of venues across North America. Multi-location restaurant groups needed a way to create, manage, and apply discounts consistently across all their locations — without requiring staff to manually configure each site.</p>
+      <p class="body-lg">I led design end-to-end on a new Advanced Discounts feature that allowed restaurant operators to define complex discount rules once and deploy them across 10+ locations simultaneously.</p>
     </section>
 
     <section class="cs-section">
-      <h2>The Challenge</h2>
-      <p>Restaurant groups with multiple locations struggled to maintain discount consistency. Managers had to log in to each POS individually to set up promotions, leading to errors, out-of-sync pricing, and lost revenue. The existing discount system wasn't designed for scale.</p>
-      <p>The core design problem: how do you make a powerful, rule-based discount engine feel simple enough for a busy restaurant manager to configure in under five minutes?</p>
+      <h2 class="h3">The Challenge</h2>
+      <p class="body-lg">Restaurant groups with multiple locations struggled to maintain discount consistency. Managers had to log in to each POS individually to set up promotions, leading to errors, out-of-sync pricing, and lost revenue. The existing discount system wasn't designed for scale.</p>
+      <p class="body-lg">The core design problem: how do you make a powerful, rule-based discount engine feel simple enough for a busy restaurant manager to configure in under five minutes?</p>
       <img class="cs-img" src="https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=1200&q=80" alt="Research and discovery" />
     </section>
 
     <section class="cs-section">
-      <h2>The Approach</h2>
-      <p>I started with contextual interviews across five multi-location operators to understand their mental model around promotions. Key insight: managers think in terms of "event + condition + reward" — not the technical rule logic the backend required.</p>
-      <p>I designed a guided creation flow that mapped natural language discount types (Happy Hour, Staff Meal, Loyalty) to the underlying rule engine, hiding complexity behind familiar patterns. Location selection was reframed as a broadcast model — configure once, push everywhere.</p>
-      <p>Multiple rounds of usability testing with restaurant managers drove key simplifications: reducing a 12-step setup to 4 screens and introducing a live preview of how the discount would appear on a guest check.</p>
+      <h2 class="h3">The Approach</h2>
+      <p class="body-lg">I started with contextual interviews across five multi-location operators to understand their mental model around promotions. Key insight: managers think in terms of "event + condition + reward" — not the technical rule logic the backend required.</p>
+      <p class="body-lg">I designed a guided creation flow that mapped natural language discount types (Happy Hour, Staff Meal, Loyalty) to the underlying rule engine, hiding complexity behind familiar patterns. Location selection was reframed as a broadcast model — configure once, push everywhere.</p>
+      <p class="body-lg">Multiple rounds of usability testing with restaurant managers drove key simplifications: reducing a 12-step setup to 4 screens and introducing a live preview of how the discount would appear on a guest check.</p>
     </section>
 
     <section class="cs-section">
-      <h2>The Outcome</h2>
+      <h2 class="h3">The Outcome</h2>
       <div class="cs-stats">
         <div class="cs-stat">
-          <div class="cs-stat-val">94%</div>
-          <div class="cs-stat-label">CSAT score post-launch</div>
+          <div class="cs-stat-val h2">94%</div>
+          <div class="cs-stat-label body">CSAT score post-launch</div>
         </div>
         <div class="cs-stat">
-          <div class="cs-stat-val">−68%</div>
-          <div class="cs-stat-label">Reduction in setup time</div>
+          <div class="cs-stat-val h2">−68%</div>
+          <div class="cs-stat-label body">Reduction in setup time</div>
         </div>
         <div class="cs-stat">
-          <div class="cs-stat-val">2.4×</div>
-          <div class="cs-stat-label">Growth in discount adoption</div>
+          <div class="cs-stat-val h2">2.4×</div>
+          <div class="cs-stat-label body">Growth in discount adoption</div>
         </div>
       </div>
-      <p>The Advanced Discounts feature shipped to all multi-location customers within one sprint of scheduled launch. It became one of the highest-rated releases of the year, with operators citing the broadcast model as the single biggest time saver in their workflow.</p>
+      <p class="body-lg">The Advanced Discounts feature shipped to all multi-location customers within one sprint of scheduled launch. It became one of the highest-rated releases of the year, with operators citing the broadcast model as the single biggest time saver in their workflow.</p>
     </section>
 
   </div>
