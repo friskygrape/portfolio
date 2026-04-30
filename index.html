@@ -162,6 +162,7 @@
     html, body {
       height: 100%; background: #ffffff;
       font-family: var(--font); color: var(--color-primary);
+      overflow-x: hidden;
     }
     body {
       background-image: radial-gradient(circle, color-mix(in srgb, var(--color-accent) 18%, transparent) 1px, transparent 1px);
@@ -275,32 +276,6 @@
       width: 520px; height: 532px;
       flex-shrink: 0;
     }
-    /* ─────────────────────────────────────────────────────────────────
-       GLASSMORPHIC ALBUM CARDS
-       Each card is a translucent glass panel with visible thickness.
-       Built from four layered effects on .card-wrap:
-
-         1. Frosted body — backdrop-filter blur(22px) saturate(200%)
-            blurs and saturates whatever sits behind the card (page
-            background + cards behind it in the stack).
-
-         2. Coloured tint — applied via inline `background` from the
-            SLOTS table in JS. Front card is the deepest purple
-            (rgba(77,0,192,0.68)); mid and back cards step lighter.
-            High alpha keeps the brand purple saturated through the glass.
-
-         3. Visible thickness — 7 stacked box-shadow layers stepping
-            -1px,-1px each, in light-lavender at near-opaque alpha
-            (0.95 → 0.71). The 1px increments merge into a continuous
-            ~7px side face extruding to the top-left, rather than
-            reading as discrete shadow steps.
-
-         4. Glass rim + lighting — outer 1px white rim, inset wrap-around
-            rim, bright top-edge specular, faint bottom bounce light, and
-            a top-edge / top-left specular gradient via ::before. The
-            drop shadow is offset down-right (24px, 32px) to commit to
-            a single upper-left light source.
-       ───────────────────────────────────────────────────────────────── */
     /* wrapper: handles slot translate + opacity + scroll spread transform */
     .card-wrap {
       position: absolute; top: 0; left: 0;
@@ -309,46 +284,8 @@
       transform-origin: 0 60%;
       transition: translate 0.60s cubic-bezier(0.25,0.46,0.45,0.94),
                   opacity 0.52s ease;
-      backdrop-filter: blur(22px) saturate(200%);
-      -webkit-backdrop-filter: blur(22px) saturate(200%);
-      box-shadow:
-        /* Glass thickness — uniform light-lavender side face, near-opaque so it reads
-           the same regardless of what's behind it */
-        -1px -1px 0 rgba(200,180,245,0.95),
-        -2px -2px 0 rgba(190,170,240,0.91),
-        -3px -3px 0 rgba(180,160,235,0.87),
-        -4px -4px 0 rgba(170,150,230,0.83),
-        -5px -5px 0 rgba(160,140,225,0.79),
-        -6px -6px 0 rgba(150,130,220,0.75),
-        -7px -7px 0 rgba(140,120,215,0.71),
-        /* Floating drop shadow — cast down-right by upper-left light */
-        24px 32px 64px rgba(77,0,192,0.45),
-        10px 14px 24px rgba(0,0,0,0.26),
-        /* Crisp outer rim — refracted light */
-        0 0 0 1px rgba(255,255,255,0.32),
-        /* Soft inset rim wrapping all sides */
-        inset 0 0 0 1px rgba(255,255,255,0.22),
-        /* Bright top edge — primary specular highlight */
-        inset 0 2px 0 rgba(255,255,255,0.70),
-        /* Faint bottom rim — bounce light */
-        inset 0 -1px 0 rgba(255,255,255,0.18);
     }
-    /* Specular glare — top edge light wash */
-    .card-wrap::before {
-      content: '';
-      position: absolute; inset: 0;
-      background:
-        linear-gradient(178deg,
-          rgba(255,255,255,0.32) 0%,
-          rgba(255,255,255,0.06) 18%,
-          transparent 38%),
-        linear-gradient(135deg,
-          rgba(255,255,255,0.18) 0%,
-          transparent 30%);
-      pointer-events: none;
-      z-index: 5;
-    }
-    /* inner card: handles bg tint and bounce-scale animation */
+    /* inner card: handles bg and bounce-scale animation */
     .card {
       width: 100%; height: 100%;
       border-radius: 16px;
@@ -408,10 +345,17 @@
       h1 { font-size: clamp(36px, 6vw, var(--text-h1)); }
     }
 
+    /* Short viewports — scale album stack so the hero fits within 100vh
+       on desktop layouts (single-column mobile layout below scrolls naturally). */
+    @media (min-width: 1025px) and (max-height: 820px) { .stack { zoom: 0.92; } }
+    @media (min-width: 1025px) and (max-height: 740px) { .stack { zoom: 0.82; } }
+    @media (min-width: 1025px) and (max-height: 660px) { .stack { zoom: 0.72; } }
+    @media (min-width: 1025px) and (max-height: 580px) { .stack { zoom: 0.62; } }
+
     @media (max-width: 600px) {
-      nav { padding: 0 24px; }
-      .hero-inner { padding: 32px 24px 48px; gap: 36px; }
-      .stack { zoom: 0.72; }
+      nav { padding: 0 16px; }
+      .hero-inner { padding: 32px 16px 48px; gap: 36px; }
+      .stack { zoom: 0.62; }
     }
 
     /* ── Featured Work ───────────────────────────────────────── */
@@ -504,7 +448,7 @@
     }
     @media (max-width: 768px) {
       .fw-grid { grid-template-columns: 1fr; }
-      .fw-inner { padding: 0 24px; }
+      .fw-inner { padding: 0 16px; }
       .featured-work { padding: 64px 0 80px; }
     }
 
@@ -565,7 +509,7 @@
     <h2 class="fw-heading"><span class="fw-slash">//</span> Featured Work</h2>
     <div class="fw-grid">
 
-      <a class="fw-card" href="touchbistro-discounts.html">
+      <a class="fw-card" href="discounts.html">
         <p class="fw-company">TouchBistro</p>
         <h3 class="fw-title">Securing a Restaurant with 10+ Locations through Advanced Discounts</h3>
         <div class="fw-tags">
@@ -574,11 +518,11 @@
           <span class="fw-tag">Discounts</span>
         </div>
         <div class="fw-image">
-          <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=900&q=80" alt="TouchBistro Advanced Discounts" />
+          <img src="images/homepage/Discount%20Final.png" alt="TouchBistro Advanced Discounts" />
         </div>
       </a>
 
-      <a class="fw-card" href="touchbistro-call-times.html">
+      <a class="fw-card" href="support.html">
         <p class="fw-company">TouchBistro</p>
         <h3 class="fw-title">Reducing Customer Call Times by 33% by Improving the Information Architecture</h3>
         <div class="fw-tags">
@@ -587,11 +531,11 @@
           <span class="fw-tag">IA</span>
         </div>
         <div class="fw-image">
-          <img src="https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=900&q=80" alt="TouchBistro Call Times" />
+          <img src="images/homepage/Support%20Final.png" alt="TouchBistro Call Times" />
         </div>
       </a>
 
-      <a class="fw-card" href="telus-optik-tv.html">
+      <a class="fw-card" href="optik.html">
         <p class="fw-company">TELUS</p>
         <h3 class="fw-title">Growing Optik TV Daily Orders from 200 to 2,500+</h3>
         <div class="fw-tags">
@@ -600,11 +544,11 @@
           <span class="fw-tag">Self-Service</span>
         </div>
         <div class="fw-image">
-          <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=900&q=80" alt="TELUS Optik TV" />
+          <img src="images/homepage/Optik%20TV%20Final.png" alt="TELUS Optik TV" />
         </div>
       </a>
 
-      <a class="fw-card" href="telus-retention.html">
+      <a class="fw-card" href="onboarding.html">
         <p class="fw-company">TELUS</p>
         <h3 class="fw-title">Increasing My TELUS App Retention from 40.6% to 62.6%</h3>
         <div class="fw-tags">
@@ -613,7 +557,7 @@
           <span class="fw-tag">High-Value-Self-Service</span>
         </div>
         <div class="fw-image">
-          <img src="https://images.unsplash.com/photo-1616628188859-7a11abb6fcc9?w=900&q=80" alt="TELUS Retention" />
+          <img src="images/homepage/Onboarding%20Final.png" alt="TELUS Retention" />
         </div>
       </a>
 
@@ -684,7 +628,7 @@ const albums = [
           </pattern>
           <linearGradient id="fadeup" x1="0" y1="295" x2="0" y2="440" gradientUnits="userSpaceOnUse">
             <stop offset="0%" stop-color="rgba(40,10,160,0)"/>
-            <stop offset="100%" stop-color="rgba(40,10,160,0.78)"/>
+            <stop offset="100%" stop-color="rgba(40,10,160,0.85)"/>
           </linearGradient>
           <linearGradient id="area" x1="0" y1="${CT}" x2="0" y2="${CB}" gradientUnits="userSpaceOnUse">
             <stop offset="0%" stop-color="rgba(255,255,255,0.14)"/>
@@ -735,7 +679,7 @@ const albums = [
         </pattern>
         <linearGradient id="fadeup2" x1="0" y1="295" x2="0" y2="440" gradientUnits="userSpaceOnUse">
           <stop offset="0%" stop-color="rgba(40,10,160,0)"/>
-          <stop offset="100%" stop-color="rgba(40,10,160,0.78)"/>
+          <stop offset="100%" stop-color="rgba(40,10,160,0.82)"/>
         </linearGradient>
       </defs>
       <rect width="440" height="440" fill="url(#dots2)"/>
@@ -938,7 +882,7 @@ const albums = [
           </pattern>
           <linearGradient id="fadeup3" x1="0" y1="295" x2="0" y2="440" gradientUnits="userSpaceOnUse">
             <stop offset="0%" stop-color="rgba(40,10,160,0)"/>
-            <stop offset="100%" stop-color="rgba(40,10,160,0.78)"/>
+            <stop offset="100%" stop-color="rgba(40,10,160,0.85)"/>
           </linearGradient>
           <linearGradient id="areafill" x1="0" y1="${CT}" x2="0" y2="${CB}" gradientUnits="userSpaceOnUse">
             <stop offset="0%" stop-color="rgba(255,255,255,0.16)"/>
@@ -988,11 +932,11 @@ const albums = [
 
 /* ── Slot definitions ────────────────────────────────────── */
 const SLOTS = {
-  back:  { translate: '0px 0px',    opacity: '1', zIndex: '1', bg: 'rgba(170,140,245,0.55)' },
-  mid:   { translate: '36px 28px',  opacity: '1', zIndex: '2', bg: 'rgba(110,70,220,0.62)'  },
-  front: { translate: '70px 56px',  opacity: '1', zIndex: '3', bg: 'rgba(77,0,192,0.68)'    },
-  exit:  { translate: '130px 110px',opacity: '0', zIndex: '4', bg: 'rgba(77,0,192,0.68)'    },
-  spawn: { translate: '-36px -28px',opacity: '0', zIndex: '1', bg: 'rgba(170,140,245,0.55)' },
+  back:  { translate: '0px 0px',    opacity: '1', zIndex: '1', bg: '#cbbcf8' },
+  mid:   { translate: '36px 28px',  opacity: '1', zIndex: '2', bg: '#8b68ef' },
+  front: { translate: '70px 56px',  opacity: '1', zIndex: '3', bg: '#4D00C0' },
+  exit:  { translate: '130px 110px',opacity: '0', zIndex: '4', bg: '#4D00C0' },
+  spawn: { translate: '-36px -28px',opacity: '0', zIndex: '1', bg: '#cbbcf8' },
 };
 
 const cards = [0, 1, 2, 3].map(i => document.getElementById(`card-${i}`));
@@ -1177,7 +1121,7 @@ setTimeout(() => {
   splHi.style.transformOrigin = 'center center';
   splHi.style.transform = `translate(${thiM.x-shiM.x}px,${thiM.y-shiM.y}px) scale(${thiM.h/shiM.h})`;
 
-  splName.style.transition = `transform 0.8s ${ease} 30ms`;
+  splName.style.transition = `transform 0.8s ${ease}`;
   splName.style.transformOrigin = 'center center';
   splName.style.transform = `translate(${tnmM.x-snmM.x}px,${tnmM.y-snmM.y}px) scale(${tnmM.h/snmM.h})`;
 }, 1500);
