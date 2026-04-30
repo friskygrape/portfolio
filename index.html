@@ -275,6 +275,32 @@
       width: 520px; height: 532px;
       flex-shrink: 0;
     }
+    /* ─────────────────────────────────────────────────────────────────
+       GLASSMORPHIC ALBUM CARDS
+       Each card is a translucent glass panel with visible thickness.
+       Built from four layered effects on .card-wrap:
+
+         1. Frosted body — backdrop-filter blur(22px) saturate(200%)
+            blurs and saturates whatever sits behind the card (page
+            background + cards behind it in the stack).
+
+         2. Coloured tint — applied via inline `background` from the
+            SLOTS table in JS. Front card is the deepest purple
+            (rgba(77,0,192,0.68)); mid and back cards step lighter.
+            High alpha keeps the brand purple saturated through the glass.
+
+         3. Visible thickness — 7 stacked box-shadow layers stepping
+            -1px,-1px each, in light-lavender at near-opaque alpha
+            (0.95 → 0.71). The 1px increments merge into a continuous
+            ~7px side face extruding to the top-left, rather than
+            reading as discrete shadow steps.
+
+         4. Glass rim + lighting — outer 1px white rim, inset wrap-around
+            rim, bright top-edge specular, faint bottom bounce light, and
+            a top-edge / top-left specular gradient via ::before. The
+            drop shadow is offset down-right (24px, 32px) to commit to
+            a single upper-left light source.
+       ───────────────────────────────────────────────────────────────── */
     /* wrapper: handles slot translate + opacity + scroll spread transform */
     .card-wrap {
       position: absolute; top: 0; left: 0;
@@ -283,8 +309,46 @@
       transform-origin: 0 60%;
       transition: translate 0.60s cubic-bezier(0.25,0.46,0.45,0.94),
                   opacity 0.52s ease;
+      backdrop-filter: blur(22px) saturate(200%);
+      -webkit-backdrop-filter: blur(22px) saturate(200%);
+      box-shadow:
+        /* Glass thickness — uniform light-lavender side face, near-opaque so it reads
+           the same regardless of what's behind it */
+        -1px -1px 0 rgba(200,180,245,0.95),
+        -2px -2px 0 rgba(190,170,240,0.91),
+        -3px -3px 0 rgba(180,160,235,0.87),
+        -4px -4px 0 rgba(170,150,230,0.83),
+        -5px -5px 0 rgba(160,140,225,0.79),
+        -6px -6px 0 rgba(150,130,220,0.75),
+        -7px -7px 0 rgba(140,120,215,0.71),
+        /* Floating drop shadow — cast down-right by upper-left light */
+        24px 32px 64px rgba(77,0,192,0.45),
+        10px 14px 24px rgba(0,0,0,0.26),
+        /* Crisp outer rim — refracted light */
+        0 0 0 1px rgba(255,255,255,0.32),
+        /* Soft inset rim wrapping all sides */
+        inset 0 0 0 1px rgba(255,255,255,0.22),
+        /* Bright top edge — primary specular highlight */
+        inset 0 2px 0 rgba(255,255,255,0.70),
+        /* Faint bottom rim — bounce light */
+        inset 0 -1px 0 rgba(255,255,255,0.18);
     }
-    /* inner card: handles bg and bounce-scale animation */
+    /* Specular glare — top edge light wash */
+    .card-wrap::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        linear-gradient(178deg,
+          rgba(255,255,255,0.32) 0%,
+          rgba(255,255,255,0.06) 18%,
+          transparent 38%),
+        linear-gradient(135deg,
+          rgba(255,255,255,0.18) 0%,
+          transparent 30%);
+      pointer-events: none;
+      z-index: 5;
+    }
+    /* inner card: handles bg tint and bounce-scale animation */
     .card {
       width: 100%; height: 100%;
       border-radius: 16px;
@@ -620,7 +684,7 @@ const albums = [
           </pattern>
           <linearGradient id="fadeup" x1="0" y1="295" x2="0" y2="440" gradientUnits="userSpaceOnUse">
             <stop offset="0%" stop-color="rgba(40,10,160,0)"/>
-            <stop offset="100%" stop-color="rgba(40,10,160,0.85)"/>
+            <stop offset="100%" stop-color="rgba(40,10,160,0.78)"/>
           </linearGradient>
           <linearGradient id="area" x1="0" y1="${CT}" x2="0" y2="${CB}" gradientUnits="userSpaceOnUse">
             <stop offset="0%" stop-color="rgba(255,255,255,0.14)"/>
@@ -671,7 +735,7 @@ const albums = [
         </pattern>
         <linearGradient id="fadeup2" x1="0" y1="295" x2="0" y2="440" gradientUnits="userSpaceOnUse">
           <stop offset="0%" stop-color="rgba(40,10,160,0)"/>
-          <stop offset="100%" stop-color="rgba(40,10,160,0.82)"/>
+          <stop offset="100%" stop-color="rgba(40,10,160,0.78)"/>
         </linearGradient>
       </defs>
       <rect width="440" height="440" fill="url(#dots2)"/>
@@ -874,7 +938,7 @@ const albums = [
           </pattern>
           <linearGradient id="fadeup3" x1="0" y1="295" x2="0" y2="440" gradientUnits="userSpaceOnUse">
             <stop offset="0%" stop-color="rgba(40,10,160,0)"/>
-            <stop offset="100%" stop-color="rgba(40,10,160,0.85)"/>
+            <stop offset="100%" stop-color="rgba(40,10,160,0.78)"/>
           </linearGradient>
           <linearGradient id="areafill" x1="0" y1="${CT}" x2="0" y2="${CB}" gradientUnits="userSpaceOnUse">
             <stop offset="0%" stop-color="rgba(255,255,255,0.16)"/>
@@ -924,11 +988,11 @@ const albums = [
 
 /* ── Slot definitions ────────────────────────────────────── */
 const SLOTS = {
-  back:  { translate: '0px 0px',    opacity: '1', zIndex: '1', bg: '#cbbcf8' },
-  mid:   { translate: '36px 28px',  opacity: '1', zIndex: '2', bg: '#8b68ef' },
-  front: { translate: '70px 56px',  opacity: '1', zIndex: '3', bg: '#4D00C0' },
-  exit:  { translate: '130px 110px',opacity: '0', zIndex: '4', bg: '#4D00C0' },
-  spawn: { translate: '-36px -28px',opacity: '0', zIndex: '1', bg: '#cbbcf8' },
+  back:  { translate: '0px 0px',    opacity: '1', zIndex: '1', bg: 'rgba(170,140,245,0.55)' },
+  mid:   { translate: '36px 28px',  opacity: '1', zIndex: '2', bg: 'rgba(110,70,220,0.62)'  },
+  front: { translate: '70px 56px',  opacity: '1', zIndex: '3', bg: 'rgba(77,0,192,0.68)'    },
+  exit:  { translate: '130px 110px',opacity: '0', zIndex: '4', bg: 'rgba(77,0,192,0.68)'    },
+  spawn: { translate: '-36px -28px',opacity: '0', zIndex: '1', bg: 'rgba(170,140,245,0.55)' },
 };
 
 const cards = [0, 1, 2, 3].map(i => document.getElementById(`card-${i}`));
