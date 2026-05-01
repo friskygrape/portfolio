@@ -11,23 +11,22 @@
        DESIGN TOKENS — edit these to update the entire guide
     ════════════════════════════════════════════════════════ */
     :root {
-      /* Brand */
-      --purple:  #4D00C0;
+      /* Fonts */
       --font-heading: 'Geist', system-ui, sans-serif;
       --font-body:    'Open Sans', system-ui, sans-serif;
       --font:    var(--font-body);
 
-      /* Type scale */
+      /* Type scale — desktop */
       --text-display:  72px;
-      --text-h1:       56px;
-      --text-h2:       40px;
+      --text-h1:       50px;
+      --text-h2:       36px;
       --text-h3:       28px;
       --text-h4:       20px;
       --text-body-lg:  18px;
       --text-body:     16px;
-      --text-body-sm:  16px;
+      --text-caption:  15px;
+      --text-tag:      16px;
       --text-label:    16px;
-      --text-caption:  16px;
       --text-overline: 16px;
 
       /* Weights */
@@ -54,13 +53,30 @@
       --tracking-wider:     0.08em;
       --tracking-widest:    0.14em;
 
-      /* Text colours */
-      --color-primary:   #1e2035;
-      --color-secondary: #374151;
-      --color-tertiary:  #6b7280;
-      --color-subtle:    #9ca3af;
-      --color-accent:    #4D00C0;
-      --color-inverse:   #ffffff;
+      /* Palette */
+      --plum:     #5A02BF;
+      --lavender: #4D00C0;
+      --charcoal: #434343;
+      --graphite: #595959;
+      --silver:   #9C9C9C;
+      --mist:     #DBDBDB;
+      --white:    #FFFFFF;
+
+      /* Semantic colours */
+      --color-primary:   var(--lavender);
+      --color-secondary: var(--graphite);
+      --color-tertiary:  var(--silver);
+      --color-subtle:    var(--mist);
+      --color-accent:    var(--lavender);
+      --color-inverse:   var(--white);
+    }
+
+    /* Mobile type overrides */
+    @media (max-width: 768px) {
+      :root {
+        --text-h1: 36px;
+        --text-h2: 26px;
+      }
     }
 
     /* ════════════════════════════════════════════════════════
@@ -76,62 +92,68 @@
     .text-h1 {
       font-family: var(--font-heading);
       font-size: var(--text-h1);
-      font-weight: var(--weight-extrabold);
-      line-height: var(--leading-tight);
-      letter-spacing: var(--tracking-tight);
+      font-weight: var(--weight-medium);
+      line-height: 1.2;
+      letter-spacing: 0em;
     }
     .text-h2 {
       font-family: var(--font-heading);
       font-size: var(--text-h2);
-      font-weight: var(--weight-bold);
-      line-height: var(--leading-snug);
-      letter-spacing: var(--tracking-tight);
+      font-weight: var(--weight-medium);
+      line-height: 1.4;
+      letter-spacing: -0.02em;
     }
     .text-h3 {
       font-family: var(--font-heading);
       font-size: var(--text-h3);
-      font-weight: var(--weight-semibold);
-      line-height: var(--leading-snug);
-      letter-spacing: var(--tracking-snug);
+      font-weight: var(--weight-medium);
+      line-height: 1.4;
+      letter-spacing: 0em;
     }
     .text-h4 {
       font-family: var(--font-heading);
       font-size: var(--text-h4);
-      font-weight: var(--weight-semibold);
-      line-height: var(--leading-normal);
-      letter-spacing: var(--tracking-snug);
+      font-weight: var(--weight-medium);
+      line-height: 1.2;
+      letter-spacing: 0.01em;
     }
     .text-body-lg {
+      font-family: var(--font-body);
       font-size: var(--text-body-lg);
       font-weight: var(--weight-regular);
-      line-height: var(--leading-relaxed);
-      letter-spacing: var(--tracking-normal);
+      line-height: 1.6;
+      letter-spacing: 0em;
     }
     .text-body {
+      font-family: var(--font-body);
       font-size: var(--text-body);
       font-weight: var(--weight-regular);
-      line-height: var(--leading-relaxed);
-      letter-spacing: var(--tracking-normal);
+      line-height: 1.6;
+      letter-spacing: 0em;
     }
-    .text-body-sm {
-      font-size: var(--text-body-sm);
-      font-weight: var(--weight-regular);
-      line-height: var(--leading-normal);
-      letter-spacing: var(--tracking-normal);
+    .text-caption {
+      font-family: var(--font-body);
+      font-size: var(--text-caption);
+      font-weight: var(--weight-semibold);
+      line-height: 1.8;
+      letter-spacing: 0em;
+    }
+    .text-tag {
+      font-family: var(--font-heading);
+      font-size: var(--text-tag);
+      font-weight: var(--weight-semibold);
+      line-height: 1.2;
+      letter-spacing: 0em;
     }
     .text-label {
+      font-family: var(--font-body);
       font-size: var(--text-label);
       font-weight: var(--weight-medium);
       line-height: var(--leading-normal);
-      letter-spacing: var(--tracking-normal);
-    }
-    .text-caption {
-      font-size: var(--text-caption);
-      font-weight: var(--weight-regular);
-      line-height: var(--leading-normal);
-      letter-spacing: var(--tracking-normal);
+      letter-spacing: 0em;
     }
     .text-overline {
+      font-family: var(--font-heading);
       font-size: var(--text-overline);
       font-weight: var(--weight-semibold);
       line-height: var(--leading-normal);
@@ -330,15 +352,15 @@
     <div class="sg-type-row">
       <div class="sg-type-meta">
         <span class="sg-type-class">.text-h1</span>
-        <div class="sg-type-specs">56px · 800 · −0.025em</div>
+        <div class="sg-type-specs">Geist · 50px · 500 · 1.2 · 0em<br>Mobile: 36px</div>
       </div>
-      <div class="sg-type-preview text-h1" style="font-size:clamp(28px,4vw,56px)">Heading 1</div>
+      <div class="sg-type-preview text-h1" style="font-size:clamp(28px,4vw,50px)">Heading 1</div>
     </div>
 
     <div class="sg-type-row">
       <div class="sg-type-meta">
         <span class="sg-type-class">.text-h2</span>
-        <div class="sg-type-specs">40px · 700 · −0.025em</div>
+        <div class="sg-type-specs">Geist · 36px · 500 · 1.4 · −0.02em<br>Mobile: 26px</div>
       </div>
       <div class="sg-type-preview text-h2">Heading 2</div>
     </div>
@@ -346,7 +368,7 @@
     <div class="sg-type-row">
       <div class="sg-type-meta">
         <span class="sg-type-class">.text-h3</span>
-        <div class="sg-type-specs">28px · 600 · −0.01em</div>
+        <div class="sg-type-specs">Geist · 28px · 500 · 1.4 · 0em</div>
       </div>
       <div class="sg-type-preview text-h3">Heading 3</div>
     </div>
@@ -354,7 +376,7 @@
     <div class="sg-type-row">
       <div class="sg-type-meta">
         <span class="sg-type-class">.text-h4</span>
-        <div class="sg-type-specs">20px · 600 · −0.01em</div>
+        <div class="sg-type-specs">Geist · 20px · 500 · 1.2 · 0.01em</div>
       </div>
       <div class="sg-type-preview text-h4">Heading 4</div>
     </div>
@@ -362,7 +384,7 @@
     <div class="sg-type-row">
       <div class="sg-type-meta">
         <span class="sg-type-class">.text-body-lg</span>
-        <div class="sg-type-specs">18px · 400 · 0em</div>
+        <div class="sg-type-specs">Open Sans · 18px · 400 · 1.6 · 0em</div>
       </div>
       <div class="sg-type-preview text-body-lg">The quick brown fox jumps over the lazy dog.</div>
     </div>
@@ -370,39 +392,31 @@
     <div class="sg-type-row">
       <div class="sg-type-meta">
         <span class="sg-type-class">.text-body</span>
-        <div class="sg-type-specs">16px · 400 · 0em</div>
+        <div class="sg-type-specs">Open Sans · 16px · 400 · 1.6 · 0em</div>
       </div>
       <div class="sg-type-preview text-body">The quick brown fox jumps over the lazy dog.</div>
     </div>
 
     <div class="sg-type-row">
       <div class="sg-type-meta">
-        <span class="sg-type-class">.text-body-sm</span>
-        <div class="sg-type-specs">14px · 400 · 0em</div>
-      </div>
-      <div class="sg-type-preview text-body-sm">The quick brown fox jumps over the lazy dog.</div>
-    </div>
-
-    <div class="sg-type-row">
-      <div class="sg-type-meta">
-        <span class="sg-type-class">.text-label</span>
-        <div class="sg-type-specs">13px · 500 · 0em</div>
-      </div>
-      <div class="sg-type-preview text-label">Interface label text</div>
-    </div>
-
-    <div class="sg-type-row">
-      <div class="sg-type-meta">
         <span class="sg-type-class">.text-caption</span>
-        <div class="sg-type-specs">12px · 400 · 0em</div>
+        <div class="sg-type-specs">Open Sans · 15px · 600 · 1.8 · 0em</div>
       </div>
-      <div class="sg-type-preview text-caption">Caption or helper text below a field</div>
+      <div class="sg-type-preview text-caption">Caption or helper text</div>
+    </div>
+
+    <div class="sg-type-row">
+      <div class="sg-type-meta">
+        <span class="sg-type-class">.text-tag</span>
+        <div class="sg-type-specs">Geist · 16px · 600 · 1.2 · 0em</div>
+      </div>
+      <div class="sg-type-preview text-tag">Tag Label</div>
     </div>
 
     <div class="sg-type-row">
       <div class="sg-type-meta">
         <span class="sg-type-class">.text-overline</span>
-        <div class="sg-type-specs">11px · 600 · 0.14em · uppercase</div>
+        <div class="sg-type-specs">Geist · 16px · 600 · 0.14em · uppercase</div>
       </div>
       <div class="sg-type-preview text-overline color-accent">Section label</div>
     </div>
@@ -416,47 +430,94 @@
       <span class="sg-section-desc">Text colour utilities. Combine with any type class.</span>
     </div>
 
+    <p style="font-size:12px;color:var(--color-tertiary);margin-bottom:20px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;">Palette</p>
+    <div class="sg-color-grid" style="margin-bottom:40px;">
+      <div class="sg-color-swatch">
+        <div class="sg-color-block" style="background:var(--plum)"></div>
+        <div class="sg-color-info">
+          <div class="sg-color-name">Plum</div>
+          <div class="sg-color-value">--plum · #5A02BF</div>
+        </div>
+      </div>
+      <div class="sg-color-swatch">
+        <div class="sg-color-block" style="background:var(--lavender)"></div>
+        <div class="sg-color-info">
+          <div class="sg-color-name">Lavender</div>
+          <div class="sg-color-value">--lavender · #4D00C0</div>
+        </div>
+      </div>
+      <div class="sg-color-swatch">
+        <div class="sg-color-block" style="background:var(--charcoal)"></div>
+        <div class="sg-color-info">
+          <div class="sg-color-name">Charcoal</div>
+          <div class="sg-color-value">--charcoal · #434343</div>
+        </div>
+      </div>
+      <div class="sg-color-swatch">
+        <div class="sg-color-block" style="background:var(--graphite)"></div>
+        <div class="sg-color-info">
+          <div class="sg-color-name">Graphite</div>
+          <div class="sg-color-value">--graphite · #595959</div>
+        </div>
+      </div>
+      <div class="sg-color-swatch">
+        <div class="sg-color-block" style="background:var(--silver)"></div>
+        <div class="sg-color-info">
+          <div class="sg-color-name">Silver</div>
+          <div class="sg-color-value">--silver · #9C9C9C</div>
+        </div>
+      </div>
+      <div class="sg-color-swatch">
+        <div class="sg-color-block" style="background:var(--mist);border:1px solid rgba(0,0,0,0.07);border-radius:0;"></div>
+        <div class="sg-color-info">
+          <div class="sg-color-name">Mist</div>
+          <div class="sg-color-value">--mist · #DBDBDB</div>
+        </div>
+      </div>
+      <div class="sg-color-swatch">
+        <div class="sg-color-block" style="background:var(--white);border:1px solid rgba(0,0,0,0.07);border-radius:0;"></div>
+        <div class="sg-color-info">
+          <div class="sg-color-name">White</div>
+          <div class="sg-color-value">--white · #FFFFFF</div>
+        </div>
+      </div>
+    </div>
+
+    <p style="font-size:12px;color:var(--color-tertiary);margin-bottom:20px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;">Semantic</p>
     <div class="sg-color-grid">
       <div class="sg-color-swatch">
         <div class="sg-color-block" style="background:var(--color-primary)"></div>
         <div class="sg-color-info">
-          <div class="sg-color-name">.color-primary</div>
-          <div class="sg-color-value">#1e2035</div>
-        </div>
-      </div>
-      <div class="sg-color-swatch">
-        <div class="sg-color-block" style="background:var(--color-secondary)"></div>
-        <div class="sg-color-info">
-          <div class="sg-color-name">.color-secondary</div>
-          <div class="sg-color-value">#374151</div>
+          <div class="sg-color-name">--color-primary</div>
+          <div class="sg-color-value">→ Lavender</div>
         </div>
       </div>
       <div class="sg-color-swatch">
         <div class="sg-color-block" style="background:var(--color-tertiary)"></div>
         <div class="sg-color-info">
-          <div class="sg-color-name">.color-tertiary</div>
-          <div class="sg-color-value">#6b7280</div>
+          <div class="sg-color-name">--color-tertiary</div>
+          <div class="sg-color-value">→ Silver</div>
         </div>
       </div>
       <div class="sg-color-swatch">
-        <div class="sg-color-block" style="background:var(--color-subtle)"></div>
+        <div class="sg-color-block" style="background:var(--color-subtle);"></div>
         <div class="sg-color-info">
-          <div class="sg-color-name">.color-subtle</div>
-          <div class="sg-color-value">#9ca3af</div>
+          <div class="sg-color-name">--color-subtle</div>
+          <div class="sg-color-value">→ Mist</div>
         </div>
       </div>
       <div class="sg-color-swatch">
         <div class="sg-color-block" style="background:var(--color-accent)"></div>
         <div class="sg-color-info">
-          <div class="sg-color-name">.color-accent</div>
-          <div class="sg-color-value">#4D00C0</div>
+          <div class="sg-color-name">--color-accent</div>
+          <div class="sg-color-value">→ Lavender</div>
         </div>
       </div>
       <div class="sg-color-swatch">
-        <div class="sg-color-block" style="background:var(--color-primary)"></div>
+        <div class="sg-color-block" style="background:var(--color-inverse);border:1px solid rgba(0,0,0,0.07);border-radius:0;"></div>
         <div class="sg-color-info">
-          <div class="sg-color-name">.color-inverse</div>
-          <div class="sg-color-value">#ffffff</div>
+          <div class="sg-color-name">--color-inverse</div>
+          <div class="sg-color-value">→ White</div>
         </div>
       </div>
     </div>

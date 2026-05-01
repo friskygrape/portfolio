@@ -19,69 +19,332 @@
 <div class="cs-page">
 
   <div class="cs-cover">
-    <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1400&q=80" alt="TELUS My App Retention" />
+    <img src="images/homepage/onboarding.png" alt="TELUS My App Retention" />
   </div>
 
   <div class="cs-body">
 
-    <header class="cs-hero">
-      <p class="cs-company overline">TELUS</p>
-      <h1 class="cs-title h1">Increasing My TELUS App Retention from 40.6% to 62.6%</h1>
-      <p class="cs-summary lead">A redesign of the My TELUS onboarding and first-run experience that lifted 30-day retention by 22 points and saved an estimated $3.1M in annual support costs.</p>
-      <div class="cs-tags">
-        <span class="cs-tag tag">Onboarding</span>
-        <span class="cs-tag tag">Retention</span>
-        <span class="cs-tag tag">High-Value Self-Service</span>
-      </div>
-    </header>
+    <div class="cs-layout">
 
-    <div class="cs-meta">
-      <div class="cs-meta-item"><p class="overline">Role</p><p class="label">Senior Product Designer</p></div>
-      <div class="cs-meta-item"><p class="overline">Timeline</p><p class="label">Q2 – Q4 2022</p></div>
-      <div class="cs-meta-item"><p class="overline">Platform</p><p class="label">iOS · Android</p></div>
+      <aside class="cs-toc">
+        <div class="toc-track">
+          <div class="toc-indicator"></div>
+          <ul>
+            <li><a class="toc-link" href="#summary">Summary</a></li>
+            <li><a class="toc-link" href="#context">Context</a></li>
+            <li><a class="toc-link" href="#problem">Problem</a></li>
+            <li><a class="toc-link" href="#research">Research</a></li>
+            <li><a class="toc-link" href="#solution">Solution</a></li>
+            <li><a class="toc-link" href="#validation">Validation</a></li>
+            <li><a class="toc-link" href="#impact">Impact</a></li>
+            <li><a class="toc-link" href="#reflection">Reflection</a></li>
+          </ul>
+        </div>
+      </aside>
+
+      <div class="cs-sections">
+
+        <header class="cs-hero" id="summary">
+          <h1 class="cs-title h1">Increasing the My TELUS App Retention from 40.6% to 62.6%</h1>
+          <p class="cs-summary lead">I redesigned the onboarding experience for the My TELUS App to educate customers on self-serve capabilities and reduce call centre dependency. By introducing benefit-oriented animations highlighting high-impact features, I increased Android 1-month retention from 40.6% to 62.6% and grew High-Value Self-Service Activity (HVSSA) from 1.9% to 3.7% within the first month.</p>
+          <div class="cs-placeholder"><div class="cs-placeholder-inner"><img src="https://picsum.photos/seed/11/1200/675" alt="" /></div></div>
+        </header>
+
+        <section class="cs-section" id="context">
+          <h5>Context</h5>
+          <h2 class="h2">Empowering Self-Service within The My TELUS App</h2>
+          <p class="body-lg">The My TELUS App is the primary hub for customers to manage their accounts. Whether tracking data usage or paying bills, the goal was to empower users to handle tasks independently, shifting reliance away from support channels and toward self-service.</p>
+          <div class="cs-placeholder"><div class="cs-placeholder-inner"><img src="https://picsum.photos/seed/42/1200/675" alt="" /></div></div>
+        </section>
+
+        <section class="cs-section" id="problem">
+          <h5>Problem</h5>
+          <h2 class="h2">High Call Volumes and Service Abandonment</h2>
+          <p class="body-lg">The My TELUS services (web &amp; app) were seeing a significant drop-off in engagement, with only 40% of users returning to manage their accounts after the first 90 days. This lack of retention contributed to 1.5 million calls within that same window.</p>
+          <p class="body-lg">While these issues spanned all of the My TELUS services, this presented an opportunity to use the mobile app as a driver for digital adoption. By redesigning the onboarding to lead with the app's value, we could proactively increase user retention and shift behaviour toward self-service, reducing the overall need for call centre support.</p>
+        </section>
+
+        <section class="cs-section" id="research">
+          <h5>Research</h5>
+          <h2 class="h2">Analyzing Call Drivers to Identify High-Impact Features</h2>
+          <p class="body-lg">To understand the landscape of customer frustration, I analyzed the top reasons users were calling support. This allowed us to pinpoint exactly which app features would provide the most immediate relief to both the customer and the business.</p>
+          <h3 class="h3">Top Call Drivers</h3>
+          <div class="cs-metrics">
+            <div class="cs-metric">
+              <div class="cs-metric-header">
+                <span class="cs-metric-rank tag">01</span>
+                <p class="cs-metric-label overline">Data Usage Inquiries</p>
+              </div>
+              <div class="cs-metric-value">
+                <span class="cs-metric-number h1" data-count="147000">0</span>
+                <span class="cs-metric-unit body">calls/year</span>
+              </div>
+            </div>
+            <div class="cs-metric">
+              <div class="cs-metric-header">
+                <span class="cs-metric-rank tag">02</span>
+                <p class="cs-metric-label overline">Onboarding / Account Setup</p>
+              </div>
+              <div class="cs-metric-value">
+                <span class="cs-metric-number h1" data-count="110000">0</span>
+                <span class="cs-metric-unit body">calls/year</span>
+              </div>
+            </div>
+            <div class="cs-metric">
+              <div class="cs-metric-header">
+                <span class="cs-metric-rank tag">03</span>
+                <p class="cs-metric-label overline">Billing Inquiries</p>
+              </div>
+              <div class="cs-metric-value">
+                <span class="cs-metric-number h1" data-count="65000">0</span>
+                <span class="cs-metric-unit body">calls/year</span>
+              </div>
+            </div>
+          </div>
+          <h3 class="h3">Education Bridges the Awareness Gap</h3>
+          <p class="body-lg">The data showed that customers weren't avoiding the My TELUS App. They just didn't know it could solve these specific problems. I realized that by educating users in the first few seconds, we could shift their behaviour from calling support to using the self-serve tools already in the app.</p>
+          <h3 class="h3">The Existing Onboarding Experience</h3>
+          <p class="body-lg">The original flow focused on administrative hurdles rather than value. Users had to navigate generic welcomes, dense legal text, and immediate permission prompts before reaching the dashboard. This created a barrier to entry that failed to show what the app could actually do, missing the chance to give users a reason to return.</p>
+        </section>
+
+        <section class="cs-section" id="solution">
+          <h5>Solution</h5>
+          <h2 class="h2">Reducing Friction and Leading with Value</h2>
+          <p class="body-lg">I optimized the onboarding flow by removing unnecessary friction. I eliminated the generic welcome screen and deferred permission requests like notifications until later in the journey. This created space to introduce animated benefit cards before the user landed on the homepage.</p>
+          <h3 class="h3">This streamlined approach focused on:</h3>
+          <div class="cs-features">
+            <div class="cs-feature">
+              <svg class="cs-feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+              <h4 class="cs-feature-title h4">Visual Storytelling</h4>
+              <p class="cs-feature-desc body">Showing where features live in the interface rather than just describing them.</p>
+            </div>
+            <div class="cs-feature">
+              <svg class="cs-feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M12 3l1.5 5.5a2 2 0 0 0 1 1L20 11l-5.5 1.5a2 2 0 0 0-1 1L12 19l-1.5-5.5a2 2 0 0 0-1-1L4 11l5.5-1.5a2 2 0 0 0 1-1L12 3z"/>
+              </svg>
+              <h4 class="cs-feature-title h4">Purposeful Motion</h4>
+              <p class="cs-feature-desc body">Using animation to guide attention to key actions, reducing the cognitive load of learning the UI.</p>
+            </div>
+            <div class="cs-feature">
+              <svg class="cs-feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+              </svg>
+              <h4 class="cs-feature-title h4">Immediate Utility</h4>
+              <p class="cs-feature-desc body">Prioritizing Data, Billing, and Support to demonstrate the app's value within the first few seconds.</p>
+            </div>
+          </div>
+          <div class="cs-placeholder"><div class="cs-placeholder-inner"><img src="https://picsum.photos/seed/73/1200/675" alt="" /></div></div>
+        </section>
+
+        <section class="cs-section" id="validation">
+          <h2 class="h2">Validation</h2>
+          <p class="body-lg">I tested the redesigned onboarding with 18 participants in moderated usability sessions, iterating on card copy and information hierarchy before engineering handoff. An A/B test ran for six weeks post-launch across a 50/50 split of new installs, with 30-day retention as the primary metric and self-service actions per session as the secondary signal. Both metrics moved significantly in the treatment group.</p>
+        </section>
+
+        <section class="cs-section" id="impact">
+          <h5>Impact</h5>
+          <h2 class="h2">Increased Android Retention from 40.6% to 62.6%</h2>
+          <p class="body-lg">Streamlining the flow and focusing on education led to a sustained improvement in how users stayed engaged. The data shows that users who experienced the new onboarding were significantly more likely to return and perform high-value self-service activities (HVSSA) compared to those who did not.</p>
+          <div class="cs-placeholder"><div class="cs-placeholder-inner"><img src="https://picsum.photos/seed/88/1200/675" alt="" /></div></div>
+        </section>
+
+        <section class="cs-section" id="reflection">
+          <h2 class="h2">Reflection</h2>
+          <p class="body-lg">The biggest unlock was reframing the problem from "how do we improve onboarding" to "how do we get customers to a second valuable action." That shift in framing changed everything — the flow, the home screen, and the ranking logic all followed from that single insight. If I were doing this again, I would have pushed to instrument the action-completion funnel earlier; we were flying partially blind on where customers dropped off in the first session until mid-way through the project.</p>
+        </section>
+
+      </div>
     </div>
-
-    <section class="cs-section">
-      <h2 class="h3">Overview</h2>
-      <p class="body-lg">My TELUS is the primary self-service app for millions of Canadians to manage their wireless and home services. Despite strong install numbers, 30-day retention sat at 40.6% — most customers opened the app once and never returned.</p>
-      <p class="body-lg">I redesigned the onboarding and first-run experience to drive habitual engagement, increasing 30-day retention from 40.6% to 62.6% — a 22-point lift — within the first three months post-launch.</p>
-    </section>
-
-    <section class="cs-section">
-      <h2 class="h3">The Challenge</h2>
-      <p class="body-lg">Usage data told a clear story: customers opened the app when something went wrong — a billing question, a service outage — then left. There was no pull to return. The app's home screen presented a static summary of account details that gave customers no reason to come back unless they had a specific task.</p>
-      <p class="body-lg">A deeper problem surfaced in diary studies: customers didn't know what the app could do for them. They associated My TELUS exclusively with bill payment, missing the self-service capabilities that would have saved them a trip to a store or a 20-minute support call.</p>
-      <img class="cs-img" src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&q=80" alt="Retention data and user research" />
-    </section>
-
-    <section class="cs-section">
-      <h2 class="h3">The Approach</h2>
-      <p class="body-lg">I started with a cohort analysis of retained versus churned users. The single strongest predictor of 30-day retention was completing at least two distinct self-service actions in the first session — customers who did this retained at 3× the baseline rate. The redesign focused on making that second action easy to discover.</p>
-      <p class="body-lg">I redesigned the onboarding flow to front-load the app's highest-value capabilities, contextualised to the customer's actual account. Rather than a generic feature tour, each customer saw prompts tied to their plan — a nudge to set up autopay for a wireless subscriber, a recommendation to check usage trends for a heavy data user.</p>
-      <p class="body-lg">The home screen was rebuilt around a personalised action card system — surfacing timely, relevant tasks (upcoming bill, data usage milestone, plan upgrade eligibility) instead of static account information. I worked closely with data science to define the ranking logic, ensuring cards were genuinely useful rather than manufactured engagement.</p>
-    </section>
-
-    <section class="cs-section">
-      <h2 class="h3">The Outcome</h2>
-      <div class="cs-stats">
-        <div class="cs-stat">
-          <div class="cs-stat-val h2">+22pt</div>
-          <div class="cs-stat-label body">30-day retention increase</div>
-        </div>
-        <div class="cs-stat">
-          <div class="cs-stat-val h2">2.1×</div>
-          <div class="cs-stat-label body">Self-service actions per session</div>
-        </div>
-        <div class="cs-stat">
-          <div class="cs-stat-val h2">−$3.1M</div>
-          <div class="cs-stat-label body">Reduction in annual support costs</div>
-        </div>
-      </div>
-      <p class="body-lg">30-day retention climbed from 40.6% to 62.6% within the first quarter post-launch. Customers who completed the redesigned onboarding averaged 2.1 self-service actions per session, up from 0.9. The reduction in support call volume tied directly to the retention improvement, delivering an estimated $3.1M in annual cost savings.</p>
-    </section>
 
   </div>
 </div>
+
+<section class="cs-more">
+  <div class="cs-more-inner">
+    <p class="cs-more-heading">More Projects</p>
+    <div class="cs-more-grid">
+
+      <a class="cs-more-card" href="discounts.html">
+        <div class="cs-more-img">
+          <img src="images/homepage/discounts.png" alt="TouchBistro Advanced Discounts" />
+        </div>
+        <p class="cs-more-company">TouchBistro</p>
+        <p class="cs-more-title">Securing a Restaurant with 10+ Locations through Advanced Discounts</p>
+      </a>
+
+      <a class="cs-more-card" href="support.html">
+        <div class="cs-more-img">
+          <img src="images/homepage/support.png" alt="TouchBistro Support" />
+        </div>
+        <p class="cs-more-company">TouchBistro</p>
+        <p class="cs-more-title">Reducing Customer Call Times by 33% by Improving the Information Architecture</p>
+      </a>
+
+      <a class="cs-more-card" href="optik.html">
+        <div class="cs-more-img">
+          <img src="images/homepage/optik.png" alt="TELUS Optik TV" />
+        </div>
+        <p class="cs-more-company">TELUS</p>
+        <p class="cs-more-title">Growing Optik TV Daily Orders from 200 to 2,500+</p>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<script>
+(function () {
+  const targets = [
+    document.getElementById('summary'),
+    ...document.querySelectorAll('.cs-section[id]')
+  ].filter(Boolean);
+  const links = document.querySelectorAll('.toc-link');
+
+  const indicator = document.querySelector('.toc-indicator');
+  let currentIndicatorId = null;
+  let lastClickedId = null;
+
+  function moveIndicator(id) {
+    // While a click is in flight, only the destination can move the indicator
+    if (lastClickedId && id !== lastClickedId) return;
+    if (id === currentIndicatorId) return;
+    currentIndicatorId = id;
+    const active = document.querySelector(`.toc-link[href="#${id}"]`);
+    if (active && indicator) {
+      indicator.style.transform = `translateY(${active.offsetTop}px)`;
+      indicator.style.height = `${active.offsetHeight}px`;
+    }
+  }
+
+  function setActive(id) {
+    links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + id));
+    moveIndicator(id);
+  }
+
+  function findActive() {
+    const cut = 88;
+    let id = targets[0]?.id;
+    for (const t of targets) {
+      if (t.getBoundingClientRect().top <= cut) id = t.id;
+    }
+
+    if (lastClickedId) {
+      const el = document.getElementById(lastClickedId);
+      if (el) {
+        const top = el.getBoundingClientRect().top;
+        if (top <= cut) {
+          lastClickedId = null;         // crossed threshold naturally — release pin
+        } else if (top < window.innerHeight) {
+          return lastClickedId;         // visible but above cutoff — honour the click
+        }
+        // top >= innerHeight: user scrolled away — fall through
+      }
+    }
+
+    if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 4) {
+      return targets[targets.length - 1].id;
+    }
+
+    return id;
+  }
+
+  const io = new IntersectionObserver(
+    () => setActive(findActive()),
+    { rootMargin: '-88px 0px 0px 0px', threshold: Array.from({ length: 21 }, (_, i) => i / 20) }
+  );
+  targets.forEach(t => io.observe(t));
+
+  links.forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      lastClickedId = a.getAttribute('href').slice(1);
+      moveIndicator(lastClickedId);
+      const t = document.getElementById(lastClickedId);
+      if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
+  setActive(findActive());
+
+  // Fade-in each hero + section as it enters the viewport
+  const fadeIO = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        [...e.target.children].forEach((child, i) => {
+          child.style.setProperty('--anim-delay', `${i * 75}ms`);
+        });
+        e.target.classList.add('is-visible');
+        fadeIO.unobserve(e.target);
+      }
+    });
+  }, { rootMargin: '0px 0px -25% 0px', threshold: 0.08 });
+
+  document.querySelectorAll('.cs-hero, .cs-section').forEach(el => fadeIO.observe(el));
+
+  // Metrics count-up + bar fill
+  const metricsIO = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      const container = e.target;
+      container.classList.add('is-counting');
+      container.querySelectorAll('.cs-metric').forEach((card, i) => {
+        setTimeout(() => card.classList.add('is-visible'), i * 220);
+      });
+      container.querySelectorAll('[data-count]').forEach((el, i) => {
+        const target = parseInt(el.dataset.count, 10);
+        const duration = 1600;
+        const startDelay = 450 + i * 220;
+        setTimeout(() => {
+          const start = performance.now();
+          function tick(now) {
+            const t = Math.min((now - start) / duration, 1);
+            const eased = 1 - Math.pow(1 - t, 3);
+            el.textContent = Math.round(target * eased).toLocaleString();
+            if (t < 1) requestAnimationFrame(tick);
+          }
+          requestAnimationFrame(tick);
+        }, startDelay);
+      });
+      metricsIO.unobserve(container);
+    });
+  }, { threshold: 0.3 });
+  document.querySelectorAll('.cs-metrics').forEach(el => metricsIO.observe(el));
+
+  // Features stagger
+  const featuresIO = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('is-animated');
+        featuresIO.unobserve(e.target);
+      }
+    });
+  }, { rootMargin: '0px 0px -10% 0px', threshold: 0.01 });
+  document.querySelectorAll('.cs-features').forEach(el => featuresIO.observe(el));
+
+  // Parallax — cover only
+  const coverImg = document.querySelector('.cs-cover img');
+
+  let ticking = false;
+  function updateParallax() {
+    if (coverImg) {
+      coverImg.style.transform = `translateY(${window.scrollY * 0.25}px)`;
+    }
+    ticking = false;
+  }
+
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      requestAnimationFrame(updateParallax);
+      ticking = true;
+    }
+  }, { passive: true });
+
+  updateParallax();
+})();
+</script>
 
 </body>
 </html>
