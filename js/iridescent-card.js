@@ -43,35 +43,46 @@ const FRAGMENT = /* glsl */`
 
   void main() {
     vec2 uv = vUv;
-    float t = uTime * 0.08;
+    float t = uTime * 0.06;
 
-    // Layered noise for organic flow
-    float n1 = snoise(vec2(uv.x * 1.6 + t, uv.y * 1.2 - t * 0.6));
-    float n2 = snoise(vec2(uv.x * 3.5 - t * 0.4, uv.y * 2.6 + t * 0.5)) * 0.5;
-    float distortion = n1 + n2;
+    // Rotate the UV space so everything flows along one diagonal axis.
+    // angle ~16°, bands run roughly top-right to bottom-left.
+    float a = 0.28;
+    float c = cos(a);
+    float s = sin(a);
+    vec2 ruv = vec2(uv.x * c + uv.y * s, -uv.x * s + uv.y * c);
 
-    // Parallel thread pattern, displaced by noise so the lines wave/fold
-    float threads = sin(uv.y * 9.0 + distortion * 2.6);
-    threads = smoothstep(-0.5, 0.7, threads);
+    // Gentle low-frequency warp so the bands "breathe" / wave very subtly.
+    // Kept small so the directional flow stays dominant.
+    float warp =
+        snoise(vec2(ruv.x * 1.1 + t,         ruv.y * 0.6)) * 0.04
+      + snoise(vec2(ruv.x * 2.4 - t * 0.5,   ruv.y * 1.2)) * 0.025;
 
-    // Pastel palette
-    vec3 pink   = vec3(1.00, 0.42, 0.72);
-    vec3 lilac  = vec3(0.78, 0.66, 1.00);
-    vec3 purple = vec3(0.55, 0.42, 0.92);
-    vec3 orange = vec3(1.00, 0.62, 0.50);
-    vec3 peach  = vec3(1.00, 0.82, 0.66);
-    vec3 white  = vec3(1.00, 1.00, 1.00);
+    // Vertical color sweep along the rotated axis
+    float g = ruv.y + warp;
 
-    // Sweep the palette diagonally with the noise warp
-    float g = uv.y + distortion * 0.22 + uv.x * 0.18;
-    vec3 color = mix(pink, lilac,  smoothstep(-0.10, 0.30, g));
-    color = mix(color, purple,     smoothstep( 0.25, 0.45, g));
-    color = mix(color, orange,     smoothstep( 0.50, 0.72, g));
-    color = mix(color, peach,      smoothstep( 0.70, 0.88, g));
-    color = mix(color, white,      smoothstep( 0.88, 1.05, g));
+    vec3 magenta  = vec3(0.96, 0.40, 0.78);
+    vec3 lavender = vec3(0.78, 0.66, 0.97);
+    vec3 orange   = vec3(0.99, 0.65, 0.50);
+    vec3 peach    = vec3(1.00, 0.82, 0.66);
+    vec3 white    = vec3(1.00, 1.00, 1.00);
 
-    // Subtle brightness variation along the threads
-    color = mix(color * 0.93, color * 1.05, threads);
+    vec3 color = magenta;
+    color = mix(color, lavender, smoothstep(0.10, 0.45, g));
+    color = mix(color, orange,   smoothstep(0.55, 0.75, g));
+    color = mix(color, peach,    smoothstep(0.75, 0.88, g));
+    color = mix(color, white,    smoothstep(0.88, 1.05, g));
+
+    // Specular streaks — narrow bright threads catching light along the diagonal.
+    // sin gives the band, pow+smoothstep sharpens it into a thin highlight.
+    float streak1 = sin(ruv.y * 14.0 + warp * 6.0 - t * 1.4);
+    streak1 = pow(smoothstep(0.55, 1.0, streak1), 3.0);
+
+    float streak2 = sin(ruv.y * 22.0 + warp * 10.0 + t * 0.9);
+    streak2 = pow(smoothstep(0.75, 1.0, streak2), 4.0) * 0.6;
+
+    color = mix(color, white, streak1 * 0.55);
+    color = mix(color, white, streak2 * 0.4);
 
     gl_FragColor = vec4(color, 1.0);
   }
