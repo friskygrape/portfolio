@@ -43,57 +43,43 @@ const FRAGMENT = /* glsl */`
 
   void main() {
     vec2 uv = vUv;
-    float t = uTime * 0.06;
+    float t = uTime * 0.04; // slow, calm motion
 
-    // Rotate the UV space so everything flows along one diagonal axis.
-    float a = 0.28;
+    // Rotate UV so everything flows in one diagonal direction.
+    float a = 0.25;
     float c = cos(a);
     float s = sin(a);
     vec2 ruv = vec2(uv.x * c + uv.y * s, -uv.x * s + uv.y * c);
 
-    // Gentle low-frequency warp
-    float warp =
-        snoise(vec2(ruv.x * 1.1 + t,         ruv.y * 0.6)) * 0.04
-      + snoise(vec2(ruv.x * 2.4 - t * 0.5,   ruv.y * 1.2)) * 0.025;
-
-    // Anisotropic fiber striations — high freq along band axis (ruv.x),
-    // low freq across (ruv.y). Gives the "thread" grain.
-    float fiber = snoise(vec2(ruv.x * 55.0, ruv.y * 3.0)) * 0.55
-                + snoise(vec2(ruv.x * 110.0, ruv.y * 5.0)) * 0.30;
+    // Soft, low-frequency warp — the fabric "breathing".
+    // Single noise layer, low freq, gentle amplitude.
+    float warp = snoise(vec2(ruv.x * 0.6, ruv.y * 0.4 + t * 0.3)) * 0.08;
 
     // Color sweep along the rotated axis
     float g = ruv.y + warp;
 
-    vec3 magenta  = vec3(0.96, 0.40, 0.78);
+    vec3 magenta  = vec3(0.96, 0.42, 0.78);
     vec3 lavender = vec3(0.78, 0.66, 0.97);
-    vec3 orange   = vec3(0.99, 0.65, 0.50);
+    vec3 orange   = vec3(1.00, 0.65, 0.50);
     vec3 peach    = vec3(1.00, 0.82, 0.66);
     vec3 white    = vec3(1.00, 1.00, 1.00);
 
     vec3 color = magenta;
-    color = mix(color, lavender, smoothstep(0.10, 0.45, g));
+    color = mix(color, lavender, smoothstep(0.20, 0.50, g));
     color = mix(color, orange,   smoothstep(0.55, 0.75, g));
-    color = mix(color, peach,    smoothstep(0.75, 0.88, g));
-    color = mix(color, white,    smoothstep(0.88, 1.05, g));
+    color = mix(color, peach,    smoothstep(0.78, 0.90, g));
+    color = mix(color, white,    smoothstep(0.92, 1.05, g));
 
-    // Three streak layers, sharper smoothstep ranges, fiber-modulated phase.
-    float streak1 = sin(ruv.y * 16.0 + warp * 6.0 + fiber * 2.0 - t * 1.4);
-    streak1 = pow(smoothstep(0.72, 1.0, streak1), 4.0);
+    // TWO broad, soft sheens — wide glossy reflections that drift across
+    // the fabric as time moves. Wide smoothstep ranges keep them soft.
+    float sheen1 = sin((ruv.y + warp * 0.5) * 4.0 + t * 0.6);
+    sheen1 = smoothstep(0.30, 0.95, sheen1) * 0.40;
 
-    float streak2 = sin(ruv.y * 32.0 + warp * 10.0 + fiber * 3.5 + t * 0.9);
-    streak2 = pow(smoothstep(0.82, 1.0, streak2), 5.0) * 0.7;
+    float sheen2 = sin((ruv.y + warp * 0.3) * 6.5 - t * 0.8);
+    sheen2 = smoothstep(0.40, 0.92, sheen2) * 0.25;
 
-    // Micro-fibers — very high frequency, thin highlights for the woven texture
-    float micro = sin(ruv.y * 95.0 + fiber * 8.0 - t * 0.5);
-    micro = pow(smoothstep(0.88, 1.0, micro), 6.0) * 0.5;
-
-    color = mix(color, white, streak1 * 0.55);
-    color = mix(color, white, streak2 * 0.5);
-    color = mix(color, white, micro * 0.45);
-
-    // Subtle film-grain overlay for surface texture
-    float grain = (snoise(vec2(uv.x * 280.0, uv.y * 280.0)) - 0.5) * 0.045;
-    color += grain;
+    color = mix(color, white, sheen1);
+    color = mix(color, white, sheen2);
 
     gl_FragColor = vec4(color, 1.0);
   }
