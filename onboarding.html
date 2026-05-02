@@ -28,7 +28,13 @@
 
       <aside class="cs-toc">
         <div class="toc-track">
-          <div class="toc-indicator"></div>
+          <div class="toc-indicator">
+            <span class="toc-indicator-layer toc-indicator-layer--1"></span>
+            <span class="toc-indicator-layer toc-indicator-layer--2"></span>
+            <span class="toc-indicator-layer toc-indicator-layer--3"></span>
+            <span class="toc-indicator-layer toc-indicator-layer--4"></span>
+            <span class="toc-indicator-layer toc-indicator-layer--5"></span>
+          </div>
           <ul>
             <li><a class="toc-link" href="#summary">Summary</a></li>
             <li><a class="toc-link" href="#context">Context</a></li>
@@ -180,18 +186,6 @@
           </div>
 
           <div class="cs-retention">
-            <svg width="0" height="0" style="position:absolute" aria-hidden="true">
-              <defs>
-                <linearGradient id="csRetainedFill" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stop-color="#9C9C9C" stop-opacity="0.18"/>
-                  <stop offset="100%" stop-color="#9C9C9C" stop-opacity="0"/>
-                </linearGradient>
-                <linearGradient id="csGainFill" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stop-color="#4D00C0" stop-opacity="0.45"/>
-                  <stop offset="100%" stop-color="#4D00C0" stop-opacity="0.08"/>
-                </linearGradient>
-              </defs>
-            </svg>
             <h3 class="h3">Retention Over 3 Months In-App</h3>
             <p class="body-lg">Percentage of users in each cohort coming back within 1-3 months of launching the app for the first time.</p>
             <div class="cs-retention-grid">
@@ -205,28 +199,27 @@
                   <span class="cs-retention-legend-item"><span class="cs-retention-swatch cs-retention-swatch--without"></span>Without Onboarding</span>
                 </div>
                 <svg class="cs-retention-svg" viewBox="0 0 400 280" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
-                  <line class="cs-retention-grid-line" x1="40" y1="40"  x2="360" y2="40"/>
-                  <line class="cs-retention-grid-line" x1="40" y1="130" x2="360" y2="130"/>
-                  <line class="cs-retention-grid-line" x1="40" y1="220" x2="360" y2="220"/>
-                  <path class="cs-retention-area cs-retention-area--retained" d="M 60,115.6 L 200,133.9 L 340,144.4 L 340,220 L 60,220 Z"/>
-                  <path class="cs-retention-area cs-retention-area--gain" d="M 60,59 L 200,82.7 L 340,94 L 340,144.4 L 200,133.9 L 60,115.6 Z"/>
-                  <path class="cs-retention-line cs-retention-line--without" d="M 60,115.6 L 200,133.9 L 340,144.4" pathLength="100"/>
-                  <path class="cs-retention-line cs-retention-line--with"    d="M 60,59 L 200,82.7 L 340,94"        pathLength="100"/>
-                  <circle class="cs-retention-dot cs-retention-dot--without" cx="60"  cy="115.6" r="5"/>
-                  <circle class="cs-retention-dot cs-retention-dot--without" cx="200" cy="133.9" r="5"/>
-                  <circle class="cs-retention-dot cs-retention-dot--without" cx="340" cy="144.4" r="5"/>
-                  <circle class="cs-retention-dot cs-retention-dot--with" cx="60"  cy="59"   r="5"/>
-                  <circle class="cs-retention-dot cs-retention-dot--with" cx="200" cy="82.7" r="5"/>
-                  <circle class="cs-retention-dot cs-retention-dot--with" cx="340" cy="94"   r="5"/>
-                  <text class="cs-retention-label cs-retention-label--with" x="60"  y="46"   text-anchor="middle">62.6%</text>
-                  <text class="cs-retention-label cs-retention-label--with" x="200" y="69.7" text-anchor="middle">53.4%</text>
-                  <text class="cs-retention-label cs-retention-label--with" x="340" y="81"   text-anchor="middle">49%</text>
-                  <text class="cs-retention-label cs-retention-label--without" x="60"  y="103"   text-anchor="middle">40.6%</text>
-                  <text class="cs-retention-label cs-retention-label--without" x="200" y="121.4" text-anchor="middle">33.5%</text>
-                  <text class="cs-retention-label cs-retention-label--without" x="340" y="131.9" text-anchor="middle">29.4%</text>
-                  <text class="cs-retention-axis-label" x="60"  y="252" text-anchor="middle">1 Month</text>
+                  <line class="cs-retention-grid-line" x1="0" y1="40"  x2="400" y2="40"/>
+                  <line class="cs-retention-grid-line" x1="0" y1="130" x2="400" y2="130"/>
+                  <line class="cs-retention-grid-line" x1="0" y1="220" x2="400" y2="220"/>
+
+                  <rect class="cs-retention-bar cs-retention-bar--without cs-retention-bar--g1-without" x="35"  y="115.6" width="28" height="104.4"/>
+                  <rect class="cs-retention-bar cs-retention-bar--with    cs-retention-bar--g1-with"    x="77"  y="59"    width="28" height="161.0"/>
+                  <rect class="cs-retention-bar cs-retention-bar--without cs-retention-bar--g2-without" x="165" y="133.9" width="28" height="86.1"/>
+                  <rect class="cs-retention-bar cs-retention-bar--with    cs-retention-bar--g2-with"    x="207" y="82.7"  width="28" height="137.3"/>
+                  <rect class="cs-retention-bar cs-retention-bar--without cs-retention-bar--g3-without" x="295" y="144.4" width="28" height="75.6"/>
+                  <rect class="cs-retention-bar cs-retention-bar--with    cs-retention-bar--g3-with"    x="337" y="94"    width="28" height="126"/>
+
+                  <text class="cs-retention-label cs-retention-label--without cs-retention-label--g1-without" x="49"  y="106" text-anchor="middle">40.6%</text>
+                  <text class="cs-retention-label cs-retention-label--with    cs-retention-label--g1-with"    x="91"  y="49"  text-anchor="middle">62.6%</text>
+                  <text class="cs-retention-label cs-retention-label--without cs-retention-label--g2-without" x="179" y="124" text-anchor="middle">33.5%</text>
+                  <text class="cs-retention-label cs-retention-label--with    cs-retention-label--g2-with"    x="221" y="73"  text-anchor="middle">53.4%</text>
+                  <text class="cs-retention-label cs-retention-label--without cs-retention-label--g3-without" x="309" y="135" text-anchor="middle">29.4%</text>
+                  <text class="cs-retention-label cs-retention-label--with    cs-retention-label--g3-with"    x="351" y="84"  text-anchor="middle">49.0%</text>
+
+                  <text class="cs-retention-axis-label" x="70"  y="252" text-anchor="middle">1 Month</text>
                   <text class="cs-retention-axis-label" x="200" y="252" text-anchor="middle">2 Months</text>
-                  <text class="cs-retention-axis-label" x="340" y="252" text-anchor="middle">3 Months</text>
+                  <text class="cs-retention-axis-label" x="330" y="252" text-anchor="middle">3 Months</text>
                 </svg>
               </div>
               <div class="cs-retention-chart">
@@ -239,28 +232,100 @@
                   <span class="cs-retention-legend-item"><span class="cs-retention-swatch cs-retention-swatch--without"></span>Without Onboarding</span>
                 </div>
                 <svg class="cs-retention-svg" viewBox="0 0 400 280" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
-                  <line class="cs-retention-grid-line" x1="40" y1="40"  x2="360" y2="40"/>
-                  <line class="cs-retention-grid-line" x1="40" y1="130" x2="360" y2="130"/>
-                  <line class="cs-retention-grid-line" x1="40" y1="220" x2="360" y2="220"/>
-                  <path class="cs-retention-area cs-retention-area--retained" d="M 60,83 L 200,97.6 L 340,104.8 L 340,220 L 60,220 Z"/>
-                  <path class="cs-retention-area cs-retention-area--gain" d="M 60,54.4 L 200,69.1 L 340,76.5 L 340,104.8 L 200,97.6 L 60,83 Z"/>
-                  <path class="cs-retention-line cs-retention-line--without" d="M 60,83 L 200,97.6 L 340,104.8"   pathLength="100"/>
-                  <path class="cs-retention-line cs-retention-line--with"    d="M 60,54.4 L 200,69.1 L 340,76.5" pathLength="100"/>
-                  <circle class="cs-retention-dot cs-retention-dot--without" cx="60"  cy="83"    r="5"/>
-                  <circle class="cs-retention-dot cs-retention-dot--without" cx="200" cy="97.6"  r="5"/>
-                  <circle class="cs-retention-dot cs-retention-dot--without" cx="340" cy="104.8" r="5"/>
-                  <circle class="cs-retention-dot cs-retention-dot--with" cx="60"  cy="54.4" r="5"/>
-                  <circle class="cs-retention-dot cs-retention-dot--with" cx="200" cy="69.1" r="5"/>
-                  <circle class="cs-retention-dot cs-retention-dot--with" cx="340" cy="76.5" r="5"/>
-                  <text class="cs-retention-label cs-retention-label--with" x="60"  y="42"   text-anchor="middle">64.4%</text>
-                  <text class="cs-retention-label cs-retention-label--with" x="200" y="56.1" text-anchor="middle">58.7%</text>
-                  <text class="cs-retention-label cs-retention-label--with" x="340" y="63.5" text-anchor="middle">55.8%</text>
-                  <text class="cs-retention-label cs-retention-label--without" x="60"  y="70"   text-anchor="middle">53.3%</text>
-                  <text class="cs-retention-label cs-retention-label--without" x="200" y="84.6" text-anchor="middle">47.6%</text>
-                  <text class="cs-retention-label cs-retention-label--without" x="340" y="91.8" text-anchor="middle">44.8%</text>
-                  <text class="cs-retention-axis-label" x="60"  y="252" text-anchor="middle">1 Month</text>
+                  <line class="cs-retention-grid-line" x1="0" y1="40"  x2="400" y2="40"/>
+                  <line class="cs-retention-grid-line" x1="0" y1="130" x2="400" y2="130"/>
+                  <line class="cs-retention-grid-line" x1="0" y1="220" x2="400" y2="220"/>
+
+                  <rect class="cs-retention-bar cs-retention-bar--without cs-retention-bar--g1-without" x="35"  y="83"    width="28" height="137.0"/>
+                  <rect class="cs-retention-bar cs-retention-bar--with    cs-retention-bar--g1-with"    x="77"  y="54.4"  width="28" height="165.6"/>
+                  <rect class="cs-retention-bar cs-retention-bar--without cs-retention-bar--g2-without" x="165" y="97.6"  width="28" height="122.4"/>
+                  <rect class="cs-retention-bar cs-retention-bar--with    cs-retention-bar--g2-with"    x="207" y="69.1"  width="28" height="150.9"/>
+                  <rect class="cs-retention-bar cs-retention-bar--without cs-retention-bar--g3-without" x="295" y="104.8" width="28" height="115.2"/>
+                  <rect class="cs-retention-bar cs-retention-bar--with    cs-retention-bar--g3-with"    x="337" y="76.5"  width="28" height="143.5"/>
+
+                  <text class="cs-retention-label cs-retention-label--without cs-retention-label--g1-without" x="49"  y="73"   text-anchor="middle">53.3%</text>
+                  <text class="cs-retention-label cs-retention-label--with    cs-retention-label--g1-with"    x="91"  y="44"   text-anchor="middle">64.4%</text>
+                  <text class="cs-retention-label cs-retention-label--without cs-retention-label--g2-without" x="179" y="87.6" text-anchor="middle">47.6%</text>
+                  <text class="cs-retention-label cs-retention-label--with    cs-retention-label--g2-with"    x="221" y="59.1" text-anchor="middle">58.7%</text>
+                  <text class="cs-retention-label cs-retention-label--without cs-retention-label--g3-without" x="309" y="94.8" text-anchor="middle">44.8%</text>
+                  <text class="cs-retention-label cs-retention-label--with    cs-retention-label--g3-with"    x="351" y="66.5" text-anchor="middle">55.8%</text>
+
+                  <text class="cs-retention-axis-label" x="70"  y="252" text-anchor="middle">1 Month</text>
                   <text class="cs-retention-axis-label" x="200" y="252" text-anchor="middle">2 Months</text>
-                  <text class="cs-retention-axis-label" x="340" y="252" text-anchor="middle">3 Months</text>
+                  <text class="cs-retention-axis-label" x="330" y="252" text-anchor="middle">3 Months</text>
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <div class="cs-retention">
+            <h3 class="h3">HVSSA Over 3 Months In-App</h3>
+            <p class="body-lg">Percentage of users in each cohort coming back to perform High-Valued Self-Service Activities (Example: paying their bill) within 1-3 months of launching the app for the first time.</p>
+            <div class="cs-retention-grid">
+              <div class="cs-retention-chart">
+                <div class="cs-retention-meta">
+                  <h4 class="cs-retention-platform">Android</h4>
+                  <p class="cs-retention-visitors">12K Visitors</p>
+                </div>
+                <div class="cs-retention-legend">
+                  <span class="cs-retention-legend-item"><span class="cs-retention-swatch cs-retention-swatch--with"></span>With Onboarding</span>
+                  <span class="cs-retention-legend-item"><span class="cs-retention-swatch cs-retention-swatch--without"></span>Without Onboarding</span>
+                </div>
+                <svg class="cs-retention-svg" viewBox="0 0 400 280" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+                  <line class="cs-retention-grid-line" x1="0" y1="40"  x2="400" y2="40"/>
+                  <line class="cs-retention-grid-line" x1="0" y1="130" x2="400" y2="130"/>
+                  <line class="cs-retention-grid-line" x1="0" y1="220" x2="400" y2="220"/>
+
+                  <rect class="cs-retention-bar cs-retention-bar--without cs-retention-bar--g1-without" x="35"  y="172.5" width="28" height="47.5"/>
+                  <rect class="cs-retention-bar cs-retention-bar--with    cs-retention-bar--g1-with"    x="77"  y="127.5" width="28" height="92.5"/>
+                  <rect class="cs-retention-bar cs-retention-bar--without cs-retention-bar--g2-without" x="165" y="185"   width="28" height="35"/>
+                  <rect class="cs-retention-bar cs-retention-bar--with    cs-retention-bar--g2-with"    x="207" y="150"   width="28" height="70"/>
+                  <rect class="cs-retention-bar cs-retention-bar--without cs-retention-bar--g3-without" x="295" y="187.5" width="28" height="32.5"/>
+                  <rect class="cs-retention-bar cs-retention-bar--with    cs-retention-bar--g3-with"    x="337" y="152.5" width="28" height="67.5"/>
+
+                  <text class="cs-retention-label cs-retention-label--without cs-retention-label--g1-without" x="49"  y="162.5" text-anchor="middle">1.9%</text>
+                  <text class="cs-retention-label cs-retention-label--with    cs-retention-label--g1-with"    x="91"  y="117.5" text-anchor="middle">3.7%</text>
+                  <text class="cs-retention-label cs-retention-label--without cs-retention-label--g2-without" x="179" y="175"   text-anchor="middle">1.4%</text>
+                  <text class="cs-retention-label cs-retention-label--with    cs-retention-label--g2-with"    x="221" y="140"   text-anchor="middle">2.8%</text>
+                  <text class="cs-retention-label cs-retention-label--without cs-retention-label--g3-without" x="309" y="177.5" text-anchor="middle">1.3%</text>
+                  <text class="cs-retention-label cs-retention-label--with    cs-retention-label--g3-with"    x="351" y="142.5" text-anchor="middle">2.7%</text>
+
+                  <text class="cs-retention-axis-label" x="70"  y="252" text-anchor="middle">1 Month</text>
+                  <text class="cs-retention-axis-label" x="200" y="252" text-anchor="middle">2 Months</text>
+                  <text class="cs-retention-axis-label" x="330" y="252" text-anchor="middle">3 Months</text>
+                </svg>
+              </div>
+              <div class="cs-retention-chart">
+                <div class="cs-retention-meta">
+                  <h4 class="cs-retention-platform">iOS</h4>
+                  <p class="cs-retention-visitors">30K Visitors</p>
+                </div>
+                <div class="cs-retention-legend">
+                  <span class="cs-retention-legend-item"><span class="cs-retention-swatch cs-retention-swatch--with"></span>With Onboarding</span>
+                  <span class="cs-retention-legend-item"><span class="cs-retention-swatch cs-retention-swatch--without"></span>Without Onboarding</span>
+                </div>
+                <svg class="cs-retention-svg" viewBox="0 0 400 280" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+                  <line class="cs-retention-grid-line" x1="0" y1="40"  x2="400" y2="40"/>
+                  <line class="cs-retention-grid-line" x1="0" y1="130" x2="400" y2="130"/>
+                  <line class="cs-retention-grid-line" x1="0" y1="220" x2="400" y2="220"/>
+
+                  <rect class="cs-retention-bar cs-retention-bar--without cs-retention-bar--g1-without" x="35"  y="105"   width="28" height="115"/>
+                  <rect class="cs-retention-bar cs-retention-bar--with    cs-retention-bar--g1-with"    x="77"  y="55"    width="28" height="165"/>
+                  <rect class="cs-retention-bar cs-retention-bar--without cs-retention-bar--g2-without" x="165" y="127.5" width="28" height="92.5"/>
+                  <rect class="cs-retention-bar cs-retention-bar--with    cs-retention-bar--g2-with"    x="207" y="85"    width="28" height="135"/>
+                  <rect class="cs-retention-bar cs-retention-bar--without cs-retention-bar--g3-without" x="295" y="137.5" width="28" height="82.5"/>
+                  <rect class="cs-retention-bar cs-retention-bar--with    cs-retention-bar--g3-with"    x="337" y="102.5" width="28" height="117.5"/>
+
+                  <text class="cs-retention-label cs-retention-label--without cs-retention-label--g1-without" x="49"  y="95"    text-anchor="middle">4.6%</text>
+                  <text class="cs-retention-label cs-retention-label--with    cs-retention-label--g1-with"    x="91"  y="45"    text-anchor="middle">6.6%</text>
+                  <text class="cs-retention-label cs-retention-label--without cs-retention-label--g2-without" x="179" y="117.5" text-anchor="middle">3.7%</text>
+                  <text class="cs-retention-label cs-retention-label--with    cs-retention-label--g2-with"    x="221" y="75"    text-anchor="middle">5.4%</text>
+                  <text class="cs-retention-label cs-retention-label--without cs-retention-label--g3-without" x="309" y="127.5" text-anchor="middle">3.3%</text>
+                  <text class="cs-retention-label cs-retention-label--with    cs-retention-label--g3-with"    x="351" y="92.5"  text-anchor="middle">4.7%</text>
+
+                  <text class="cs-retention-axis-label" x="70"  y="252" text-anchor="middle">1 Month</text>
+                  <text class="cs-retention-axis-label" x="200" y="252" text-anchor="middle">2 Months</text>
+                  <text class="cs-retention-axis-label" x="330" y="252" text-anchor="middle">3 Months</text>
                 </svg>
               </div>
             </div>
@@ -324,20 +389,139 @@
   const links = document.querySelectorAll('.toc-link');
 
   const indicator = document.querySelector('.toc-indicator');
+  const layers = [...document.querySelectorAll('.toc-indicator-layer')];
   let currentIndicatorId = null;
   let lastClickedId = null;
   let lastClickedAt = 0;
   const PIN_DURATION = 1200;
 
+  // 3-layer indicator with chain (train-like) motion. Pure lerp — no spring,
+  // no overshoot, no bounce — gives a clean ease-out: large step at the start
+  // of the move, decreasing as each layer approaches its target.
+  // The visible gap between adjacent layers is capped per move, scaled by
+  // trip distance (short hops ~1px extra; top-to-bottom hits the 5px cap).
+  const INDICATOR_SIZE = 12;
+  const REST_OFFSETS  = [0, 0, 0, 0, 0]; // all stacked at rest — only top visible
+  const LERP_RATE       = 0.18;          // for trail lerp (lead is driven directly during click)
+  const SCROLL_DURATION = 500;           // ms — same eased progress drives both scroll + lead
+  // Per-pair cap. Total max spread (head → tail) ≈ MAX_EXTRA_SEP × (layers - 1)
+  // = 5 × 4 = 20px on a long trip.
+  const MAX_EXTRA_SEP = 5;
+  const layerState = layers.map(() => ({ y: 0 }));
+  let targetY = 0;
+  let maxExtraSep = 0;                 // updated per-move, scaled by trip distance
+  let animating = false;
+  let firstPlacement = true;
+  let syncActive = false;              // true while click-driven scroll+indicator sync is running
+
+  // Cache inactive + active link heights once. We can't read offsetHeight
+  // at click/scroll time because the font-size transition makes that value
+  // mid-flight — the indicator would target the in-between size and drift.
+  // With cached heights we compute the active link's final center geometrically.
+  // Using getBoundingClientRect (float) instead of offsetHeight (int) — the
+  // 0.4px rounding compounds to a visible shift over 6+ rows.
+  const trackEl = document.querySelector('.toc-track');
+  let inactiveLinkH = 0, activeLinkH = 0, baseLinkTop = 0;
+  function measureLinkHeights() {
+    const ref = links[0];
+    const clone = ref.cloneNode(true);
+    clone.classList.remove('active');
+    clone.style.transition = 'none';
+    clone.style.position = 'absolute';
+    clone.style.visibility = 'hidden';
+    clone.style.pointerEvents = 'none';
+    ref.parentNode.appendChild(clone);
+    inactiveLinkH = clone.getBoundingClientRect().height;
+    clone.classList.add('active');
+    activeLinkH = clone.getBoundingClientRect().height;
+    clone.remove();
+    baseLinkTop = ref.getBoundingClientRect().top - trackEl.getBoundingClientRect().top;
+  }
+  measureLinkHeights();
+
+  function targetForLink(a) {
+    const idx = [...links].indexOf(a);
+    return baseLinkTop + idx * inactiveLinkH + (activeLinkH - INDICATOR_SIZE) / 2;
+  }
+
+  function layerTargetFor(i) {
+    if (i === 0) return targetY + REST_OFFSETS[0];
+    return layerState[i - 1].y + (REST_OFFSETS[i] - REST_OFFSETS[i - 1]);
+  }
+
+  function tick() {
+    let stillMoving = false;
+    for (let i = 0; i < layerState.length; i++) {
+      const s = layerState[i];
+
+      // While a click-driven sync animation is running, the lead's position
+      // is set externally (see syncScrollAndIndicator). Don't lerp it here.
+      if (i === 0 && syncActive) {
+        layers[0].style.transform = `translateY(${s.y}px) rotate(45deg)`;
+        stillMoving = true;
+        continue;
+      }
+
+      const lt = layerTargetFor(i);
+      const dy = lt - s.y;
+      s.y += dy * LERP_RATE;
+
+      // Cap the visible gap to the layer in front
+      if (i > 0) {
+        const restGap = REST_OFFSETS[i] - REST_OFFSETS[i - 1];
+        const maxAbsGap = Math.abs(restGap) + maxExtraSep;
+        const gap = s.y - layerState[i - 1].y;
+        if (Math.abs(gap) > maxAbsGap) {
+          s.y = layerState[i - 1].y + Math.sign(gap) * maxAbsGap;
+        }
+      }
+
+      layers[i].style.transform = `translateY(${s.y}px) rotate(45deg)`;
+      if (Math.abs(dy) > 0.1) stillMoving = true;
+    }
+    if (stillMoving) {
+      requestAnimationFrame(tick);
+    } else {
+      // Snap each layer onto its rest position relative to the lead
+      layerState[0].y = targetY + REST_OFFSETS[0];
+      for (let i = 1; i < layerState.length; i++) {
+        layerState[i].y = layerState[i - 1].y + (REST_OFFSETS[i] - REST_OFFSETS[i - 1]);
+      }
+      for (let i = 0; i < layerState.length; i++) {
+        layers[i].style.transform = `translateY(${layerState[i].y}px) rotate(45deg)`;
+      }
+      animating = false;
+    }
+  }
+
   function moveIndicator(id) {
-    // While a click is in flight, only the destination can move the indicator
     if (lastClickedId && id !== lastClickedId) return;
     if (id === currentIndicatorId) return;
     currentIndicatorId = id;
     const active = document.querySelector(`.toc-link[href="#${id}"]`);
-    if (active && indicator) {
-      indicator.style.transform = `translateY(${active.offsetTop}px)`;
-      indicator.style.height = `${active.offsetHeight}px`;
+    if (!active) return;
+    const newTarget = targetForLink(active);
+    if (firstPlacement) {
+      targetY = newTarget;
+      layerState[0].y = newTarget + REST_OFFSETS[0];
+      for (let i = 1; i < layerState.length; i++) {
+        layerState[i].y = layerState[i - 1].y + (REST_OFFSETS[i] - REST_OFFSETS[i - 1]);
+      }
+      for (let i = 0; i < layerState.length; i++) {
+        layers[i].style.transform = `translateY(${layerState[i].y}px) rotate(45deg)`;
+      }
+      firstPlacement = false;
+    } else {
+      // Trip-distance-scaled separation cap (per-pair).
+      // Short hop (~30px) → ~1.4px per pair (~5.5px total trail);
+      // full top-to-bottom (~240px) → 5px per pair (20px total trail).
+      const D = Math.abs(newTarget - layerState[0].y);
+      maxExtraSep = Math.min(MAX_EXTRA_SEP, Math.max(0.3, D / 22));
+      targetY = newTarget;
+      if (!animating) {
+        animating = true;
+        requestAnimationFrame(tick);
+      }
     }
   }
 
@@ -376,14 +560,76 @@
   );
   targets.forEach(t => io.observe(t));
 
+  // SCROLL_OFFSET matches .cs-section { scroll-margin-top: 80px }
+  const SCROLL_OFFSET = 80;
+
+  // The lead layer's position and the page scroll position are driven from
+  // the SAME eased progress over SCROLL_DURATION. They start, ease, and
+  // finish in lockstep — by definition synchronized.
+  function syncScrollAndIndicator(yScrollTarget, yIndicatorTarget, duration) {
+    const startScroll = window.scrollY;
+    const startLead = layerState[0].y;
+    const dScroll = yScrollTarget - startScroll;
+    const dLead = yIndicatorTarget - startLead;
+    const startTime = performance.now();
+    syncActive = true;
+
+    function step(now) {
+      const t = Math.min((now - startTime) / duration, 1);
+      // Ease-in-out cubic: gentle start, peak velocity at midpoint, gentle end.
+      const eased = t < 0.5
+        ? 4 * t * t * t
+        : 1 - Math.pow(-2 * t + 2, 3) / 2;
+      // 'instant' overrides the html { scroll-behavior: smooth } so the
+      // browser doesn't layer its own smooth-scroll on top of ours.
+      window.scrollTo({ top: startScroll + dScroll * eased, behavior: 'instant' });
+      layerState[0].y = startLead + dLead * eased;
+      if (t < 1) {
+        requestAnimationFrame(step);
+      } else {
+        layerState[0].y = yIndicatorTarget;
+        syncActive = false;
+      }
+    }
+    requestAnimationFrame(step);
+
+    if (!animating) {
+      animating = true;
+      requestAnimationFrame(tick);
+    }
+  }
+
   links.forEach(a => {
     a.addEventListener('click', e => {
       e.preventDefault();
-      lastClickedId = a.getAttribute('href').slice(1);
+      const id = a.getAttribute('href').slice(1);
+      const sec = document.getElementById(id);
+      if (!sec) return;
+
+      lastClickedId = id;
       lastClickedAt = Date.now();
-      moveIndicator(lastClickedId);
-      const t = document.getElementById(lastClickedId);
-      if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      currentIndicatorId = id;
+
+      const yIndicator = targetForLink(a);
+      const yScroll    = sec.getBoundingClientRect().top + window.scrollY - SCROLL_OFFSET;
+
+      links.forEach(l => l.classList.toggle('active', l === a));
+
+      targetY = yIndicator;
+      const D = Math.abs(yIndicator - layerState[0].y);
+      maxExtraSep = Math.min(MAX_EXTRA_SEP, Math.max(0.3, D / 22));
+
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduced) {
+        window.scrollTo({ top: yScroll, behavior: 'instant' });
+        for (let i = 0; i < layerState.length; i++) {
+          layerState[i].y = yIndicator;
+          layers[i].style.transform = `translateY(${yIndicator}px) rotate(45deg)`;
+        }
+        return;
+      }
+
+      syncScrollAndIndicator(yScroll, yIndicator, SCROLL_DURATION);
     });
   });
 
@@ -451,6 +697,28 @@
     });
   }, { rootMargin: '0px 0px -10% 0px', threshold: 0.01 });
   document.querySelectorAll('.cs-features').forEach(el => featuresIO.observe(el));
+
+  // Keep retention/HVSSA chart label text at a fixed pixel size across breakpoints.
+  // The SVG viewBox is 400 wide; if we set font-size in viewBox units, screen
+  // pixels = fontSize * (svgWidth / 400). To pin screen pixels to TARGET_PX,
+  // set fontSize = TARGET_PX * 400 / svgWidth.
+  const CHART_LABEL_TARGET_PX = 16;
+  const CHART_VIEWBOX_W = 400;
+  function syncChartFontSizes() {
+    document.querySelectorAll('.cs-retention-svg').forEach(svg => {
+      const w = svg.getBoundingClientRect().width;
+      if (!w) return;
+      const fs = CHART_LABEL_TARGET_PX * CHART_VIEWBOX_W / w;
+      svg.style.setProperty('--chart-label-fs', fs + 'px');
+    });
+  }
+  if (typeof ResizeObserver !== 'undefined') {
+    const chartRO = new ResizeObserver(syncChartFontSizes);
+    document.querySelectorAll('.cs-retention-svg').forEach(svg => chartRO.observe(svg));
+  } else {
+    window.addEventListener('resize', syncChartFontSizes);
+  }
+  syncChartFontSizes();
 
   // Auto play / pause videos based on viewport visibility
   const videoIO = new IntersectionObserver((entries) => {

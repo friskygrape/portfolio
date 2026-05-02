@@ -58,6 +58,7 @@
   --charcoal: #434343;
   --graphite: #595959;
   --silver:   #9C9C9C;
+  --ash:      #BDBDBD;
   --mist:     #DBDBDB;
   --white:    #FFFFFF;
 
@@ -535,18 +536,33 @@ nav.is-hidden { transform: translateY(-100%); }
   position: absolute;
   left: 0;
   top: 0;
-  width: 2px;
-  height: 34px;
-  background: var(--color-accent);
-  border-radius: 1px;
+  width: 12px;
+  height: 12px;
   pointer-events: none;
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-              height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.toc-indicator-layer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 12px;
+  height: 12px;
+  background: var(--lavender);
+  border-radius: 3px;
+  transform: rotate(45deg);
+  will-change: transform;
+}
+.toc-indicator-layer--1 { background: var(--lavender); opacity: 1.00; z-index: 5; }
+.toc-indicator-layer--2 { background: var(--lavender); opacity: 0.40; z-index: 4; }
+.toc-indicator-layer--3 { background: var(--lavender); opacity: 0.24; z-index: 3; }
+.toc-indicator-layer--4 { background: var(--lavender); opacity: 0.14; z-index: 2; }
+.toc-indicator-layer--5 { background: var(--lavender); opacity: 0.07; z-index: 1; }
+@media (prefers-reduced-motion: reduce) {
+  .toc-indicator-layer { will-change: auto; }
 }
 
 .toc-link {
   display: block;
-  padding: 7px 0 7px 14px;
+  padding: 7px 0 7px 24px;
   font-family: var(--font-heading);
   font-size: 16px;
   font-weight: 400;
@@ -811,11 +827,19 @@ nav.is-hidden { transform: translateY(-100%); }
 .cs-retention-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 32px;
+  gap: 48px;
   margin-top: 24px;
 }
+.cs-retention-chart {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: start;
+  column-gap: 24px;
+  row-gap: 12px;
+}
 .cs-retention-meta {
-  margin-bottom: 4px;
+  grid-column: 1;
+  margin: 0;
 }
 .cs-retention-platform {
   font-family: var(--font-heading);
@@ -831,10 +855,12 @@ nav.is-hidden { transform: translateY(-100%); }
   margin: 0;
 }
 .cs-retention-legend {
+  grid-column: 2;
   display: flex;
-  gap: 24px;
-  margin: 14px 0 10px;
-  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  margin: 0;
 }
 .cs-retention-legend-item {
   display: flex;
@@ -846,43 +872,38 @@ nav.is-hidden { transform: translateY(-100%); }
 }
 .cs-retention-swatch {
   display: inline-block;
-  width: 16px;
-  height: 2px;
-  border-radius: 1px;
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
 }
 .cs-retention-swatch--with    { background: var(--lavender); }
-.cs-retention-swatch--without { background: var(--silver); }
+.cs-retention-swatch--without { background: var(--ash); }
 .cs-retention-svg {
+  grid-column: 1 / -1;
   width: 100%;
   height: auto;
   display: block;
+  overflow: visible;
+  margin-top: 12px;
 }
 .cs-retention-grid-line {
   stroke: var(--mist);
   stroke-width: 1;
   stroke-dasharray: 4 4;
 }
-.cs-retention-area {
-  opacity: 0;
+.cs-retention-bar {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  transform: scaleY(0);
+  rx: 3;
 }
-.cs-retention-area--retained { fill: url(#csRetainedFill); }
-.cs-retention-area--gain     { fill: url(#csGainFill); }
-.cs-retention-line {
-  fill: none;
-  stroke-width: 2.5;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-dasharray: 100;
-  stroke-dashoffset: 100;
-}
-.cs-retention-line--with    { stroke: var(--lavender); }
-.cs-retention-line--without { stroke: var(--silver); }
-.cs-retention-dot           { transform-origin: center; transform-box: fill-box; opacity: 0; }
-.cs-retention-dot--with     { fill: var(--lavender); stroke: var(--white); stroke-width: 2; }
-.cs-retention-dot--without  { fill: var(--silver); stroke: var(--white); stroke-width: 2; }
+.cs-retention-bar--with    { fill: var(--lavender); }
+.cs-retention-bar--without { fill: var(--ash); }
 .cs-retention-label {
   font-family: var(--font-heading);
-  font-size: 16px;
+  /* JS sets --chart-label-fs per-SVG so on-screen size stays fixed across
+     breakpoints (viewBox-relative font would shrink with the container). */
+  font-size: var(--chart-label-fs, 16px);
   font-weight: var(--weight-semibold);
   fill: var(--charcoal);
   opacity: 0;
@@ -890,32 +911,34 @@ nav.is-hidden { transform: translateY(-100%); }
 .cs-retention-label--without { fill: var(--silver); }
 .cs-retention-axis-label {
   font-family: var(--font-body);
-  font-size: 16px;
+  font-size: var(--chart-label-fs, 16px);
   fill: var(--graphite);
 }
 
-.cs-section.in-view .cs-retention-area--retained { animation: cs-retention-fade 0.7s ease 0.4s forwards; }
-.cs-section.in-view .cs-retention-area--gain     { animation: cs-retention-fade 0.7s ease 1.4s forwards; }
-.cs-section.in-view .cs-retention-line--without  { animation: cs-retention-draw 0.9s cubic-bezier(0.4, 0, 0.2, 1) 0.2s forwards; }
-.cs-section.in-view .cs-retention-line--with     { animation: cs-retention-draw 0.9s cubic-bezier(0.4, 0, 0.2, 1) 0.9s forwards; }
-.cs-section.in-view .cs-retention-dot--without   { animation: cs-retention-pop 0.5s cubic-bezier(0.34, 1.5, 0.64, 1) 1.0s forwards; }
-.cs-section.in-view .cs-retention-dot--with      { animation: cs-retention-pop 0.5s cubic-bezier(0.34, 1.5, 0.64, 1) 1.7s forwards; }
-.cs-section.in-view .cs-retention-label--without { animation: cs-retention-fade 0.4s ease 1.2s forwards; }
-.cs-section.in-view .cs-retention-label--with    { animation: cs-retention-fade 0.4s ease 1.9s forwards; }
-@keyframes cs-retention-draw { to { stroke-dashoffset: 0; } }
+/* Bar growth — staggered group-by-group, "without" leads "with" within each group */
+.cs-section.in-view .cs-retention-bar { animation: cs-retention-grow 0.7s cubic-bezier(0.34, 1.2, 0.64, 1) forwards; }
+.cs-section.in-view .cs-retention-bar--g1-without { animation-delay: 0.20s; }
+.cs-section.in-view .cs-retention-bar--g1-with    { animation-delay: 0.30s; }
+.cs-section.in-view .cs-retention-bar--g2-without { animation-delay: 0.50s; }
+.cs-section.in-view .cs-retention-bar--g2-with    { animation-delay: 0.60s; }
+.cs-section.in-view .cs-retention-bar--g3-without { animation-delay: 0.80s; }
+.cs-section.in-view .cs-retention-bar--g3-with    { animation-delay: 0.90s; }
+
+/* Labels fade in just after each bar finishes growing */
+.cs-section.in-view .cs-retention-label--g1-without { animation: cs-retention-fade 0.35s ease 0.95s forwards; }
+.cs-section.in-view .cs-retention-label--g1-with    { animation: cs-retention-fade 0.35s ease 1.05s forwards; }
+.cs-section.in-view .cs-retention-label--g2-without { animation: cs-retention-fade 0.35s ease 1.25s forwards; }
+.cs-section.in-view .cs-retention-label--g2-with    { animation: cs-retention-fade 0.35s ease 1.35s forwards; }
+.cs-section.in-view .cs-retention-label--g3-without { animation: cs-retention-fade 0.35s ease 1.55s forwards; }
+.cs-section.in-view .cs-retention-label--g3-with    { animation: cs-retention-fade 0.35s ease 1.65s forwards; }
+
+@keyframes cs-retention-grow { to { transform: scaleY(1); } }
 @keyframes cs-retention-fade { to { opacity: 1; } }
-@keyframes cs-retention-pop  {
-  0%   { opacity: 0; transform: scale(0.4); }
-  60%  { opacity: 1; transform: scale(1.4); }
-  100% { opacity: 1; transform: scale(1); }
-}
 @media (prefers-reduced-motion: reduce) {
-  .cs-retention-line { stroke-dashoffset: 0; }
-  .cs-retention-dot, .cs-retention-label, .cs-retention-area { opacity: 1; }
-  .cs-section.in-view .cs-retention-line,
-  .cs-section.in-view .cs-retention-dot,
-  .cs-section.in-view .cs-retention-label,
-  .cs-section.in-view .cs-retention-area { animation: none; }
+  .cs-retention-bar   { transform: scaleY(1); }
+  .cs-retention-label { opacity: 1; }
+  .cs-section.in-view .cs-retention-bar,
+  .cs-section.in-view .cs-retention-label { animation: none; }
 }
 
 /* Staggered entry: text first, then icons pop in */
