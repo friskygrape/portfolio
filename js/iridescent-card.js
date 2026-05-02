@@ -43,7 +43,7 @@ const FRAGMENT = /* glsl */`
 
   void main() {
     vec2 uv = vUv;
-    float t = uTime * 0.04; // slow, calm motion
+    float t = uTime * 0.12; // visible, but still calm
 
     // Rotate UV so everything flows in one diagonal direction.
     float a = 0.25;
@@ -51,9 +51,8 @@ const FRAGMENT = /* glsl */`
     float s = sin(a);
     vec2 ruv = vec2(uv.x * c + uv.y * s, -uv.x * s + uv.y * c);
 
-    // Soft, low-frequency warp — the fabric "breathing".
-    // Single noise layer, low freq, gentle amplitude.
-    float warp = snoise(vec2(ruv.x * 0.6, ruv.y * 0.4 + t * 0.3)) * 0.08;
+    // Larger, slower-evolving warp so the fabric visibly "moves".
+    float warp = snoise(vec2(ruv.x * 0.6, ruv.y * 0.4 + t)) * 0.14;
 
     // Color sweep along the rotated axis
     float g = ruv.y + warp;
@@ -70,12 +69,11 @@ const FRAGMENT = /* glsl */`
     color = mix(color, peach,    smoothstep(0.78, 0.90, g));
     color = mix(color, white,    smoothstep(0.92, 1.05, g));
 
-    // TWO broad, soft sheens — wide glossy reflections that drift across
-    // the fabric as time moves. Wide smoothstep ranges keep them soft.
-    float sheen1 = sin((ruv.y + warp * 0.5) * 4.0 + t * 0.6);
+    // Two broad sheens drifting across the fabric.
+    float sheen1 = sin((ruv.y + warp * 0.6) * 4.0 + t * 1.8);
     sheen1 = smoothstep(0.30, 0.95, sheen1) * 0.40;
 
-    float sheen2 = sin((ruv.y + warp * 0.3) * 6.5 - t * 0.8);
+    float sheen2 = sin((ruv.y + warp * 0.4) * 6.5 - t * 2.4);
     sheen2 = smoothstep(0.40, 0.92, sheen2) * 0.25;
 
     color = mix(color, white, sheen1);
