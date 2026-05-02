@@ -1,4 +1,6 @@
-import * as THREE from "https://cdn.skypack.dev/three@0.160.0";
+import * as THREE from "https://esm.sh/three@0.160.0";
+
+console.log("[iridescent] module loaded, THREE =", typeof THREE);
 
 const VERTEX = /* glsl */`
   varying vec2 vUv;
@@ -154,4 +156,13 @@ export function createIridescentCard(container) {
 }
 
 // Auto-mount on any element with [data-iridescent]
-document.querySelectorAll("[data-iridescent]").forEach(createIridescentCard);
+const targets = document.querySelectorAll("[data-iridescent]");
+console.log("[iridescent] mounting on", targets.length, "element(s)");
+targets.forEach(el => {
+  try {
+    createIridescentCard(el);
+    console.log("[iridescent] mounted, size =", el.clientWidth, "x", el.clientHeight);
+  } catch (err) {
+    console.error("[iridescent] mount failed:", err);
+  }
+});
