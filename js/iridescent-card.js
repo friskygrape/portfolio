@@ -128,11 +128,11 @@ export function createIridescentCard(container) {
       u_seed: { value: Math.random() * 100 },
       u_contour_lines: { value: 14.0 },
       u_noise_scale: { value: 0.4 },
-      // Iridescent palette — saturated: deep violet → magenta → lavender → orange
-      u_color1: { value: new THREE.Color(0.45, 0.05, 0.65) },
-      u_color2: { value: new THREE.Color(1.00, 0.20, 0.65) },
-      u_color3: { value: new THREE.Color(0.55, 0.40, 1.00) },
-      u_color4: { value: new THREE.Color(1.00, 0.55, 0.35) }
+      // Iridescent palette — slightly more saturated than original
+      u_color1: { value: new THREE.Color(0.55, 0.12, 0.60) },
+      u_color2: { value: new THREE.Color(0.98, 0.32, 0.72) },
+      u_color3: { value: new THREE.Color(0.68, 0.55, 0.98) },
+      u_color4: { value: new THREE.Color(1.00, 0.72, 0.55) }
     },
     vertexShader: VERTEX,
     fragmentShader: FRAGMENT
