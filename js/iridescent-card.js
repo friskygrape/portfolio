@@ -71,7 +71,7 @@ const FRAGMENT = /* glsl */`
     // Anisotropic UV — stretch Y so noise variation is slower along Y,
     // making contour bands run horizontally instead of forming closed blobs.
     // Then rotate so bands flow diagonally (matching reference card).
-    vec2 stretchedUv = vec2(vUv.x, vUv.y * 0.35);
+    vec2 stretchedUv = vec2(vUv.x, vUv.y * 0.6);
     float angle = 0.35;
     mat2 r = mat2(cos(angle), -sin(angle), sin(angle), cos(angle));
     vec2 pos = (r * stretchedUv) * u_noise_scale;
@@ -126,8 +126,8 @@ export function createIridescentCard(container) {
     uniforms: {
       u_time: { value: 0 },
       u_seed: { value: Math.random() * 100 },
-      u_contour_lines: { value: 10.0 },
-      u_noise_scale: { value: 0.5 },
+      u_contour_lines: { value: 14.0 },
+      u_noise_scale: { value: 2.0 },
       // Iridescent palette: deep magenta → pink → lavender/peach → near white
       u_color1: { value: new THREE.Color(0.62, 0.18, 0.55) },
       u_color2: { value: new THREE.Color(0.96, 0.42, 0.78) },
