@@ -185,6 +185,8 @@
             </div>
           </div>
 
+          <p class="body-lg">The results remained consistent over a 3-month period, proving that when we proactively show users how to solve their problems in-app, they are significantly more likely to choose self-service over calling support.</p>
+
           <div class="cs-retention">
             <h3 class="h3">Retention Over 3 Months In-App</h3>
             <p class="body-lg">Percentage of users in each cohort coming back within 1-3 months of launching the app for the first time.</p>
@@ -330,8 +332,6 @@
               </div>
             </div>
           </div>
-
-          <p class="body-lg">The results remained consistent over a 3-month period, proving that when we proactively show users how to solve their problems in-app, they are significantly more likely to choose self-service over calling support.</p>
         </section>
 
         <section class="cs-section" id="reflection">
@@ -635,20 +635,21 @@
 
   setActive(findActive());
 
-  // Fade-in each hero + section as it enters the viewport
+  // Fade-in: each direct child of .cs-hero / .cs-section animates in
+  // independently when its top reaches 30% from the bottom of the viewport.
+  // The section itself is also observed (retention chart animations still
+  // hang off `.cs-section.is-visible`).
   const fadeIO = new IntersectionObserver((entries) => {
     entries.forEach(e => {
       if (e.isIntersecting) {
-        [...e.target.children].forEach((child, i) => {
-          child.style.setProperty('--anim-delay', `${i * 75}ms`);
-        });
         e.target.classList.add('is-visible');
         fadeIO.unobserve(e.target);
       }
     });
-  }, { rootMargin: '0px 0px -25% 0px', threshold: 0.08 });
+  }, { rootMargin: '0px 0px -20% 0px', threshold: 0 });
 
   document.querySelectorAll('.cs-hero, .cs-section').forEach(el => fadeIO.observe(el));
+  document.querySelectorAll('.cs-hero > *, .cs-section > *').forEach(el => fadeIO.observe(el));
 
   // Metrics count-up + bar fill
   const metricsIO = new IntersectionObserver((entries) => {
