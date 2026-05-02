@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Experiments — Deron Li</title>
+  <link rel="stylesheet" href="css/site.css">
+  <style>
+    .exp-page {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 120px 40px 80px;
+    }
+    .exp-heading { margin-bottom: 8px; }
+    .exp-sub { color: var(--graphite); margin-bottom: 48px; }
+
+    .exp-card {
+      width: 100%;
+      max-width: 480px;
+      aspect-ratio: 3 / 4;
+      border-radius: 24px;
+      overflow: hidden;
+      position: relative;
+      isolation: isolate;
+    }
+    .exp-card-content {
+      position: absolute;
+      inset: 0;
+      padding: 36px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      z-index: 1;
+      color: var(--charcoal);
+    }
+    .exp-card-title {
+      font-family: var(--font-heading);
+      font-size: 28px;
+      font-weight: var(--weight-medium);
+      line-height: 1.2;
+      margin: 0;
+    }
+    .exp-card-cta {
+      align-self: flex-start;
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(6px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .exp-card-cta svg { width: 16px; height: 16px; color: var(--lavender); }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="logo label" href="index.html">Deron Li</a>
+  <div class="nav-links">
+    <a href="index.html#work" class="label">Work</a>
+    <a href="#" class="label">About</a>
+  </div>
+</nav>
+
+<main class="exp-page">
+  <h1 class="h2 exp-heading">Iridescent Card</h1>
+  <p class="body-lg exp-sub">Three.js fragment shader · simplex noise distortion · pastel palette</p>
+
+  <div class="exp-card">
+    <div data-iridescent style="position:absolute; inset:0; z-index:0;"></div>
+    <div class="exp-card-content">
+      <p class="exp-card-cta" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+      </p>
+      <p class="exp-card-title">Create a card<br>issuing programme</p>
+    </div>
+  </div>
+</main>
+
+<script src="js/nav.js" defer></script>
+<script type="module" src="js/iridescent-card.js"></script>
+
+</body>
+</html>
