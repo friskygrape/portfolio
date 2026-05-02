@@ -41,45 +41,52 @@ const FRAGMENT = /* glsl */`
     return 130.0 * dot(m, g);
   }
 
+  // One strand: a translucent band centered at yPos, warped by noise.
+  // Each strand uses a unique seed so they all wave independently.
+  float strand(vec2 ruv, float yPos, float thickness, float freq, float seed, float t) {
+    float warp = snoise(vec2(ruv.x * freq + t + seed, ruv.y * 0.4 + seed)) * 0.18;
+    float d = abs(ruv.y + warp - yPos);
+    return smoothstep(thickness, 0.0, d);
+  }
+
   void main() {
     vec2 uv = vUv;
-    float t = uTime * 0.12; // visible, but still calm
+    float t = uTime * 0.08;
 
-    // Rotate UV so everything flows in one diagonal direction.
+    // Rotate UV so strands flow diagonally.
     float a = 0.25;
     float c = cos(a);
     float s = sin(a);
     vec2 ruv = vec2(uv.x * c + uv.y * s, -uv.x * s + uv.y * c);
 
-    // Larger, slower-evolving warp so the fabric visibly "moves".
-    float warp = snoise(vec2(ruv.x * 0.6, ruv.y * 0.4 + t)) * 0.14;
+    // White canvas — strands paint onto it.
+    vec3 col = vec3(1.0);
 
-    // Color sweep along the rotated axis
-    float g = ruv.y + warp;
-
-    vec3 magenta  = vec3(0.96, 0.42, 0.78);
+    vec3 pink     = vec3(0.96, 0.45, 0.78);
     vec3 lavender = vec3(0.78, 0.66, 0.97);
-    vec3 orange   = vec3(1.00, 0.65, 0.50);
+    vec3 purple   = vec3(0.62, 0.50, 0.95);
+    vec3 orange   = vec3(1.00, 0.62, 0.48);
     vec3 peach    = vec3(1.00, 0.82, 0.66);
-    vec3 white    = vec3(1.00, 1.00, 1.00);
 
-    vec3 color = magenta;
-    color = mix(color, lavender, smoothstep(0.20, 0.50, g));
-    color = mix(color, orange,   smoothstep(0.55, 0.75, g));
-    color = mix(color, peach,    smoothstep(0.78, 0.90, g));
-    color = mix(color, white,    smoothstep(0.92, 1.05, g));
+    // Pink strands (clustered near top)
+    col = mix(col, pink, strand(ruv, 0.08, 0.18, 1.5, 1.0,  t * 1.0) * 0.65);
+    col = mix(col, pink, strand(ruv, 0.18, 0.14, 2.0, 7.5,  t * 1.3) * 0.55);
+    col = mix(col, pink, strand(ruv, 0.04, 0.12, 1.8, 13.2, t * 0.8) * 0.60);
 
-    // Two broad sheens drifting across the fabric.
-    float sheen1 = sin((ruv.y + warp * 0.6) * 4.0 + t * 1.8);
-    sheen1 = smoothstep(0.30, 0.95, sheen1) * 0.40;
+    // Lavender / purple strands (mid)
+    col = mix(col, lavender, strand(ruv, 0.32, 0.17, 1.7, 21.0, t * 0.9) * 0.60);
+    col = mix(col, lavender, strand(ruv, 0.42, 0.13, 2.3, 29.4, t * 1.1) * 0.55);
+    col = mix(col, purple,   strand(ruv, 0.38, 0.11, 1.9, 35.7, t * 0.7) * 0.55);
+    col = mix(col, lavender, strand(ruv, 0.50, 0.10, 2.4, 41.1, t * 1.2) * 0.45);
 
-    float sheen2 = sin((ruv.y + warp * 0.4) * 6.5 - t * 2.4);
-    sheen2 = smoothstep(0.40, 0.92, sheen2) * 0.25;
+    // Orange strands (lower mid)
+    col = mix(col, orange, strand(ruv, 0.62, 0.16, 1.8, 49.0, t * 1.0) * 0.60);
+    col = mix(col, orange, strand(ruv, 0.70, 0.13, 2.4, 56.2, t * 1.2) * 0.50);
 
-    color = mix(color, white, sheen1);
-    color = mix(color, white, sheen2);
+    // Peach strand (bottom, fading into white)
+    col = mix(col, peach, strand(ruv, 0.85, 0.14, 1.6, 63.5, t * 0.8) * 0.40);
 
-    gl_FragColor = vec4(color, 1.0);
+    gl_FragColor = vec4(col, 1.0);
   }
 `;
 
