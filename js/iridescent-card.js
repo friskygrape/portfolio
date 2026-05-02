@@ -10,15 +10,32 @@ const VERTEX = /* glsl */`
   }
 `;
 
+// Adapted from Stripe's contour-band flow shader.
+// Technique: 2-octave FBM with rotation between octaves, then fract() the
+// value to create visible contour bands (the "threads"), and smoothstep
+// the leading edge of each band for depth.
 const FRAGMENT = /* glsl */`
-  uniform float uTime;
+  precision highp float;
+
+  uniform float u_time;
+  uniform float u_seed;
+  uniform float u_contour_lines;
+  uniform float u_noise_scale;
+  uniform vec3 u_color1;
+  uniform vec3 u_color2;
+  uniform vec3 u_color3;
+  uniform vec3 u_color4;
+
   varying vec2 vUv;
 
-  // Simplex 2D noise — Ashima Arts, public domain
+  const vec4 C = vec4(0.211324865405187, 0.366025403784439,
+                     -0.577350269189626, 0.024390243902439);
+  const mat2 rot = mat2(0.87758256, 0.47942554, -0.47942554, 0.87758256);
+  const vec2 shift = vec2(100.0);
+
   vec3 permute(vec3 x) { return mod(((x * 34.0) + 1.0) * x, 289.0); }
+
   float snoise(vec2 v) {
-    const vec4 C = vec4(0.211324865405187, 0.366025403784439,
-                       -0.577350269189626, 0.024390243902439);
     vec2 i  = floor(v + dot(v, C.yy));
     vec2 x0 = v - i + dot(i, C.xx);
     vec2 i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
@@ -41,52 +58,40 @@ const FRAGMENT = /* glsl */`
     return 130.0 * dot(m, g);
   }
 
-  // One strand: a translucent band centered at yPos, warped by noise.
-  // Each strand uses a unique seed so they all wave independently.
-  float strand(vec2 ruv, float yPos, float thickness, float freq, float seed, float t) {
-    float warp = snoise(vec2(ruv.x * freq + t + seed, ruv.y * 0.4 + seed)) * 0.18;
-    float d = abs(ruv.y + warp - yPos);
-    return smoothstep(thickness, 0.0, d);
+  // 2-octave FBM with a rotation between octaves
+  float fbm(vec2 x, float time) {
+    float v = 0.0;
+    v += 0.5 * snoise(x + time);
+    x = rot * x * 2.0 + shift;
+    v += 0.25 * snoise(x + time);
+    return v;
   }
 
   void main() {
-    vec2 uv = vUv;
-    float t = uTime * 0.08;
+    vec2 pos = vUv * u_noise_scale;
+    float timeOffset = u_time * 0.05 + u_seed;
 
-    // Rotate UV so strands flow diagonally.
-    float a = 0.25;
-    float c = cos(a);
-    float s = sin(a);
-    vec2 ruv = vec2(uv.x * c + uv.y * s, -uv.x * s + uv.y * c);
+    float f = fbm(pos, timeOffset);
+    f = (f + 1.0) * 0.5;
 
-    // White canvas — strands paint onto it.
-    vec3 col = vec3(1.0);
+    // Blend across 4 colors based on FBM value
+    float colorStep = f * 4.0;
+    float blend1 = clamp(colorStep,        0.0, 1.0);
+    float blend2 = clamp(colorStep - 1.0,  0.0, 1.0);
+    float blend3 = clamp(colorStep - 2.0,  0.0, 1.0);
 
-    vec3 pink     = vec3(0.96, 0.45, 0.78);
-    vec3 lavender = vec3(0.78, 0.66, 0.97);
-    vec3 purple   = vec3(0.62, 0.50, 0.95);
-    vec3 orange   = vec3(1.00, 0.62, 0.48);
-    vec3 peach    = vec3(1.00, 0.82, 0.66);
+    vec3 color = u_color1;
+    color = mix(color, u_color2, blend1);
+    color = mix(color, u_color3, blend2);
+    color = mix(color, u_color4, blend3);
 
-    // Pink strands (clustered near top)
-    col = mix(col, pink, strand(ruv, 0.08, 0.18, 1.5, 1.0,  t * 1.0) * 0.65);
-    col = mix(col, pink, strand(ruv, 0.18, 0.14, 2.0, 7.5,  t * 1.3) * 0.55);
-    col = mix(col, pink, strand(ruv, 0.04, 0.12, 1.8, 13.2, t * 0.8) * 0.60);
+    // Contour bands — the silk threads
+    float contour = fract(f * u_contour_lines);
+    float shadow = smoothstep(0.6, 1.0, contour);
+    float shadowStrength = (1.0 - step(0.5, blend3)) * 0.1;
+    color = mix(color, color * (1.0 - shadowStrength), shadow);
 
-    // Lavender / purple strands (mid)
-    col = mix(col, lavender, strand(ruv, 0.32, 0.17, 1.7, 21.0, t * 0.9) * 0.60);
-    col = mix(col, lavender, strand(ruv, 0.42, 0.13, 2.3, 29.4, t * 1.1) * 0.55);
-    col = mix(col, purple,   strand(ruv, 0.38, 0.11, 1.9, 35.7, t * 0.7) * 0.55);
-    col = mix(col, lavender, strand(ruv, 0.50, 0.10, 2.4, 41.1, t * 1.2) * 0.45);
-
-    // Orange strands (lower mid)
-    col = mix(col, orange, strand(ruv, 0.62, 0.16, 1.8, 49.0, t * 1.0) * 0.60);
-    col = mix(col, orange, strand(ruv, 0.70, 0.13, 2.4, 56.2, t * 1.2) * 0.50);
-
-    // Peach strand (bottom, fading into white)
-    col = mix(col, peach, strand(ruv, 0.85, 0.14, 1.6, 63.5, t * 0.8) * 0.40);
-
-    gl_FragColor = vec4(col, 1.0);
+    gl_FragColor = vec4(color, 1.0);
   }
 `;
 
@@ -111,7 +116,17 @@ export function createIridescentCard(container) {
   container.appendChild(renderer.domElement);
 
   const material = new THREE.ShaderMaterial({
-    uniforms: { uTime: { value: 0 } },
+    uniforms: {
+      u_time: { value: 0 },
+      u_seed: { value: Math.random() * 100 },
+      u_contour_lines: { value: 6.0 },
+      u_noise_scale: { value: 2.5 },
+      // Iridescent palette: deep magenta → pink → lavender/peach → near white
+      u_color1: { value: new THREE.Color(0.62, 0.18, 0.55) },
+      u_color2: { value: new THREE.Color(0.96, 0.42, 0.78) },
+      u_color3: { value: new THREE.Color(0.78, 0.66, 0.97) },
+      u_color4: { value: new THREE.Color(1.00, 0.85, 0.75) }
+    },
     vertexShader: VERTEX,
     fragmentShader: FRAGMENT
   });
@@ -125,7 +140,7 @@ export function createIridescentCard(container) {
   function frame() {
     if (!visible) return;
     rafId = requestAnimationFrame(frame);
-    material.uniforms.uTime.value = (performance.now() - start) / 1000;
+    material.uniforms.u_time.value = (performance.now() - start) / 1000;
     renderer.render(scene, camera);
   }
 
