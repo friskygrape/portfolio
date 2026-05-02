@@ -14,6 +14,11 @@
     .exp-heading { margin-bottom: 8px; }
     .exp-sub { color: var(--graphite); margin-bottom: 48px; }
 
+    .exp-cards {
+      display: flex;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
     .exp-card {
       width: 100%;
       max-width: 480px;
@@ -24,6 +29,12 @@
       isolation: isolate;
       background: linear-gradient(135deg, #FF6BB8 0%, #C2A8FF 50%, #FFD0A8 100%);
     }
+    .exp-card--model {
+      background: #f4f4f6;
+    }
+    .exp-card--room {
+      background: #E8A2B0;
+    }
     .exp-card-content {
       position: absolute;
       inset: 0;
@@ -33,6 +44,7 @@
       justify-content: space-between;
       z-index: 1;
       color: var(--charcoal);
+      pointer-events: none;
     }
     .exp-card-title {
       font-family: var(--font-heading);
@@ -69,19 +81,42 @@
   <h1 class="h2 exp-heading">Iridescent Card</h1>
   <p class="body-lg exp-sub">Three.js fragment shader · simplex noise distortion · pastel palette</p>
 
-  <div class="exp-card">
-    <div data-iridescent style="position:absolute; inset:0; z-index:0;"></div>
-    <div class="exp-card-content">
-      <p class="exp-card-cta" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
-      </p>
-      <p class="exp-card-title">Create a card<br>issuing programme</p>
+  <div class="exp-cards">
+    <div class="exp-card">
+      <div data-iridescent style="position:absolute; inset:0; z-index:0;"></div>
+      <div class="exp-card-content">
+        <p class="exp-card-cta" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+        </p>
+        <p class="exp-card-title">Create a card<br>issuing programme</p>
+      </div>
+    </div>
+
+    <div class="exp-card exp-card--model">
+      <div data-model="images/experiment/component_3_d_icons_copy.gltf" data-palette="icons" style="position:absolute; inset:0; z-index:0;"></div>
+      <div class="exp-card-content">
+        <p class="exp-card-cta" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+        </p>
+        <p class="exp-card-title">Spline model<br>(drag to rotate)</p>
+      </div>
+    </div>
+
+    <div class="exp-card exp-card--room">
+      <div data-model="images/experiment/mini_room_art_copy.gltf" data-palette="room" data-debug="true" style="position:absolute; inset:0; z-index:0;"></div>
+      <div class="exp-card-content">
+        <p class="exp-card-cta" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+        </p>
+        <p class="exp-card-title">Mini room<br>(drag to rotate)</p>
+      </div>
     </div>
   </div>
 </main>
 
 <script src="js/nav.js" defer></script>
 <script type="module" src="js/iridescent-card.js"></script>
+<script type="module" src="js/model-card.js"></script>
 
 </body>
 </html>
