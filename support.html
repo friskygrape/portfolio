@@ -52,7 +52,8 @@
 
         <header class="cs-hero" id="summary">
           <h1 class="cs-title h1">Reducing Customer Call Times by 33%</h1>
-          <div class="cs-placeholder"><span>Summary Image</span></div>
+          <p class="cs-summary body-lg">I redesigned an internal support tool to solve a critical troubleshooting gap where agents couldn't reproduce customer issues. After conducting interview with support agents to identify pain points, I designed user-level impersonation capabilities and reorganized the information architecture to improve navigation and clarity. This reduced average support call times by <strong>33%</strong>, from <strong>18 to 12 minutes</strong> per case.</p>
+          <div class="cs-placeholder"><div class="cs-placeholder-inner"><img src="images/support/summary.png" alt="Agent Access summary" /></div></div>
         </header>
 
         <section class="cs-section" id="context">
@@ -60,6 +61,7 @@
           <h2 class="h2">Supporting Customers Using an Internal Tool</h2>
           <p class="body-lg">TouchBistro's Cloud platform is where restaurant owners manage operations like menus, staff, reports, and settings. Owners assign different permission levels to team members based on their roles (e.g., managers get full access, accountants only see reporting).</p>
           <p class="body-lg">Agent Access is an internal tool that helps support agents configure customer accounts. Agents can view details, enable features, and troubleshoot issues. A key feature allows agents to view the account as an admin to make changes when customers call for help.</p>
+          <div class="cs-placeholder"><div class="cs-placeholder-inner"><img src="images/support/context.png" alt="Agent Access tool overview" /></div></div>
           <h3 class="h3">Internal Tool - Search Page</h3>
           <p class="body-lg">Used to look up the details of customers and impersonate an admin on their account.</p>
           <h3 class="h3">Support Agent Impersonates an Admin</h3>
@@ -84,10 +86,13 @@
             <li>Navigating between venues and corporations required repeatedly copying and pasting IDs into the search field to access detailed information, creating friction in the troubleshooting workflow</li>
             <li>Technical terminology made the tool confusing for non-technical support agents</li>
           </ul>
+          <div class="cs-placeholder"><div class="cs-placeholder-inner"><img src="images/support/research.png" alt="Research findings" /></div></div>
           <h3 class="h3">Customer's View</h3>
           <p class="body-lg">Customer's can only view what they have access to based on their permissions</p>
           <h3 class="h3">Support Agent's View</h3>
           <p class="body-lg">Support agents have full access to the venue. They currently view all venues as an admin and can make changes anywhere</p>
+          <div class="cs-placeholder"><div class="cs-placeholder-inner"><img src="images/support/no_organization.png" alt="Lack of corporation-level organization" /></div></div>
+          <div class="cs-placeholder"><div class="cs-placeholder-inner"><img src="images/support/copy_paste.png" alt="Copy-paste workflow friction" /></div></div>
         </section>
 
         <section class="cs-section" id="solution">
@@ -96,12 +101,16 @@
           <p class="body-lg">After gathering feedback from agents and discussions with the team, I designed an experience to enable user-level impersonation. This solution allows agents to select specific staff member accounts and view their experience based on permission level and venue access, enabling agents to accurately reproduce what customers are seeing and troubleshoot issues quicker.</p>
           <h3 class="h3">Impersonate Using the Staff Member List</h3>
           <p class="body-lg">I added a new page under venue details displaying all staff members within that venue and their assigned roles/permissions. This allows agents to select the appropriate account to impersonate.</p>
+          <div class="cs-placeholder"><span>Video Demo</span></div>
           <h3 class="h3">Impersonate Via Username</h3>
           <p class="body-lg">To address the multi-venue, multi-role challenge, agents can search by username to impersonate users who have multiple roles across different venues or corporations.</p>
+          <div class="cs-placeholder"><span>Video Demo</span></div>
           <h3 class="h3">Improving the Information Architecture</h3>
           <p class="body-lg">To address the lack of organizational structure, I organized venues under their parent corporations. This hierarchy allows agents to quickly identify which venues belong to which corporations and understand their relationships. I also replaced technical terminology with more accessible language.</p>
+          <div class="cs-placeholder"><div class="cs-placeholder-inner"><img src="images/support/improvingai.png" alt="Improved information architecture" /></div></div>
           <h3 class="h3">Reduced Navigation Steps</h3>
           <p class="body-lg">Instead of requiring agents to copy and paste IDs and manually switch search filters, IDs are now clickable hyperlinks that navigate directly to those sections. This directly reduces time spent jumping between related information.</p>
+          <div class="cs-placeholder"><span>Video Demo</span></div>
         </section>
 
         <section class="cs-section" id="validation">
@@ -113,7 +122,7 @@
         <section class="cs-section" id="impact">
           <h5><svg class="cs-section-icon cs-section-icon--trend" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="2 17 8.5 10.5 13.5 15.5 22 7" pathLength="100"/><polyline points="16 7 22 7 22 13" pathLength="100"/></svg>Impact</h5>
           <h2 class="h2">Reducing Support Calls From 18 mins to 12 mins</h2>
-          <p class="body-lg">After launching the redesign, support calls from customers experiencing issues on Cloud dropped from 18 minutes to 12 minutes, on average, within the first month of the release. Agents could now see exactly what each user experienced, allowing for faster diagnosis and tailored solutions.</p>
+          <p class="body-lg">After launching the redesign, support calls from customers experiencing issues on Cloud dropped from <strong>18 minutes to 12 minutes</strong>, on average, within the <strong>first month</strong> of the release. Agents could now see exactly what each user experienced, allowing for faster diagnosis and tailored solutions.</p>
         </section>
 
         <section class="cs-section" id="reflection">
@@ -388,26 +397,68 @@
 
   setActive(findActive());
 
-  // Fade-in: each direct child of .cs-hero / .cs-section animates in
-  // independently when its top reaches 30% from the bottom of the viewport.
+  // Fade-in by mini-section. Headings absorb body text/lists below them
+  // until the next heading. Standalone blocks (cs-placeholder, cs-features,
+  // cs-results, cs-stats, cs-retention) are their own group.
+  const fadeGroups = new WeakMap();
+  const isHeading = el => /^H[1-5]$/.test(el.tagName);
+  const isStandaloneBlock = el =>
+    el.classList.contains('cs-placeholder') ||
+    el.classList.contains('cs-features') ||
+    el.classList.contains('cs-results') ||
+    el.classList.contains('cs-stats') ||
+    el.classList.contains('cs-retention');
+  // Headings and standalone blocks are each their own group (so the
+  // heading staggers in before its body). Consecutive body elements
+  // (paragraphs, lists) merge into a single group so a multi-paragraph
+  // body doesn't reveal one line at a time.
+  function buildFadeGroups(parent) {
+    const groups = [];
+    let current = [];
+    for (const child of parent.children) {
+      if (isHeading(child) || isStandaloneBlock(child)) {
+        if (current.length) { groups.push(current); current = []; }
+        groups.push([child]);
+      } else {
+        current.push(child);
+      }
+    }
+    if (current.length) groups.push(current);
+    return groups;
+  }
+
   const fadeIO = new IntersectionObserver((entries) => {
     entries.forEach(e => {
       if (e.isIntersecting) {
-        e.target.classList.add('is-visible');
+        const group = fadeGroups.get(e.target);
+        if (group) {
+          group.forEach(el => el.classList.add('is-visible'));
+        } else {
+          e.target.classList.add('is-visible');
+        }
         fadeIO.unobserve(e.target);
       }
     });
   }, { rootMargin: '0px 0px -20% 0px', threshold: 0 });
 
-  document.querySelectorAll('.cs-hero, .cs-section').forEach(el => fadeIO.observe(el));
-  document.querySelectorAll('.cs-hero > *, .cs-section > *').forEach(el => fadeIO.observe(el));
+  document.querySelectorAll('.cs-hero, .cs-section').forEach(parent => {
+    fadeIO.observe(parent);
+    buildFadeGroups(parent).forEach(group => {
+      fadeGroups.set(group[0], group);
+      fadeIO.observe(group[0]);
+    });
+  });
 
+  // Fire the animation as soon as the h5 (icon row) first touches the
+  // viewport from below, so the full animation plays while the icon
+  // scrolls up into reading position.
   const iconReplayIO = new IntersectionObserver((entries) => {
     entries.forEach(e => {
-      e.target.classList.toggle('in-view', e.isIntersecting);
+      const section = e.target.closest('.cs-section');
+      if (section) section.classList.toggle('in-view', e.isIntersecting);
     });
-  }, { threshold: 0.2 });
-  document.querySelectorAll('.cs-section').forEach(el => iconReplayIO.observe(el));
+  }, { threshold: 0 });
+  document.querySelectorAll('.cs-section h5').forEach(el => iconReplayIO.observe(el));
 
   const featuresIO = new IntersectionObserver((entries) => {
     entries.forEach(e => {

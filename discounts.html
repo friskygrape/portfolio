@@ -52,7 +52,7 @@
 
         <header class="cs-hero" id="summary">
           <h1 class="cs-title h1">Securing a Restaurant with 10+ Locations through Advanced Discounts</h1>
-          <p class="cs-summary lead">I designed advanced discount capabilities to compete for mid-market customers based on user research and sales feedback I collected. This secured a mid-market customer with 12 locations. The new experience launched to 40+ beta customers and processed $6.7M in sales transactions with 5,100+ discounts applied, totalling $23,000 in customer savings over 3 months.</p>
+          <p class="cs-summary body-lg">I designed advanced discount capabilities to compete for mid-market customers based on user research and sales feedback I collected. This secured a mid-market customer with <strong>12 locations</strong>. The new experience launched to <strong>40+ beta customers</strong> and processed <strong>$6.7M in sales transactions</strong> with <strong>5,100+ discounts applied</strong>, totalling <strong>$23,000 in customer savings</strong> over <strong>3 months</strong>.</p>
           <div class="cs-placeholder"><span>Summary Image</span></div>
         </header>
 
@@ -65,7 +65,7 @@
         <section class="cs-section" id="problem">
           <h5><svg class="cs-section-icon cs-section-icon--trend-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="2 7 8.5 13.5 13.5 8.5 22 17" pathLength="100"/><polyline points="16 17 22 17 22 11" pathLength="100"/></svg>Problem</h5>
           <h2 class="h2">Missing Mid-Market Opportunities Due to Limited Discount Features</h2>
-          <p class="body-lg">The sales team reported consistent interest from mid-market customers (restaurants with 10+ locations) wanting to partner with TouchBistro, but our discount capabilities fell short. Prospects needed more advanced discount features to maintain their existing workflows and new capabilities to support their growth.</p>
+          <p class="body-lg">The sales team reported consistent interest from mid-market customers (restaurants with <strong>10+ locations</strong>) wanting to partner with TouchBistro, but our discount capabilities fell short. Prospects needed more advanced discount features to maintain their existing workflows and new capabilities to support their growth.</p>
           <p class="body-lg">This gap presented a strategic opportunity to evolve our discount solutions and capture a new market segment.</p>
         </section>
 
@@ -74,7 +74,7 @@
           <h2 class="h2">Understanding Customer Needs</h2>
           <p class="body-lg">Before designing a solution to capture the mid-market's needs, I wanted to ensure we weren't overlooking our existing customers and the challenges they faced. I conducted a survey with current TouchBistro customers to understand how they use discounts, what pain points they experience, and what capabilities they were missing.</p>
           <h3 class="h3">Surveying Our Existing Customers</h3>
-          <p class="body-lg">I identified customers who made changes to their discounts in the last 3 months and worked with product marketing to craft a recruitment email for a survey. We received 55 responses from managers or owners who manage discounts for their businesses across the US and Canada, ranging from 1 to 5+ locations.</p>
+          <p class="body-lg">I identified customers who made changes to their discounts in the <strong>last 3 months</strong> and worked with product marketing to craft a recruitment email for a survey. We received <strong>55 responses</strong> from managers or owners who manage discounts for their businesses across the US and Canada, ranging from <strong>1 to 5+ locations</strong>.</p>
           <h3 class="h3">Top Discount Motivations</h3>
           <ul class="cs-list">
             <li>Customer Retention - Building loyalty and bringing back customers</li>
@@ -135,7 +135,7 @@
           <h5><svg class="cs-section-icon cs-section-icon--check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" pathLength="100"/><polyline points="8 12.5 11 15.5 16.5 9" pathLength="100"/></svg>Validation</h5>
           <h2 class="h2">Launched to 40+ Beta Customers</h2>
           <p class="body-lg">Due to development timelines, features like BOGO, Combos, Cash Discounts, and Scheduling were postponed to a future release.</p>
-          <p class="body-lg">The new experience was released to 40+ beta customers, processing approximately $6.7 million in sales transactions over 3 months with 5100+ discounts applied and $23,000+ saved for customers.</p>
+          <p class="body-lg">The new experience was released to <strong>40+ beta customers</strong>, processing approximately <strong>$6.7 million in sales transactions</strong> over <strong>3 months</strong> with <strong>5100+ discounts applied</strong> and <strong>$23,000+ saved for customers</strong>.</p>
           <p class="body-lg">The primary achievement was providing flexibility so each business could enable and utilize the features that best suit their workflows and marketing goals.</p>
           <p class="body-lg">Beta customers were generally satisfied with the improved overall experience and flexibility</p>
           <h3 class="h3">Things to Improve</h3>
@@ -151,7 +151,7 @@
         <section class="cs-section" id="impact">
           <h5><svg class="cs-section-icon cs-section-icon--trend" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="2 17 8.5 10.5 13.5 15.5 22 7" pathLength="100"/><polyline points="16 7 22 7 22 13" pathLength="100"/></svg>Impact</h5>
           <h2 class="h2">Secured First Mid-Market Customer Through Advanced Discounts</h2>
-          <p class="body-lg">The advanced discount capabilities directly enabled TouchBistro to close a deal with a 12-location restaurant chain across Canada. This was one of the first mid-market customers acquired through this initiative.</p>
+          <p class="body-lg">The advanced discount capabilities directly enabled TouchBistro to close a deal with a <strong>12-location restaurant chain across Canada</strong>. This was one of the first mid-market customers acquired through this initiative.</p>
           <h3 class="h3">Key Deciding Factors:</h3>
           <ul class="cs-list">
             <li>Promo code integration with their existing mail coupon campaigns</li>
@@ -432,26 +432,68 @@
 
   setActive(findActive());
 
-  // Fade-in: each direct child of .cs-hero / .cs-section animates in
-  // independently when its top reaches 30% from the bottom of the viewport.
+  // Fade-in by mini-section. Headings absorb body text/lists below them
+  // until the next heading. Standalone blocks (cs-placeholder, cs-features,
+  // cs-results, cs-stats, cs-retention) are their own group.
+  const fadeGroups = new WeakMap();
+  const isHeading = el => /^H[1-5]$/.test(el.tagName);
+  const isStandaloneBlock = el =>
+    el.classList.contains('cs-placeholder') ||
+    el.classList.contains('cs-features') ||
+    el.classList.contains('cs-results') ||
+    el.classList.contains('cs-stats') ||
+    el.classList.contains('cs-retention');
+  // Headings and standalone blocks are each their own group (so the
+  // heading staggers in before its body). Consecutive body elements
+  // (paragraphs, lists) merge into a single group so a multi-paragraph
+  // body doesn't reveal one line at a time.
+  function buildFadeGroups(parent) {
+    const groups = [];
+    let current = [];
+    for (const child of parent.children) {
+      if (isHeading(child) || isStandaloneBlock(child)) {
+        if (current.length) { groups.push(current); current = []; }
+        groups.push([child]);
+      } else {
+        current.push(child);
+      }
+    }
+    if (current.length) groups.push(current);
+    return groups;
+  }
+
   const fadeIO = new IntersectionObserver((entries) => {
     entries.forEach(e => {
       if (e.isIntersecting) {
-        e.target.classList.add('is-visible');
+        const group = fadeGroups.get(e.target);
+        if (group) {
+          group.forEach(el => el.classList.add('is-visible'));
+        } else {
+          e.target.classList.add('is-visible');
+        }
         fadeIO.unobserve(e.target);
       }
     });
   }, { rootMargin: '0px 0px -20% 0px', threshold: 0 });
 
-  document.querySelectorAll('.cs-hero, .cs-section').forEach(el => fadeIO.observe(el));
-  document.querySelectorAll('.cs-hero > *, .cs-section > *').forEach(el => fadeIO.observe(el));
+  document.querySelectorAll('.cs-hero, .cs-section').forEach(parent => {
+    fadeIO.observe(parent);
+    buildFadeGroups(parent).forEach(group => {
+      fadeGroups.set(group[0], group);
+      fadeIO.observe(group[0]);
+    });
+  });
 
+  // Fire the animation as soon as the h5 (icon row) first touches the
+  // viewport from below, so the full animation plays while the icon
+  // scrolls up into reading position.
   const iconReplayIO = new IntersectionObserver((entries) => {
     entries.forEach(e => {
-      e.target.classList.toggle('in-view', e.isIntersecting);
+      const section = e.target.closest('.cs-section');
+      if (section) section.classList.toggle('in-view', e.isIntersecting);
     });
-  }, { threshold: 0.2 });
-  document.querySelectorAll('.cs-section').forEach(el => iconReplayIO.observe(el));
+  }, { threshold: 0 });
+  document.querySelectorAll('.cs-section h5').forEach(el => iconReplayIO.observe(el));
 
   const featuresIO = new IntersectionObserver((entries) => {
     entries.forEach(e => {
