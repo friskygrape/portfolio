@@ -527,6 +527,22 @@ bioPara.style.transform = 'translateY(22px)';
 
 cards.forEach(c => applySlotInstant(c, 'spawn'));
 
+// Skip splash when navigating via hash (e.g. Work link)
+if (window.location.hash) {
+  splash.remove();
+  heroH1.style.opacity = '1';
+  bioPara.style.opacity = '1';
+  bioPara.style.transform = 'translateY(0)';
+  illus[0].innerHTML = albums[0].svg();
+  applySlotInstant(cards[0], 'front');
+  applySlotInstant(cards[1], 'mid');
+  applySlotInstant(cards[2], 'back');
+  hlEls.forEach(el => el.classList.add('hl-run'));
+  scheduleAdvance(2500);
+  const hashTarget = document.querySelector(window.location.hash);
+  if (hashTarget) hashTarget.scrollIntoView({ behavior: 'instant' });
+} else {
+
 // Phase 1 – "hi!" drops in
 requestAnimationFrame(() => {
   splHi.style.transition = 'opacity 0.5s ease, transform 0.7s cubic-bezier(0.16,1,0.3,1)';
@@ -592,6 +608,8 @@ setTimeout(() => {
 
   scheduleAdvance(2500);
 }, 2300);
+
+} // end skip-splash else
 
 /* ── Advance ─────────────────────────────────────────────── */
 let busy = false;

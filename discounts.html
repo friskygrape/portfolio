@@ -14,6 +14,9 @@
     <a href="index.html#work" class="label">Work</a>
     <a href="#" class="label">About</a>
   </div>
+  <button class="nav-hamburger" aria-label="Toggle menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 
 <div class="cs-page">
@@ -79,16 +82,25 @@
           <!-- Survey demographics -->
           <div class="cs-survey-hero">
             <div class="cs-survey-hero-stat">
-              <div class="cs-survey-hero-val display">55</div>
-              <div class="cs-survey-hero-label body-lg">survey responses</div>
+              <svg class="cs-survey-hero-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12h6"/><path d="M9 16h4"/></svg>
+              <div class="cs-survey-hero-content">
+                <div class="cs-survey-hero-val h2">55</div>
+                <div class="cs-survey-hero-label body-lg">Survey Responses</div>
+              </div>
             </div>
             <div class="cs-survey-hero-stat">
-              <div class="cs-survey-hero-val display">1–5+</div>
-              <div class="cs-survey-hero-label body-lg">locations per business</div>
+              <svg class="cs-survey-hero-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/></svg>
+              <div class="cs-survey-hero-content">
+                <div class="cs-survey-hero-val h2">1–5+</div>
+                <div class="cs-survey-hero-label body-lg">Locations Per Business</div>
+              </div>
             </div>
             <div class="cs-survey-hero-stat">
-              <div class="cs-survey-hero-val h1">US &amp; CA</div>
-              <div class="cs-survey-hero-label body-lg">managers &amp; owners across North America</div>
+              <svg class="cs-survey-hero-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              <div class="cs-survey-hero-content">
+                <div class="cs-survey-hero-val h2">Managers &amp; Owners</div>
+                <div class="cs-survey-hero-label body-lg">Across US &amp; CA</div>
+              </div>
             </div>
           </div>
 
@@ -146,6 +158,7 @@
               <svg class="cs-compare-tag-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
               Existing Customers
             </span>
+              <p class="cs-compare-subtitle body-lg">1–5+ Locations</p>
               <ul class="cs-compare-list">
                 <li><svg class="cs-compare-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 12 10 18 20 6"/></svg>On-the-fly custom discounts during orders</li>
                 <li><svg class="cs-compare-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 12 10 18 20 6"/></svg>Have bill discounts organized correctly on the receipt</li>
@@ -157,6 +170,7 @@
               <svg class="cs-compare-tag-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
               Mid-Market
             </span>
+              <p class="cs-compare-subtitle body-lg">10+ Locations</p>
               <ul class="cs-compare-list">
                 <li><svg class="cs-compare-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 12 10 18 20 6"/></svg>Promo codes to integrate with their marketing campaigns</li>
                 <li><svg class="cs-compare-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 12 10 18 20 6"/></svg>Configurations to automatically apply discounts</li>
@@ -681,6 +695,28 @@
   }, { threshold: 0.3 });
   document.querySelectorAll('.cs-metrics').forEach(el => metricsIO.observe(el));
 
+
+  const surveyIO = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      e.target.querySelectorAll('.cs-survey-hero-stat').forEach((item, i) => {
+        setTimeout(() => item.classList.add('is-visible'), i * 120);
+      });
+      surveyIO.unobserve(e.target);
+    });
+  }, { rootMargin: '0px 0px -10% 0px', threshold: 0.1 });
+  document.querySelectorAll('.cs-survey-hero').forEach(el => surveyIO.observe(el));
+
+  const compareIO = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      e.target.querySelectorAll('.cs-compare-card').forEach((item, i) => {
+        setTimeout(() => item.classList.add('is-visible'), i * 150);
+      });
+      compareIO.unobserve(e.target);
+    });
+  }, { rootMargin: '0px 0px -10% 0px', threshold: 0.1 });
+  document.querySelectorAll('.cs-compare').forEach(el => compareIO.observe(el));
 
   const motivationsIO = new IntersectionObserver((entries) => {
     entries.forEach(e => {

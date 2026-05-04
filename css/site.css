@@ -67,15 +67,14 @@
   --plum:     #5A02BF;
   --lavender: #4D00C0;
   --charcoal: #434343;
-  --graphite: #595959;
-  --silver:   #9C9C9C;
+  --silver:   #959595;
   --ash:      #BDBDBD;
   --mist:     #DBDBDB;
   --white:    #FFFFFF;
 
   /* ── Semantic colours ───────────────────────────────── */
   --color-primary:   var(--lavender);
-  --color-secondary: var(--graphite);
+  --color-secondary: var(--silver);
   --color-tertiary:  var(--silver);
   --color-subtle:    var(--mist);
   --color-accent:    var(--lavender);
@@ -104,7 +103,7 @@ html {
 }
 html, body {
   height: 100%; background: #ffffff;
-  font-family: var(--font); color: var(--graphite);
+  font-family: var(--font); color: var(--silver);
   overflow-x: clip;
 }
 
@@ -135,9 +134,62 @@ nav.is-hidden { transform: translateY(-100%); }
 .nav-links a {
   color: var(--color-tertiary);
   text-decoration: none;
-  transition: color .2s;
+  transition: color 0.4s ease;
 }
 .nav-links a:hover { color: var(--color-primary); }
+
+.nav-hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  width: 32px;
+  height: 32px;
+}
+.nav-hamburger span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--color-primary);
+  border-radius: 1px;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+nav.is-open .nav-hamburger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+nav.is-open .nav-hamburger span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+nav.is-open .nav-hamburger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+@media (max-width: 768px) {
+  .nav-hamburger { display: flex; }
+  .nav-links {
+    position: fixed;
+    top: 56px;
+    left: 0; right: 0;
+    background: rgba(255,255,255,0.96);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+    flex-direction: column;
+    gap: 0;
+    padding: 8px 24px 16px;
+    opacity: 0;
+    transform: translateY(-6px);
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+  nav.is-open .nav-links {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+  .nav-links a {
+    padding: 16px 0;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+  }
+  .nav-links a:last-child { border-bottom: none; }
+}
 
 /* ════════════════════════════════════════════════════════
    TEXT STYLES
@@ -201,8 +253,9 @@ nav.is-hidden { transform: translateY(-100%); }
   line-height: var(--leading-relaxed);
 }
 .label {
-  font-size: var(--text-label);
-  font-weight: var(--weight-medium);
+  font-family: var(--font-heading);
+  font-size: var(--text-h4);
+  font-weight: var(--weight-semibold);
   line-height: var(--leading-normal);
 }
 .overline {
@@ -613,8 +666,8 @@ nav.is-hidden { transform: translateY(-100%); }
   color: var(--lavender);
 }
 .cs-section-icon {
-  width: 36px;
-  height: 36px;
+  width: 28px;
+  height: 28px;
   color: var(--lavender);
   flex-shrink: 0;
   transform: scale(0);
@@ -837,8 +890,8 @@ nav.is-hidden { transform: translateY(-100%); }
 }
 .cs-arrow-icon {
   flex-shrink: 0;
-  width: 36px;
-  height: 36px;
+  width: 28px;
+  height: 28px;
   color: var(--lavender);
   stroke-width: 1.5;
 }
@@ -857,9 +910,16 @@ nav.is-hidden { transform: translateY(-100%); }
   background: var(--white);
   border-radius: 16px;
   box-shadow:
-    0 -2px 8px -2px rgba(0, 0, 0, 0.04),         /* top outline */
-    0 12px 32px -12px rgba(74, 0, 192, 0.08),    /* main drop shadow with brand tint */
-    0 4px 10px -2px rgba(0, 0, 0, 0.04);         /* bottom edge definition */
+    0 -2px 8px -2px rgba(0, 0, 0, 0.04),
+    0 12px 32px -12px rgba(74, 0, 192, 0.08),
+    0 4px 10px -2px rgba(0, 0, 0, 0.04);
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.cs-compare-card.is-visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 .cs-compare-tag {
   align-self: flex-start;
@@ -873,13 +933,17 @@ nav.is-hidden { transform: translateY(-100%); }
   font-weight: var(--weight-medium);
   color: var(--white);
   background: var(--lavender);
-  margin-bottom: 28px;
+  margin-bottom: 16px;
 }
 .cs-compare-tag-icon {
-  width: 24px;
-  height: 24px;
+  width: 28px;
+  height: 28px;
   flex-shrink: 0;
   stroke-width: 1.5;
+}
+.cs-compare-card .cs-compare-subtitle {
+  color: var(--color-secondary);
+  margin-bottom: 28px;
 }
 .cs-compare-list {
   list-style: none;
@@ -897,8 +961,8 @@ nav.is-hidden { transform: translateY(-100%); }
   color: var(--charcoal);
 }
 .cs-compare-check {
-  width: 36px;
-  height: 36px;
+  width: 28px;
+  height: 28px;
   flex-shrink: 0;
   color: var(--lavender);
   stroke-width: 1.5;
@@ -918,8 +982,8 @@ nav.is-hidden { transform: translateY(-100%); }
 .cs-feature-title { margin-top: 8px; }
 .cs-feature-desc { margin-top: 8px; }
 .cs-feature-icon {
-  width: 36px;
-  height: 36px;
+  width: 28px;
+  height: 28px;
   color: var(--lavender);
   flex-shrink: 0;
   stroke-width: 1.5;
@@ -1047,7 +1111,7 @@ nav.is-hidden { transform: translateY(-100%); }
   font-family: var(--font-body);
   font-size: 16px;
   line-height: 24px;
-  color: var(--graphite);
+  color: var(--charcoal);
 }
 .cs-retention-swatch {
   display: inline-block;
@@ -1097,7 +1161,7 @@ nav.is-hidden { transform: translateY(-100%); }
 .cs-retention-axis-label {
   font-family: var(--font-body);
   font-size: var(--chart-label-fs, 16px);
-  fill: var(--graphite);
+  fill: var(--charcoal);
 }
 
 /* Bar growth — staggered group-by-group, "without" leads "with" within each group */
@@ -1229,25 +1293,44 @@ nav.is-hidden { transform: translateY(-100%); }
 .cs-survey-hero {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  background: var(--lavender);
-  padding: 40px 36px;
   gap: 0;
+  margin-top: 32px;
 }
 .cs-survey-hero-stat {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  justify-content: space-between;
+  gap: 16px;
   padding: 0 28px;
-  border-right: 1px solid rgba(255, 255, 255, 0.2);
+  border-right: 1px solid color-mix(in srgb, var(--lavender) 12%, transparent);
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.cs-survey-hero-content {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.cs-survey-hero-stat.is-visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 .cs-survey-hero-stat:first-child { padding-left: 0; }
-.cs-survey-hero-stat:last-child { border-right: none; }
+.cs-survey-hero-stat:last-child { border-right: none; padding-right: 0; }
+.cs-survey-hero-icon {
+  width: 28px;
+  height: 28px;
+  color: var(--lavender);
+  stroke-width: 1.5;
+  margin-bottom: 4px;
+}
 .cs-survey-hero-val {
-  color: var(--white);
+  color: var(--lavender);
   line-height: 1;
 }
 .cs-survey-hero-label {
-  color: rgba(255, 255, 255, 0.72);
+  color: var(--color-secondary);
 }
 
 
@@ -1307,8 +1390,8 @@ nav.is-hidden { transform: translateY(-100%); }
 }
 .cs-todo-item:last-child { border-bottom: none; }
 .cs-todo-check {
-  width: 36px;
-  height: 36px;
+  width: 28px;
+  height: 28px;
   flex-shrink: 0;
   color: color-mix(in srgb, var(--lavender) 45%, transparent);
   stroke-width: 1.5;
@@ -1337,8 +1420,8 @@ nav.is-hidden { transform: translateY(-100%); }
 }
 .cs-motivation:last-child { border-bottom: none; }
 .cs-motivation-icon {
-  width: 36px;
-  height: 36px;
+  width: 28px;
+  height: 28px;
   stroke-width: 1.5;
   color: color-mix(in srgb, var(--lavender) 30%, transparent);
   flex-shrink: 0;
@@ -1648,8 +1731,8 @@ nav.is-hidden { transform: translateY(-100%); }
   .cs-more { padding: 60px 24px; }
   .cs-more-grid { grid-template-columns: 1fr; }
   .cs-metrics { grid-template-columns: 1fr; }
-  .cs-survey-hero { grid-template-columns: 1fr; padding: 28px 24px; gap: 24px; }
-  .cs-survey-hero-stat { padding: 0; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 20px; }
+  .cs-survey-hero { grid-template-columns: 1fr; gap: 24px; }
+  .cs-survey-hero-stat { padding: 0; border-right: none; border-bottom: 1px solid color-mix(in srgb, var(--lavender) 12%, transparent); padding-bottom: 20px; }
   .cs-survey-hero-stat:last-child { border-bottom: none; padding-bottom: 0; }
   .cs-features { grid-template-columns: 1fr; gap: 24px; }
   .cs-results { grid-template-columns: 1fr; }
