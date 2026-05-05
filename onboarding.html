@@ -111,6 +111,7 @@
           <p class="body-lg">The data showed that customers weren't avoiding the My TELUS App. They just didn't know it could solve these specific problems. I realized that by educating users in the first few seconds, we could shift their behaviour from calling support to using the self-serve tools already in the app.</p>
           <h3 class="h3">The Existing Onboarding Experience</h3>
           <p class="body-lg">The original flow focused on administrative hurdles rather than value. Users had to navigate generic welcomes, dense legal text, and immediate permission prompts before reaching the dashboard. This created a barrier to entry that failed to show what the app could actually do, missing the chance to give users a reason to return.</p>
+          <div class="cs-placeholder"><div class="cs-placeholder-inner"><img src="images/onboarding/currentonboarding.png" alt="Current onboarding experience" /></div></div>
         </section>
 
         <section class="cs-section" id="solution">
@@ -458,7 +459,7 @@
       // While a click-driven sync animation is running, the lead's position
       // is set externally (see syncScrollAndIndicator). Don't lerp it here.
       if (i === 0 && syncActive) {
-        layers[0].style.transform = `translateY(${s.y}px) rotate(45deg)`;
+        layers[0].style.setProperty('--toc-layer-y', `${s.y}px`);
         stillMoving = true;
         continue;
       }
@@ -477,7 +478,7 @@
         }
       }
 
-      layers[i].style.transform = `translateY(${s.y}px) rotate(45deg)`;
+      layers[i].style.setProperty('--toc-layer-y', `${s.y}px`);
       if (Math.abs(dy) > 0.1) stillMoving = true;
     }
     if (stillMoving) {
@@ -489,7 +490,7 @@
         layerState[i].y = layerState[i - 1].y + (REST_OFFSETS[i] - REST_OFFSETS[i - 1]);
       }
       for (let i = 0; i < layerState.length; i++) {
-        layers[i].style.transform = `translateY(${layerState[i].y}px) rotate(45deg)`;
+        layers[i].style.setProperty('--toc-layer-y', `${layerState[i].y}px`);
       }
       animating = false;
     }
@@ -509,9 +510,10 @@
         layerState[i].y = layerState[i - 1].y + (REST_OFFSETS[i] - REST_OFFSETS[i - 1]);
       }
       for (let i = 0; i < layerState.length; i++) {
-        layers[i].style.transform = `translateY(${layerState[i].y}px) rotate(45deg)`;
+        layers[i].style.setProperty('--toc-layer-y', `${layerState[i].y}px`);
       }
       firstPlacement = false;
+      layers.forEach(l => l.style.animationPlayState = 'running');
     } else {
       // Trip-distance-scaled separation cap (per-pair).
       // Short hop (~30px) → ~1.4px per pair (~5.5px total trail);

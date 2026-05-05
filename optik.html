@@ -77,9 +77,23 @@
           <h5><svg class="cs-section-icon cs-section-icon--search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Research</h5>
           <h2 class="h2">Uncovering the Customer's Frustrations</h2>
           <p class="body-lg">We analyzed support calls, interviewed agents and found three consistent pain points:</p>
-          <p class="body-lg">The experience forced users to manage their theme packs, then premiums and finally channels. This "guided" approach felt more annoying than helpful.</p>
-          <p class="body-lg">When Rightsizing occurred, users see "We swapped Theme Pack A for Theme Pack B" with no context as to why, leaving customers confused.</p>
-          <p class="body-lg">Backend failures pushed users to "Please Contact Support" with no context on what went wrong or what to do next.</p>
+          <div class="cs-features">
+            <div class="cs-feature">
+              <svg class="cs-feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+              <h4 class="cs-feature-title h4">Rigid Order Flow</h4>
+              <p class="cs-feature-desc body-lg">Managing theme packs, premiums, then channels in a fixed order felt more annoying than helpful.</p>
+            </div>
+            <div class="cs-feature">
+              <svg class="cs-feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m17 2 4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="m7 22-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+              <h4 class="cs-feature-title h4">Unexplained Swaps</h4>
+              <p class="cs-feature-desc body-lg">Rightsizing messages like "We swapped Theme Pack A for Theme Pack B" gave customers no context as to why.</p>
+            </div>
+            <div class="cs-feature">
+              <svg class="cs-feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+              <h4 class="cs-feature-title h4">Dead-End Error Messages</h4>
+              <p class="cs-feature-desc body-lg">Backend failures pushed users to "Please Contact Support" with no context on what went wrong or what to do next.</p>
+            </div>
+          </div>
           <div class="cs-placeholder"><div class="cs-placeholder-inner"><img src="images/optik/researchflow.png" alt="Research flow" /></div></div>
           <h3 class="h3">Mapping Customer's Thoughts</h3>
           <div class="cs-placeholder"><div class="cs-placeholder-inner"><img src="images/optik/customers.png" alt="Customer journey mapping" /></div></div>
@@ -91,9 +105,20 @@
           <p class="body-lg">We validated our initial designs with a mix of <strong>10 existing Optik customers</strong> and non-Optik users. They were asked to complete various tasks, from understanding their current plan, making changes to their current subscription and confirming their changes.</p>
           <div class="cs-placeholder"><div class="cs-placeholder-inner"><img src="images/optik/optikappflow.webp" alt="Optik app flow" /></div></div>
           <h3 class="h3">Testing Summary</h3>
-          <p class="body-lg">Users understood their plan and monthly costs immediately</p>
-          <p class="body-lg">Theme pack and premium cards required more time to interact with compared to the channel list. We made the add and remove actions more prominent to improve clarity</p>
-          <p class="body-lg">Rightsizing notifications initially surprised non-Optik users, but they understood the change and reasoning after reading the new messaging</p>
+          <ul class="cs-arrow-list">
+            <li class="cs-arrow-item">
+              <svg class="cs-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              <span>Users understood their plan and monthly costs immediately</span>
+            </li>
+            <li class="cs-arrow-item">
+              <svg class="cs-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              <span>Theme pack and premium cards required more time to interact with compared to the channel list. We made the add and remove actions more prominent to improve clarity</span>
+            </li>
+            <li class="cs-arrow-item">
+              <svg class="cs-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              <span>Rightsizing notifications initially surprised non-Optik users, but they understood the change and reasoning after reading the new messaging</span>
+            </li>
+          </ul>
         </section>
 
         <section class="cs-section" id="solution">
@@ -126,21 +151,56 @@
           <h5><svg class="cs-section-icon cs-section-icon--cycle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>Opportunity</h5>
           <h2 class="h2">Opportunity for a Second Iteration</h2>
           <p class="body-lg">After launch we got a chance to go back and improve the product in <strong>August 2020</strong>. A round of external research and customer feedback pointed to gaps that went beyond basic functionality.</p>
-          <h3 class="h3">What We Heard</h3>
-          <p class="body-lg">Hard to discover new or trending content</p>
-          <p class="body-lg">Unclear which content was already owned vs. available to add</p>
-          <p class="body-lg">Difficult to track changes made within a single session</p>
-          <p class="body-lg">No indication of when updates would actually show up on the TV</p>
-          <h3 class="h3">How We Approached It</h3>
-          <p class="body-lg">Spotlight Section - A curated area for featured and trending content, paired with universal search and genre filtering so the full catalogue felt easy to explore</p>
+          <div class="cs-2col">
+            <div>
+              <h3 class="h3">What We Heard</h3>
+              <ul class="cs-arrow-list">
+                <li class="cs-arrow-item">
+                  <svg class="cs-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                  <span>Hard to discover new or trending content</span>
+                </li>
+                <li class="cs-arrow-item">
+                  <svg class="cs-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                  <span>Unclear which content was already owned vs. available to add</span>
+                </li>
+                <li class="cs-arrow-item">
+                  <svg class="cs-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                  <span>Difficult to track changes made within a single session</span>
+                </li>
+                <li class="cs-arrow-item">
+                  <svg class="cs-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                  <span>No indication of when updates would actually show up on the TV</span>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h3 class="h3">How We Approached It</h3>
+              <ul class="cs-arrow-list">
+                <li class="cs-arrow-item">
+                  <svg class="cs-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                  <span><strong>Spotlight Section</strong> - A curated area for featured and trending content, paired with universal search and genre filtering so the full catalogue felt easy to explore</span>
+                </li>
+                <li class="cs-arrow-item">
+                  <svg class="cs-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                  <span><strong>Tracker Widget</strong> - A persistent tracker showing how many items you own in each category. Tapping on it opens your current line-up</span>
+                </li>
+                <li class="cs-arrow-item">
+                  <svg class="cs-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                  <span><strong>Dynamic Cart</strong> - A cart that only logs changes in this session with price updates, so customers always know what they were committing to</span>
+                </li>
+                <li class="cs-arrow-item">
+                  <svg class="cs-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                  <span><strong>Setting Expectations</strong> - A confirmation informing customers when their TV changes will take effect</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <h3 class="h3">Second Iteration Improvements</h3>
           <div class="cs-placeholder"><div class="cs-placeholder-inner"><img src="images/optik/v2discoverability.png" alt="Spotlight section for discovery" /></div></div>
-          <p class="body-lg">Tracker Widget - A persistent tracker showing how many items you own in each category. Tapping on it opens your current line-up</p>
           <div class="cs-placeholder"><div class="cs-placeholder-inner"><img src="images/optik/v2changes.png" alt="Tracker widget" /></div></div>
-          <p class="body-lg">Dynamic Cart - A cart that only logs changes in this session with price updates, so customers always know what they were committing to</p>
           <div class="cs-placeholder"><div class="cs-placeholder-inner"><img src="images/optik/v2checkout.png" alt="Dynamic cart and checkout" /></div></div>
-          <p class="body-lg">Setting Expectations - A confirmation informing customers when their TV changes will take effect</p>
           <div class="cs-placeholder"><div class="cs-placeholder-inner"><img src="images/optik/v2expectations.png" alt="Setting expectations confirmation" /></div></div>
-          <div class="cs-placeholder"><span>Video Demo</span></div>
+          <div class="cs-placeholder"><div class="cs-placeholder-inner"><video src="https://res.cloudinary.com/dh3awz0yq/video/upload/v1775777686/Optik_TV_Final_kyhfu8.mp4" controls muted loop playsinline preload="metadata"></video></div></div>
         </section>
 
         <section class="cs-section" id="reflection">
@@ -252,7 +312,7 @@
       const s = layerState[i];
 
       if (i === 0 && syncActive) {
-        layers[0].style.transform = `translateY(${s.y}px) rotate(45deg)`;
+        layers[0].style.setProperty('--toc-layer-y', `${s.y}px`);
         stillMoving = true;
         continue;
       }
@@ -270,7 +330,7 @@
         }
       }
 
-      layers[i].style.transform = `translateY(${s.y}px) rotate(45deg)`;
+      layers[i].style.setProperty('--toc-layer-y', `${s.y}px`);
       if (Math.abs(dy) > 0.1) stillMoving = true;
     }
     if (stillMoving) {
@@ -281,7 +341,7 @@
         layerState[i].y = layerState[i - 1].y + (REST_OFFSETS[i] - REST_OFFSETS[i - 1]);
       }
       for (let i = 0; i < layerState.length; i++) {
-        layers[i].style.transform = `translateY(${layerState[i].y}px) rotate(45deg)`;
+        layers[i].style.setProperty('--toc-layer-y', `${layerState[i].y}px`);
       }
       animating = false;
     }
@@ -301,9 +361,10 @@
         layerState[i].y = layerState[i - 1].y + (REST_OFFSETS[i] - REST_OFFSETS[i - 1]);
       }
       for (let i = 0; i < layerState.length; i++) {
-        layers[i].style.transform = `translateY(${layerState[i].y}px) rotate(45deg)`;
+        layers[i].style.setProperty('--toc-layer-y', `${layerState[i].y}px`);
       }
       firstPlacement = false;
+      layers.forEach(l => l.style.animationPlayState = 'running');
     } else {
       const D = Math.abs(newTarget - layerState[0].y);
       maxExtraSep = Math.min(MAX_EXTRA_SEP, Math.max(0.3, D / 22));
@@ -488,6 +549,17 @@
     });
   }, { rootMargin: '0px 0px -10% 0px', threshold: 0.01 });
   document.querySelectorAll('.cs-features').forEach(el => featuresIO.observe(el));
+
+  const arrowListIO = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      e.target.querySelectorAll('.cs-arrow-item').forEach((item, i) => {
+        setTimeout(() => item.classList.add('is-visible'), i * 130);
+      });
+      arrowListIO.unobserve(e.target);
+    });
+  }, { rootMargin: '0px 0px -15% 0px', threshold: 0.1 });
+  document.querySelectorAll('.cs-arrow-list').forEach(el => arrowListIO.observe(el));
 
   const videoIO = new IntersectionObserver((entries) => {
     entries.forEach(e => {

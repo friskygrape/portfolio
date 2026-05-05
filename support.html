@@ -63,10 +63,6 @@
           <p class="body-lg">TouchBistro's Cloud platform is where restaurant owners manage operations like menus, staff, reports, and settings. Owners assign different permission levels to team members based on their roles (e.g., managers get full access, accountants only see reporting).</p>
           <p class="body-lg">Agent Access is an internal tool that helps support agents configure customer accounts. Agents can view details, enable features, and troubleshoot issues. A key feature allows agents to view the account as an admin to make changes when customers call for help.</p>
           <div class="cs-placeholder"><div class="cs-placeholder-inner"><img src="images/support/context.png" alt="Agent Access tool overview" /></div></div>
-          <h3 class="h3">Internal Tool - Search Page</h3>
-          <p class="body-lg">Used to look up the details of customers and impersonate an admin on their account.</p>
-          <h3 class="h3">Support Agent Impersonates an Admin</h3>
-          <p class="body-lg">An agent can access a customer's account by impersonating an admin. They can now make changes on their behalf.</p>
         </section>
 
         <section class="cs-section" id="problem">
@@ -80,18 +76,36 @@
           <h5><svg class="cs-section-icon cs-section-icon--search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Research</h5>
           <h2 class="h2">Understanding Agent Workflows and Pain Points</h2>
           <p class="body-lg">I conducted interviews with support agents to understand their challenges. Agents explained that admin-level impersonation worked well for single-location customers with one role, but grew complicated with customers belonging to multiple venues.</p>
-          <ul class="cs-list">
-            <li>Multi-location customers that have various roles across multiple venues, and different roles within the same venue made it more challenging to troubleshoot</li>
-            <li>Unable to reproduce a customer's error meant asking customers extensive questions and reviewing logs, extending call times</li>
-            <li>Corporation-level visibility was missing, making it difficult to understand venue organization</li>
-            <li>Navigating between venues and corporations required repeatedly copying and pasting IDs into the search field to access detailed information, creating friction in the troubleshooting workflow</li>
-            <li>Technical terminology made the tool confusing for non-technical support agents</li>
-          </ul>
-          <div class="cs-placeholder"><div class="cs-placeholder-inner"><img src="images/support/research.png" alt="Research findings" /></div></div>
-          <h3 class="h3">Customer's View</h3>
-          <p class="body-lg">Customer's can only view what they have access to based on their permissions</p>
-          <h3 class="h3">Support Agent's View</h3>
-          <p class="body-lg">Support agents have full access to the venue. They currently view all venues as an admin and can make changes anywhere</p>
+          <div class="cs-features">
+            <div class="cs-feature">
+              <svg class="cs-feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              <h4 class="cs-feature-title h4">Multi-Role Complexity</h4>
+              <p class="cs-feature-desc body-lg">Customers with different roles across venues made impersonation challenging.</p>
+            </div>
+            <div class="cs-feature">
+              <svg class="cs-feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+              <h4 class="cs-feature-title h4">Unable to Reproduce Errors</h4>
+              <p class="cs-feature-desc body-lg">Agents relied on questions and logs to diagnose issues they couldn't see themselves.</p>
+            </div>
+            <div class="cs-feature">
+              <svg class="cs-feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="1" width="12" height="6" rx="1"/><rect x="1" y="17" width="9" height="6" rx="1"/><rect x="14" y="17" width="9" height="6" rx="1"/><path d="M12 7v5M5.5 12h13M5.5 12v5M18.5 12v5"/></svg>
+              <h4 class="cs-feature-title h4">No Corporate Hierarchy</h4>
+              <p class="cs-feature-desc body-lg">Venues appeared as a flat list with no visibility into which corporation they belonged to.</p>
+            </div>
+            <div class="cs-feature">
+              <svg class="cs-feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              <h4 class="cs-feature-title h4">Tedious ID Navigation</h4>
+              <p class="cs-feature-desc body-lg">Moving between records required copying and pasting IDs into the search filter manually.</p>
+            </div>
+            <div class="cs-feature">
+              <svg class="cs-feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+              <h4 class="cs-feature-title h4">Confusing Terminology</h4>
+              <p class="cs-feature-desc body-lg">Labels like "Entity Type" weren't meaningful to non-technical agents.</p>
+            </div>
+          </div>
+          <div class="cs-placeholder" style="margin-top: 40px"><div class="cs-placeholder-inner"><img src="images/support/research.png" alt="Research findings" /></div></div>
+          <h4 class="h4" style="margin-top: 24px">Customer's vs. Agent's View</h4>
+          <p class="body-lg">Customers only see what their role allows. Agents impersonating an admin always see everything. That gap made it impossible to reproduce permission-based issues without knowing exactly which role the customer was in.</p>
           <div class="cs-placeholder"><div class="cs-placeholder-inner"><img src="images/support/no_organization.png" alt="Lack of corporation-level organization" /></div></div>
           <div class="cs-placeholder"><div class="cs-placeholder-inner"><img src="images/support/copy_paste.png" alt="Copy-paste workflow friction" /></div></div>
         </section>
@@ -100,24 +114,41 @@
           <h5><svg class="cs-section-icon cs-section-icon--bulb" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></svg>Solution</h5>
           <h2 class="h2">User-Level Impersonation to Match Customer Perspectives</h2>
           <p class="body-lg">After gathering feedback from agents and discussions with the team, I designed an experience to enable user-level impersonation. This solution allows agents to select specific staff member accounts and view their experience based on permission level and venue access, enabling agents to accurately reproduce what customers are seeing and troubleshoot issues quicker.</p>
-          <h3 class="h3">Impersonate Using the Staff Member List</h3>
-          <p class="body-lg">I added a new page under venue details displaying all staff members within that venue and their assigned roles/permissions. This allows agents to select the appropriate account to impersonate.</p>
-          <div class="cs-placeholder"><span>Video Demo</span></div>
-          <h3 class="h3">Impersonate Via Username</h3>
-          <p class="body-lg">To address the multi-venue, multi-role challenge, agents can search by username to impersonate users who have multiple roles across different venues or corporations.</p>
-          <div class="cs-placeholder"><span>Video Demo</span></div>
+          <div class="cs-placeholder"><div class="cs-placeholder-inner"><img src="images/support/userimpersonation%20successful.png" alt="User impersonation successful state" /></div></div>
+          <h4 class="h4">User-Level Impersonation</h4>
+          <p class="body-lg">Agents can now share a 1:1 experience with the customer.</p>
+          <div class="cs-2col">
+            <div>
+              <div class="cs-placeholder"><div class="cs-placeholder-inner"><video src="https://res.cloudinary.com/dh3awz0yq/video/upload/v1775781679/Showcase_-_User_Impersonations_fhvgdw.mp4" controls muted loop playsinline preload="metadata"></video></div></div>
+              <h4 class="h4">Impersonate Using the Staff Member List</h4>
+              <p class="body-lg">I added a new page under venue details displaying all staff members within that venue and their assigned roles/permissions. This allows agents to select the appropriate account to impersonate.</p>
+            </div>
+            <div>
+              <div class="cs-placeholder"><div class="cs-placeholder-inner"><video src="https://res.cloudinary.com/dh3awz0yq/video/upload/v1775781680/Showcase_-_User_Impersonations_only_ipwnfw.mp4" controls muted loop playsinline preload="metadata"></video></div></div>
+              <h4 class="h4">Impersonate Via Username</h4>
+              <p class="body-lg">To address the multi-venue, multi-role challenge, agents can search by username to impersonate users who have multiple roles across different venues or corporations.</p>
+            </div>
+          </div>
           <h3 class="h3">Improving the Information Architecture</h3>
           <p class="body-lg">To address the lack of organizational structure, I organized venues under their parent corporations. This hierarchy allows agents to quickly identify which venues belong to which corporations and understand their relationships. I also replaced technical terminology with more accessible language.</p>
-          <div class="cs-placeholder"><div class="cs-placeholder-inner"><img src="images/support/improvingai.png" alt="Improved information architecture" /></div></div>
+          <div class="cs-placeholder"><div class="cs-placeholder-inner"><img src="images/support/ia-comparison.png" alt="Information architecture comparison" /></div></div>
           <h3 class="h3">Reduced Navigation Steps</h3>
           <p class="body-lg">Instead of requiring agents to copy and paste IDs and manually switch search filters, IDs are now clickable hyperlinks that navigate directly to those sections. This directly reduces time spent jumping between related information.</p>
-          <div class="cs-placeholder"><span>Video Demo</span></div>
+          <div class="cs-placeholder"><div class="cs-placeholder-inner"><video src="https://res.cloudinary.com/dh3awz0yq/video/upload/v1775786921/New_Navigation_V2_zudeyc.mp4" controls muted loop playsinline preload="metadata"></video></div></div>
         </section>
 
         <section class="cs-section" id="validation">
           <h5><svg class="cs-section-icon cs-section-icon--check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" pathLength="100"/><polyline points="8 12.5 11 15.5 16.5 9" pathLength="100"/></svg>Validation</h5>
           <h2 class="h2">Positive Feedback From Stakeholders</h2>
           <p class="body-lg">We shared the redesign with support agents and developers who use the tool daily. Feedback was overwhelmingly positive. Agents immediately saw how user-level impersonation would improve their workflow. Developers appreciated the clearer hierarchy structure showing venue organization and more intuitive information architecture. QA teams were excited about how the improvements would help them identify problems with specific user accounts during testing.</p>
+          <figure class="cs-quote">
+            <svg class="cs-quote-mark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9.5 6c-3.5 0-6 2.5-6 6.5 0 3 2 5.5 5 5.5 1.5 0 2.5-1 2.5-2.5 0-1.4-1-2.5-2.5-2.5-.5 0-.8.1-1 .2.4-2 2-3.7 4-4.2.5-.1.5-.5.5-1 0-1-.5-2-2.5-2zm10 0c-3.5 0-6 2.5-6 6.5 0 3 2 5.5 5 5.5 1.5 0 2.5-1 2.5-2.5 0-1.4-1-2.5-2.5-2.5-.5 0-.8.1-1 .2.4-2 2-3.7 4-4.2.5-.1.5-.5.5-1 0-1-.5-2-2.5-2z"/></svg>
+            <blockquote class="cs-quote-text">[Quote]</blockquote>
+            <figcaption class="cs-quote-attr">
+              <span class="cs-quote-name">[Name]</span>
+              <span class="cs-quote-role">[Role]</span>
+            </figcaption>
+          </figure>
         </section>
 
         <section class="cs-section" id="impact">
@@ -234,7 +265,7 @@
       const s = layerState[i];
 
       if (i === 0 && syncActive) {
-        layers[0].style.transform = `translateY(${s.y}px) rotate(45deg)`;
+        layers[0].style.setProperty('--toc-layer-y', `${s.y}px`);
         stillMoving = true;
         continue;
       }
@@ -252,7 +283,7 @@
         }
       }
 
-      layers[i].style.transform = `translateY(${s.y}px) rotate(45deg)`;
+      layers[i].style.setProperty('--toc-layer-y', `${s.y}px`);
       if (Math.abs(dy) > 0.1) stillMoving = true;
     }
     if (stillMoving) {
@@ -263,7 +294,7 @@
         layerState[i].y = layerState[i - 1].y + (REST_OFFSETS[i] - REST_OFFSETS[i - 1]);
       }
       for (let i = 0; i < layerState.length; i++) {
-        layers[i].style.transform = `translateY(${layerState[i].y}px) rotate(45deg)`;
+        layers[i].style.setProperty('--toc-layer-y', `${layerState[i].y}px`);
       }
       animating = false;
     }
@@ -283,9 +314,10 @@
         layerState[i].y = layerState[i - 1].y + (REST_OFFSETS[i] - REST_OFFSETS[i - 1]);
       }
       for (let i = 0; i < layerState.length; i++) {
-        layers[i].style.transform = `translateY(${layerState[i].y}px) rotate(45deg)`;
+        layers[i].style.setProperty('--toc-layer-y', `${layerState[i].y}px`);
       }
       firstPlacement = false;
+      layers.forEach(l => l.style.animationPlayState = 'running');
     } else {
       const D = Math.abs(newTarget - layerState[0].y);
       maxExtraSep = Math.min(MAX_EXTRA_SEP, Math.max(0.3, D / 22));
@@ -481,6 +513,17 @@
     });
   }, { threshold: 0.5 });
   document.querySelectorAll('.cs-placeholder-inner video').forEach(v => videoIO.observe(v));
+
+  const arrowListIO = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      e.target.querySelectorAll('.cs-arrow-item').forEach((item, i) => {
+        setTimeout(() => item.classList.add('is-visible'), i * 130);
+      });
+      arrowListIO.unobserve(e.target);
+    });
+  }, { rootMargin: '0px 0px -15% 0px', threshold: 0.1 });
+  document.querySelectorAll('.cs-arrow-list').forEach(el => arrowListIO.observe(el));
 
   const coverImg = document.querySelector('.cs-cover img');
   let ticking = false;

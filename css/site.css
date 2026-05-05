@@ -1,5 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Open+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
 
+@property --layer-offset {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0px;
+}
+
 /* Crossfade between same-origin pages on link navigation.
    Browsers without View Transitions support fall back to instant nav. */
 @view-transition {
@@ -117,7 +123,7 @@ body.home {
 nav {
   position: fixed; top: 0; left: 0; right: 0; height: 56px;
   display: flex; align-items: center; justify-content: space-between;
-  padding: 0 48px;
+  padding: 0 max(48px, calc((100vw - 1400px) / 2 + 40px));
   background: rgba(255,255,255,0.92); backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(0,0,0,0.06); z-index: 100;
   transition: transform 0.3s ease;
@@ -642,14 +648,24 @@ nav.is-open .nav-hamburger span:nth-child(3) { transform: translateY(-7px) rotat
   border-radius: 3px;
   transform: rotate(45deg);
   will-change: transform;
+  --float-travel: 3px;
+  --layer-offset: 0px;
+  animation: toc-diamond-idle 2.8s ease-in-out infinite;
+  animation-fill-mode: backwards;
+  animation-play-state: paused;
+  transition: opacity 0.3s ease;
 }
-.toc-indicator-layer--1 { background: var(--lavender); opacity: 1.00; z-index: 5; }
-.toc-indicator-layer--2 { background: var(--lavender); opacity: 0.40; z-index: 4; }
-.toc-indicator-layer--3 { background: var(--lavender); opacity: 0.24; z-index: 3; }
-.toc-indicator-layer--4 { background: var(--lavender); opacity: 0.14; z-index: 2; }
-.toc-indicator-layer--5 { background: var(--lavender); opacity: 0.07; z-index: 1; }
+@keyframes toc-diamond-idle {
+  0%, 100% { transform: translateY(calc(var(--toc-layer-y, 0px) + var(--layer-offset, 0px))) rotate(45deg); }
+  50%       { transform: translateY(calc(var(--toc-layer-y, 0px) + var(--layer-offset, 0px) - var(--float-travel))) rotate(45deg); }
+}
+.toc-indicator-layer--1 { opacity: 1.00; z-index: 5; --float-travel: 2px;  animation-delay: 0s; }
+.toc-indicator-layer--2 { opacity: 0.40; z-index: 4; --float-travel: 5px;  animation-delay: 0.14s; --layer-offset: 4px; }
+.toc-indicator-layer--3 { opacity: 0.24; z-index: 3; --float-travel: 8px;  animation-delay: 0.28s; --layer-offset: 8px; }
+.toc-indicator-layer--4 { opacity: 0;    z-index: 2; --float-travel: 8px;  animation-delay: 0.42s; }
+.toc-indicator-layer--5 { opacity: 0;    z-index: 1; --float-travel: 10px; animation-delay: 0.56s; }
 @media (prefers-reduced-motion: reduce) {
-  .toc-indicator-layer { will-change: auto; }
+  .toc-indicator-layer { animation: none; will-change: auto; transform: rotate(45deg); }
 }
 
 .toc-link {
@@ -851,7 +867,7 @@ nav.is-open .nav-hamburger span:nth-child(3) { transform: translateY(-7px) rotat
 }
 .cs-section h4 {
   color: var(--charcoal);
-  margin-top: 40px;
+  margin-top: 24px;
   margin-bottom: 8px;
 }
 /* Inline emphasis on metric phrases (numbers, %, $, durations) within
@@ -1023,6 +1039,27 @@ nav.is-open .nav-hamburger span:nth-child(3) { transform: translateY(-7px) rotat
 }
 .cs-features--2col { grid-template-columns: repeat(2, 1fr); }
 .cs-features--1col { grid-template-columns: 1fr; }
+.cs-2col {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px;
+}
+.cs-2col > div {
+  display: flex;
+  flex-direction: column;
+}
+.cs-2col > div > :first-child {
+  margin-top: 0;
+}
+.cs-2col {
+  margin-top: 24px;
+}
+.cs-2col + .cs-placeholder {
+  margin-top: 40px;
+}
+.cs-2col h3 {
+  margin-bottom: 8px;
+}
 .cs-features + .cs-placeholder {
   margin-top: 40px;
 }
@@ -1177,8 +1214,8 @@ nav.is-open .nav-hamburger span:nth-child(3) { transform: translateY(-7px) rotat
 .cs-retention-bar--without { fill: var(--ash); }
 /* HVSSA chart distinguishes its with-onboarding bars in plum to read as a
    sibling metric rather than a duplicate of the retention chart. */
-.cs-retention--hvssa .cs-retention-bar--with    { fill: var(--plum); }
-.cs-retention--hvssa .cs-retention-swatch--with { background: var(--plum); }
+.cs-retention--hvssa .cs-retention-bar--with    { fill: var(--lavender); }
+.cs-retention--hvssa .cs-retention-swatch--with { background: var(--lavender); }
 .cs-retention-label {
   font-family: var(--font-heading);
   /* JS sets --chart-label-fs per-SVG so on-screen size stays fixed across
@@ -1252,6 +1289,12 @@ nav.is-open .nav-hamburger span:nth-child(3) { transform: translateY(-7px) rotat
 .cs-features.is-animated .cs-feature:nth-child(1) .cs-feature-icon  { animation-delay: 300ms; }
 .cs-features.is-animated .cs-feature:nth-child(2) .cs-feature-icon  { animation-delay: 600ms; }
 .cs-features.is-animated .cs-feature:nth-child(3) .cs-feature-icon  { animation-delay: 900ms; }
+.cs-features.is-animated .cs-feature:nth-child(4) .cs-feature-title,
+.cs-features.is-animated .cs-feature:nth-child(4) .cs-feature-desc  { transition-delay: 900ms; }
+.cs-features.is-animated .cs-feature:nth-child(5) .cs-feature-title,
+.cs-features.is-animated .cs-feature:nth-child(5) .cs-feature-desc  { transition-delay: 1200ms; }
+.cs-features.is-animated .cs-feature:nth-child(4) .cs-feature-icon  { animation-delay: 1200ms; }
+.cs-features.is-animated .cs-feature:nth-child(5) .cs-feature-icon  { animation-delay: 1500ms; }
 @keyframes cs-feature-icon-pop {
   0%   { opacity: 0; transform: scale(0.6); }
   55%  { opacity: 1; transform: scale(1.5); }
@@ -1965,6 +2008,7 @@ nav.is-open .nav-hamburger span:nth-child(3) { transform: translateY(-7px) rotat
   .cs-metrics { grid-template-columns: 1fr; }
   .cs-research-card { padding: 32px 24px; }
   .cs-research-divider { margin: 32px 0; }
+  .cs-2col { grid-template-columns: 1fr; }
   .cs-survey-overview { grid-template-columns: 1fr 1fr; gap: 24px; }
   .cs-survey-stat-num { font-size: var(--text-h4); }
   .cs-channels { grid-template-columns: 1fr; gap: 24px; }
