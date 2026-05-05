@@ -517,10 +517,13 @@ let albumIdx  = 0;
 const splash  = document.getElementById('splash');
 const splHi   = document.getElementById('spl-hi');
 const splName = document.getElementById('spl-name');
-const heroH1  = document.getElementById('hero-h1');
-const bioPara = document.querySelector('.bio');
-const hlEls   = document.querySelectorAll('.hl');
+const heroH1     = document.getElementById('hero-h1');
+const heroAvatar = document.getElementById('hero-avatar');
+const bioPara    = document.querySelector('.bio');
+const hlEls      = document.querySelectorAll('.hl');
 
+heroAvatar.style.opacity  = '0';
+heroAvatar.style.transform = 'translateY(-20px)';
 heroH1.style.opacity = '0';
 bioPara.style.opacity = '0';
 bioPara.style.transform = 'translateY(22px)';
@@ -530,6 +533,9 @@ cards.forEach(c => applySlotInstant(c, 'spawn'));
 // Skip splash when navigating via hash (e.g. Work link)
 if (window.location.hash) {
   splash.remove();
+  heroAvatar.style.opacity  = '1';
+  heroAvatar.style.transform = '';
+  heroAvatar.classList.add('is-floating');
   heroH1.style.opacity = '1';
   bioPara.style.opacity = '1';
   bioPara.style.transform = 'translateY(0)';
@@ -580,7 +586,16 @@ setTimeout(() => {
   splName.style.transition = 'opacity 0.3s ease 40ms';
   splHi.style.opacity = splName.style.opacity = '0';
 
-  heroH1.style.transition = 'opacity 0.3s ease';
+  heroAvatar.style.transition = 'opacity 0.5s ease, transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94)';
+  heroAvatar.style.opacity   = '1';
+  heroAvatar.style.transform  = 'translateY(0)';
+  setTimeout(() => {
+    heroAvatar.style.transition = '';
+    heroAvatar.style.transform  = '';
+    heroAvatar.classList.add('is-floating');
+  }, 700);
+
+  heroH1.style.transition = 'opacity 0.3s ease 0.1s';
   heroH1.style.opacity = '1';
 
   setTimeout(() => {
@@ -603,8 +618,8 @@ setTimeout(() => {
     bioPara.style.transform = 'translateY(0)';
   }, 200);
 
-  // Highlights fire staggered
-  hlEls.forEach((el, i) => setTimeout(() => el.classList.add('hl-run'), 400 + i * 450));
+  // Highlights fire after bio finishes sliding in (~850ms), staggered
+  hlEls.forEach((el, i) => setTimeout(() => el.classList.add('hl-run'), 900 + i * 200));
 
   scheduleAdvance(2500);
 }, 2300);

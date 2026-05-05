@@ -22,12 +22,23 @@
 </nav>
 
 <main class="hero">
+  <canvas id="dot-grid" aria-hidden="true"></canvas>
   <div class="hero-inner">
+
+    <!-- Avatar -->
+    <div class="hero-avatar" id="hero-avatar">
+      <div class="hero-avatar-img">
+        <img src="images/homepage/DeronImage.png" alt="Deron Li" />
+      </div>
+      <span class="hero-avatar-layer hero-avatar-layer--1"></span>
+      <span class="hero-avatar-layer hero-avatar-layer--2"></span>
+      <span class="hero-avatar-layer hero-avatar-layer--3"></span>
+    </div>
 
     <!-- Left -->
     <div class="left-col">
       <h1 id="hero-h1" class="display"><span class="h1-hi">Hi</span> <span class="h1-name">I'm Deron.</span></h1>
-      <p class="bio body-lg">
+      <p class="bio lead">
         <span class="hl">Senior Product Designer</span> with <span class="hl">9 Years of experience</span> in <span class="hl">B2B and B2C</span>. I specialize
         in simplifying complexity and shipping high-utility products that balance
         business goals with a deep obsession for the user.
@@ -111,7 +122,8 @@
 </section>
 
 <script src="js/script.js" defer></script>
-
+<script src="js/dot-grid.js" defer></script>
+<script src="js/avatar-physics.js" defer></script>
 <script src="js/nav.js" defer></script>
 </body>
 </html>
