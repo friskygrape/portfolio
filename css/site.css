@@ -993,13 +993,6 @@ nav.is-open .nav-hamburger span:nth-child(3) { transform: translateY(-7px) rotat
 .cs-compare-card {
   display: flex;
   flex-direction: column;
-  padding: 32px;
-  background: var(--white);
-  border-radius: 16px;
-  box-shadow:
-    0 -2px 8px -2px rgba(0, 0, 0, 0.04),
-    0 12px 32px -12px rgba(74, 0, 192, 0.08),
-    0 4px 10px -2px rgba(0, 0, 0, 0.04);
   opacity: 0;
   transform: translateY(16px);
   transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -1515,7 +1508,10 @@ nav.is-open .nav-hamburger span:nth-child(3) { transform: translateY(-7px) rotat
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 40px;
-  margin-top: 16px;
+  margin-top: 28px;
+}
+.cs-split--3 {
+  grid-template-columns: repeat(3, 1fr);
 }
 .cs-split-item {
   display: flex;
@@ -2059,8 +2055,20 @@ nav.is-open .nav-hamburger span:nth-child(3) { transform: translateY(-7px) rotat
 /* ── Survey results visualization ───────────────────────── */
 .srv-viz {
   margin-top: 56px;
-  padding-top: 56px;
-  border-top: 1px solid var(--silver);
+  padding: 48px;
+  background: var(--white);
+  border-radius: 20px;
+  box-shadow:
+    0 -2px 8px -2px rgba(0, 0, 0, 0.04),
+    0 12px 32px -12px rgba(74, 0, 192, 0.08),
+    0 4px 10px -2px rgba(0, 0, 0, 0.04);
+}
+.srv-viz > .srv-block {
+  margin-bottom: 32px;
+}
+.srv-viz > .srv-2col {
+  margin-bottom: 0;
+  padding-top: 32px;
 }
 .srv-viz-eyebrow {
   font-family: var(--font-heading);
@@ -2103,7 +2111,14 @@ nav.is-open .nav-hamburger span:nth-child(3) { transform: translateY(-7px) rotat
 .srv-block { margin-bottom: 48px; }
 .srv-block-title {
   color: var(--charcoal);
-  margin-bottom: 4px;
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+.srv-viz .srv-block-title {
+  margin-top: 0;
+}
+.srv-2col .srv-block-title {
+  margin-bottom: 24px;
 }
 .srv-block-sub {
   color: var(--color-tertiary);
@@ -2231,33 +2246,27 @@ nav.is-open .nav-hamburger span:nth-child(3) { transform: translateY(-7px) rotat
   border-radius: 99px;
 }
 .srv-needs {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 14px;
+  display: flex;
+  flex-direction: column;
 }
 .srv-need {
-  padding: 24px;
-  border-radius: 12px;
-  border: 1.5px solid color-mix(in srgb, var(--lavender) 18%, transparent);
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--lavender) 10%, transparent);
   opacity: 0;
-  transform: translateY(16px);
-  transition: opacity 0.5s ease var(--delay, 0s), transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) var(--delay, 0s);
+  transform: translateX(-20px);
+  transition: opacity 0.4s ease var(--delay, 0s),
+              transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) var(--delay, 0s);
 }
-.srv-need.is-visible { opacity: 1; transform: translateY(0); }
-.srv-need-num {
-  display: block;
-  font-family: var(--font-heading);
-  font-size: var(--text-label);
-  font-weight: var(--weight-bold);
-  letter-spacing: var(--tracking-wide);
-  text-transform: uppercase;
-  color: var(--lavender);
-  margin-bottom: 8px;
-}
+.srv-need:first-child { border-top: 1px solid color-mix(in srgb, var(--lavender) 10%, transparent); }
+.srv-need:last-child { padding-bottom: 0; border-bottom: none; }
+.srv-need.is-animated { opacity: 1; transform: translateX(0); }
 .srv-need-text {
   font-size: var(--text-body-lg);
-  line-height: var(--leading-relaxed);
-  color: var(--color-secondary);
+  color: var(--charcoal);
 }
 /* Infographic callout cards */
 .srv-callouts {
@@ -2307,38 +2316,77 @@ nav.is-open .nav-hamburger span:nth-child(3) { transform: translateY(-7px) rotat
   line-height: 1.4;
 }
 
-/* Motivation bar chart rows */
+/* 3-column data grid */
+.srv-3col {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  margin-bottom: 48px;
+}
+
+/* Motivation ranked rows */
+.srv-2col > .srv-block {
+  display: flex;
+  flex-direction: column;
+}
 .srv-motive-list {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  flex: 1;
 }
 .srv-motive-row {
   display: grid;
-  grid-template-columns: 44px 220px 1fr 44px;
+  grid-template-columns: 44px 1fr;
   align-items: center;
   gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--lavender) 10%, transparent);
+  opacity: 0;
+  transform: translateX(-20px);
+  transition: opacity 0.4s ease var(--delay, 0s),
+              transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) var(--delay, 0s);
 }
-.srv-motive-icon {
+.srv-motive-row:first-child { border-top: 1px solid color-mix(in srgb, var(--lavender) 10%, transparent); }
+.srv-motive-row:last-child { padding-bottom: 0; border-bottom: none; }
+.srv-motive-row.is-animated {
+  opacity: 1;
+  transform: translateX(0);
+}
+.srv-motive-rank {
   width: 44px;
-  height: 44px;
-  border-radius: 10px;
-  background: color-mix(in srgb, var(--lavender) 10%, transparent);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: block;
+  text-align: center;
+  color: transparent;
+  font-family: var(--font-heading);
+  font-size: 24px;
+  font-weight: var(--weight-bold);
   flex-shrink: 0;
+  transform: scale(0);
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) calc(var(--delay, 0s) + 0.1s),
+              color 0.2s ease calc(var(--delay, 0s) + 0.35s);
 }
-.srv-motive-icon svg {
-  width: 20px;
-  height: 20px;
+.srv-motive-rank.is-animated {
+  transform: scale(1);
   color: var(--lavender);
+}
+.srv-motive-body {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
 }
 .srv-motive-label {
   font-family: var(--font-heading);
-  font-size: var(--text-body-lg);
+  font-size: var(--text-h4);
   font-weight: var(--weight-medium);
   color: var(--charcoal);
+}
+.srv-motive-desc {
+  font-size: var(--text-label);
+  color: var(--color-secondary);
+}
+.srv-3col .srv-channel-cards {
+  flex: 1;
+  align-content: center;
 }
 
 /* Channel infographic cards */
@@ -2352,9 +2400,7 @@ nav.is-open .nav-hamburger span:nth-child(3) { transform: translateY(-7px) rotat
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding: 28px 24px;
-  background: color-mix(in srgb, var(--lavender) 5%, transparent);
-  border: 1px solid color-mix(in srgb, var(--lavender) 14%, transparent);
+  padding: 24px;
   border-radius: 16px;
   gap: 8px;
 }
@@ -2381,6 +2427,12 @@ nav.is-open .nav-hamburger span:nth-child(3) { transform: translateY(-7px) rotat
   font-weight: var(--weight-medium);
   color: var(--charcoal);
 }
+.srv-channel-card-desc {
+  font-size: var(--text-label);
+  color: var(--color-secondary);
+  line-height: var(--leading-relaxed);
+  margin: 0;
+}
 .srv-channel-card .srv-channel-track {
   width: 100%;
   margin-top: 4px;
@@ -2403,23 +2455,61 @@ nav.is-open .nav-hamburger span:nth-child(3) { transform: translateY(-7px) rotat
   color: var(--lavender);
 }
 
-/* Need card icon */
+/* Need row icon */
 .srv-need-icon {
   width: 24px;
   height: 24px;
   color: var(--lavender);
   stroke-width: 1.5;
+  margin: 0 auto;
   display: block;
-  margin-bottom: 12px;
+}
+
+/* Survey methodology overview — 4-stat horizontal strip */
+.srv-overview {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  margin-bottom: 48px;
+}
+.srv-overview-stat {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 28px 24px;
+}
+.srv-overview-num {
+  font-family: var(--font-heading);
+  font-size: var(--text-h4);
+  font-weight: var(--weight-bold);
+  color: var(--lavender);
+  line-height: 1.2;
+}
+.srv-overview-label {
+  font-size: var(--text-label);
+  color: var(--color-secondary);
+}
+.srv-overview-stat:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1px;
+  height: 36px;
+  background: var(--silver);
 }
 
 @media (max-width: 768px) {
   .srv-2col { grid-template-columns: 1fr; gap: 40px; }
+  .srv-3col { grid-template-columns: 1fr; gap: 40px; }
+  .srv-3col > * { grid-column: span 1 !important; }
+  .srv-overview { grid-template-columns: repeat(2, 1fr); }
   .srv-needs { grid-template-columns: 1fr; }
   .srv-bar-row { grid-template-columns: 120px 1fr 44px; gap: 12px; }
   .srv-callouts { grid-template-columns: repeat(2, 1fr); }
   .srv-channel-cards { grid-template-columns: 1fr; }
-  .srv-motive-row { grid-template-columns: 44px 120px 1fr 36px; gap: 10px; }
+  .srv-motive-row { grid-template-columns: 44px 1fr; gap: 12px; }
 }
 
 @media (max-width: 600px) {

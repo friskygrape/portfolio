@@ -17,6 +17,9 @@
   const SLIDE_FRICTION = 0.95;
   const BOUNCE_CUTOFF  = 1.8;
   const RETURN_DELAY   = 1500;
+  const EXPLODE_DELAY  = 1250; // longer hang time before returning
+  const SPACE_GRAVITY  = 0.025; // near-weightless drift while suspended
+  const SPACE_DAMPING  = 0.955; // heavy drag so blocks coast to a stop
   const HALF           = 36;
 
   const particles = [
@@ -33,10 +36,10 @@
   }));
 
   let mode        = 'idle';
+  let prevMode    = 'idle'; // tracks 'falling' vs 'exploding' during 'returning' wait
   let returnTimer = null;
   let rafId       = null;
   let floorY      = 0;
-  let tip         = 1;
 
   function rand(spread) { return (Math.random() - 0.5) * spread; }
 
@@ -80,35 +83,63 @@
     rafId = null;
   }
 
-  function knock(clientX) {
+  /* Resolve entry direction from the closest avatar edge the cursor crossed */
+  function getDirection(clientX, clientY) {
+    const ar = avatar.getBoundingClientRect();
+    const distTop    = clientY - ar.top;
+    const distBottom = ar.bottom - clientY;
+    const distLeft   = clientX - ar.left;
+    const distRight  = ar.right - clientX;
+
+    const min = Math.min(distTop, distBottom, distLeft, distRight);
+    if (min === distTop)    return 'down';
+    if (min === distBottom) return 'up';
+    if (min === distLeft)   return 'right'; // entered from left → tip right
+    return 'left';                          // entered from right → tip left
+  }
+
+  function knock(clientX, clientY) {
     clearTimeout(returnTimer);
     if (mode === 'idle') freeze();
-    mode = 'falling';
 
-    const ar = avatar.getBoundingClientRect();
-    tip = clientX < ar.left + ar.width / 2 ? 1 : -1;
+    const dir = getDirection(clientX, clientY);
+    mode = dir === 'up' ? 'exploding' : 'falling';
 
-    /* Each block gets an independent random scatter on top of the cascade base */
     particles.forEach((p, i) => {
       setTimeout(() => {
-        if (mode !== 'falling') return;
-        p.vy     = 0.5 + i * 0.5  + Math.random() * 0.5;
-        p.vx     = tip * (2.5 + i * 3.0 + Math.random() * 5);
-        p.av     = tip * (4   + i * 4   + rand(8));
-        p.onFloor  = false;
+        if (mode !== 'falling' && mode !== 'exploding') return;
+        p.onFloor   = false;
         p.returning = false;
+
+        if (dir === 'down') {
+          /* Crushed straight down */
+          p.vy = 2.5 + i * 0.9 + Math.random() * 0.8;
+          p.vx = rand(2);
+          p.av = rand(5);
+        } else if (dir === 'up') {
+          /* Explode upward — fully random per block, coast to a suspended stop */
+          p.vy = -(4 + Math.random() * 5);
+          p.vx = rand(8);
+          p.av = rand(10);
+        } else {
+          /* Side swipe */
+          const tip = dir === 'right' ? 1 : -1;
+          p.vy = 0.5 + i * 0.5  + Math.random() * 0.5;
+          p.vx = tip * (2.5 + i * 3.0 + Math.random() * 5);
+          p.av = tip * (4   + i * 4   + rand(8));
+        }
       }, i * 110);
     });
 
-    /* All blocks start returning at roughly the same time; small random offset
-       creates staggered arrivals without the 1-by-1 sequential feel */
+    const delay = dir === 'up' ? EXPLODE_DELAY : RETURN_DELAY;
     returnTimer = setTimeout(() => {
+      prevMode = mode;
       mode = 'returning';
       particles.forEach((p) => {
-        const delay = Math.random() * 210;
-        setTimeout(() => { p.returning = true; }, delay);
+        const stagger = Math.random() * 210;
+        setTimeout(() => { p.returning = true; }, stagger);
       });
-    }, RETURN_DELAY);
+    }, delay);
 
     if (!rafId) rafId = requestAnimationFrame(tick);
   }
@@ -146,18 +177,40 @@
           p.onFloor = false;
         }
 
+      } else if (mode === 'exploding') {
+        /* Near-zero gravity + heavy drag — blocks shoot up, decelerate, and hang */
+        p.vy += SPACE_GRAVITY;
+        p.vx *= SPACE_DAMPING;
+        p.vy *= SPACE_DAMPING;
+        p.av *= SPACE_DAMPING;
+        p.x     += p.vx;
+        p.y     += p.vy;
+        p.angle += p.av;
+        /* No floor collision — blocks float freely */
+
       } else if (mode === 'returning') {
         if (!p.returning) {
-          /* Waiting for this block's personal return timer — keep floor physics */
-          p.vy += GRAVITY;
-          p.vx *= SLIDE_FRICTION;
-          p.av *= SLIDE_FRICTION;
-          p.x     += p.vx;
-          p.y     += p.vy;
-          p.angle += p.av;
-          if (p.y + HALF + 15 > floorY) {
-            p.y  = floorY - HALF - 15;
-            p.vy = 0;
+          if (prevMode === 'falling') {
+            /* Continue floor physics while waiting for spring timer */
+            p.vy += GRAVITY;
+            p.vx *= SLIDE_FRICTION;
+            p.av *= SLIDE_FRICTION;
+            p.x     += p.vx;
+            p.y     += p.vy;
+            p.angle += p.av;
+            if (p.y + HALF + 15 > floorY) {
+              p.y  = floorY - HALF - 15;
+              p.vy = 0;
+            }
+          } else {
+            /* Continue space drift while waiting for spring timer */
+            p.vy += SPACE_GRAVITY;
+            p.vx *= SPACE_DAMPING;
+            p.vy *= SPACE_DAMPING;
+            p.av *= SPACE_DAMPING;
+            p.x     += p.vx;
+            p.y     += p.vy;
+            p.angle += p.av;
           }
           settled = false;
         } else {
@@ -190,7 +243,7 @@
   }
 
   avatar.addEventListener('mouseenter', (e) => {
-    if (mode === 'idle') knock(e.clientX);
+    if (mode === 'idle') knock(e.clientX, e.clientY);
   });
 
   /* Touch — preventDefault stops the browser firing synthetic mouseenter/click
@@ -198,7 +251,7 @@
   avatar.addEventListener('touchstart', (e) => {
     if (mode === 'idle') {
       e.preventDefault();
-      knock(e.touches[0].clientX);
+      knock(e.touches[0].clientX, e.touches[0].clientY);
     }
   }, { passive: false });
 })();
