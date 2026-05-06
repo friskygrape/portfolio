@@ -13,7 +13,6 @@
     .cs-hero { margin-bottom: 28px; }
     .cs-section { margin-bottom: 28px; }
     .cs-section h3 { margin-top: 0; margin-bottom: 8px; }
-    .cs-hero > *, .cs-section > * { opacity: 1; transform: none; transition: none; animation: none; }
   </style>
 </head>
 <body>
@@ -76,53 +75,9 @@
 </div>
 
 <script>
-(function () {
-  const fadeGroups = new WeakMap();
-  const isHeading = el => /^H[1-5]$/.test(el.tagName);
-  const isStandaloneBlock = el =>
-    el.classList.contains('cs-placeholder') ||
-    el.classList.contains('cs-features') ||
-    el.classList.contains('cs-results') ||
-    el.classList.contains('cs-stats') ||
-    el.classList.contains('cs-split') ||
-    el.classList.contains('about-cta');
-  function buildFadeGroups(parent) {
-    const groups = [];
-    let current = [];
-    for (const child of parent.children) {
-      if (isHeading(child) || isStandaloneBlock(child)) {
-        if (current.length) { groups.push(current); current = []; }
-        groups.push([child]);
-      } else {
-        current.push(child);
-      }
-    }
-    if (current.length) groups.push(current);
-    return groups;
-  }
-
-  const fadeIO = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        const group = fadeGroups.get(e.target);
-        if (group) {
-          group.forEach(el => el.classList.add('is-visible'));
-        } else {
-          e.target.classList.add('is-visible');
-        }
-        fadeIO.unobserve(e.target);
-      }
-    });
-  }, { rootMargin: '0px 0px -20% 0px', threshold: 0 });
-
-  document.querySelectorAll('.cs-hero, .cs-section').forEach(parent => {
-    fadeIO.observe(parent);
-    buildFadeGroups(parent).forEach(group => {
-      fadeGroups.set(group[0], group);
-      fadeIO.observe(group[0]);
-    });
-  });
-})();
+requestAnimationFrame(() => {
+  document.querySelectorAll('.cs-hero > *, .cs-section > *').forEach(el => el.classList.add('is-visible'));
+});
 </script>
 
 <script src="js/nav.js" defer></script>
