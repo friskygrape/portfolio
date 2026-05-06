@@ -638,18 +638,25 @@ nav.is-open .nav-hamburger span:nth-child(3) { transform: translateY(-7px) rotat
 
 /* ── Meta row (Role / Timeline / Platform) ───────────── */
 .cs-meta {
-  display: grid; grid-template-columns: repeat(3, 1fr);
-  gap: 24px; padding: 32px 0;
-  border-top: 1px solid rgba(0,0,0,0.08);
-  border-bottom: 1px solid rgba(0,0,0,0.08);
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 16px;
+  padding: 24px 32px;
+  margin-top: 24px;
   margin-bottom: 60px;
 }
 .cs-meta-item p:first-child {
-  color: var(--color-tertiary);
+  font-family: var(--font-heading);
+  font-size: var(--text-h4);
+  font-weight: var(--weight-medium);
+  line-height: 1.2;
+  letter-spacing: 0.01em;
+  color: var(--charcoal);
   margin-bottom: 6px;
 }
 .cs-meta-item p:last-child {
-  color: var(--charcoal);
+  color: var(--color-secondary);
 }
 
 /* ── Two-column layout: TOC sidebar + sections ───────── */
@@ -830,7 +837,8 @@ nav.is-open .nav-hamburger span:nth-child(3) { transform: translateY(-7px) rotat
 
 /* Trend (up & down) — draw the line */
 .cs-section-icon--trend,
-.cs-section-icon--trend-down {
+.cs-section-icon--trend-down,
+.cs-section-icon--puzzle {
   transform: scale(1);
 }
 .cs-section-icon--trend polyline,
@@ -885,6 +893,7 @@ nav.is-open .nav-hamburger span:nth-child(3) { transform: translateY(-7px) rotat
   78%  { transform: scale(0.95) translateY(2px); }
   100% { transform: scale(1) translateY(0); }
 }
+
 
 @media (prefers-reduced-motion: reduce) {
   .cs-section-icon { transform: none; }
@@ -1054,6 +1063,7 @@ nav.is-open .nav-hamburger span:nth-child(3) { transform: translateY(-7px) rotat
   grid-template-columns: repeat(3, 1fr);
   gap: 32px;
   margin-top: 40px;
+  margin-bottom: 60px;
 }
 .cs-feature {
   display: flex;
@@ -1531,7 +1541,7 @@ nav.is-open .nav-hamburger span:nth-child(3) { transform: translateY(-7px) rotat
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 24px;
-  margin: 40px 0 32px;
+  margin: 40px 0 60px;
 }
 .cs-issue {
   display: flex;
@@ -2029,6 +2039,8 @@ nav.is-open .nav-hamburger span:nth-child(3) { transform: translateY(-7px) rotat
   /* case study */
   .cs-back, .cs-body { padding-left: 24px; padding-right: 24px; }
   .cs-meta { grid-template-columns: 1fr 1fr; }
+  .cs-meta-item { border-right: none; padding: 12px 0; border-bottom: 1px solid rgba(0,0,0,0.08); }
+  .cs-meta-item:last-child { border-bottom: none; }
   .cs-stats { grid-template-columns: 1fr 1fr; }
   .cs-layout { grid-template-columns: 1fr; }
   .cs-toc { display: none; }
@@ -2055,6 +2067,7 @@ nav.is-open .nav-hamburger span:nth-child(3) { transform: translateY(-7px) rotat
 /* ── Survey results visualization ───────────────────────── */
 .srv-viz {
   margin-top: 56px;
+  margin-bottom: 60px;
   padding: 48px;
   background: var(--white);
   border-radius: 20px;
@@ -2522,5 +2535,59 @@ nav.is-open .nav-hamburger span:nth-child(3) { transform: translateY(-7px) rotat
 @media (max-width: 480px) {
   /* case study */
   .cs-meta { grid-template-columns: 1fr; }
+  .cs-meta-item { padding: 10px 0; }
   .cs-stats { grid-template-columns: 1fr; }
+}
+
+/* ── About page ───────────────────────────────────────── */
+.about-page {
+  padding-top: 56px;
+  padding-bottom: 120px;
+}
+.about-inner {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+.about-hero {
+  padding: 80px 0 64px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+.about-greeting {
+  color: var(--charcoal);
+  margin-bottom: 20px;
+}
+.about-lead {
+  font-size: var(--text-lead);
+  line-height: var(--leading-relaxed);
+  color: var(--color-secondary);
+}
+.about-section {
+  padding: 48px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+.about-section-title {
+  color: var(--lavender);
+  margin-bottom: 16px;
+}
+.about-cta {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 28px;
+  padding: 12px 28px;
+  background: var(--lavender);
+  color: var(--white);
+  border-radius: 99px;
+  font-family: var(--font-heading);
+  font-size: var(--text-label);
+  font-weight: var(--weight-medium);
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+.about-cta:hover { opacity: 0.85; }
+
+@media (max-width: 768px) {
+  .about-inner { padding: 0 24px; }
+  .about-hero { padding: 48px 0 40px; }
+  .about-section { padding: 36px 0; }
 }

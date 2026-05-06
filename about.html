@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About · Deron Li</title>
+  <link rel="stylesheet" href="css/site.css">
+  <style>
+    .cs-page { min-height: calc(100vh - 56px); display: flex; align-items: center; }
+    .cs-body { width: 100%; }
+    .cs-toc { overflow: hidden; }
+    .about-photo { width: 100%; border-radius: 12px; display: block; object-fit: cover; }
+    .cs-hero { margin-bottom: 28px; }
+    .cs-section { margin-bottom: 28px; }
+    .cs-section h3 { margin-top: 0; margin-bottom: 8px; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="logo label" href="index.html">Deron Li</a>
+  <div class="nav-links">
+    <a href="index.html#work" class="label">Work</a>
+    <a href="about.html" class="label">About</a>
+  </div>
+  <button class="nav-hamburger" aria-label="Toggle menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="cs-page">
+
+  <div class="cs-body">
+
+    <div class="cs-layout">
+
+      <aside class="cs-toc">
+        <img class="about-photo" src="images/about/deron.avif" alt="Deron Li" />
+      </aside>
+
+      <div class="cs-sections">
+
+        <header class="cs-hero" id="summary">
+          <h1 class="cs-title h1">Hey, I'm Deron!</h1>
+          <p class="cs-summary body-lg">I'm a senior product designer with 9 years of experience driven by curiosity!</p>
+        </header>
+
+        <section class="cs-section" id="background">
+          <h3 class="h3">How I Got Here</h3>
+          <p class="body-lg">I started with a science degree from McMaster University, but wanted to focus on more creative and innovative initiatives. That led me to Sheridan College where I studied Interaction Design for 4 years and discovered my passion for solving problems through design. Since then, I've spent 4 years in restaurant tech at TouchBistro and 4 years in telecom building products for both B2B and B2C.</p>
+        </section>
+
+        <section class="cs-section" id="approach">
+          <h3 class="h3">My Approach</h3>
+          <p class="body-lg">I believe good design starts with understanding the people you're designing for through empathy, research, and validation. I love stepping into unfamiliar territory and learning new things, whether it's a new industry or technology.</p>
+        </section>
+
+        <section class="cs-section" id="beyond">
+          <h3 class="h3">Beyond Design</h3>
+          <p class="body-lg">Outside of design, I've played tennis for 20 years and coached for 10. These days, you'll find me colour grading, crocheting, travelling, or learning about aviation through flight simulators.</p>
+        </section>
+
+        <section class="cs-section" id="next">
+          <h3 class="h3">What's Next</h3>
+          <p class="body-lg">I'm currently exploring roles where I can tackle problems, collaborate with thoughtful teams, and keep learning. If you're building something challenging and meaningful, let's talk!</p>
+          <a href="https://www.linkedin.com/in/deronli/" class="about-cta" target="_blank" rel="noopener">LinkedIn</a>
+        </section>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+(function () {
+  const fadeGroups = new WeakMap();
+  const isHeading = el => /^H[1-5]$/.test(el.tagName);
+  const isStandaloneBlock = el =>
+    el.classList.contains('cs-placeholder') ||
+    el.classList.contains('cs-features') ||
+    el.classList.contains('cs-results') ||
+    el.classList.contains('cs-stats') ||
+    el.classList.contains('cs-split') ||
+    el.classList.contains('about-cta');
+  function buildFadeGroups(parent) {
+    const groups = [];
+    let current = [];
+    for (const child of parent.children) {
+      if (isHeading(child) || isStandaloneBlock(child)) {
+        if (current.length) { groups.push(current); current = []; }
+        groups.push([child]);
+      } else {
+        current.push(child);
+      }
+    }
+    if (current.length) groups.push(current);
+    return groups;
+  }
+
+  const fadeIO = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const group = fadeGroups.get(e.target);
+        if (group) {
+          group.forEach(el => el.classList.add('is-visible'));
+        } else {
+          e.target.classList.add('is-visible');
+        }
+        fadeIO.unobserve(e.target);
+      }
+    });
+  }, { rootMargin: '0px 0px -20% 0px', threshold: 0 });
+
+  document.querySelectorAll('.cs-hero, .cs-section').forEach(parent => {
+    fadeIO.observe(parent);
+    buildFadeGroups(parent).forEach(group => {
+      fadeGroups.set(group[0], group);
+      fadeIO.observe(group[0]);
+    });
+  });
+})();
+</script>
+
+<script src="js/nav.js" defer></script>
+</body>
+</html>
