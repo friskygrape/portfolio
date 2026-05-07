@@ -23,6 +23,7 @@
     .about-photo { width: 100%; border-radius: 8px; display: block; object-fit: cover; }
     .cs-hero { margin-bottom: 28px; }
     .cs-section { margin-bottom: 28px; }
+    .cs-hero > .cs-title { animation: none; }
     .cs-section h4 { margin-top: 0; margin-bottom: 8px; }
     .about-photos { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 16px; }
     .about-photos img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 4px; display: block; }
@@ -84,7 +85,11 @@
 
 <script>
 requestAnimationFrame(() => {
-  document.querySelectorAll('.cs-hero > *, .cs-section > *').forEach(el => el.classList.add('is-visible'));
+  const els = document.querySelectorAll('.cs-hero > *, .cs-section > *');
+  els.forEach((el, i) => { el.style.transitionDelay = `${i * 0.1}s`; });
+  requestAnimationFrame(() => {
+    els.forEach(el => el.classList.add('is-visible'));
+  });
 });
 </script>
 

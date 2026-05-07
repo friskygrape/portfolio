@@ -553,8 +553,8 @@ nav.is-open .nav-hamburger span:nth-child(3) { transform: translateY(-7px) rotat
 .fw-card {
   opacity: 0;
   transform: translateY(36px);
-  transition: opacity 0.65s ease,
-              transform 0.65s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: opacity 0.56s ease,
+              transform 0.56s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 .fw-heading.in-view,
 .fw-card.in-view {
@@ -1425,11 +1425,12 @@ nav.is-open .nav-hamburger span:nth-child(3) { transform: translateY(-7px) rotat
 /* Hero title + summary fade in eagerly on page load (no scroll trigger).
    The cover image often pushes them below the IO trigger zone on
    first paint, so they could otherwise sit invisible until you scrolled. */
-.cs-hero > .cs-title,
-.cs-hero > .cs-summary {
+.cs-hero > .cs-title {
   animation: cs-hero-eager 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 }
-.cs-hero > .cs-summary { animation-delay: 0.15s; }
+.cs-hero > .cs-summary {
+  transition-delay: 0.15s;
+}
 @keyframes cs-hero-eager {
   from { opacity: 0; transform: translateY(20px); }
   to   { opacity: 1; transform: none; }

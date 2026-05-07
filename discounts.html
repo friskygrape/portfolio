@@ -324,7 +324,7 @@
                 <p class="cs-metric-label overline">Sales Transactions</p>
               </div>
               <div class="cs-metric-value">
-                <span class="cs-metric-number h1">$6.7M</span>
+                <span class="cs-metric-number h1" data-count="6.7" data-prefix="$" data-suffix="M">0</span>
               </div>
             </div>
             <div class="cs-metric">
@@ -766,9 +766,10 @@
         setTimeout(() => card.classList.add('is-visible'), i * 220);
       });
       container.querySelectorAll('[data-count]').forEach((el, i) => {
-        const target = parseInt(el.dataset.count, 10);
+        const target = parseFloat(el.dataset.count);
         const prefix = el.dataset.prefix || '';
         const suffix = el.dataset.suffix || '';
+        const isDecimal = el.dataset.count.includes('.');
         const duration = 1600;
         const startDelay = 450 + i * 220;
         setTimeout(() => {
@@ -776,7 +777,8 @@
           function tick(now) {
             const t = Math.min((now - start) / duration, 1);
             const eased = 1 - Math.pow(1 - t, 3);
-            el.textContent = prefix + Math.round(target * eased).toLocaleString() + suffix;
+            const value = target * eased;
+            el.textContent = prefix + (isDecimal ? value.toFixed(1) : Math.round(value).toLocaleString()) + suffix;
             if (t < 1) requestAnimationFrame(tick);
           }
           requestAnimationFrame(tick);
