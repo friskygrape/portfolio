@@ -640,22 +640,25 @@ nav.is-open .nav-hamburger span:nth-child(3) { transform: translateY(-7px) rotat
 .cs-meta {
   display: grid; grid-template-columns: repeat(4, 1fr);
   gap: 24px;
-  border: 1px solid rgba(0,0,0,0.08);
-  border-radius: 16px;
-  padding: 24px 32px;
+  border-top: 1px solid color-mix(in srgb, var(--lavender) 20%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--lavender) 20%, transparent);
+  padding: 16px 0;
   margin-top: 24px;
-  margin-bottom: 60px;
+  margin-bottom: 32px;
 }
 .cs-meta-item p:first-child {
   font-family: var(--font-heading);
-  font-size: var(--text-h4);
+  font-size: var(--text-label);
   font-weight: var(--weight-medium);
   line-height: 1.2;
-  letter-spacing: 0.01em;
-  color: var(--charcoal);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--lavender);
   margin-bottom: 6px;
 }
 .cs-meta-item p:last-child {
+  font-size: var(--text-caption);
+  line-height: 1.6;
   color: var(--color-secondary);
 }
 
@@ -671,6 +674,7 @@ nav.is-open .nav-hamburger span:nth-child(3) { transform: translateY(-7px) rotat
 .cs-toc {
   position: sticky;
   top: 80px;
+  padding-top: 10px;
 }
 
 .toc-track {
@@ -718,6 +722,21 @@ nav.is-open .nav-hamburger span:nth-child(3) { transform: translateY(-7px) rotat
 @media (prefers-reduced-motion: reduce) {
   .toc-indicator-layer { animation: none; will-change: auto; transform: rotate(45deg); }
 }
+
+.toc-back {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-heading);
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--color-tertiary);
+  text-decoration: none;
+  margin-bottom: 29px;
+  transition: color 0.3s ease;
+}
+.toc-back:hover { color: var(--color-primary); }
+.toc-back svg { flex-shrink: 0; }
 
 .toc-link {
   display: block;
@@ -2066,7 +2085,7 @@ nav.is-open .nav-hamburger span:nth-child(3) { transform: translateY(-7px) rotat
   /* case study */
   .cs-back, .cs-body { padding-left: 24px; padding-right: 24px; }
   .cs-meta { grid-template-columns: 1fr 1fr; }
-  .cs-meta-item { border-right: none; padding: 12px 0; border-bottom: 1px solid rgba(0,0,0,0.08); }
+  .cs-meta-item { padding: 12px 0; border-bottom: 1px solid color-mix(in srgb, var(--lavender) 20%, transparent); }
   .cs-meta-item:last-child { border-bottom: none; }
   .cs-stats { grid-template-columns: 1fr 1fr; }
   .cs-layout { grid-template-columns: 1fr; }
