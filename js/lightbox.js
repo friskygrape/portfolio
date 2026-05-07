@@ -1,6 +1,6 @@
 (function () {
   function initLightbox() {
-    document.querySelectorAll('.cs-placeholder-inner img').forEach(img => {
+    document.querySelectorAll('.cs-placeholder-inner img, .about-photos img').forEach(img => {
       img.style.cursor = 'zoom-in';
       img.addEventListener('click', () => open(img));
     });

@@ -822,6 +822,30 @@ nav.is-open .nav-hamburger span:nth-child(3) { transform: translateY(-7px) rotat
   100% { transform: scale(1) translate(0, 0); }                                                 /* settle to center */
 }
 
+/* Stacked bar chart — bars grow from baseline, then dividers fade in */
+.cs-section-icon--chart {
+  transform: scale(1);
+}
+.cs-section-icon--chart rect {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  transform: scaleY(0);
+}
+.cs-section-icon--chart path:nth-of-type(1),
+.cs-section-icon--chart path:nth-of-type(2) { opacity: 0; }
+.cs-section.in-view .cs-section-icon--chart rect:nth-of-type(1) { animation: cs-bar-grow 0.4s ease 0.1s forwards; }
+.cs-section.in-view .cs-section-icon--chart rect:nth-of-type(2) { animation: cs-bar-grow 0.4s ease 0.2s forwards; }
+.cs-section.in-view .cs-section-icon--chart path:nth-of-type(1) { animation: cs-bar-fade 0.3s ease 0.55s forwards; }
+.cs-section.in-view .cs-section-icon--chart path:nth-of-type(2) { animation: cs-bar-fade 0.3s ease 0.65s forwards; }
+@keyframes cs-bar-grow {
+  from { transform: scaleY(0); }
+  to   { transform: scaleY(1); }
+}
+@keyframes cs-bar-fade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
 /* Lightbulb — pop and flicker */
 .cs-section.in-view .cs-section-icon--bulb {
   animation: cs-icon-bulb 0.9s ease 0.3s forwards;
@@ -908,6 +932,9 @@ nav.is-open .nav-hamburger span:nth-child(3) { transform: translateY(-7px) rotat
   .cs-section.in-view .cs-section-icon--check polyline { animation: none; }
   .cs-section-icon--check circle,
   .cs-section-icon--check polyline { stroke-dashoffset: 0; }
+  .cs-section-icon--chart rect { transform: scaleY(1); }
+  .cs-section-icon--chart path:nth-of-type(1),
+  .cs-section-icon--chart path:nth-of-type(2) { opacity: 1; }
 }
 .cs-section h2 {
   color: var(--charcoal);

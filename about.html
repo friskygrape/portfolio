@@ -6,13 +6,15 @@
   <title>About · Deron Li</title>
   <link rel="stylesheet" href="css/site.css">
   <style>
-    .cs-page { min-height: calc(100vh - 56px); display: flex; align-items: center; }
-    .cs-body { width: 100%; }
+    .cs-page { min-height: 100vh; display: flex; align-items: center; }
+    .cs-body { width: 100%; padding-bottom: 0; }
     .cs-toc { overflow: hidden; }
-    .about-photo { width: 100%; border-radius: 12px; display: block; object-fit: cover; }
+    .about-photo { width: 100%; border-radius: 8px; display: block; object-fit: cover; }
     .cs-hero { margin-bottom: 28px; }
     .cs-section { margin-bottom: 28px; }
-    .cs-section h3 { margin-top: 0; margin-bottom: 8px; }
+    .cs-section h4 { margin-top: 0; margin-bottom: 8px; }
+    .about-photos { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 16px; }
+    .about-photos img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 8px; display: block; }
   </style>
 </head>
 <body>
@@ -42,26 +44,20 @@
 
         <header class="cs-hero" id="summary">
           <h1 class="cs-title h1">Hey, I'm Deron!</h1>
-          <p class="cs-summary body-lg">I'm a senior product designer with 9 years of experience driven by curiosity!</p>
+          <p class="cs-summary body-lg">I'm a senior product designer with 9 years of experience driven by curiosity! I believe good design starts with understanding the people you're designing for through empathy, research, and validation. I love stepping into unfamiliar territory and learning new things, whether it's a new industry or technology.</p>
         </header>
 
-        <section class="cs-section" id="background">
-          <h3 class="h3">How I Got Here</h3>
-          <p class="body-lg">I started with a science degree from McMaster University, but wanted to focus on more creative and innovative initiatives. That led me to Sheridan College where I studied Interaction Design for 4 years and discovered my passion for solving problems through design. Since then, I've spent 4 years in restaurant tech at TouchBistro and 4 years in telecom building products for both B2B and B2C.</p>
-        </section>
-
-        <section class="cs-section" id="approach">
-          <h3 class="h3">My Approach</h3>
-          <p class="body-lg">I believe good design starts with understanding the people you're designing for through empathy, research, and validation. I love stepping into unfamiliar territory and learning new things, whether it's a new industry or technology.</p>
-        </section>
-
         <section class="cs-section" id="beyond">
-          <h3 class="h3">Beyond Design</h3>
+          <h4 class="h4">Beyond Design</h4>
           <p class="body-lg">Outside of design, I've played tennis for 20 years and coached for 10. These days, you'll find me colour grading, crocheting, travelling, or learning about aviation through flight simulators.</p>
+          <div class="about-photos">
+            <img src="images/about/pigcrochet.png" alt="Crocheted pig" />
+            <img src="images/about/plantcrochet.png" alt="Crocheted plant" />
+          </div>
         </section>
 
         <section class="cs-section" id="next">
-          <h3 class="h3">What's Next</h3>
+          <h4 class="h4">What's Next</h4>
           <p class="body-lg">I'm currently exploring roles where I can tackle problems, collaborate with thoughtful teams, and keep learning. If you're building something challenging and meaningful, let's talk!</p>
           <a href="https://www.linkedin.com/in/deronli/" class="about-cta" target="_blank" rel="noopener">LinkedIn</a>
         </section>
@@ -80,6 +76,7 @@ requestAnimationFrame(() => {
 });
 </script>
 
+<script src="js/lightbox.js" defer></script>
 <script src="js/nav.js" defer></script>
 </body>
 </html>
