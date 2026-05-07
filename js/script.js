@@ -578,7 +578,7 @@ setTimeout(() => {
   splName.style.transition = `transform 0.8s ${ease}`;
   splName.style.transformOrigin = 'center center';
   splName.style.transform = `translate(${tnmM.x-snmM.x}px,${tnmM.y-snmM.y}px) scale(${tnmM.h/snmM.h})`;
-}, 1500);
+}, 1200);
 
 // Phase 4 – crossfade: splash out, page in
 setTimeout(() => {
@@ -621,8 +621,8 @@ setTimeout(() => {
   // Highlights fire after bio finishes sliding in (~850ms), staggered
   hlEls.forEach((el, i) => setTimeout(() => el.classList.add('hl-run'), 900 + i * 200));
 
-  scheduleAdvance(2500);
-}, 2300);
+  scheduleAdvance(2200);
+}, 2000);
 
 } // end skip-splash else
 
