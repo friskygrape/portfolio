@@ -150,10 +150,10 @@
           <div class="cs-placeholder"><div class="cs-placeholder-inner"><img src="images/support/userimpersonation%20successful.png" alt="User impersonation successful state" /></div></div>
           <h4 class="h4">User-Level Impersonation</h4>
           <p class="body-lg">Agents can now share a 1:1 experience with the customer.</p>
-          <div class="cs-placeholder"><div class="cs-placeholder-inner"><video src="https://res.cloudinary.com/dh3awz0yq/video/upload/v1775781679/Showcase_-_User_Impersonations_fhvgdw.mp4" controls muted loop playsinline preload="none"></video></div></div>
+          <div class="cs-placeholder"><div class="cs-placeholder-inner"><video src="https://res.cloudinary.com/dh3awz0yq/video/upload/v1775781679/Showcase_-_User_Impersonations_fhvgdw.mp4" autoplay muted loop playsinline></video></div></div>
           <h4 class="h4">Impersonate Using the Staff Member List</h4>
           <p class="body-lg">I added a new page under venue details displaying all staff members within that venue and their assigned roles/permissions. This allows agents to select the appropriate account to impersonate.</p>
-          <div class="cs-placeholder"><div class="cs-placeholder-inner"><video src="https://res.cloudinary.com/dh3awz0yq/video/upload/v1775781680/Showcase_-_User_Impersonations_only_ipwnfw.mp4" controls muted loop playsinline preload="none"></video></div></div>
+          <div class="cs-placeholder"><div class="cs-placeholder-inner"><video src="https://res.cloudinary.com/dh3awz0yq/video/upload/v1775781680/Showcase_-_User_Impersonations_only_ipwnfw.mp4" autoplay muted loop playsinline></video></div></div>
           <h4 class="h4">Impersonate Via Username</h4>
           <p class="body-lg">To address the multi-venue, multi-role challenge, agents can search by username to impersonate users who have multiple roles across different venues or corporations.</p>
           <h3 class="h3">Improving the Information Architecture</h3>
@@ -161,7 +161,7 @@
           <div class="cs-placeholder"><div class="cs-placeholder-inner"><img src="images/support/ia-comparison.png" alt="Information architecture comparison" /></div></div>
           <h3 class="h3">Reduced Navigation Steps</h3>
           <p class="body-lg">Instead of requiring agents to copy and paste IDs and manually switch search filters, IDs are now clickable hyperlinks that navigate directly to those sections. This directly reduces time spent jumping between related information.</p>
-          <div class="cs-placeholder"><div class="cs-placeholder-inner"><video src="https://res.cloudinary.com/dh3awz0yq/video/upload/v1775786921/New_Navigation_V2_zudeyc.mp4" controls muted loop playsinline preload="none"></video></div></div>
+          <div class="cs-placeholder"><div class="cs-placeholder-inner"><video src="https://res.cloudinary.com/dh3awz0yq/video/upload/v1775786921/New_Navigation_V2_zudeyc.mp4" autoplay muted loop playsinline></video></div></div>
         </section>
 
         <section class="cs-section" id="validation">
@@ -441,7 +441,9 @@
       currentIndicatorId = id;
 
       const yIndicator = targetForLink(a);
-      const yScroll    = sec.getBoundingClientRect().top + window.scrollY - SCROLL_OFFSET;
+      let _el = sec, _top = 0;
+      while (_el) { _top += _el.offsetTop; _el = _el.offsetParent; }
+      const yScroll = _top - SCROLL_OFFSET;
 
       links.forEach(l => l.classList.toggle('active', l === a));
 

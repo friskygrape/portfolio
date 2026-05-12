@@ -37,7 +37,7 @@
     }
     .cs-chat-bubble--agent {
       align-self: flex-end;
-      background: var(--lavender);
+      background: #4B286D;
       color: #fff;
       border-bottom-right-radius: 4px;
     }
@@ -281,7 +281,7 @@
           <div class="cs-placeholder"><div class="cs-placeholder-inner"><img src="images/optik/v2changes.png" alt="Tracker widget" /></div></div>
           <div class="cs-placeholder"><div class="cs-placeholder-inner"><img src="images/optik/v2checkout.png" alt="Dynamic cart and checkout" /></div></div>
           <div class="cs-placeholder"><div class="cs-placeholder-inner"><img src="images/optik/v2expectations.png" alt="Setting expectations confirmation" /></div></div>
-          <div class="cs-placeholder"><div class="cs-placeholder-inner"><video src="https://res.cloudinary.com/dh3awz0yq/video/upload/v1775777686/Optik_TV_Final_kyhfu8.mp4" controls muted loop playsinline preload="none"></video></div></div>
+          <div class="cs-placeholder"><div class="cs-placeholder-inner"><video src="https://res.cloudinary.com/dh3awz0yq/video/upload/v1775777686/Optik_TV_Final_kyhfu8.mp4" autoplay muted loop playsinline></video></div></div>
         </section>
 
         <section class="cs-section" id="reflection">
@@ -534,7 +534,9 @@
       currentIndicatorId = id;
 
       const yIndicator = targetForLink(a);
-      const yScroll    = sec.getBoundingClientRect().top + window.scrollY - SCROLL_OFFSET;
+      let _el = sec, _top = 0;
+      while (_el) { _top += _el.offsetTop; _el = _el.offsetParent; }
+      const yScroll = _top - SCROLL_OFFSET;
 
       links.forEach(l => l.classList.toggle('active', l === a));
 

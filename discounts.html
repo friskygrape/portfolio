@@ -284,12 +284,12 @@
           <h2 class="h2">Overhauling the Discount Experience</h2>
           <h3 class="h3">Cloud: Discount Configurations</h3>
           <p class="body-lg">To address the confusion around discount types, I redesigned the creation flow to explicitly distinguish between item-level and bill-level discounts. Businesses can now select a discount type (Item, Bill, BOGO, Combo, Cash), define the amount, specify eligible menu items and the condition when it can be applied. Mid-market customers identified promo codes as essential for their marketing campaigns. The new system allows businesses to configure custom promo codes with validity periods and application rules, solving a key adoption barrier.</p>
-          <div class="cs-placeholder"><div class="cs-placeholder-inner"><video src="https://res.cloudinary.com/dh3awz0yq/video/upload/v1775766887/Create_Discount_V2_tpd9zr.mp4" controls muted loop playsinline preload="none"></video></div></div>
-          <div class="cs-placeholder"><div class="cs-placeholder-inner"><video src="https://res.cloudinary.com/dh3awz0yq/video/upload/v1775781184/Create_promo_code_v2_bsqvue.mp4" controls muted loop playsinline preload="none"></video></div></div>
+          <div class="cs-placeholder"><div class="cs-placeholder-inner"><video src="https://res.cloudinary.com/dh3awz0yq/video/upload/v1775766887/Create_Discount_V2_tpd9zr.mp4" autoplay muted loop playsinline></video></div></div>
+          <div class="cs-placeholder"><div class="cs-placeholder-inner"><video src="https://res.cloudinary.com/dh3awz0yq/video/upload/v1775781184/Create_promo_code_v2_bsqvue.mp4" autoplay muted loop playsinline></video></div></div>
           <h3 class="h3">POS: Applying Discounts and Promo Codes to Orders</h3>
           <p class="body-lg">Staff can apply discounts using the new experience and create custom discounts for unique situations by specifying the reason and amount, addressing a top customer request for flexibility in their workflow. When customers provide a promo code at the venue, staff enter it on the POS to apply the discount.</p>
-          <div class="cs-placeholder"><div class="cs-placeholder-inner"><video src="https://res.cloudinary.com/dh3awz0yq/video/upload/v1775764102/Applying_discounts_and_promos_syyuii.mp4" controls muted loop playsinline preload="none"></video></div></div>
-          <div class="cs-placeholder"><div class="cs-placeholder-inner"><video src="https://res.cloudinary.com/dh3awz0yq/video/upload/v1775767076/Applying_promos_j7dm3g.mp4" controls muted loop playsinline preload="none"></video></div></div>
+          <div class="cs-placeholder"><div class="cs-placeholder-inner"><video src="https://res.cloudinary.com/dh3awz0yq/video/upload/v1775764102/Applying_discounts_and_promos_syyuii.mp4" autoplay muted loop playsinline></video></div></div>
+          <div class="cs-placeholder"><div class="cs-placeholder-inner"><video src="https://res.cloudinary.com/dh3awz0yq/video/upload/v1775767076/Applying_promos_j7dm3g.mp4" autoplay muted loop playsinline></video></div></div>
           <div class="cs-split cs-split--3">
             <div class="cs-split-item">
               <div class="cs-placeholder"><div class="cs-placeholder-inner"><img src="images/discounts/autodiscounts.png" alt="Automatic discount application" /></div></div>
@@ -644,7 +644,9 @@
       currentIndicatorId = id;
 
       const yIndicator = targetForLink(a);
-      const yScroll    = sec.getBoundingClientRect().top + window.scrollY - SCROLL_OFFSET;
+      let _el = sec, _top = 0;
+      while (_el) { _top += _el.offsetTop; _el = _el.offsetParent; }
+      const yScroll = _top - SCROLL_OFFSET;
 
       links.forEach(l => l.classList.toggle('active', l === a));
 
