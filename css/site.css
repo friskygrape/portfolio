@@ -538,7 +538,7 @@ nav.is-open .nav-hamburger span:nth-child(3) { transform: translateY(-7px) rotat
 }
 .fw-image {
   margin-top: 6px;
-  border-radius: 12px;
+  border-radius: 4px;
   overflow: hidden;
   aspect-ratio: 16 / 10;
   background: #f3f4f6;
@@ -1096,7 +1096,16 @@ nav.is-open .nav-hamburger span:nth-child(3) { transform: translateY(-7px) rotat
   font-size: var(--text-body-lg);
   line-height: 1.5;
   color: var(--charcoal);
+  opacity: 0;
+  transform: translateX(-12px);
+  transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
+.cs-compare-card.is-visible .cs-compare-list li { opacity: 1; transform: translateX(0); }
+.cs-compare-card.is-visible .cs-compare-list li:nth-child(1) { transition-delay: 0.15s; }
+.cs-compare-card.is-visible .cs-compare-list li:nth-child(2) { transition-delay: 0.25s; }
+.cs-compare-card.is-visible .cs-compare-list li:nth-child(3) { transition-delay: 0.35s; }
+.cs-compare-card.is-visible .cs-compare-list li:nth-child(4) { transition-delay: 0.45s; }
+.cs-compare-card.is-visible .cs-compare-list li:nth-child(5) { transition-delay: 0.55s; }
 .cs-compare-check {
   width: 28px;
   height: 28px;
@@ -2076,6 +2085,7 @@ nav.is-open .nav-hamburger span:nth-child(3) { transform: translateY(-7px) rotat
   width: 100%;
   height: auto;
   display: block;
+  border-radius: 4px;
 }
 
 /* ── Legacy back link (for case studies not yet on the
@@ -2196,7 +2206,7 @@ nav.is-open .nav-hamburger span:nth-child(3) { transform: translateY(-7px) rotat
   .cs-back, .cs-body { padding-left: 24px; padding-right: 24px; }
   .cs-meta { grid-template-columns: 1fr 1fr; }
   .cs-meta-item { padding: 12px 0; border-bottom: 1px solid color-mix(in srgb, var(--lavender) 20%, transparent); }
-  .cs-meta-item:last-child { border-bottom: none; }
+  .cs-meta-item:nth-last-child(-n+2) { border-bottom: none; }
   .cs-stats { grid-template-columns: 1fr 1fr; }
   .cs-layout { grid-template-columns: 1fr; }
   .cs-toc { display: none; }
@@ -2692,6 +2702,8 @@ nav.is-open .nav-hamburger span:nth-child(3) { transform: translateY(-7px) rotat
   /* case study */
   .cs-meta { grid-template-columns: 1fr; }
   .cs-meta-item { padding: 10px 0; }
+  .cs-meta-item:nth-last-child(-n+2) { border-bottom: 1px solid color-mix(in srgb, var(--lavender) 20%, transparent); }
+  .cs-meta-item:last-child { border-bottom: none; }
   .cs-stats { grid-template-columns: 1fr; }
 }
 
