@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Fun · Deron Li</title>
+  <link rel="stylesheet" href="css/site.css">
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
+  <link rel="shortcut icon" href="images/favicon.ico">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-8R2R3N4KR2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-8R2R3N4KR2');
+  </script>
+  <style>
+    .aif-page {
+      padding-top: 56px;
+      min-height: 100vh;
+    }
+
+    .aif-body {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 80px 32px 120px;
+    }
+
+    /* Hero */
+    .aif-hero {
+      margin-bottom: 80px;
+    }
+
+    .aif-eyebrow {
+      color: var(--lavender);
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-widest);
+      margin-bottom: 12px;
+    }
+
+    .aif-hero h1 {
+      margin-bottom: 20px;
+    }
+
+    .aif-hero p {
+      color: var(--charcoal);
+      max-width: 560px;
+    }
+
+    /* Sections */
+    .aif-section {
+      margin-bottom: 80px;
+    }
+
+    .aif-section-heading {
+      margin-bottom: 32px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--mist);
+    }
+
+    /* Project grid */
+    .aif-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+
+    .aif-card {
+      display: block;
+      background: #fafafa;
+      border: 1px solid var(--mist);
+      border-radius: 12px;
+      padding: 28px;
+      text-decoration: none;
+      color: inherit;
+      transition: border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .aif-card:hover {
+      border-color: var(--lavender);
+      background: #f5f0ff;
+    }
+
+    .aif-card-type {
+      color: var(--lavender);
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-widest);
+      margin-bottom: 10px;
+    }
+
+    .aif-card h3 {
+      margin-bottom: 10px;
+    }
+
+    .aif-card p {
+      color: var(--charcoal);
+      margin-bottom: 16px;
+    }
+
+    .aif-card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    /* Workflow list */
+    .aif-workflow-list {
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+    }
+
+    .aif-workflow-item {
+      display: grid;
+      grid-template-columns: 40px 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+
+    .aif-workflow-num {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--lavender);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-heading);
+      font-weight: var(--weight-bold);
+      font-size: var(--text-body);
+      flex-shrink: 0;
+    }
+
+    .aif-workflow-content h4 {
+      margin-bottom: 8px;
+    }
+
+    .aif-workflow-content p {
+      color: var(--charcoal);
+      margin: 0;
+    }
+
+    @media (max-width: 640px) {
+      .aif-body {
+        padding: 60px 20px 80px;
+      }
+
+      .aif-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="logo label" href="index.html">Deron Li</a>
+  <div class="nav-links">
+    <a href="index.html#work" class="label">Work</a>
+    <a href="ai-fun.html" class="label">AI Fun</a>
+    <a href="about.html" class="label">About</a>
+  </div>
+  <button class="nav-hamburger" aria-label="Toggle menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="aif-page">
+  <div class="aif-body">
+
+    <!-- Hero -->
+    <div class="aif-hero">
+      <p class="aif-eyebrow label">Experiments &amp; Workflow</p>
+      <h1 class="h1">AI Fun</h1>
+      <p class="body-lg">Demos and tools I've built alongside how AI has reshaped the way I design — from early research to final handoff.</p>
+    </div>
+
+    <!-- Projects -->
+    <section class="aif-section" id="projects">
+      <h2 class="aif-section-heading h2">Projects</h2>
+      <div class="aif-grid">
+
+        <a class="aif-card" href="#">
+          <p class="aif-card-type caption">Project</p>
+          <h3 class="h4">Project title</h3>
+          <p class="body-lg">Short description of what this is, what problem it solves, and what makes it interesting.</p>
+          <div class="aif-card-tags">
+            <span class="tag">Tag</span>
+            <span class="tag">Tag</span>
+          </div>
+        </a>
+
+        <a class="aif-card" href="#">
+          <p class="aif-card-type caption">Experiment</p>
+          <h3 class="h4">Project title</h3>
+          <p class="body-lg">Short description of what this is, what problem it solves, and what makes it interesting.</p>
+          <div class="aif-card-tags">
+            <span class="tag">Tag</span>
+            <span class="tag">Tag</span>
+          </div>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- Workflow -->
+    <section class="aif-section" id="workflow">
+      <h2 class="aif-section-heading h2">How I Use AI</h2>
+      <div class="aif-workflow-list">
+
+        <div class="aif-workflow-item">
+          <div class="aif-workflow-num">1</div>
+          <div class="aif-workflow-content">
+            <h4 class="h4">Step title</h4>
+            <p class="body-lg">Description of how AI fits into this part of your design process — what you do, what tool you use, and what it enables.</p>
+          </div>
+        </div>
+
+        <div class="aif-workflow-item">
+          <div class="aif-workflow-num">2</div>
+          <div class="aif-workflow-content">
+            <h4 class="h4">Step title</h4>
+            <p class="body-lg">Description of how AI fits into this part of your design process — what you do, what tool you use, and what it enables.</p>
+          </div>
+        </div>
+
+        <div class="aif-workflow-item">
+          <div class="aif-workflow-num">3</div>
+          <div class="aif-workflow-content">
+            <h4 class="h4">Step title</h4>
+            <p class="body-lg">Description of how AI fits into this part of your design process — what you do, what tool you use, and what it enables.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<script src="js/nav.js" defer></script>
+</body>
+</html>
