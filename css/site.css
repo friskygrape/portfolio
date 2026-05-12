@@ -1755,7 +1755,7 @@ nav.is-open .nav-hamburger span:nth-child(3) { transform: translateY(-7px) rotat
   font-size: 22px;
   font-weight: var(--weight-medium);
   line-height: 1.4;
-  color: var(--color-primary);
+  color: var(--charcoal);
   margin: 0;
   font-style: normal;
 }
