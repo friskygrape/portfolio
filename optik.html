@@ -16,6 +16,48 @@
     gtag('js', new Date());
     gtag('config', 'G-8R2R3N4KR2');
   </script>
+  <style>
+    .cs-chat {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 40px 28px;
+      margin: 32px 0;
+    }
+    .cs-chat-bubble {
+      max-width: 58%;
+      padding: 14px 20px;
+      border-radius: 20px;
+      font-family: var(--font-body);
+      font-size: var(--text-body-lg);
+      line-height: var(--leading-normal);
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.35s ease, transform 0.35s ease;
+    }
+    .cs-chat-bubble--agent {
+      align-self: flex-end;
+      background: var(--lavender);
+      color: #fff;
+      border-bottom-right-radius: 4px;
+    }
+    .cs-chat-bubble--customer {
+      align-self: flex-start;
+      background: #ebebeb;
+      color: var(--charcoal);
+      border-bottom-left-radius: 4px;
+    }
+    .cs-chat.is-animated .cs-chat-bubble:nth-child(1) { opacity: 1; transform: none; transition-delay: 0.2s; }
+    .cs-chat.is-animated .cs-chat-bubble:nth-child(2) { opacity: 1; transform: none; transition-delay: 0.9s; }
+    .cs-chat.is-animated .cs-chat-bubble:nth-child(3) { opacity: 1; transform: none; transition-delay: 1.4s; }
+    .cs-chat.is-animated .cs-chat-bubble:nth-child(4) { opacity: 1; transform: none; transition-delay: 1.9s; }
+    @media (prefers-reduced-motion: reduce) {
+      .cs-chat-bubble { opacity: 1; transform: none; transition: none; }
+    }
+    @media (max-width: 600px) {
+      .cs-chat-bubble { max-width: 80%; }
+    }
+  </style>
 </head>
 <body>
 
@@ -23,6 +65,7 @@
   <a class="logo label" href="index.html">Deron Li</a>
   <div class="nav-links">
     <a href="index.html#work" class="label">Work</a>
+    <a href="ai-fun.html" class="label">AI Fun</a>
     <a href="about.html" class="label">About</a>
   </div>
   <button class="nav-hamburger" aria-label="Toggle menu" aria-expanded="false"><span></span><span></span><span></span></button>
@@ -103,6 +146,12 @@
           <h5><svg class="cs-section-icon cs-section-icon--search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Problem</h5>
           <h2 class="h2">A Failing Web Portal</h2>
           <p class="body-lg">The existing web portal for managing Optik TV subscriptions was a dying legacy platform. Customers experienced confusing workflows when editing their subscriptions and encountered submission errors that forced them to call support to complete their orders. The My TELUS App linked out to this experience, and customers complained the app wasn't working properly, negatively affecting the app's reputation.</p>
+          <div class="cs-chat" id="optik-chat" aria-label="Example customer support conversation">
+            <div class="cs-chat-bubble cs-chat-bubble--agent">Hi there! How can I help you today?</div>
+            <div class="cs-chat-bubble cs-chat-bubble--customer">I keep getting an error message to call Optik TV support</div>
+            <div class="cs-chat-bubble cs-chat-bubble--customer">Why can't I just browse the categories I want to see?</div>
+            <div class="cs-chat-bubble cs-chat-bubble--customer">Why did my plan just change?!</div>
+          </div>
           <p class="body-lg">This created an opportunity to redesign the experience as a native feature within the My TELUS App, providing customers with a modern, reliable platform for Optik TV management.</p>
         </section>
 
@@ -233,7 +282,7 @@
           <div class="cs-placeholder"><div class="cs-placeholder-inner"><img src="images/optik/v2changes.png" alt="Tracker widget" /></div></div>
           <div class="cs-placeholder"><div class="cs-placeholder-inner"><img src="images/optik/v2checkout.png" alt="Dynamic cart and checkout" /></div></div>
           <div class="cs-placeholder"><div class="cs-placeholder-inner"><img src="images/optik/v2expectations.png" alt="Setting expectations confirmation" /></div></div>
-          <div class="cs-placeholder"><div class="cs-placeholder-inner"><video src="https://res.cloudinary.com/dh3awz0yq/video/upload/v1775777686/Optik_TV_Final_kyhfu8.mp4" controls muted loop playsinline preload="metadata"></video></div></div>
+          <div class="cs-placeholder"><div class="cs-placeholder-inner"><video src="https://res.cloudinary.com/dh3awz0yq/video/upload/v1775777686/Optik_TV_Final_kyhfu8.mp4" controls muted loop playsinline preload="none"></video></div></div>
         </section>
 
         <section class="cs-section" id="reflection">
@@ -268,7 +317,7 @@
           <img src="images/homepage/support.png" alt="TouchBistro Agent Access" />
         </div>
         <p class="cs-more-company">TouchBistro</p>
-        <p class="cs-more-title">Reducing Customer Call Times by 33% by Improving the Information Architecture</p>
+        <p class="cs-more-title">Reducing Customer Call Times by 33% from 18 to 12 Minutes</p>
       </a>
 
       <a class="cs-more-card" href="onboarding.html">
@@ -625,5 +674,20 @@
 
 <script src="js/nav.js" defer></script>
 <script src="js/lightbox.js" defer></script>
+<script>
+(function () {
+  var chat = document.getElementById('optik-chat');
+  if (!chat) return;
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        chat.classList.add('is-animated');
+        observer.disconnect();
+      }
+    });
+  }, { threshold: 0.4 });
+  observer.observe(chat);
+})();
+</script>
 </body>
 </html>
