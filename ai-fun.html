@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AI Fun · Deron Li</title>
+  <title>AI in my design process · Deron Li</title>
   <link rel="stylesheet" href="css/site.css">
   <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
@@ -17,141 +17,460 @@
     gtag('config', 'G-8R2R3N4KR2');
   </script>
   <style>
-    .aif-page {
-      padding-top: 56px;
-      min-height: 100vh;
+
+    /* ── Semantic color tokens for this page ── */
+    :root {
+      --aif-positive: #1D9E75;
+      --aif-negative: #D85A30;
     }
 
-    .aif-body {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 80px 32px 120px;
+    /* ── Process section heading spacing ── */
+    #process h5 { margin-bottom: 0; }
+    #process .h2 { margin-top: 8px; }
+
+    /* ── Process panel ── */
+    .aif-process-panel {
+      background: color-mix(in srgb, var(--mist) 20%, var(--white));
+      border-radius: 20px;
+      padding: 32px 28px 36px;
     }
 
-    /* Hero */
-    .aif-hero {
-      margin-bottom: 80px;
-    }
-
-    .aif-eyebrow {
-      color: var(--lavender);
-      text-transform: uppercase;
-      letter-spacing: var(--tracking-widest);
-      margin-bottom: 12px;
-    }
-
-    .aif-hero h1 {
-      margin-bottom: 20px;
-    }
-
-    .aif-hero p {
-      color: var(--charcoal);
-      max-width: 560px;
-    }
-
-    /* Sections */
-    .aif-section {
-      margin-bottom: 80px;
-    }
-
-    .aif-section-heading {
+    .aif-process-divider {
+      display: flex;
+      align-items: center;
+      gap: 16px;
       margin-bottom: 32px;
-      padding-bottom: 16px;
-      border-bottom: 1px solid var(--mist);
     }
 
-    /* Project grid */
-    .aif-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 24px;
+    .aif-process-divider::before,
+    .aif-process-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--mist);
     }
 
-    .aif-card {
-      display: block;
-      background: #fafafa;
-      border: 1px solid var(--mist);
-      border-radius: 12px;
-      padding: 28px;
-      text-decoration: none;
-      color: inherit;
-      transition: border-color 0.2s ease, background 0.2s ease;
-    }
-
-    .aif-card:hover {
-      border-color: var(--lavender);
-      background: #f5f0ff;
-    }
-
-    .aif-card-type {
-      color: var(--lavender);
+    .aif-process-divider-label {
+      font-family: var(--font-heading);
+      font-size: var(--text-body);
+      font-weight: var(--weight-semibold);
+      letter-spacing: var(--tracking-wide);
       text-transform: uppercase;
-      letter-spacing: var(--tracking-widest);
-      margin-bottom: 10px;
-    }
-
-    .aif-card h3 {
-      margin-bottom: 10px;
-    }
-
-    .aif-card p {
       color: var(--charcoal);
-      margin-bottom: 16px;
+      background: var(--white);
+      border: 1px solid var(--mist);
+      border-radius: 99px;
+      padding: 4px 16px;
+      white-space: nowrap;
     }
 
-    .aif-card-tags {
+    /* ── Process grid ── */
+    .aif-phase-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .aif-phase-card {
+      background: transparent;
+      border: none;
+      border-radius: 0;
+      padding: 16px 12px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .aif-phase-card .aif-phase-card-name {
+      margin: 0;
+    }
+
+    .aif-phase-card-subtitle {
+      margin-top: 8px;
+      font-size: var(--text-body);
+      font-weight: var(--weight-regular);
+      color: var(--color-secondary);
+      line-height: var(--leading-normal);
+    }
+
+    .aif-phase-card-body {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .aif-phase-card-art {
+      flex-shrink: 0;
+      color: var(--ash);
+      margin-bottom: 12px;
+      display: none;
+    }
+
+    .aif-phase-card-art svg {
+      display: block;
+      width: 64px;
+      height: auto;
+    }
+
+    .aif-phase-card .aif-phase-card-text {
+      margin: 0;
+      color: var(--color-secondary);
+    }
+
+    @media (max-width: 840px) {
+      .aif-phase-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .aif-phase-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ── Comparison table ── */
+    .aif-compare {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .aif-compare-col {
+      display: flex;
+      background: var(--white);
+      border: 1px solid var(--mist);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .aif-compare-col--positive { flex-direction: row; }
+    .aif-compare-col--negative { flex-direction: row-reverse; }
+
+    .aif-compare-accent {
+      width: 44px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      padding: 20px 0;
+    }
+
+    .aif-compare-accent--positive { background: var(--aif-positive); }
+    .aif-compare-accent--negative { background: var(--aif-negative); }
+
+    .aif-compare-accent svg { color: var(--white); }
+
+    .aif-compare-accent-label {
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+      font-family: var(--font-heading);
+      font-size: var(--text-body);
+      font-weight: var(--weight-bold);
+      letter-spacing: var(--tracking-wider);
+      text-transform: uppercase;
+      color: var(--white);
+    }
+
+    .aif-compare-content { flex: 1; min-width: 0; }
+
+    .aif-compare-list {
+      list-style: none;
+      padding: 8px 0;
+    }
+
+    .aif-compare-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 10px 20px;
+      color: var(--color-secondary);
+      font-size: var(--text-body-lg);
+      line-height: var(--leading-normal);
+    }
+
+    .aif-compare-list li::before {
+      content: '';
+      display: block;
+      width: 18px;
+      height: 18px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      flex-shrink: 0;
+      margin-top: 3px;
+    }
+
+    .aif-compare-list.positive li::before {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none'%3E%3Ccircle cx='10' cy='10' r='9' stroke='%231D9E75' stroke-width='1.5'/%3E%3Cpath d='M6 10l3 3 5-5' stroke='%231D9E75' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    }
+
+    .aif-compare-list.negative li::before {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none'%3E%3Ccircle cx='10' cy='10' r='9' stroke='%23D85A30' stroke-width='1.5'/%3E%3Cpath d='M7 7l6 6M13 7l-6 6' stroke='%23D85A30' stroke-width='1.75' stroke-linecap='round'/%3E%3C/svg%3E");
+    }
+
+    /* ── Pull quote — in-column block ── */
+    .aif-pullquote {
+      background: var(--lavender);
+      border-radius: 12px;
+      padding: 40px 48px;
+      margin-top: 40px;
+    }
+
+    .aif-pullquote-text {
+      font-family: var(--font-heading);
+      font-size: var(--text-h3);
+      font-weight: var(--weight-medium);
+      line-height: var(--leading-snug);
+      letter-spacing: var(--tracking-tight);
+      color: var(--white);
+    }
+
+    /* ── Showcase card entry animation ── */
+    @keyframes aif-card-enter {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .aif-showcase-card {
+      animation: aif-card-enter 0.5s cubic-bezier(0.4, 0, 0.2, 1) backwards;
+    }
+    .aif-showcase-card:nth-child(1) { animation-delay: 0.1s; }
+    .aif-showcase-card:nth-child(2) { animation-delay: 0.25s; }
+    .aif-showcase-card:nth-child(3) { animation-delay: 0.4s; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .aif-showcase-card { animation: none; }
+    }
+
+    /* ── Logo banner ── */
+    .aif-logo-banner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 48px;
+      flex-wrap: wrap;
+      margin-top: 40px;
+      padding: 32px 40px;
+      background: color-mix(in srgb, var(--mist) 25%, var(--white));
+      border-radius: 20px;
+    }
+
+    .aif-logo-slot {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 80px;
+      min-height: 28px;
+    }
+
+    .aif-logo-slot img {
+      height: 28px;
+      width: auto;
+      opacity: 0.6;
+      filter: grayscale(1);
+      transition: opacity 0.2s ease, filter 0.2s ease;
+      display: block;
+    }
+
+    .aif-logo-slot img:hover {
+      opacity: 1;
+      filter: none;
+    }
+
+    @media (max-width: 600px) {
+      .aif-logo-banner {
+        gap: 24px;
+        padding: 24px;
+      }
+    }
+
+    /* ── Showcase section icon ── */
+    .cs-section-icon--code polyline {
+      stroke-dasharray: 100;
+      stroke-dashoffset: 100;
+    }
+    .cs-section.in-view .cs-section-icon--code polyline:first-child {
+      animation: cs-icon-draw 0.4s cubic-bezier(0.4, 0, 0.2, 1) 0.2s forwards;
+    }
+    .cs-section.in-view .cs-section-icon--code polyline:last-child {
+      animation: cs-icon-draw 0.4s cubic-bezier(0.4, 0, 0.2, 1) 0.45s forwards;
+    }
+
+    /* ── Showcase grid ── */
+    .aif-showcase-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .aif-showcase-card {
+      border: 1px solid var(--mist);
+      border-radius: 20px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      background: var(--white);
+      transition: border-color 0.2s ease;
+    }
+
+    .aif-showcase-card:hover {
+      border-color: var(--ash);
+    }
+
+    .aif-showcase-thumb {
+      aspect-ratio: 16 / 10;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .aif-showcase-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .aif-showcase-thumb--placeholder {
+      background-image: radial-gradient(circle, var(--mist) 1.5px, transparent 1.5px);
+      background-size: 20px 20px;
+      background-color: color-mix(in srgb, var(--mist) 15%, var(--white));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .aif-showcase-placeholder-icon {
+      color: var(--ash);
+      width: 48px;
+      height: 48px;
+    }
+
+    .aif-showcase-placeholder-icon svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    .aif-showcase-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: var(--white);
+      border: 1px solid var(--mist);
+      border-radius: 99px;
+      padding: 3px 10px;
+      font-family: var(--font-heading);
+      font-size: var(--text-body);
+      font-weight: var(--weight-semibold);
+      color: var(--charcoal);
+      letter-spacing: var(--tracking-wide);
+      text-transform: uppercase;
+    }
+
+    .aif-showcase-content {
+      padding: 20px 24px 24px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .aif-showcase-title {
+      margin: 0;
+    }
+
+    .aif-showcase-desc {
+      margin-top: 8px;
+      color: var(--color-secondary);
+    }
+
+    .aif-showcase-footer {
+      margin-top: auto;
+      padding-top: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .aif-showcase-tags {
       display: flex;
       flex-wrap: wrap;
       gap: 6px;
     }
 
-    /* Workflow list */
-    .aif-workflow-list {
-      display: flex;
-      flex-direction: column;
-      gap: 40px;
-    }
-
-    .aif-workflow-item {
-      display: grid;
-      grid-template-columns: 40px 1fr;
-      gap: 20px;
-      align-items: start;
-    }
-
-    .aif-workflow-num {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: var(--lavender);
-      color: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    .aif-showcase-tag {
+      display: inline-block;
       font-family: var(--font-heading);
-      font-weight: var(--weight-bold);
       font-size: var(--text-body);
+      font-weight: var(--weight-semibold);
+      letter-spacing: var(--tracking-wide);
+      text-transform: uppercase;
+      color: var(--charcoal);
+      background: color-mix(in srgb, var(--mist) 50%, var(--white));
+      border-radius: 99px;
+      padding: 2px 10px;
+      line-height: var(--leading-normal);
+    }
+
+    .aif-showcase-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-family: var(--font-heading);
+      font-size: var(--text-body);
+      font-weight: var(--weight-semibold);
+      color: var(--lavender);
+      text-decoration: none;
+      white-space: nowrap;
       flex-shrink: 0;
     }
 
-    .aif-workflow-content h4 {
-      margin-bottom: 8px;
+    .aif-showcase-link:hover {
+      text-decoration: underline;
     }
 
-    .aif-workflow-content p {
-      color: var(--charcoal);
-      margin: 0;
-    }
-
-    @media (max-width: 640px) {
-      .aif-body {
-        padding: 60px 20px 80px;
-      }
-
-      .aif-grid {
+    @media (max-width: 760px) {
+      .aif-showcase-grid {
         grid-template-columns: 1fr;
       }
     }
+
+    /* ── Mobile ── */
+    @media (max-width: 640px) {
+      .aif-compare {
+        grid-template-columns: 1fr;
+      }
+
+      .aif-compare-col--positive,
+      .aif-compare-col--negative {
+        flex-direction: column;
+      }
+
+      .aif-compare-accent {
+        width: 100%;
+        flex-direction: row;
+        padding: 12px 20px;
+        gap: 10px;
+      }
+
+      .aif-compare-accent-label {
+        writing-mode: horizontal-tb;
+        transform: none;
+      }
+
+      .aif-pullquote {
+        padding: 28px 24px;
+      }
+
+      .aif-pullquote-text {
+        font-size: var(--text-h4);
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -168,79 +487,553 @@
   </button>
 </nav>
 
-<div class="aif-page">
-  <div class="aif-body">
+<div class="cs-page">
+  <div class="cs-body">
 
     <!-- Hero -->
-    <div class="aif-hero">
-      <p class="aif-eyebrow label">Experiments &amp; Workflow</p>
-      <h1 class="h1">AI Fun</h1>
-      <p class="body-lg">Demos and tools I've built alongside how AI has reshaped the way I design — from early research to final handoff.</p>
-    </div>
+    <header class="cs-hero" id="overview">
+      <p class="cs-company overline">Process &amp; reflection</p>
+      <h1 class="cs-title h1">AI in my design process</h1>
+      <p class="body-lg cs-summary">I've been working AI into my design process for about a year. It helps with some things. It slows me down on others.</p>
+    </header>
 
-    <!-- Projects -->
-    <section class="aif-section" id="projects">
-      <h2 class="aif-section-heading h2">Projects</h2>
-      <div class="aif-grid">
+    <div class="cs-layout">
 
-        <a class="aif-card" href="#">
-          <p class="aif-card-type caption">Project</p>
-          <h3 class="h4">Project title</h3>
-          <p class="body-lg">Short description of what this is, what problem it solves, and what makes it interesting.</p>
-          <div class="aif-card-tags">
-            <span class="tag">Tag</span>
-            <span class="tag">Tag</span>
-          </div>
+      <!-- TOC Sidebar -->
+      <aside class="cs-toc">
+        <a class="toc-back" href="index.html">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+          Home
         </a>
-
-        <a class="aif-card" href="#">
-          <p class="aif-card-type caption">Experiment</p>
-          <h3 class="h4">Project title</h3>
-          <p class="body-lg">Short description of what this is, what problem it solves, and what makes it interesting.</p>
-          <div class="aif-card-tags">
-            <span class="tag">Tag</span>
-            <span class="tag">Tag</span>
+        <div class="toc-track">
+          <div class="toc-indicator">
+            <span class="toc-indicator-layer toc-indicator-layer--1"></span>
+            <span class="toc-indicator-layer toc-indicator-layer--2"></span>
+            <span class="toc-indicator-layer toc-indicator-layer--3"></span>
+            <span class="toc-indicator-layer toc-indicator-layer--4"></span>
+            <span class="toc-indicator-layer toc-indicator-layer--5"></span>
           </div>
-        </a>
-
-      </div>
-    </section>
-
-    <!-- Workflow -->
-    <section class="aif-section" id="workflow">
-      <h2 class="aif-section-heading h2">How I Use AI</h2>
-      <div class="aif-workflow-list">
-
-        <div class="aif-workflow-item">
-          <div class="aif-workflow-num">1</div>
-          <div class="aif-workflow-content">
-            <h4 class="h4">Step title</h4>
-            <p class="body-lg">Description of how AI fits into this part of your design process — what you do, what tool you use, and what it enables.</p>
-          </div>
+          <ul>
+            <li><a class="toc-link" href="#showcase">Showcase</a></li>
+            <li><a class="toc-link" href="#process">My process</a></li>
+            <li><a class="toc-link" href="#tradeoffs">Where it helps</a></li>
+          </ul>
         </div>
+      </aside>
 
-        <div class="aif-workflow-item">
-          <div class="aif-workflow-num">2</div>
-          <div class="aif-workflow-content">
-            <h4 class="h4">Step title</h4>
-            <p class="body-lg">Description of how AI fits into this part of your design process — what you do, what tool you use, and what it enables.</p>
+      <!-- Sections -->
+      <div class="cs-sections">
+
+        <!-- Section 1: Showcase -->
+        <section class="cs-section" id="showcase">
+          <h5>
+            <svg class="cs-section-icon cs-section-icon--code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="16 18 22 12 16 6" pathLength="100"/>
+              <polyline points="8 6 2 12 8 18" pathLength="100"/>
+            </svg>
+            Built with Claude Code
+          </h5>
+          <h2 class="h2">Things I've shipped using AI</h2>
+          <p class="body-lg">I use Claude Code, Cursor, Google Gemini, and Nano Banana Pro, both for client work and just to see what's possible. The projects below were built entirely through prompting.</p>
+
+          <div class="aif-showcase-grid">
+
+            <!-- Portfolio -->
+            <div class="aif-showcase-card">
+              <div class="aif-showcase-thumb">
+                <img src="images/ai/portfolio_screen.png" alt="Screenshot of this portfolio site" loading="lazy">
+              </div>
+              <div class="aif-showcase-content">
+                <p class="aif-showcase-title h3">This Portfolio</p>
+                <p class="aif-showcase-desc body-lg">Every animation and interaction on this site (the TOC indicator, the section icon draws, the scroll fade-ins) was built through prompting, not written by hand.</p>
+                <div class="aif-showcase-footer">
+                  <div class="aif-showcase-tags">
+                    <span class="aif-showcase-tag">Cursor</span>
+                    <span class="aif-showcase-tag">Claude Code</span>
+                    <span class="aif-showcase-tag">HTML/CSS</span>
+                    <span class="aif-showcase-tag">Vanilla JS</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Retro Arcade -->
+            <div class="aif-showcase-card">
+              <div class="aif-showcase-thumb">
+                <img src="images/ai/retro_arcade.png" alt="Screenshot of the Retro Arcade project" loading="lazy">
+                <span class="aif-showcase-badge">In progress</span>
+              </div>
+              <div class="aif-showcase-content">
+                <p class="aif-showcase-title h3">Retro Arcade</p>
+                <p class="aif-showcase-desc body-lg">A browser-based arcade with playable games, a score system, and a retro aesthetic. Built entirely through prompting with Claude Code.</p>
+                <div class="aif-showcase-footer">
+                  <div class="aif-showcase-tags">
+                    <span class="aif-showcase-tag">JavaScript</span>
+                    <span class="aif-showcase-tag">Claude Code</span>
+                    <span class="aif-showcase-tag">Canvas</span>
+                  </div>
+                  <a class="aif-showcase-link" href="https://friskygrape.github.io/game/" target="_blank" rel="noopener" aria-label="View Retro Arcade on GitHub">
+                    GitHub
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Thesis Prototype -->
+            <div class="aif-showcase-card">
+              <div class="aif-showcase-thumb aif-showcase-thumb--placeholder">
+                <div class="aif-showcase-placeholder-icon" aria-hidden="true">
+                  <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="10" y="6" width="28" height="36" rx="3"/>
+                    <line x1="16" y1="16" x2="32" y2="16"/>
+                    <line x1="16" y1="22" x2="32" y2="22"/>
+                    <line x1="16" y1="28" x2="24" y2="28"/>
+                  </svg>
+                </div>
+                <span class="aif-showcase-badge">Coming soon</span>
+              </div>
+              <div class="aif-showcase-content">
+                <p class="aif-showcase-title h3">Thesis Prototype</p>
+                <p class="aif-showcase-desc body-lg">A functional prototype built from my grad design thesis. Real interactions and logic, not just static screens.</p>
+                <div class="aif-showcase-footer">
+                  <div class="aif-showcase-tags">
+                    <span class="aif-showcase-tag">Claude Code</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
           </div>
-        </div>
 
-        <div class="aif-workflow-item">
-          <div class="aif-workflow-num">3</div>
-          <div class="aif-workflow-content">
-            <h4 class="h4">Step title</h4>
-            <p class="body-lg">Description of how AI fits into this part of your design process — what you do, what tool you use, and what it enables.</p>
+          <div class="aif-logo-banner">
+            <div class="aif-logo-slot"><img src="images/ai/logos/claude-code.png" alt="Claude Code" loading="lazy"></div>
+            <div class="aif-logo-slot"><img src="images/ai/logos/cursor.png" alt="Cursor" loading="lazy"></div>
+            <div class="aif-logo-slot"><img src="images/ai/logos/gemini.png" alt="Google Gemini" loading="lazy"></div>
+            <div class="aif-logo-slot"><img src="images/ai/logos/nano-banana.png" alt="Nano Banana Pro" loading="lazy"></div>
           </div>
-        </div>
+        </section>
 
-      </div>
-    </section>
+        <!-- Section 2: My process -->
+        <section class="cs-section" id="process">
+          <h5>
+            <svg class="cs-section-icon cs-section-icon--chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="15" y="5" width="4" height="12" rx="1"/>
+              <rect x="7" y="8" width="4" height="9" rx="1"/>
+              <path d="M11 13H7"/>
+              <path d="M19 9h-4"/>
+              <path d="M3 3v16a2 2 0 0 0 2 2h16"/>
+            </svg>
+            Process
+          </h5>
+          <h2 class="h2">How I use AI in my work</h2>
 
-  </div>
-</div>
+          <div class="aif-process-panel">
+          <div class="aif-process-divider">
+            <span class="aif-process-divider-label">Process</span>
+          </div>
+          <div class="aif-phase-grid">
+
+            <div class="aif-phase-card">
+              <div class="aif-phase-card-art">
+                <svg viewBox="0 0 100 90" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
+                  <circle cx="42" cy="42" r="32"/>
+                  <circle cx="42" cy="42" r="20"/>
+                  <circle cx="42" cy="42" r="9"/>
+                  <circle cx="42" cy="42" r="2.5" fill="currentColor" stroke="none"/>
+                  <line x1="62" y1="62" x2="88" y2="84"/>
+                </svg>
+              </div>
+              <p class="aif-phase-card-name h3">Research</p>
+              <div class="aif-phase-card-body">
+                <p class="aif-phase-card-text body-lg">When I'm diving into a new space, I use AI to get a handle on the jargon, what competitors are doing, and what users actually care about. Clueless to context, as fast as possible.</p>
+              </div>
+            </div>
+
+            <div class="aif-phase-card">
+              <div class="aif-phase-card-art">
+                <div id="aif-lottie-planning" style="width:64px;height:64px;" aria-hidden="true"></div>
+              </div>
+              <p class="aif-phase-card-name h3">Planning &amp; Validation</p>
+              <div class="aif-phase-card-body">
+                <p class="aif-phase-card-text body-lg">I treat AI as a partner that pokes holes in my early flows. It catches things I'd miss on my own before I commit to a direction.</p>
+              </div>
+            </div>
+
+            <div class="aif-phase-card">
+              <div class="aif-phase-card-art">
+                <svg viewBox="0 0 130 72" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
+                  <line x1="0" y1="8"  x2="130" y2="8"/>
+                  <line x1="0" y1="24" x2="110" y2="24"/>
+                  <line x1="0" y1="40" x2="130" y2="40"/>
+                  <line x1="0" y1="56" x2="82"  y2="56"/>
+                  <line x1="86" y1="49" x2="86" y2="63" stroke-width="2"/>
+                </svg>
+              </div>
+              <p class="aif-phase-card-name h3">Writing</p>
+              <div class="aif-phase-card-body">
+                <p class="aif-phase-card-text body-lg">For technical docs, UX copy, or usability test scripts, I use AI to get the first draft down. More time on the vibe, less time staring at a blank cursor.</p>
+              </div>
+            </div>
+
+            <div class="aif-phase-card">
+              <div class="aif-phase-card-art">
+                <svg viewBox="0 0 130 82" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <rect x="30" y="4"  width="96" height="62" rx="8"/>
+                  <rect x="15" y="13" width="96" height="62" rx="8"/>
+                  <rect x="0"  y="22" width="96" height="58" rx="8"/>
+                  <line x1="13" y1="37" x2="58" y2="37"/>
+                  <line x1="13" y1="50" x2="46" y2="50"/>
+                  <line x1="13" y1="63" x2="62" y2="63"/>
+                </svg>
+              </div>
+              <p class="aif-phase-card-name h3">Prototyping</p>
+              <div class="aif-phase-card-body">
+                <p class="aif-phase-card-text body-lg">I use tools like Cursor to build prototypes that actually behave like the real thing. Enough logic so users can explore freely, not just click through a rigid path.</p>
+              </div>
+            </div>
+
+            <div class="aif-phase-card">
+              <div class="aif-phase-card-art">
+                <svg viewBox="0 0 130 90" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
+                  <line x1="5" y1="82" x2="128" y2="82"/>
+                  <line x1="5" y1="5"  x2="5"   y2="82"/>
+                  <circle cx="22"  cy="72" r="3.5" fill="currentColor" stroke="none"/>
+                  <circle cx="38"  cy="58" r="3.5" fill="currentColor" stroke="none"/>
+                  <circle cx="54"  cy="64" r="3.5" fill="currentColor" stroke="none"/>
+                  <circle cx="68"  cy="46" r="3.5" fill="currentColor" stroke="none"/>
+                  <circle cx="82"  cy="38" r="3.5" fill="currentColor" stroke="none"/>
+                  <circle cx="96"  cy="32" r="3.5" fill="currentColor" stroke="none"/>
+                  <circle cx="112" cy="20" r="3.5" fill="currentColor" stroke="none"/>
+                  <line x1="14" y1="77" x2="120" y2="14" stroke-dasharray="5,4"/>
+                </svg>
+              </div>
+              <p class="aif-phase-card-name h3">Data &amp; Analytics</p>
+              <div class="aif-phase-card-body">
+                <p class="aif-phase-card-text body-lg">After usability sessions, I use AI to comb through the raw notes and find the patterns. The stakeholder debrief gets a lot easier when the story's already there.</p>
+              </div>
+            </div>
+
+          </div>
+          </div><!-- /aif-process-panel -->
+        </section>
+
+        <!-- Section 3: Where it helps -->
+        <section class="cs-section" id="tradeoffs">
+          <h5>
+            <svg class="cs-section-icon cs-section-icon--check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="10" pathLength="100"/>
+              <polyline points="8 12.5 11 15.5 16.5 9" pathLength="100"/>
+            </svg>
+            Tradeoffs
+          </h5>
+          <h2 class="h2">Where it helps vs. where it doesn't</h2>
+
+          <div class="aif-compare">
+            <div class="aif-compare-col aif-compare-col--positive">
+              <div class="aif-compare-content">
+                <ul class="aif-compare-list positive">
+                  <li>Mass changes across a prototype</li>
+                  <li>Building and iterating on components</li>
+                  <li>Micro-interactions and animations</li>
+                  <li>Summarising research</li>
+                  <li>UX writing and documentation</li>
+                  <li>Knocking out a backlog of QA changes</li>
+                </ul>
+              </div>
+              <div class="aif-compare-accent aif-compare-accent--positive">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+                <span class="aif-compare-accent-label">Do</span>
+              </div>
+            </div>
+            <div class="aif-compare-col aif-compare-col--negative">
+              <div class="aif-compare-accent aif-compare-accent--negative">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3H10z"/><path d="M17 2h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"/></svg>
+                <span class="aif-compare-accent-label">Don't</span>
+              </div>
+              <div class="aif-compare-content">
+                <ul class="aif-compare-list negative">
+                  <li>Visual polish and fine tweaks</li>
+                  <li>Keeping design consistent</li>
+                  <li>Spatial accuracy and layout</li>
+                  <li>Design inspiration (I still go external for that)</li>
+                  <li>Quick single-element edits</li>
+                  <li>Struggles with vague or open-ended prompts</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="aif-pullquote">
+            <p class="aif-pullquote-text">"AI gets me to 60&ndash;70% quickly. Getting that last 10&ndash;30% of polish often takes longer through prompting than just doing it myself."</p>
+          </div>
+        </section>
+
+
+      </div><!-- /cs-sections -->
+    </div><!-- /cs-layout -->
+  </div><!-- /cs-body -->
+</div><!-- /cs-page -->
 
 <script src="js/nav.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+<script>
+(function () {
+  // ── TOC indicator ──
+  const targets = [...document.querySelectorAll('.cs-section[id]')].filter(Boolean);
+  const links   = document.querySelectorAll('.toc-link');
+
+  const indicator = document.querySelector('.toc-indicator');
+  const layers    = [...document.querySelectorAll('.toc-indicator-layer')];
+  let currentIndicatorId = null;
+  let lastClickedId = null;
+  let lastClickedAt = 0;
+  const PIN_DURATION = 1200;
+
+  const INDICATOR_SIZE = 12;
+  const REST_OFFSETS   = [0, 0, 0, 0, 0];
+  const LERP_RATE      = 0.18;
+  const SCROLL_DURATION = 500;
+  const MAX_EXTRA_SEP  = 5;
+  const layerState     = layers.map(() => ({ y: 0 }));
+  let targetY       = 0;
+  let maxExtraSep   = 0;
+  let animating     = false;
+  let firstPlacement = true;
+  let syncActive    = false;
+
+  const trackEl = document.querySelector('.toc-track');
+  let inactiveLinkH = 0, activeLinkH = 0, baseLinkTop = 0;
+
+  function measureLinkHeights() {
+    const ref   = links[0];
+    const clone = ref.cloneNode(true);
+    clone.classList.remove('active');
+    clone.style.cssText = 'transition:none;position:absolute;visibility:hidden;pointer-events:none';
+    ref.parentNode.appendChild(clone);
+    inactiveLinkH = clone.getBoundingClientRect().height;
+    clone.classList.add('active');
+    activeLinkH = clone.getBoundingClientRect().height;
+    clone.remove();
+    baseLinkTop = ref.getBoundingClientRect().top - trackEl.getBoundingClientRect().top;
+  }
+  measureLinkHeights();
+
+  function targetForLink(a) {
+    const idx = [...links].indexOf(a);
+    return baseLinkTop + idx * inactiveLinkH + (activeLinkH - INDICATOR_SIZE) / 2;
+  }
+
+  function layerTargetFor(i) {
+    if (i === 0) return targetY + REST_OFFSETS[0];
+    return layerState[i - 1].y + (REST_OFFSETS[i] - REST_OFFSETS[i - 1]);
+  }
+
+  function tick() {
+    let stillMoving = false;
+    for (let i = 0; i < layerState.length; i++) {
+      const s = layerState[i];
+      if (i === 0 && syncActive) {
+        layers[0].style.setProperty('--toc-layer-y', `${s.y}px`);
+        stillMoving = true;
+        continue;
+      }
+      const lt = layerTargetFor(i);
+      const dy = lt - s.y;
+      s.y += dy * LERP_RATE;
+      if (i > 0) {
+        const restGap   = REST_OFFSETS[i] - REST_OFFSETS[i - 1];
+        const maxAbsGap = Math.abs(restGap) + maxExtraSep;
+        const gap       = s.y - layerState[i - 1].y;
+        if (Math.abs(gap) > maxAbsGap) {
+          s.y = layerState[i - 1].y + Math.sign(gap) * maxAbsGap;
+        }
+      }
+      layers[i].style.setProperty('--toc-layer-y', `${s.y}px`);
+      if (Math.abs(dy) > 0.1) stillMoving = true;
+    }
+    if (stillMoving) {
+      requestAnimationFrame(tick);
+    } else {
+      layerState[0].y = targetY + REST_OFFSETS[0];
+      for (let i = 1; i < layerState.length; i++) {
+        layerState[i].y = layerState[i - 1].y + (REST_OFFSETS[i] - REST_OFFSETS[i - 1]);
+      }
+      layers.forEach((l, i) => l.style.setProperty('--toc-layer-y', `${layerState[i].y}px`));
+      animating = false;
+    }
+  }
+
+  function moveIndicator(id) {
+    if (lastClickedId && id !== lastClickedId) return;
+    if (id === currentIndicatorId) return;
+    currentIndicatorId = id;
+    const active = document.querySelector(`.toc-link[href="#${id}"]`);
+    if (!active) return;
+    const newTarget = targetForLink(active);
+    if (firstPlacement) {
+      targetY = newTarget;
+      layerState[0].y = newTarget + REST_OFFSETS[0];
+      for (let i = 1; i < layerState.length; i++) {
+        layerState[i].y = layerState[i - 1].y + (REST_OFFSETS[i] - REST_OFFSETS[i - 1]);
+      }
+      layers.forEach((l, i) => l.style.setProperty('--toc-layer-y', `${layerState[i].y}px`));
+      firstPlacement = false;
+      layers.forEach(l => l.style.animationPlayState = 'running');
+    } else {
+      const D = Math.abs(newTarget - layerState[0].y);
+      maxExtraSep = Math.min(MAX_EXTRA_SEP, Math.max(0.3, D / 22));
+      targetY = newTarget;
+      if (!animating) { animating = true; requestAnimationFrame(tick); }
+    }
+  }
+
+  function setActive(id) {
+    links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + id));
+    moveIndicator(id);
+  }
+
+  const tocEl = document.querySelector('.cs-toc');
+
+  function findActive() {
+    const cut = tocEl ? tocEl.getBoundingClientRect().bottom : 88;
+    let id = targets[0]?.id;
+    for (const t of targets) {
+      if (t.getBoundingClientRect().top <= cut) id = t.id;
+    }
+    if (lastClickedId) {
+      if (Date.now() - lastClickedAt < PIN_DURATION) return lastClickedId;
+      lastClickedId = null;
+    }
+    if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 4) {
+      return targets[targets.length - 1].id;
+    }
+    return id;
+  }
+
+  const io = new IntersectionObserver(
+    () => setActive(findActive()),
+    { rootMargin: '-88px 0px 0px 0px', threshold: Array.from({ length: 21 }, (_, i) => i / 20) }
+  );
+  targets.forEach(t => io.observe(t));
+
+  function syncScrollAndIndicator(yScrollTarget, yIndicatorTarget, duration) {
+    const startScroll = window.scrollY;
+    const startLead   = layerState[0].y;
+    const dScroll     = yScrollTarget - startScroll;
+    const dLead       = yIndicatorTarget - startLead;
+    const startTime   = performance.now();
+    syncActive = true;
+    function step(now) {
+      const t     = Math.min((now - startTime) / duration, 1);
+      const eased = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+      window.scrollTo({ top: startScroll + dScroll * eased, behavior: 'instant' });
+      layerState[0].y = startLead + dLead * eased;
+      if (t < 1) { requestAnimationFrame(step); }
+      else { layerState[0].y = yIndicatorTarget; syncActive = false; }
+    }
+    requestAnimationFrame(step);
+    if (!animating) { animating = true; requestAnimationFrame(tick); }
+  }
+
+  links.forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const id  = a.getAttribute('href').slice(1);
+      const sec = document.getElementById(id);
+      if (!sec) return;
+      lastClickedId  = id;
+      lastClickedAt  = Date.now();
+      currentIndicatorId = id;
+      const yIndicator = targetForLink(a);
+      const yScroll    = sec.getBoundingClientRect().top + window.scrollY - 80;
+      links.forEach(l => l.classList.toggle('active', l === a));
+      targetY = yIndicator;
+      const D = Math.abs(yIndicator - layerState[0].y);
+      maxExtraSep = Math.min(MAX_EXTRA_SEP, Math.max(0.3, D / 22));
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        window.scrollTo({ top: yScroll, behavior: 'instant' });
+        layers.forEach((l, i) => { layerState[i].y = yIndicator; l.style.transform = `translateY(${yIndicator}px) rotate(45deg)`; });
+        return;
+      }
+      syncScrollAndIndicator(yScroll, yIndicator, SCROLL_DURATION);
+    });
+  });
+
+  setActive(findActive());
+
+  // ── Fade-in for cs-hero and cs-section children ──
+  const fadeGroups = new WeakMap();
+  const isHeading  = el => /^H[1-5]$/.test(el.tagName);
+  const isStandaloneBlock = el =>
+    el.classList.contains('cs-placeholder') ||
+    el.classList.contains('cs-features')    ||
+    el.classList.contains('cs-results')     ||
+    el.classList.contains('cs-stats')       ||
+    el.classList.contains('cs-retention')   ||
+    el.classList.contains('cs-compare')     ||
+    el.classList.contains('cs-issues')      ||
+    el.classList.contains('cs-quote')       ||
+    el.classList.contains('cs-split')       ||
+    el.classList.contains('aif-phase-grid') ||
+    el.classList.contains('aif-compare')    ||
+    el.classList.contains('aif-pullquote');
+
+  function buildFadeGroups(parent) {
+    const groups = [];
+    let current = [];
+    for (const child of parent.children) {
+      if (isHeading(child) || isStandaloneBlock(child)) {
+        if (current.length) { groups.push(current); current = []; }
+        groups.push([child]);
+      } else {
+        current.push(child);
+      }
+    }
+    if (current.length) groups.push(current);
+    return groups;
+  }
+
+  const fadeIO = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const group = fadeGroups.get(e.target);
+        if (group) { group.forEach(el => el.classList.add('is-visible')); }
+        else        { e.target.classList.add('is-visible'); }
+        fadeIO.unobserve(e.target);
+      }
+    });
+  }, { rootMargin: '0px 0px -20% 0px', threshold: 0 });
+
+  document.querySelectorAll('.cs-hero, .cs-section').forEach(parent => {
+    fadeIO.observe(parent);
+    buildFadeGroups(parent).forEach(group => {
+      fadeGroups.set(group[0], group);
+      fadeIO.observe(group[0]);
+    });
+  });
+
+  // ── Lottie icons ──
+  const planningAnim = lottie.loadAnimation({
+    container: document.getElementById('aif-lottie-planning'),
+    renderer: 'svg',
+    loop: false,
+    autoplay: false,
+    path: 'lottie/project.json'
+  });
+  const planningCard = document.getElementById('aif-lottie-planning').closest('.aif-phase-card');
+  planningCard.addEventListener('mouseenter', () => planningAnim.goToAndPlay(0, true));
+
+  // ── Section icon replay on scroll ──
+  const iconReplayIO = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      const section = e.target.closest('.cs-section');
+      if (section) section.classList.toggle('in-view', e.isIntersecting);
+    });
+  }, { threshold: 0 });
+  document.querySelectorAll('.cs-section h5').forEach(el => iconReplayIO.observe(el));
+
+})();
+</script>
 </body>
 </html>
