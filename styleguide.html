@@ -17,7 +17,8 @@
       --font:    var(--font-body);
 
       /* Type scale — desktop */
-      --text-display:  72px;
+      --text-display:  100px;
+      --text-lead:     24px;
       --text-h1:       50px;
       --text-h2:       36px;
       --text-h3:       28px;
@@ -74,93 +75,16 @@
     /* Mobile type overrides */
     @media (max-width: 768px) {
       :root {
-        --text-h1: 36px;
-        --text-h2: 26px;
+        --text-display: 48px;
+        --text-lead:    18px;
+        --text-h1:      36px;
+        --text-h2:      26px;
       }
     }
 
     /* ════════════════════════════════════════════════════════
        TYPE UTILITY CLASSES
     ════════════════════════════════════════════════════════ */
-    .text-display {
-      font-family: var(--font-heading);
-      font-size: var(--text-display);
-      font-weight: var(--weight-extrabold);
-      line-height: var(--leading-tight);
-      letter-spacing: var(--tracking-tightest);
-    }
-    .text-h1 {
-      font-family: var(--font-heading);
-      font-size: var(--text-h1);
-      font-weight: var(--weight-medium);
-      line-height: 1.2;
-      letter-spacing: 0em;
-    }
-    .text-h2 {
-      font-family: var(--font-heading);
-      font-size: var(--text-h2);
-      font-weight: var(--weight-medium);
-      line-height: 1.4;
-      letter-spacing: -0.02em;
-    }
-    .text-h3 {
-      font-family: var(--font-heading);
-      font-size: var(--text-h3);
-      font-weight: var(--weight-medium);
-      line-height: 1.4;
-      letter-spacing: 0em;
-    }
-    .text-h4 {
-      font-family: var(--font-heading);
-      font-size: var(--text-h4);
-      font-weight: var(--weight-medium);
-      line-height: 1.2;
-      letter-spacing: 0.01em;
-    }
-    .text-body-lg {
-      font-family: var(--font-body);
-      font-size: var(--text-body-lg);
-      font-weight: var(--weight-regular);
-      line-height: 1.6;
-      letter-spacing: 0em;
-    }
-    .text-body {
-      font-family: var(--font-body);
-      font-size: var(--text-body);
-      font-weight: var(--weight-regular);
-      line-height: 1.6;
-      letter-spacing: 0em;
-    }
-    .text-caption {
-      font-family: var(--font-body);
-      font-size: var(--text-caption);
-      font-weight: var(--weight-semibold);
-      line-height: 1.8;
-      letter-spacing: 0em;
-    }
-    .text-tag {
-      font-family: var(--font-heading);
-      font-size: var(--text-tag);
-      font-weight: var(--weight-semibold);
-      line-height: 1.2;
-      letter-spacing: 0em;
-    }
-    .text-label {
-      font-family: var(--font-heading);
-      font-size: var(--text-h4);
-      font-weight: var(--weight-semibold);
-      line-height: var(--leading-normal);
-      letter-spacing: 0em;
-    }
-    .text-overline {
-      font-family: var(--font-heading);
-      font-size: var(--text-overline);
-      font-weight: var(--weight-semibold);
-      line-height: var(--leading-normal);
-      letter-spacing: var(--tracking-widest);
-      text-transform: uppercase;
-    }
-
     /* Colour modifiers */
     .color-primary   { color: var(--color-primary);   }
     .color-secondary { color: var(--color-secondary); }
@@ -305,6 +229,113 @@
     /* Two-col token layout */
     .sg-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }
     @media (max-width: 680px) { .sg-two-col { grid-template-columns: 1fr; } }
+
+    /* ════════════════════════════════════════════════════════
+       SITE.CSS TYPE CLASSES — mirrors site.css, keep in sync
+       These are the actual classes applied in production HTML.
+    ════════════════════════════════════════════════════════ */
+    .display, .h1, .h2, .h3, .h4 { font-family: var(--font-heading); color: var(--charcoal); }
+    .display  { font-size: var(--text-display); font-weight: var(--weight-extrabold); line-height: var(--leading-tight); letter-spacing: var(--tracking-tightest); }
+    .h1 { font-size: var(--text-h1); font-weight: var(--weight-medium); line-height: 1.2; letter-spacing: 0em; }
+    .h2 { font-size: var(--text-h2); font-weight: var(--weight-medium); line-height: 1.4; letter-spacing: -0.02em; }
+    .h3 { font-size: var(--text-h3); font-weight: var(--weight-medium); line-height: 1.4; letter-spacing: 0em; }
+    .h4 { font-size: var(--text-h4); font-weight: var(--weight-medium); line-height: 1.2; letter-spacing: 0.01em; }
+    .h5 { font-family: var(--font-heading); font-size: 18px; font-weight: var(--weight-medium); letter-spacing: var(--tracking-wide); text-transform: uppercase; color: var(--color-tertiary); }
+    .lead    { font-size: var(--text-lead); font-weight: var(--weight-regular); line-height: var(--leading-relaxed); }
+    .body-lg { font-size: var(--text-body-lg); font-weight: var(--weight-regular); line-height: 1.6; letter-spacing: 0em; }
+    .body    { font-size: var(--text-body); font-weight: var(--weight-regular); line-height: var(--leading-relaxed); }
+    .label   { font-family: var(--font-heading); font-size: var(--text-h4); font-weight: var(--weight-semibold); line-height: var(--leading-normal); }
+    .overline { font-size: var(--text-overline); font-weight: var(--weight-semibold); line-height: var(--leading-normal); letter-spacing: var(--tracking-widest); text-transform: uppercase; }
+    .caption { font-size: var(--text-caption); font-weight: var(--weight-semibold); line-height: 1.8; letter-spacing: 0em; }
+    .tag     { font-family: var(--font-heading); font-size: var(--text-tag); font-weight: var(--weight-semibold); line-height: 1.2; letter-spacing: 0em; }
+
+    /* ════════════════════════════════════════════════════════
+       COMPONENTS — mirrors site.css, keep in sync
+    ════════════════════════════════════════════════════════ */
+
+    /* Metrics cards (cs-metrics) */
+    .cs-metrics { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+    .cs-metric {
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; text-align: center;
+      padding: 28px 24px; min-height: 240px;
+      background:
+        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' seed='7'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.22 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>") repeat,
+        linear-gradient(135deg, color-mix(in srgb, var(--white) 10%, transparent), transparent 60%),
+        color-mix(in srgb, var(--lavender) 80%, black);
+      border: 1px solid color-mix(in srgb, var(--white) 30%, transparent);
+      border-radius: 8px;
+      box-shadow: inset 0 1px 0 color-mix(in srgb, var(--white) 38%, transparent), 0 12px 40px -12px color-mix(in srgb, var(--lavender) 45%, transparent);
+      position: relative; overflow: hidden; isolation: isolate;
+    }
+    .cs-metric::before { content: ''; position: absolute; inset: -50%; z-index: -1; }
+    .cs-metric:nth-child(1)::before { background: radial-gradient(circle at 25% 25%, var(--plum), transparent 55%), radial-gradient(circle at 75% 75%, color-mix(in srgb, var(--white) 22%, transparent), transparent 55%); animation: cs-metric-gradient 14s linear infinite; }
+    .cs-metric:nth-child(2)::before { background: radial-gradient(circle at 70% 30%, color-mix(in srgb, var(--white) 25%, transparent), transparent 50%), radial-gradient(circle at 30% 70%, var(--plum), transparent 60%); animation: cs-metric-gradient 18s linear infinite reverse; }
+    .cs-metric:nth-child(3)::before { background: radial-gradient(circle at 50% 20%, var(--plum), transparent 55%), radial-gradient(circle at 20% 80%, color-mix(in srgb, var(--white) 20%, transparent), transparent 45%); animation: cs-metric-gradient 11s linear infinite; }
+    @keyframes cs-metric-gradient { to { transform: rotate(360deg); } }
+    .cs-metric-header { display: flex; flex-direction: column; align-items: center; gap: 8px; margin-bottom: 16px; }
+    .cs-metric-rank { color: var(--white); }
+    .cs-metric .cs-metric-label { color: var(--white); margin: 0; }
+    .cs-metric-number { display: block; color: var(--white); }
+    .cs-metric-unit { display: block; color: var(--white); margin-top: 10px; }
+
+    /* Feature / issue grid (cs-features / cs-issues — same structure, cs-issues adds staggered animation) */
+    .cs-features, .cs-issues { display: grid; grid-template-columns: repeat(3,1fr); gap: 32px; }
+    .cs-feature, .cs-issue { display: flex; flex-direction: column; }
+    .cs-feature-icon, .cs-issue-icon { width: 28px; height: 28px; color: var(--lavender); flex-shrink: 0; }
+    .cs-feature-title, .cs-issue-title { margin-top: 24px; margin-bottom: 12px; color: var(--charcoal); }
+    .cs-feature-desc, .cs-issue-desc { margin: 0; color: var(--color-secondary); font-size: var(--text-body-lg); line-height: 1.6; }
+
+    /* Comparison cards */
+    .cs-compare { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .cs-compare-card { display: flex; flex-direction: column; }
+    .cs-compare-tag { align-self: flex-start; display: inline-flex; align-items: center; gap: 8px; padding: 8px 20px; border-radius: 999px; font-family: var(--font-heading); font-size: var(--text-h4); font-weight: var(--weight-medium); color: var(--white); background: var(--lavender); margin-bottom: 16px; }
+    .cs-compare-tag-icon { width: 28px; height: 28px; flex-shrink: 0; stroke-width: 1.5; }
+    .cs-compare-card .cs-compare-subtitle { color: var(--color-secondary); margin-bottom: 28px; }
+    .cs-compare-list { list-style: none; display: flex; flex-direction: column; gap: 14px; margin: 0; }
+    .cs-compare-list li { display: flex; align-items: flex-start; gap: 12px; font-size: var(--text-body-lg); line-height: 1.5; color: var(--charcoal); }
+    .cs-compare-check { width: 28px; height: 28px; flex-shrink: 0; color: var(--lavender); stroke-width: 1.5; }
+
+    /* Case study meta row */
+    .cs-meta { display: grid; grid-template-columns: repeat(4,1fr); gap: 24px; border-top: 1px solid color-mix(in srgb, var(--lavender) 20%, transparent); border-bottom: 1px solid color-mix(in srgb, var(--lavender) 20%, transparent); padding: 16px 0; }
+    .cs-meta-item p:first-child { font-family: var(--font-heading); font-size: var(--text-label); font-weight: var(--weight-medium); letter-spacing: 0.08em; text-transform: uppercase; color: var(--lavender); margin-bottom: 6px; }
+    .cs-meta-item p:last-child { font-size: var(--text-caption); line-height: 1.6; color: var(--color-secondary); }
+
+    /* Results card */
+    .cs-results { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .cs-result { padding: 28px 24px; background: var(--white); border: 1px solid var(--mist); border-radius: 16px; }
+    .cs-result-title { color: var(--lavender); margin: 0 0 24px; }
+    .cs-result-row + .cs-result-row { margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--mist); }
+    .cs-result-row-platform { font-family: var(--font-heading); font-size: 16px; font-weight: var(--weight-medium); color: var(--silver); margin: 0 0 8px; }
+    .cs-result-row-content  { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .cs-result-row-values   { font-family: var(--font-heading); font-size: 22px; font-weight: var(--weight-medium); color: var(--charcoal); letter-spacing: -0.01em; margin: 0; white-space: nowrap; }
+    .cs-result-arrow { color: var(--lavender); margin: 0 6px; }
+    .cs-result-lift  { font-family: var(--font-heading); font-size: 16px; font-weight: var(--weight-semibold); color: var(--lavender); background: color-mix(in srgb, var(--lavender) 12%, transparent); padding: 4px 10px; border-radius: 99px; white-space: nowrap; }
+
+    /* Component chrome */
+    .sg-component { margin-bottom: 48px; }
+    .sg-component-label {
+      font-size: 12px; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--color-accent);
+      margin-bottom: 4px;
+    }
+    .sg-component-desc { font-size: 13px; color: var(--color-tertiary); margin-bottom: 20px; }
+    .sg-component-preview {
+      background: #fff;
+      border: 1px solid rgba(0,0,0,0.07);
+      border-radius: 12px;
+      padding: 32px;
+    }
+    .sg-component-classes {
+      margin-top: 16px; padding-top: 14px;
+      border-top: 1px solid rgba(0,0,0,0.06);
+      display: flex; flex-wrap: wrap; gap: 6px;
+    }
+    .sg-component-class {
+      font-size: 11px; font-weight: 600; font-family: 'SF Mono','Fira Code',monospace;
+      color: var(--color-accent); background: #f0effe;
+      padding: 2px 8px; border-radius: 4px;
+    }
   </style>
 </head>
 <body>
@@ -318,6 +349,7 @@
     <a href="#weights">Weights</a>
     <a href="#leading">Leading</a>
     <a href="#tracking">Tracking</a>
+    <a href="#components">Components</a>
     <a href="../Portfolio/index.html">← Landing Page</a>
   </div>
 </nav>
@@ -343,82 +375,106 @@
 
     <div class="sg-type-row">
       <div class="sg-type-meta">
-        <span class="sg-type-class">.text-display</span>
-        <div class="sg-type-specs">72px · 800 · −0.04em</div>
+        <span class="sg-type-class">.display</span>
+        <div class="sg-type-specs">Geist · 100px · 800 · 1.08 · −0.04em<br>Mobile: 48px</div>
       </div>
-      <div class="sg-type-preview text-display" style="font-size:clamp(36px,5vw,72px)">Display</div>
+      <div class="sg-type-preview display" style="font-size:clamp(36px,5vw,72px)">Display</div>
     </div>
 
     <div class="sg-type-row">
       <div class="sg-type-meta">
-        <span class="sg-type-class">.text-h1</span>
+        <span class="sg-type-class">.h1</span>
         <div class="sg-type-specs">Geist · 50px · 500 · 1.2 · 0em<br>Mobile: 36px</div>
       </div>
-      <div class="sg-type-preview text-h1" style="font-size:clamp(28px,4vw,50px)">Heading 1</div>
+      <div class="sg-type-preview h1" style="font-size:clamp(28px,4vw,50px)">Heading 1</div>
     </div>
 
     <div class="sg-type-row">
       <div class="sg-type-meta">
-        <span class="sg-type-class">.text-h2</span>
+        <span class="sg-type-class">.h2</span>
         <div class="sg-type-specs">Geist · 36px · 500 · 1.4 · −0.02em<br>Mobile: 26px</div>
       </div>
-      <div class="sg-type-preview text-h2">Heading 2</div>
+      <div class="sg-type-preview h2">Heading 2</div>
     </div>
 
     <div class="sg-type-row">
       <div class="sg-type-meta">
-        <span class="sg-type-class">.text-h3</span>
+        <span class="sg-type-class">.h3</span>
         <div class="sg-type-specs">Geist · 28px · 500 · 1.4 · 0em</div>
       </div>
-      <div class="sg-type-preview text-h3">Heading 3</div>
+      <div class="sg-type-preview h3">Heading 3</div>
     </div>
 
     <div class="sg-type-row">
       <div class="sg-type-meta">
-        <span class="sg-type-class">.text-h4</span>
+        <span class="sg-type-class">.h4</span>
         <div class="sg-type-specs">Geist · 20px · 500 · 1.2 · 0.01em</div>
       </div>
-      <div class="sg-type-preview text-h4">Heading 4</div>
+      <div class="sg-type-preview h4">Heading 4</div>
     </div>
 
     <div class="sg-type-row">
       <div class="sg-type-meta">
-        <span class="sg-type-class">.text-body-lg</span>
+        <span class="sg-type-class">.h5</span>
+        <div class="sg-type-specs">Geist · 18px · 500 · 0.04em · uppercase</div>
+      </div>
+      <div class="sg-type-preview h5">Section Label</div>
+    </div>
+
+    <div class="sg-type-row">
+      <div class="sg-type-meta">
+        <span class="sg-type-class">.lead</span>
+        <div class="sg-type-specs">Open Sans · 24px · 400 · 1.7<br>Mobile: 18px</div>
+      </div>
+      <div class="sg-type-preview lead">The quick brown fox jumps over the lazy dog.</div>
+    </div>
+
+    <div class="sg-type-row">
+      <div class="sg-type-meta">
+        <span class="sg-type-class">.body-lg</span>
         <div class="sg-type-specs">Open Sans · 18px · 400 · 1.6 · 0em</div>
       </div>
-      <div class="sg-type-preview text-body-lg">The quick brown fox jumps over the lazy dog.</div>
+      <div class="sg-type-preview body-lg">The quick brown fox jumps over the lazy dog.</div>
     </div>
 
     <div class="sg-type-row">
       <div class="sg-type-meta">
-        <span class="sg-type-class">.text-body</span>
-        <div class="sg-type-specs">Open Sans · 16px · 400 · 1.6 · 0em</div>
+        <span class="sg-type-class">.body</span>
+        <div class="sg-type-specs">Open Sans · 16px · 400 · 1.7 · 0em</div>
       </div>
-      <div class="sg-type-preview text-body">The quick brown fox jumps over the lazy dog.</div>
+      <div class="sg-type-preview body">The quick brown fox jumps over the lazy dog.</div>
     </div>
 
     <div class="sg-type-row">
       <div class="sg-type-meta">
-        <span class="sg-type-class">.text-caption</span>
+        <span class="sg-type-class">.label</span>
+        <div class="sg-type-specs">Geist · 20px · 600 · 1.5</div>
+      </div>
+      <div class="sg-type-preview label">Label text</div>
+    </div>
+
+    <div class="sg-type-row">
+      <div class="sg-type-meta">
+        <span class="sg-type-class">.overline</span>
+        <div class="sg-type-specs">Open Sans · 16px · 600 · 0.14em · uppercase</div>
+      </div>
+      <div class="sg-type-preview overline color-accent">Section label</div>
+    </div>
+
+    <div class="sg-type-row">
+      <div class="sg-type-meta">
+        <span class="sg-type-class">.caption</span>
         <div class="sg-type-specs">Open Sans · 15px · 600 · 1.8 · 0em</div>
       </div>
-      <div class="sg-type-preview text-caption">Caption or helper text</div>
+      <div class="sg-type-preview caption">Caption or helper text</div>
     </div>
 
     <div class="sg-type-row">
       <div class="sg-type-meta">
-        <span class="sg-type-class">.text-tag</span>
+        <span class="sg-type-class">.tag</span>
         <div class="sg-type-specs">Geist · 16px · 600 · 1.2 · 0em</div>
       </div>
-      <div class="sg-type-preview text-tag">Tag Label</div>
-    </div>
-
-    <div class="sg-type-row">
-      <div class="sg-type-meta">
-        <span class="sg-type-class">.text-overline</span>
-        <div class="sg-type-specs">Geist · 16px · 600 · 0.14em · uppercase</div>
-      </div>
-      <div class="sg-type-preview text-overline color-accent">Section label</div>
+      <div class="sg-type-preview tag">Tag Label</div>
     </div>
   </section>
 
@@ -656,6 +712,215 @@
         </tr>
       </tbody>
     </table>
+  </section>
+
+
+  <!-- ── Components ─────────────────────────────────────── -->
+  <section class="sg-section" id="components">
+    <div class="sg-section-header">
+      <span class="sg-section-name">Components</span>
+      <span class="sg-section-desc">Reusable patterns from <code>site.css</code>. Class names match production — keep in sync.</span>
+    </div>
+
+    <!-- Case Study Meta -->
+    <div class="sg-component">
+      <p class="sg-component-label">Case Study Meta</p>
+      <p class="sg-component-desc">Four-column metadata row that opens every case study. Sits between the hero and the body.</p>
+      <div class="sg-component-preview">
+        <div class="cs-meta">
+          <div class="cs-meta-item">
+            <p>Role</p>
+            <p>Lead Product Designer</p>
+          </div>
+          <div class="cs-meta-item">
+            <p>Team</p>
+            <p>Design, Engineering, Data</p>
+          </div>
+          <div class="cs-meta-item">
+            <p>Timeline</p>
+            <p>Q1 – Q2 2024 · 5 months</p>
+          </div>
+          <div class="cs-meta-item">
+            <p>Platform</p>
+            <p>Web · iOS · Android</p>
+          </div>
+        </div>
+        <div class="sg-component-classes">
+          <span class="sg-component-class">.cs-meta</span>
+          <span class="sg-component-class">.cs-meta-item</span>
+          <span class="sg-component-class">p:first-child (label)</span>
+          <span class="sg-component-class">p:last-child (value)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Metrics -->
+    <div class="sg-component">
+      <p class="sg-component-label">Metrics</p>
+      <p class="sg-component-desc">Three-column metric highlight with animated purple gradient cards. Used in case study Impact sections.</p>
+      <div class="sg-component-preview" style="background:#f4f3fb;">
+        <div class="cs-metrics">
+          <div class="cs-metric">
+            <div class="cs-metric-header">
+              <span class="overline cs-metric-rank">#1</span>
+              <p class="caption cs-metric-label">Revenue recovered</p>
+            </div>
+            <span class="h1 cs-metric-number">$6.7M</span>
+            <span class="body cs-metric-unit">annually</span>
+          </div>
+          <div class="cs-metric">
+            <div class="cs-metric-header">
+              <span class="overline cs-metric-rank">#2</span>
+              <p class="caption cs-metric-label">Increase in activations</p>
+            </div>
+            <span class="h1 cs-metric-number">340%</span>
+            <span class="body cs-metric-unit">year over year</span>
+          </div>
+          <div class="cs-metric">
+            <div class="cs-metric-header">
+              <span class="overline cs-metric-rank">#3</span>
+              <p class="caption cs-metric-label">Avg. implementation</p>
+            </div>
+            <span class="h1 cs-metric-number">3 wks</span>
+            <span class="body cs-metric-unit">down from 12 weeks</span>
+          </div>
+        </div>
+        <div class="sg-component-classes">
+          <span class="sg-component-class">.cs-metrics</span>
+          <span class="sg-component-class">.cs-metric</span>
+          <span class="sg-component-class">.cs-metric-header</span>
+          <span class="sg-component-class">.cs-metric-rank + .overline</span>
+          <span class="sg-component-class">.cs-metric-label + .caption</span>
+          <span class="sg-component-class">.cs-metric-number + .h1</span>
+          <span class="sg-component-class">.cs-metric-unit + .body</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Feature / Issue Grid -->
+    <div class="sg-component">
+      <p class="sg-component-label">Feature / Issue Grid</p>
+      <p class="sg-component-desc">Three-column grid with icon, title, and description. Used as <code>.cs-features</code> for capability overviews and <code>.cs-issues</code> for problem framing — the structure is identical, the class name signals intent.</p>
+      <div class="sg-component-preview">
+        <div class="cs-features">
+          <div class="cs-feature">
+            <svg class="cs-feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+            </svg>
+            <p class="h4 cs-feature-title">Intelligent Suggestions</p>
+            <p class="body-lg cs-feature-desc">Context-aware recommendations surface the right action at the right moment.</p>
+          </div>
+          <div class="cs-feature">
+            <svg class="cs-feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="9" x2="9" y2="21"/>
+            </svg>
+            <p class="h4 cs-feature-title">Flexible Layouts</p>
+            <p class="body-lg cs-feature-desc">Arrange content to fit any workflow without compromising the information hierarchy.</p>
+          </div>
+          <div class="cs-feature">
+            <svg class="cs-feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"/><polyline points="9 12 11 14 15 10"/>
+            </svg>
+            <p class="h4 cs-feature-title">Built-in Validation</p>
+            <p class="body-lg cs-feature-desc">Errors surface before submission, not after. Fewer support tickets, happier users.</p>
+          </div>
+        </div>
+        <div class="sg-component-classes">
+          <span class="sg-component-class">.cs-features / .cs-issues</span>
+          <span class="sg-component-class">.cs-feature / .cs-issue</span>
+          <span class="sg-component-class">.cs-feature-icon / .cs-issue-icon</span>
+          <span class="sg-component-class">.cs-feature-title + .h4</span>
+          <span class="sg-component-class">.cs-feature-desc + .body-lg</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Results Card -->
+    <div class="sg-component">
+      <p class="sg-component-label">Results Card</p>
+      <p class="sg-component-desc">Before/after metric card used in Impact sections. Wrap two in <code>.cs-results</code> for the standard two-column layout.</p>
+      <div class="sg-component-preview" style="max-width:420px;">
+        <div class="cs-result">
+          <p class="overline cs-result-title">Activation rate</p>
+          <div class="cs-result-row">
+            <p class="cs-result-row-platform">Web</p>
+            <div class="cs-result-row-content">
+              <p class="cs-result-row-values">12%<span class="cs-result-arrow">→</span>47%</p>
+              <span class="cs-result-lift">+35pp</span>
+            </div>
+          </div>
+          <div class="cs-result-row">
+            <p class="cs-result-row-platform">Mobile</p>
+            <div class="cs-result-row-content">
+              <p class="cs-result-row-values">8%<span class="cs-result-arrow">→</span>39%</p>
+              <span class="cs-result-lift">+31pp</span>
+            </div>
+          </div>
+        </div>
+        <div class="sg-component-classes">
+          <span class="sg-component-class">.cs-results (2-col grid)</span>
+          <span class="sg-component-class">.cs-result</span>
+          <span class="sg-component-class">.cs-result-title + .overline</span>
+          <span class="sg-component-class">.cs-result-row</span>
+          <span class="sg-component-class">.cs-result-row-values</span>
+          <span class="sg-component-class">.cs-result-lift</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Comparison Cards -->
+    <div class="sg-component">
+      <p class="sg-component-label">Comparison Cards</p>
+      <p class="sg-component-desc">Two-column before/after or old/new comparison. Each card has a pill tag, subtitle, and a checklist of items.</p>
+      <div class="sg-component-preview">
+        <div class="cs-compare">
+          <div class="cs-compare-card">
+            <div class="cs-compare-tag" style="background:var(--silver);">
+              <svg class="cs-compare-tag-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              Before
+            </div>
+            <p class="body-lg cs-compare-subtitle">Users had to navigate three separate flows to complete a single task.</p>
+            <ul class="cs-compare-list">
+              <li>
+                <svg class="cs-compare-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+                No clear entry point for new users
+              </li>
+              <li>
+                <svg class="cs-compare-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+                Duplicated steps across screens
+              </li>
+            </ul>
+          </div>
+          <div class="cs-compare-card">
+            <div class="cs-compare-tag">
+              <svg class="cs-compare-tag-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              After
+            </div>
+            <p class="body-lg cs-compare-subtitle">A unified flow guides users from start to completion in one session.</p>
+            <ul class="cs-compare-list">
+              <li>
+                <svg class="cs-compare-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                Progressive disclosure reduces cognitive load
+              </li>
+              <li>
+                <svg class="cs-compare-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                Inline validation prevents errors before submission
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="sg-component-classes">
+          <span class="sg-component-class">.cs-compare</span>
+          <span class="sg-component-class">.cs-compare-card</span>
+          <span class="sg-component-class">.cs-compare-tag</span>
+          <span class="sg-component-class">.cs-compare-tag-icon</span>
+          <span class="sg-component-class">.cs-compare-subtitle + .body-lg</span>
+          <span class="sg-component-class">.cs-compare-list</span>
+          <span class="sg-component-class">.cs-compare-check</span>
+        </div>
+      </div>
+    </div>
+
   </section>
 
 </div><!-- /sg-page -->

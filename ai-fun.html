@@ -24,109 +24,114 @@
       --aif-negative: #D85A30;
     }
 
-    /* ── Process section heading spacing ── */
-    #process h5 { margin-bottom: 0; }
-    #process .h2 { margin-top: 8px; }
-
     /* ── Process panel ── */
     .aif-process-panel {
       background: color-mix(in srgb, var(--mist) 20%, var(--white));
       border-radius: 20px;
-      padding: 32px 28px 36px;
+      padding: 32px 28px 0;
+      overflow: hidden;
     }
 
-    .aif-process-divider {
+    /* ── Panel header: heading + nav arrows ── */
+    .aif-process-panel-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .aif-process-panel-header h5 { margin-bottom: 0; }
+    .aif-process-panel-header .h2 { margin: 8px 0 0; }
+
+    /* ── Arrow navigation ── */
+    .aif-carousel-nav {
+      display: flex;
+      gap: 8px;
+      padding-bottom: 6px;
+      flex-shrink: 0;
+    }
+
+    .aif-nav-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1.5px solid var(--mist);
+      background: transparent;
+      cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 16px;
-      margin-bottom: 32px;
-    }
-
-    .aif-process-divider::before,
-    .aif-process-divider::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: var(--mist);
-    }
-
-    .aif-process-divider-label {
-      font-family: var(--font-heading);
-      font-size: var(--text-body);
-      font-weight: var(--weight-semibold);
-      letter-spacing: var(--tracking-wide);
-      text-transform: uppercase;
+      justify-content: center;
       color: var(--charcoal);
-      background: var(--white);
-      border: 1px solid var(--mist);
-      border-radius: 99px;
-      padding: 4px 16px;
-      white-space: nowrap;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+      flex-shrink: 0;
     }
 
-    /* ── Process grid ── */
-    .aif-phase-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
+    .aif-nav-btn:hover:not(:disabled) {
+      background: var(--charcoal);
+      border-color: var(--charcoal);
+      color: var(--white);
     }
 
+    .aif-nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+    /* ── Carousel track ── */
+    .aif-carousel-track {
+      display: flex;
+      gap: 14px;
+      margin-right: -28px;
+      padding-bottom: 36px;
+      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      will-change: transform;
+    }
+
+    /* ── Phase cards ── */
     .aif-phase-card {
-      background: transparent;
-      border: none;
-      border-radius: 0;
-      padding: 16px 12px;
+      flex: none;
+      width: 210px;
+      background: var(--text);
+      border-radius: 14px;
+      overflow: hidden;
       display: flex;
       flex-direction: column;
-    }
-
-    .aif-phase-card .aif-phase-card-name {
-      margin: 0;
-    }
-
-    .aif-phase-card-subtitle {
-      margin-top: 8px;
-      font-size: var(--text-body);
-      font-weight: var(--weight-regular);
-      color: var(--color-secondary);
-      line-height: var(--leading-normal);
-    }
-
-    .aif-phase-card-body {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin-top: 16px;
     }
 
     .aif-phase-card-art {
+      height: 185px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 20px 16px;
       flex-shrink: 0;
-      color: var(--ash);
-      margin-bottom: 12px;
-      display: none;
+      color: #8ecfb7;
     }
 
     .aif-phase-card-art svg {
       display: block;
-      width: 64px;
-      height: auto;
+      width: 100%;
+      height: 100%;
     }
 
-    .aif-phase-card .aif-phase-card-text {
-      margin: 0;
-      color: var(--color-secondary);
+    #aif-lottie-planning {
+      width: 120px;
+      height: 120px;
+      filter: invert(1);
     }
 
-    @media (max-width: 840px) {
-      .aif-phase-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
+    .aif-phase-card-content {
+      flex: 1;
+      padding: 12px 18px 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
     }
 
-    @media (max-width: 480px) {
-      .aif-phase-grid {
-        grid-template-columns: 1fr;
-      }
+    .aif-phase-card-name { margin: 0; color: var(--white); }
+    .aif-phase-card-text { margin: 0; color: rgba(255,255,255,0.55); }
+
+    @media (max-width: 640px) {
+      .aif-process-panel { padding-left: 20px; padding-right: 20px; }
+      .aif-carousel-track { margin-right: -20px; gap: 12px; }
+      .aif-phase-card { width: min(240px, 72vw); }
     }
 
     /* ── Comparison table ── */
@@ -616,105 +621,122 @@
 
         <!-- Section 2: My process -->
         <section class="cs-section" id="process">
-          <h5>
-            <svg class="cs-section-icon cs-section-icon--chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <rect x="15" y="5" width="4" height="12" rx="1"/>
-              <rect x="7" y="8" width="4" height="9" rx="1"/>
-              <path d="M11 13H7"/>
-              <path d="M19 9h-4"/>
-              <path d="M3 3v16a2 2 0 0 0 2 2h16"/>
-            </svg>
-            Process
-          </h5>
-          <h2 class="h2">How I use AI in my work</h2>
-
           <div class="aif-process-panel">
-          <div class="aif-process-divider">
-            <span class="aif-process-divider-label">Process</span>
-          </div>
-          <div class="aif-phase-grid">
-
-            <div class="aif-phase-card">
-              <div class="aif-phase-card-art">
-                <svg viewBox="0 0 100 90" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
-                  <circle cx="42" cy="42" r="32"/>
-                  <circle cx="42" cy="42" r="20"/>
-                  <circle cx="42" cy="42" r="9"/>
-                  <circle cx="42" cy="42" r="2.5" fill="currentColor" stroke="none"/>
-                  <line x1="62" y1="62" x2="88" y2="84"/>
-                </svg>
+            <div class="aif-process-panel-header">
+              <div>
+                <h5>
+                  <svg class="cs-section-icon cs-section-icon--chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <rect x="15" y="5" width="4" height="12" rx="1"/>
+                    <rect x="7" y="8" width="4" height="9" rx="1"/>
+                    <path d="M11 13H7"/>
+                    <path d="M19 9h-4"/>
+                    <path d="M3 3v16a2 2 0 0 0 2 2h16"/>
+                  </svg>
+                  Process
+                </h5>
+                <h2 class="h2">How I use AI in my work</h2>
               </div>
-              <p class="aif-phase-card-name h3">Research</p>
-              <div class="aif-phase-card-body">
-                <p class="aif-phase-card-text body-lg">When I'm diving into a new space, I use AI to get a handle on the jargon, what competitors are doing, and what users actually care about. Clueless to context, as fast as possible.</p>
-              </div>
-            </div>
-
-            <div class="aif-phase-card">
-              <div class="aif-phase-card-art">
-                <div id="aif-lottie-planning" style="width:64px;height:64px;" aria-hidden="true"></div>
-              </div>
-              <p class="aif-phase-card-name h3">Planning &amp; Validation</p>
-              <div class="aif-phase-card-body">
-                <p class="aif-phase-card-text body-lg">I treat AI as a partner that pokes holes in my early flows. It catches things I'd miss on my own before I commit to a direction.</p>
+              <div class="aif-carousel-nav">
+                <button class="aif-nav-btn" id="aif-prev" aria-label="Previous">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="10 12 6 8 10 4"/></svg>
+                </button>
+                <button class="aif-nav-btn" id="aif-next" aria-label="Next">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 4 10 8 6 12"/></svg>
+                </button>
               </div>
             </div>
 
-            <div class="aif-phase-card">
-              <div class="aif-phase-card-art">
-                <svg viewBox="0 0 130 72" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
-                  <line x1="0" y1="8"  x2="130" y2="8"/>
-                  <line x1="0" y1="24" x2="110" y2="24"/>
-                  <line x1="0" y1="40" x2="130" y2="40"/>
-                  <line x1="0" y1="56" x2="82"  y2="56"/>
-                  <line x1="86" y1="49" x2="86" y2="63" stroke-width="2"/>
-                </svg>
-              </div>
-              <p class="aif-phase-card-name h3">Writing</p>
-              <div class="aif-phase-card-body">
-                <p class="aif-phase-card-text body-lg">For technical docs, UX copy, or usability test scripts, I use AI to get the first draft down. More time on the vibe, less time staring at a blank cursor.</p>
-              </div>
-            </div>
+            <div class="aif-carousel-track" id="aif-carousel-track">
 
-            <div class="aif-phase-card">
-              <div class="aif-phase-card-art">
-                <svg viewBox="0 0 130 82" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <rect x="30" y="4"  width="96" height="62" rx="8"/>
-                  <rect x="15" y="13" width="96" height="62" rx="8"/>
-                  <rect x="0"  y="22" width="96" height="58" rx="8"/>
-                  <line x1="13" y1="37" x2="58" y2="37"/>
-                  <line x1="13" y1="50" x2="46" y2="50"/>
-                  <line x1="13" y1="63" x2="62" y2="63"/>
-                </svg>
+              <div class="aif-phase-card">
+                <div class="aif-phase-card-art">
+                  <svg viewBox="0 0 200 150" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
+                    <circle cx="88" cy="74" r="54"/>
+                    <circle cx="88" cy="74" r="34"/>
+                    <circle cx="88" cy="74" r="17"/>
+                    <circle cx="88" cy="74" r="4" fill="currentColor" stroke="none"/>
+                    <line x1="114" y1="100" x2="152" y2="136"/>
+                    <circle cx="24" cy="30" r="2.5" fill="currentColor" stroke="none"/>
+                    <circle cx="172" cy="22" r="2" fill="currentColor" stroke="none"/>
+                    <circle cx="182" cy="118" r="2" fill="currentColor" stroke="none"/>
+                    <circle cx="16" cy="114" r="2.5" fill="currentColor" stroke="none"/>
+                  </svg>
+                </div>
+                <div class="aif-phase-card-content">
+                  <p class="aif-phase-card-name h4">Research</p>
+                  <p class="aif-phase-card-text body-lg">When I'm diving into a new space, I use AI to get a handle on the jargon, what competitors are doing, and what users actually care about. Clueless to context, as fast as possible.</p>
+                </div>
               </div>
-              <p class="aif-phase-card-name h3">Prototyping</p>
-              <div class="aif-phase-card-body">
-                <p class="aif-phase-card-text body-lg">I use tools like Cursor to build prototypes that actually behave like the real thing. Enough logic so users can explore freely, not just click through a rigid path.</p>
-              </div>
-            </div>
 
-            <div class="aif-phase-card">
-              <div class="aif-phase-card-art">
-                <svg viewBox="0 0 130 90" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
-                  <line x1="5" y1="82" x2="128" y2="82"/>
-                  <line x1="5" y1="5"  x2="5"   y2="82"/>
-                  <circle cx="22"  cy="72" r="3.5" fill="currentColor" stroke="none"/>
-                  <circle cx="38"  cy="58" r="3.5" fill="currentColor" stroke="none"/>
-                  <circle cx="54"  cy="64" r="3.5" fill="currentColor" stroke="none"/>
-                  <circle cx="68"  cy="46" r="3.5" fill="currentColor" stroke="none"/>
-                  <circle cx="82"  cy="38" r="3.5" fill="currentColor" stroke="none"/>
-                  <circle cx="96"  cy="32" r="3.5" fill="currentColor" stroke="none"/>
-                  <circle cx="112" cy="20" r="3.5" fill="currentColor" stroke="none"/>
-                  <line x1="14" y1="77" x2="120" y2="14" stroke-dasharray="5,4"/>
-                </svg>
+              <div class="aif-phase-card">
+                <div class="aif-phase-card-art">
+                  <div id="aif-lottie-planning" aria-hidden="true"></div>
+                </div>
+                <div class="aif-phase-card-content">
+                  <p class="aif-phase-card-name h4">Planning &amp; Validation</p>
+                  <p class="aif-phase-card-text body-lg">I treat AI as a partner that pokes holes in my early flows. It catches things I'd miss on my own before I commit to a direction.</p>
+                </div>
               </div>
-              <p class="aif-phase-card-name h3">Data &amp; Analytics</p>
-              <div class="aif-phase-card-body">
-                <p class="aif-phase-card-text body-lg">After usability sessions, I use AI to comb through the raw notes and find the patterns. The stakeholder debrief gets a lot easier when the story's already there.</p>
-              </div>
-            </div>
 
-          </div>
+              <div class="aif-phase-card">
+                <div class="aif-phase-card-art">
+                  <svg viewBox="0 0 200 150" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
+                    <rect x="30" y="8" width="140" height="134" rx="7"/>
+                    <line x1="52" y1="36" x2="150" y2="36" stroke-width="3"/>
+                    <line x1="52" y1="58" x2="150" y2="58"/>
+                    <line x1="52" y1="74" x2="126" y2="74"/>
+                    <line x1="52" y1="90" x2="150" y2="90"/>
+                    <line x1="52" y1="106" x2="110" y2="106"/>
+                    <rect x="114" y="99" width="2.5" height="16" rx="1" fill="currentColor" stroke="none"/>
+                  </svg>
+                </div>
+                <div class="aif-phase-card-content">
+                  <p class="aif-phase-card-name h4">Writing</p>
+                  <p class="aif-phase-card-text body-lg">For technical docs, UX copy, or usability test scripts, I use AI to get the first draft down. More time on the vibe, less time staring at a blank cursor.</p>
+                </div>
+              </div>
+
+              <div class="aif-phase-card">
+                <div class="aif-phase-card-art">
+                  <svg viewBox="0 0 200 150" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <rect x="68" y="6" width="112" height="80" rx="8"/>
+                    <rect x="44" y="20" width="112" height="80" rx="8"/>
+                    <rect x="20" y="34" width="112" height="80" rx="8"/>
+                    <line x1="36" y1="54" x2="86" y2="54"/>
+                    <line x1="36" y1="68" x2="70" y2="68"/>
+                    <line x1="36" y1="82" x2="88" y2="82"/>
+                    <rect x="36" y="92" width="34" height="10" rx="3"/>
+                  </svg>
+                </div>
+                <div class="aif-phase-card-content">
+                  <p class="aif-phase-card-name h4">Prototyping</p>
+                  <p class="aif-phase-card-text body-lg">I use tools like Cursor to build prototypes that actually behave like the real thing. Enough logic so users can explore freely, not just click through a rigid path.</p>
+                </div>
+              </div>
+
+              <div class="aif-phase-card">
+                <div class="aif-phase-card-art">
+                  <svg viewBox="0 0 200 150" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
+                    <line x1="18" y1="130" x2="190" y2="130"/>
+                    <line x1="18" y1="10" x2="18" y2="130"/>
+                    <circle cx="38"  cy="112" r="3.5" fill="currentColor" stroke="none"/>
+                    <circle cx="58"  cy="97"  r="3.5" fill="currentColor" stroke="none"/>
+                    <circle cx="78"  cy="104" r="3.5" fill="currentColor" stroke="none"/>
+                    <circle cx="98"  cy="80"  r="3.5" fill="currentColor" stroke="none"/>
+                    <circle cx="118" cy="63"  r="3.5" fill="currentColor" stroke="none"/>
+                    <circle cx="138" cy="55"  r="3.5" fill="currentColor" stroke="none"/>
+                    <circle cx="158" cy="40"  r="3.5" fill="currentColor" stroke="none"/>
+                    <circle cx="176" cy="26"  r="3.5" fill="currentColor" stroke="none"/>
+                    <line x1="26" y1="124" x2="184" y2="18" stroke-dasharray="5,4"/>
+                  </svg>
+                </div>
+                <div class="aif-phase-card-content">
+                  <p class="aif-phase-card-name h4">Data &amp; Analytics</p>
+                  <p class="aif-phase-card-text body-lg">After usability sessions, I use AI to comb through the raw notes and find the patterns. The stakeholder debrief gets a lot easier when the story's already there.</p>
+                </div>
+              </div>
+
+            </div><!-- /aif-carousel-track -->
           </div><!-- /aif-process-panel -->
         </section>
 
@@ -975,7 +997,7 @@
     el.classList.contains('cs-issues')      ||
     el.classList.contains('cs-quote')       ||
     el.classList.contains('cs-split')       ||
-    el.classList.contains('aif-phase-grid') ||
+    el.classList.contains('aif-process-panel') ||
     el.classList.contains('aif-compare')    ||
     el.classList.contains('aif-pullquote');
 
@@ -1012,6 +1034,42 @@
       fadeIO.observe(group[0]);
     });
   });
+
+  // ── Process carousel ──
+  (function() {
+    const track   = document.getElementById('aif-carousel-track');
+    const prevBtn = document.getElementById('aif-prev');
+    const nextBtn = document.getElementById('aif-next');
+    if (!track || !prevBtn || !nextBtn) return;
+
+    const cards = Array.from(track.querySelectorAll('.aif-phase-card'));
+    const panel = track.closest('.aif-process-panel');
+    let idx = 0;
+
+    function stride() {
+      const gap = parseFloat(getComputedStyle(track).gap) || 14;
+      return (cards[0]?.offsetWidth || 210) + gap;
+    }
+
+    function maxIdx() {
+      const leftPad = parseFloat(getComputedStyle(panel).paddingLeft) || 28;
+      const gap     = parseFloat(getComputedStyle(track).gap) || 14;
+      const visW    = panel.offsetWidth - leftPad;
+      const visible = Math.floor((visW + gap) / stride());
+      return Math.max(0, cards.length - visible);
+    }
+
+    function update() {
+      track.style.transform = `translateX(${-idx * stride()}px)`;
+      prevBtn.disabled = idx === 0;
+      nextBtn.disabled = idx >= maxIdx();
+    }
+
+    prevBtn.addEventListener('click', () => { if (idx > 0) { idx--; update(); } });
+    nextBtn.addEventListener('click', () => { if (idx < maxIdx()) { idx++; update(); } });
+    window.addEventListener('resize', () => { idx = Math.min(idx, maxIdx()); update(); });
+    update();
+  })();
 
   // ── Lottie icons ──
   const planningAnim = lottie.loadAnimation({
