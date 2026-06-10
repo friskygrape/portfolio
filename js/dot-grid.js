@@ -7,7 +7,7 @@
 
   const SPACING      = 22;
   const REPEL_RADIUS = 90;
-  const REPEL_STR    = 2.5;
+  const REPEL_STR    = 4.5;
   const DAMPING      = 0.82;
   const SPRING       = 0.08;
   const DOT_RADIUS   = 1.5;
