@@ -18,427 +18,778 @@
   </script>
   <style>
 
-    /* ── Semantic color tokens for this page ── */
+    /* ════════════════════════════════════════════════════
+       AI PAGE — technical editorial layout
+       Full-bleed bands, hairline column grid, parallax.
+       ════════════════════════════════════════════════════ */
+
     :root {
       --aif-positive: #1D9E75;
       --aif-negative: #D85A30;
+      --aip-ink: var(--text);                                            /* dark band background */
+      --aip-line: color-mix(in srgb, var(--mist) 62%, transparent);      /* hairline on light */
+      --aip-line-dark: rgba(255, 255, 255, 0.08);                        /* hairline on dark */
+      --aip-art: color-mix(in srgb, var(--lavender) 32%, var(--white));  /* line art on dark */
+      --aip-max: 1400px;
+      --aip-pad: 40px;
     }
 
-    /* ── Process panel ── */
-    .aif-process-panel {
-      background: color-mix(in srgb, var(--mist) 20%, var(--white));
-      border-radius: 20px;
-      padding: 32px 28px 28px;
+    .aip { padding-top: 56px; overflow-x: clip; }
+
+    /* ── Shared band + column frame ── */
+    .aip-band { position: relative; }
+    .aip-band--dark { background: var(--aip-ink); }
+
+    .aip-frame {
+      position: relative;
+      max-width: var(--aip-max);
+      margin: 0 auto;
+      padding: 0 var(--aip-pad);
     }
 
-    /* ── Panel header ── */
-    .aif-process-panel-header {
-      display: flex;
-      align-items: flex-start;
-      gap: 16px;
-      margin-bottom: 24px;
+    /* Dotted texture for dark bands */
+    .aip-band--dark::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background-image: radial-gradient(rgba(255,255,255,0.10) 1px, transparent 1px);
+      background-size: 26px 26px;
+      mask-image: linear-gradient(to bottom, transparent, black 12%, black 88%, transparent);
     }
-    .aif-process-panel-header h5 { margin-bottom: 0; }
-    .aif-process-panel-header .h2 { margin: 8px 0 0; }
+    .aip-band--dark .aip-frame { z-index: 1; }
 
-    /* ── Bento grid ── */
-    .aif-bento-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
+    /* ── Scroll reveal ── */
+    .aip-reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1), transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .aip-reveal.is-visible { opacity: 1; transform: none; }
+
+    /* ── Section chip (label) ── */
+    .aip-chip {
+      display: inline-flex;
+      align-self: flex-start;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 18px;
+      border: 1px solid var(--aip-line);
+      border-radius: 99px;
+      color: var(--lavender);
+      margin-bottom: 0;
+      background: var(--white);
+    }
+    .aip-band--dark .aip-chip {
+      border-color: var(--aip-line-dark);
+      color: var(--aip-art);
+      background: transparent;
+    }
+    .aip-chip svg {
+      width: 22px;
+      height: 22px;
+      flex-shrink: 0;
+      stroke-width: 1.75;
     }
 
-    /* ── Phase cards ── */
-    .aif-phase-card {
-      background: var(--text);
-      border-radius: 14px;
-      overflow: hidden;
+    /* ════════════════════════════════════════════════════
+       HERO
+       ════════════════════════════════════════════════════ */
+    .aip-hero .aip-frame {
+      min-height: calc(100svh - 56px);
       display: flex;
       flex-direction: column;
+      justify-content: flex-end;
+      padding-top: 96px;
+      padding-bottom: 72px;
     }
 
-    .aif-phase-card--wide { grid-column: span 2; }
-
-    .aif-phase-card-art {
-      flex: 1;
-      min-height: 156px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 24px 20px 12px;
-      color: #8ecfb7;
+    .aip-hero-title {
+      margin: 28px 0 0;
+      max-width: 12ch;
+      position: relative;
+      z-index: 1;
     }
 
-    .aif-phase-card--wide .aif-phase-card-art {
-      min-height: 172px;
+    .aip-hero-summary {
+      margin: 40px 0 0;
+      max-width: 52ch;
+      color: var(--charcoal);
+      position: relative;
+      z-index: 1;
     }
 
-    .aif-phase-card-art svg {
-      display: block;
+    /* Eager load-in for hero pieces */
+    @keyframes aip-hero-up {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: none; }
+    }
+    .aip-hero .aip-chip        { animation: aip-hero-up 0.7s cubic-bezier(0.4, 0, 0.2, 1) 0.05s backwards; }
+    .aip-hero .aip-hero-title  { animation: aip-hero-up 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.18s backwards; }
+    .aip-hero .aip-hero-summary{ animation: aip-hero-up 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.34s backwards; }
+
+    /* ── Flicker-in text (stepped opacity, per character) ── */
+    .aip-flicker-word { display: inline-block; white-space: nowrap; }
+    .aip-flicker-char {
+      display: inline-block;
+      animation: aip-blink 0.3s 1 both;
+    }
+    @keyframes aip-blink {
+      0%   { opacity: 0;   animation-timing-function: step-end; }
+      10%  { opacity: 0.5; animation-timing-function: step-end; }
+      20%  { opacity: 0.2; animation-timing-function: step-end; }
+      30%  { opacity: 0.7; animation-timing-function: step-end; }
+      40%  { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    /* The flicker takes over the hero title's entrance */
+    .aip-hero .aip-hero-title.aip-flickering { animation: none; }
+
+    /* Parallax hero scene — a prompt generating a design, in the
+       same line-art language as the process illustrations */
+    .aip-hero-ornament {
+      position: absolute;
+      top: 10%;
+      right: 6%;
+      width: 480px;
+      height: 430px;
+      pointer-events: none;
+      color: var(--lavender);
+    }
+    .aip-hero-ornament svg {
+      position: absolute;
+      inset: 0;
       width: 100%;
       height: 100%;
+      will-change: transform;
+    }
+    .aip-hero-caret {
+      animation: aip-caret 1.1s step-end infinite;
+    }
+    @keyframes aip-caret {
+      0%, 100% { opacity: 0.8; }
+      50%      { opacity: 0; }
     }
 
-    .aif-phase-card-content {
-      padding: 12px 18px 22px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
+    .aip-hero-dots {
+      position: absolute;
+      top: 20%;
+      left: 27%;
+      width: 220px;
+      height: 160px;
+      pointer-events: none;
+      background-image: radial-gradient(var(--ash) 1.5px, transparent 1.5px);
+      background-size: 18px 18px;
+      mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+      opacity: 0.7;
     }
 
-    .aif-phase-card-name { margin: 0; color: var(--white); }
-    .aif-phase-card-text { margin: 0; color: rgba(255,255,255,0.55); }
-
-    @media (max-width: 760px) {
-      .aif-bento-grid { grid-template-columns: 1fr 1fr; }
+    /* Scroll cue — drifting chevron */
+    .aip-scrollcue {
+      position: absolute;
+      bottom: 40px;
+      right: var(--aip-pad);
+      width: 28px;
+      height: 44px;
+      color: var(--silver);
+    }
+    .aip-scrollcue svg { display: block; width: 100%; height: 100%; }
+    .aip-scrollcue svg polyline { animation: aip-cue 1.8s ease-in-out infinite; }
+    .aip-scrollcue svg polyline:last-child { animation-delay: 0.22s; }
+    @keyframes aip-cue {
+      0%, 100% { transform: translateY(0);   opacity: 0.35; }
+      50%      { transform: translateY(6px); opacity: 1; }
     }
 
-    @media (max-width: 520px) {
-      .aif-bento-grid { grid-template-columns: 1fr; }
-      .aif-phase-card--wide { grid-column: span 1; }
-      .aif-process-panel { padding-left: 20px; padding-right: 20px; }
-    }
-
-    /* ── Comparison table ── */
-    .aif-compare {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
-
-    .aif-compare-col {
-      display: flex;
-      background: var(--white);
-      border: 1px solid var(--mist);
-      border-radius: 16px;
+    /* ════════════════════════════════════════════════════
+       TOOL TICKER
+       ════════════════════════════════════════════════════ */
+    .aip-ticker {
+      border-top: 1px solid var(--aip-line);
+      border-bottom: 1px solid var(--aip-line);
       overflow: hidden;
     }
-
-    .aif-compare-col--positive { flex-direction: row; }
-    .aif-compare-col--negative { flex-direction: row-reverse; }
-
-    .aif-compare-accent {
-      width: 44px;
-      flex-shrink: 0;
+    .aip-ticker-track {
       display: flex;
-      flex-direction: column;
+      width: max-content;
+      animation: aip-ticker-roll 28s linear infinite;
+    }
+    .aip-ticker:hover .aip-ticker-track { animation-play-state: paused; }
+    @keyframes aip-ticker-roll {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+    .aip-ticker-seq {
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    .aip-ticker-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      padding: 26px 44px;
+      color: var(--charcoal);
+      white-space: nowrap;
+    }
+    .aip-ticker-item img {
+      height: 26px;
+      width: auto;
+      display: block;
+      filter: grayscale(1);
+      opacity: 0.75;
+      transition: filter 0.25s ease, opacity 0.25s ease;
+    }
+    .aip-ticker-item:hover img { filter: none; opacity: 1; }
+    .aip-ticker-sep {
+      width: 9px;
+      height: 9px;
+      flex-shrink: 0;
+      rotate: 45deg;
+      border-radius: 2px;
+      background: var(--lavender);
+      opacity: 0.55;
+    }
+
+    /* ════════════════════════════════════════════════════
+       SECTION HEADERS
+       ════════════════════════════════════════════════════ */
+    .aip-section { scroll-margin-top: 80px; }
+
+    .aip-section-head {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      align-items: end;
+      padding: 88px 0 56px;
+    }
+    .aip-section-head .aip-chip { justify-self: start; align-self: start; }
+    .aip-section-title { margin: 24px 0 0; }
+    .aip-band--dark .aip-section-title { color: var(--white); }
+    .aip-section-intro {
+      margin: 0;
+      max-width: 50ch;
+      color: var(--color-secondary);
+      padding-bottom: 6px;
+    }
+    .aip-band--dark .aip-section-intro { color: rgba(255,255,255,0.6); }
+
+    /* ════════════════════════════════════════════════════
+       SHOWCASE — index rows
+       ════════════════════════════════════════════════════ */
+    .aip-rows {
+      border-top: 1px solid var(--aip-line);
+      margin-bottom: 0;
+    }
+
+    .aip-row {
+      position: relative;
+      display: grid;
+      grid-template-columns: 88px 300px 1fr 220px 72px;
+      gap: 32px;
+      align-items: center;
+      padding: 36px 0;
+      border-bottom: 1px solid var(--aip-line);
+      text-decoration: none;
+      color: inherit;
+      transition: background-color 0.3s ease;
+    }
+    .aip-row::before {
+      content: '';
+      position: absolute;
+      inset: 0 calc(-1 * var(--aip-pad));
+      background: color-mix(in srgb, var(--mist) 26%, var(--white));
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+    .aip-row:hover::before { opacity: 1; }
+    .aip-row > * { position: relative; }
+
+    /* Staggered reveal per row */
+    .aip-row.aip-reveal:nth-child(1) { transition-delay: 0.05s; }
+    .aip-row.aip-reveal:nth-child(2) { transition-delay: 0.15s; }
+    .aip-row.aip-reveal:nth-child(3) { transition-delay: 0.25s; }
+
+    .aip-row-index {
+      color: var(--silver);
+      letter-spacing: var(--tracking-wider);
+    }
+
+    .aip-row-thumb {
+      aspect-ratio: 16 / 10;
+      overflow: hidden;
+      border-radius: 10px;
+      border: 1px solid var(--aip-line);
+      position: relative;
+      background: var(--white);
+    }
+    .aip-row-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: grayscale(1);
+      transform: scale(1.001);
+      transition: filter 0.4s ease, transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .aip-row:hover .aip-row-thumb img {
+      filter: none;
+      transform: scale(1.05);
+    }
+
+    .aip-row-thumb--placeholder {
+      background-image: radial-gradient(var(--mist) 1.5px, transparent 1.5px);
+      background-size: 18px 18px;
+      display: flex;
       align-items: center;
       justify-content: center;
-      gap: 14px;
-      padding: 20px 0;
+      color: var(--silver);
+      transition: color 0.3s ease;
+    }
+    .aip-row:hover .aip-row-thumb--placeholder { color: var(--lavender); }
+    .aip-row-thumb--placeholder svg { width: 72%; height: auto; }
+
+    .aip-row-badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: var(--white);
+      border: 1px solid var(--mist);
+      border-radius: 99px;
+      padding: 2px 10px;
+      color: var(--charcoal);
     }
 
-    .aif-compare-accent--positive { background: var(--aif-positive); }
-    .aif-compare-accent--negative { background: var(--aif-negative); }
+    .aip-row-title { margin: 0; color: var(--charcoal); }
+    .aip-row-desc {
+      margin: 10px 0 0;
+      color: var(--color-secondary);
+      max-width: 52ch;
+    }
 
-    .aif-compare-accent svg { color: var(--white); }
-
-    .aif-compare-accent-label {
-      writing-mode: vertical-rl;
-      transform: rotate(180deg);
-      font-family: var(--font-heading);
-      font-size: var(--text-body);
-      font-weight: var(--weight-bold);
-      letter-spacing: var(--tracking-wider);
+    .aip-row-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      justify-content: flex-start;
+    }
+    .aip-row-tag {
+      display: inline-block;
+      border: 1px solid var(--aip-line);
+      border-radius: 99px;
+      padding: 3px 12px;
+      color: var(--charcoal);
+      background: var(--white);
       text-transform: uppercase;
+      letter-spacing: var(--tracking-wide);
+    }
+
+    .aip-row-arrow {
+      justify-self: end;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--charcoal);
+      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), color 0.3s ease;
+    }
+    .aip-row:hover .aip-row-arrow {
+      transform: translateX(8px);
+      color: var(--lavender);
+    }
+    .aip-row-arrow svg { width: 30px; height: 30px; stroke-width: 1.75; }
+
+    .aip-row-ext {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 14px;
+      color: var(--lavender);
+      text-decoration: none;
+    }
+    .aip-row-ext:hover { text-decoration: underline; }
+    .aip-row-ext svg { width: 15px; height: 15px; }
+
+    /* ════════════════════════════════════════════════════
+       PROCESS — dark chapter, bento grid
+       ════════════════════════════════════════════════════ */
+    .aip-process .aip-frame { padding-bottom: 88px; }
+    .aip-process .aip-section-head { padding: 56px 0 36px; }
+
+    .aip-bento {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .aip-cell {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      padding: 24px;
+      border: 1px solid var(--aip-line-dark);
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.03);
+      overflow: hidden;
+      transition: border-color 0.4s ease, background-color 0.4s ease, transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .aip-cell:hover {
+      border-color: rgba(255, 255, 255, 0.22);
+      background: rgba(255, 255, 255, 0.05);
+      transform: translateY(-3px);
+    }
+
+    .aip-cell-index {
+      color: var(--aip-art);
+      letter-spacing: var(--tracking-wider);
+    }
+    .aip-cell-name { margin: 10px 0 8px; color: var(--white); }
+    .aip-cell-text {
+      margin: 0;
+      color: rgba(255,255,255,0.62);
+      max-width: 56ch;
+    }
+    .aip-cell-text .aip-tool {
       color: var(--white);
+      font-weight: var(--weight-semibold);
     }
 
-    .aif-compare-content { flex: 1; min-width: 0; }
+    .aip-cell-art {
+      flex: 1;
+      min-height: 0;
+      padding-top: 16px;
+      color: var(--aip-art);
+      display: flex;
+      align-items: flex-end;
+    }
+    .aip-cell-art svg { display: block; width: 100%; max-width: 270px; height: auto; max-height: 115px; }
 
-    .aif-compare-list {
+    /* Wide cells — the phases I lean on most sit copy-beside-visual */
+    .aip-cell--wide {
+      grid-column: span 2;
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+      gap: 28px;
+      align-items: start;
+    }
+    .aip-cell--wide .aip-cell-art {
+      margin-top: 0;
+      padding-top: 0;
+      align-self: stretch;
+      align-items: center;
+    }
+    .aip-cell--wide .aip-cell-art svg { max-width: 270px; height: auto; max-height: 115px; }
+
+    /* Staggered cell reveal (container carries .aip-reveal) */
+    .aip-cell { opacity: 0; translate: 0 18px; }
+    .aip-bento.is-visible .aip-cell {
+      opacity: 1;
+      translate: 0 0;
+      transition: opacity 0.6s ease, translate 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+                  border-color 0.4s ease, background-color 0.4s ease, transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .aip-bento.is-visible .aip-cell:nth-child(1) { transition-delay: 0.05s, 0.05s, 0s, 0s, 0s; }
+    .aip-bento.is-visible .aip-cell:nth-child(2) { transition-delay: 0.13s, 0.13s, 0s, 0s, 0s; }
+    .aip-bento.is-visible .aip-cell:nth-child(3) { transition-delay: 0.21s, 0.21s, 0s, 0s, 0s; }
+    .aip-bento.is-visible .aip-cell:nth-child(4) { transition-delay: 0.29s, 0.29s, 0s, 0s, 0s; }
+    .aip-bento.is-visible .aip-cell:nth-child(5) { transition-delay: 0.37s, 0.37s, 0s, 0s, 0s; }
+    .aip-bento.is-visible .aip-cell:nth-child(6) { transition-delay: 0.45s, 0.45s, 0s, 0s, 0s; }
+
+    /* Looping micro-animations inside the art */
+    .aip-loop-scan, .aip-loop-nudge, .aip-loop-ring {
+      transform-box: fill-box;
+      transform-origin: center;
+    }
+    @keyframes aip-loop-scan {
+      0%, 100% { transform: translate(0, 0); }
+      40%      { transform: translate(10px, 8px); }
+      70%      { transform: translate(-7px, 11px); }
+    }
+    .aip-loop-scan { animation: aip-loop-scan 9s ease-in-out infinite; }
+
+    @keyframes aip-loop-caret {
+      0%, 45%  { opacity: 0.75; }
+      50%, 95% { opacity: 0; }
+      100%     { opacity: 0.75; }
+    }
+    .aip-loop-caret { animation: aip-loop-caret 1.2s step-end infinite; }
+
+    @keyframes aip-loop-dash {
+      to { stroke-dashoffset: -16; }
+    }
+    .aip-loop-dash { animation: aip-loop-dash 8s linear infinite; }
+
+    @keyframes aip-loop-ring {
+      0%, 100% { opacity: 0.3; }
+      50%      { opacity: 1; }
+    }
+    .aip-loop-ring { animation: aip-loop-ring 2.8s ease-in-out infinite; }
+    .aip-loop-ring--late { animation-delay: 0.5s; }
+
+    @keyframes aip-loop-nudge {
+      0%, 100% { transform: translateX(0); }
+      50%      { transform: translateX(6px); }
+    }
+    .aip-loop-nudge { animation: aip-loop-nudge 2.4s ease-in-out infinite; }
+
+    @keyframes aip-loop-flow {
+      to { stroke-dashoffset: -16; }
+    }
+    .aip-loop-flow {
+      stroke-dasharray: 3 13;
+      stroke-opacity: 0.55;
+      animation: aip-loop-flow 2s linear infinite;
+    }
+
+    /* Layout A: hero + 2 sidebar cards  B: banner + 2 cols  C: 3 equal cols */
+    @keyframes aip-wf-r1 {
+      0%, 25% { x: 24px; y: 58px; width: 218px; height: 98px; }
+      33%, 58% { x: 24px; y: 58px; width: 332px; height: 36px; }
+      66%, 91% { x: 24px; y: 58px; width: 108px; height: 98px; }
+      100%     { x: 24px; y: 58px; width: 218px; height: 98px; }
+    }
+    @keyframes aip-wf-r2 {
+      0%, 25% { x: 250px; y: 58px;  width: 106px; height: 46px; }
+      33%, 58% { x: 24px;  y: 102px; width: 158px; height: 54px; }
+      66%, 91% { x: 136px; y: 58px;  width: 108px; height: 98px; }
+      100%     { x: 250px; y: 58px;  width: 106px; height: 46px; }
+    }
+    @keyframes aip-wf-r3 {
+      0%, 25% { x: 250px; y: 110px; width: 106px; height: 46px; }
+      33%, 58% { x: 190px; y: 102px; width: 166px; height: 54px; }
+      66%, 91% { x: 248px; y: 58px;  width: 108px; height: 98px; }
+      100%     { x: 250px; y: 110px; width: 106px; height: 46px; }
+    }
+    .aip-wf-r1 { animation: aip-wf-r1 12s ease-in-out infinite; }
+    .aip-wf-r2 { animation: aip-wf-r2 12s ease-in-out infinite; }
+    .aip-wf-r3 { animation: aip-wf-r3 12s ease-in-out infinite; }
+
+    /* ════════════════════════════════════════════════════
+       TRADEOFFS — do / don't ledger
+       ════════════════════════════════════════════════════ */
+    .aip-compare {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border-top: 1px solid var(--aip-line);
+      margin-bottom: 0;
+    }
+
+    .aip-compare-col { padding: 48px 0 88px; }
+    .aip-compare-col + .aip-compare-col { border-left: 1px solid var(--aip-line); padding-left: 48px; }
+    .aip-compare-col:first-child { padding-right: 48px; }
+
+    .aip-compare-head {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+    .aip-compare-head svg { width: 22px; height: 22px; stroke-width: 1.75; }
+    .aip-compare-head--positive { color: var(--aif-positive); }
+    .aip-compare-head--negative { color: var(--aif-negative); }
+    .aip-compare-head span { letter-spacing: var(--tracking-widest); }
+
+    .aip-compare-list {
       list-style: none;
-      padding: 8px 0;
+      margin: 0;
+      padding: 0;
     }
-
-    .aif-compare-list li {
+    .aip-compare-list li {
       display: flex;
       align-items: flex-start;
-      gap: 12px;
-      padding: 10px 20px;
-      color: var(--color-secondary);
+      gap: 14px;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--aip-line);
+      color: var(--charcoal);
       font-size: var(--text-body-lg);
       line-height: var(--leading-normal);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
-
-    .aif-compare-list li::before {
+    .aip-compare-list li:hover { transform: translateX(6px); }
+    .aip-compare-list li::before {
       content: '';
       display: block;
-      width: 18px;
-      height: 18px;
+      width: 19px;
+      height: 19px;
       background-size: contain;
       background-repeat: no-repeat;
       background-position: center;
       flex-shrink: 0;
-      margin-top: 3px;
+      margin-top: 4px;
     }
-
-    .aif-compare-list.positive li::before {
+    .aip-compare-list.positive li::before {
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none'%3E%3Ccircle cx='10' cy='10' r='9' stroke='%231D9E75' stroke-width='1.5'/%3E%3Cpath d='M6 10l3 3 5-5' stroke='%231D9E75' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
     }
-
-    .aif-compare-list.negative li::before {
+    .aip-compare-list.negative li::before {
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none'%3E%3Ccircle cx='10' cy='10' r='9' stroke='%23D85A30' stroke-width='1.5'/%3E%3Cpath d='M7 7l6 6M13 7l-6 6' stroke='%23D85A30' stroke-width='1.75' stroke-linecap='round'/%3E%3C/svg%3E");
     }
 
-    /* ── Pull quote — in-column block ── */
-    .aif-pullquote {
-      background: var(--lavender);
-      border-radius: 12px;
-      padding: 40px 48px;
-      margin-top: 40px;
+    /* Staggered item reveal */
+    .aip-compare-list li {
+      opacity: 0;
+      translate: 0 14px;
     }
+    .aip-compare.is-visible .aip-compare-list li {
+      opacity: 1;
+      translate: 0 0;
+      transition: opacity 0.5s ease, translate 0.5s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .aip-compare.is-visible .aip-compare-list li:nth-child(1) { transition-delay: 0.10s, 0.10s, 0s; }
+    .aip-compare.is-visible .aip-compare-list li:nth-child(2) { transition-delay: 0.18s, 0.18s, 0s; }
+    .aip-compare.is-visible .aip-compare-list li:nth-child(3) { transition-delay: 0.26s, 0.26s, 0s; }
+    .aip-compare.is-visible .aip-compare-list li:nth-child(4) { transition-delay: 0.34s, 0.34s, 0s; }
+    .aip-compare.is-visible .aip-compare-list li:nth-child(5) { transition-delay: 0.42s, 0.42s, 0s; }
+    .aip-compare.is-visible .aip-compare-list li:nth-child(6) { transition-delay: 0.50s, 0.50s, 0s; }
 
-    .aif-pullquote-text {
+    /* ════════════════════════════════════════════════════
+       PULLQUOTE — scroll-driven word reveal
+       ════════════════════════════════════════════════════ */
+    .aip-quote .aip-frame {
+      padding-top: 140px;
+      padding-bottom: 140px;
+    }
+    .aip-quote-mark {
+      width: 44px;
+      height: 44px;
+      color: var(--aip-art);
+      margin-bottom: 36px;
+    }
+    .aip-quote-mark svg { display: block; width: 100%; height: 100%; }
+    .aip-quote-text {
+      margin: 0;
+      max-width: 24ch;
       font-family: var(--font-heading);
-      font-size: var(--text-h3);
+      font-size: var(--text-h1);
       font-weight: var(--weight-medium);
       line-height: var(--leading-snug);
       letter-spacing: var(--tracking-tight);
       color: var(--white);
     }
-
-    /* ── Showcase card entry animation ── */
-    @keyframes aif-card-enter {
-      from { opacity: 0; transform: translateY(20px); }
-      to   { opacity: 1; transform: translateY(0); }
+    .aip-quote-text .aip-qword {
+      opacity: 0.16;
+      transition: opacity 0.35s ease;
     }
+    .aip-quote-text .aip-qword.is-lit { opacity: 1; }
 
-    .aif-showcase-card {
-      animation: aif-card-enter 0.5s cubic-bezier(0.4, 0, 0.2, 1) backwards;
-    }
-    .aif-showcase-card:nth-child(1) { animation-delay: 0.1s; }
-    .aif-showcase-card:nth-child(2) { animation-delay: 0.25s; }
-    .aif-showcase-card:nth-child(3) { animation-delay: 0.4s; }
-
-    @media (prefers-reduced-motion: reduce) {
-      .aif-showcase-card { animation: none; }
-    }
-
-    /* ── Logo banner ── */
-    .aif-logo-banner {
+    /* ════════════════════════════════════════════════════
+       FOOTER LINK BAND
+       ════════════════════════════════════════════════════ */
+    .aip-footer .aip-frame {
+      padding-top: 64px;
+      padding-bottom: 64px;
       display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 48px;
-      flex-wrap: wrap;
-      margin-top: 40px;
-      padding: 32px 40px;
-      background: color-mix(in srgb, var(--mist) 25%, var(--white));
-      border-radius: 20px;
-    }
-
-    .aif-logo-slot {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-width: 80px;
-      min-height: 28px;
-    }
-
-    .aif-logo-slot img {
-      height: 28px;
-      width: auto;
-      opacity: 0.6;
-      filter: grayscale(1);
-      transition: opacity 0.2s ease, filter 0.2s ease;
-      display: block;
-    }
-
-    .aif-logo-slot img:hover {
-      opacity: 1;
-      filter: none;
-    }
-
-    @media (max-width: 600px) {
-      .aif-logo-banner {
-        gap: 24px;
-        padding: 24px;
-      }
-    }
-
-    /* ── Showcase section icon ── */
-    .cs-section-icon--code polyline {
-      stroke-dasharray: 100;
-      stroke-dashoffset: 100;
-    }
-    .cs-section.in-view .cs-section-icon--code polyline:first-child {
-      animation: cs-icon-draw 0.4s cubic-bezier(0.4, 0, 0.2, 1) 0.2s forwards;
-    }
-    .cs-section.in-view .cs-section-icon--code polyline:last-child {
-      animation: cs-icon-draw 0.4s cubic-bezier(0.4, 0, 0.2, 1) 0.45s forwards;
-    }
-
-    /* ── Showcase grid ── */
-    .aif-showcase-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-    }
-
-    .aif-showcase-card {
-      border: 1px solid var(--mist);
-      border-radius: 20px;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      background: var(--white);
-      transition: border-color 0.2s ease;
-    }
-
-    .aif-showcase-card:hover {
-      border-color: var(--ash);
-    }
-
-    .aif-showcase-thumb {
-      aspect-ratio: 16 / 10;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .aif-showcase-thumb img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    .aif-showcase-thumb--placeholder {
-      background-image: radial-gradient(circle, var(--mist) 1.5px, transparent 1.5px);
-      background-size: 20px 20px;
-      background-color: color-mix(in srgb, var(--mist) 15%, var(--white));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .aif-showcase-placeholder-icon {
-      color: var(--ash);
-      width: 48px;
-      height: 48px;
-    }
-
-    .aif-showcase-placeholder-icon svg {
-      display: block;
-      width: 100%;
-      height: 100%;
-    }
-
-    .aif-showcase-badge {
-      position: absolute;
-      top: 12px;
-      left: 12px;
-      background: var(--white);
-      border: 1px solid var(--mist);
-      border-radius: 99px;
-      padding: 3px 10px;
-      font-family: var(--font-heading);
-      font-size: var(--text-body);
-      font-weight: var(--weight-semibold);
-      color: var(--charcoal);
-      letter-spacing: var(--tracking-wide);
-      text-transform: uppercase;
-    }
-
-    .aif-showcase-content {
-      padding: 20px 24px 24px;
-      display: flex;
-      flex-direction: column;
-      flex: 1;
-    }
-
-    .aif-showcase-title {
-      margin: 0;
-    }
-
-    .aif-showcase-desc {
-      margin-top: 8px;
-      color: var(--color-secondary);
-    }
-
-    .aif-showcase-footer {
-      margin-top: auto;
-      padding-top: 16px;
-      display: flex;
-      align-items: center;
       justify-content: space-between;
-      gap: 12px;
-      flex-wrap: wrap;
+      align-items: center;
+      gap: 24px;
     }
-
-    .aif-showcase-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-
-    .aif-showcase-tag {
-      display: inline-block;
-      font-family: var(--font-heading);
-      font-size: var(--text-body);
-      font-weight: var(--weight-semibold);
-      letter-spacing: var(--tracking-wide);
-      text-transform: uppercase;
-      color: var(--charcoal);
-      background: color-mix(in srgb, var(--mist) 50%, var(--white));
-      border-radius: 99px;
-      padding: 2px 10px;
-      line-height: var(--leading-normal);
-    }
-
-    .aif-showcase-link {
+    .aip-footer-back {
       display: inline-flex;
       align-items: center;
-      gap: 4px;
-      font-family: var(--font-heading);
-      font-size: var(--text-body);
-      font-weight: var(--weight-semibold);
-      color: var(--lavender);
+      gap: 10px;
+      color: var(--charcoal);
       text-decoration: none;
-      white-space: nowrap;
-      flex-shrink: 0;
+      transition: color 0.25s ease;
+    }
+    .aip-footer-back:hover { color: var(--lavender); }
+    .aip-footer-back svg { width: 18px; height: 18px; }
+    .aip-footer-diamond {
+      width: 12px;
+      height: 12px;
+      rotate: 45deg;
+      border-radius: 3px;
+      background: var(--lavender);
+      opacity: 0.7;
     }
 
-    .aif-showcase-link:hover {
-      text-decoration: underline;
+    /* ════════════════════════════════════════════════════
+       RESPONSIVE
+       ════════════════════════════════════════════════════ */
+    @media (max-width: 1100px) {
+      .aip-row { grid-template-columns: 64px 240px 1fr 72px; }
+      .aip-row-tags { grid-column: 3; margin-top: 14px; }
+      .aip-row-meta { display: contents; }
+      .aip-bento { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-flow: dense; }
     }
 
-    @media (max-width: 760px) {
-      .aif-showcase-grid {
+    @media (max-width: 880px) {
+      :root { --aip-pad: 24px; }
+
+      .aip-section-head {
         grid-template-columns: 1fr;
+        align-items: start;
+        gap: 20px;
+        padding: 64px 0 40px;
       }
-    }
 
-    /* ── Mobile ── */
-    @media (max-width: 640px) {
-      .aif-compare {
+      .aip-hero-ornament { width: 300px; height: 269px; right: 2%; top: 9%; }
+      .aip-hero-dots { display: none; }
+
+      .aip-row {
         grid-template-columns: 1fr;
+        gap: 18px;
+        padding: 28px 0;
       }
+      .aip-row-tags { grid-column: auto; margin-top: 0; }
+      .aip-row-index { order: -1; }
+      .aip-row-thumb { max-width: 420px; }
+      .aip-row-arrow { display: none; }
 
-      .aif-compare-col--positive,
-      .aif-compare-col--negative {
+      .aip-bento { grid-template-columns: 1fr; gap: 14px; }
+      .aip-cell--wide {
+        grid-column: auto;
+        display: flex;
         flex-direction: column;
+        align-items: stretch;
+        gap: 0;
       }
-
-      .aif-compare-accent {
-        width: 100%;
-        flex-direction: row;
-        padding: 12px 20px;
-        gap: 10px;
+      .aip-cell--wide .aip-cell-art {
+        flex: 1;
+        min-height: 0;
+        padding-top: 24px;
+        align-self: auto;
+        align-items: flex-end;
       }
+      .aip-cell--wide .aip-cell-art svg { max-width: 270px; height: auto; max-height: 115px; }
 
-      .aif-compare-accent-label {
-        writing-mode: horizontal-tb;
+      .aip-compare { grid-template-columns: 1fr; }
+      .aip-compare-col:first-child { padding-right: 0; padding-bottom: 8px; }
+      .aip-compare-col + .aip-compare-col { border-left: none; padding-left: 0; }
+
+      .aip-quote .aip-frame { padding-top: 88px; padding-bottom: 88px; }
+      .aip-quote-text { font-size: var(--text-h2); }
+
+      .aip-footer .aip-frame { padding-top: 40px; padding-bottom: 48px; }
+    }
+
+    @media (hover: none) {
+      .aip-row-thumb img { filter: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .aip-reveal,
+      .aip-compare-list li,
+      .aip-compare.is-visible .aip-compare-list li {
+        opacity: 1;
         transform: none;
+        translate: 0 0;
+        transition: none;
       }
-
-      .aif-pullquote {
-        padding: 28px 24px;
-      }
-
-      .aif-pullquote-text {
-        font-size: var(--text-h4);
-      }
+      .aip-hero .aip-chip,
+      .aip-hero .aip-hero-title,
+      .aip-hero .aip-hero-summary { animation: none; }
+      .aip-ticker-track { animation: none; }
+      .aip-scrollcue svg polyline { animation: none; }
+      .aip-quote-text .aip-qword { opacity: 1; transition: none; }
+      .aip-row-thumb img,
+      .aip-row-arrow,
+      .aip-compare-list li { transition: none; }
+      .aip-bento .aip-cell,
+      .aip-bento.is-visible .aip-cell { opacity: 1; translate: 0 0; transition: none; }
+      .aip-cell-art [class*="aip-loop"] { animation: none; }
+      .aip-wf-r1, .aip-wf-r2, .aip-wf-r3 { animation: none; }
+      .aip-hero-caret { animation: none; }
     }
 
   </style>
@@ -457,694 +808,861 @@
   </button>
 </nav>
 
-<div class="cs-page">
-  <div class="cs-body">
+<main class="aip">
 
-    <!-- Hero -->
-    <header class="cs-hero" id="overview">
-      <p class="cs-company overline">Process &amp; reflection</p>
-      <h1 class="cs-title h1">AI in my design process</h1>
-      <p class="body-lg cs-summary">I've been working AI into my design process for about a year. It helps with some things. It slows me down on others.</p>
-    </header>
+  <!-- ── Hero ── -->
+  <header class="aip-band aip-hero" id="overview">
+    <div class="aip-frame">
+      <div class="aip-hero-dots" data-parallax="0.06" aria-hidden="true"></div>
+      <div class="aip-hero-ornament" aria-hidden="true">
+        <!-- Layer 1: the design canvas being generated -->
+        <svg data-parallax="0.04" viewBox="0 0 480 430" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <!-- Browser frame -->
+          <rect x="120" y="58" width="300" height="296" rx="10" stroke-opacity="0.6"/>
+          <line x1="120" y1="92" x2="420" y2="92" stroke-opacity="0.35"/>
+          <circle cx="138" cy="75" r="2.5" fill="currentColor" stroke="none" opacity="0.4"/>
+          <circle cx="150" cy="75" r="2.5" fill="currentColor" stroke="none" opacity="0.4"/>
+          <circle cx="162" cy="75" r="2.5" fill="currentColor" stroke="none" opacity="0.4"/>
+          <!-- Settled blocks -->
+          <rect x="140" y="112" width="260" height="58" rx="6" fill="currentColor" fill-opacity="0.1" stroke-opacity="0.55"/>
+          <rect x="140" y="186" width="122" height="84" rx="6" fill="currentColor" fill-opacity="0.07" stroke-opacity="0.5"/>
+          <!-- Block still generating -->
+          <rect x="278" y="186" width="122" height="84" rx="6" stroke-dasharray="6 4" stroke-opacity="0.6"/>
+          <line x1="294" y1="210" x2="370" y2="210" stroke-opacity="0.35"/>
+          <line x1="294" y1="228" x2="352" y2="228" stroke-opacity="0.22"/>
+          <line x1="294" y1="246" x2="338" y2="246" stroke-opacity="0.12"/>
+          <!-- Footer block -->
+          <rect x="140" y="286" width="260" height="40" rx="6" stroke-opacity="0.3"/>
+        </svg>
+        <!-- Layer 2: the prompt bar feeding the canvas -->
+        <svg data-parallax="0.1" viewBox="0 0 480 430" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="24" y="330" width="270" height="58" rx="29" stroke-width="2" stroke-opacity="0.95" fill="var(--white)"/>
+          <line x1="52" y1="352" x2="160" y2="352" stroke-opacity="0.55"/>
+          <line x1="52" y1="368" x2="124" y2="368" stroke-opacity="0.3"/>
+          <rect class="aip-hero-caret" x="166" y="345" width="2" height="14" rx="1" fill="currentColor" stroke="none"/>
+          <!-- Send button -->
+          <circle cx="264" cy="359" r="17" fill="currentColor" fill-opacity="0.14" stroke-opacity="0.7"/>
+          <path d="M258 364l6-11 6 11M264 353v12" stroke-opacity="0.9"/>
+          <!-- Prompt flowing into the generating block -->
+          <path d="M294 348 C 340 336, 332 296, 336 276" stroke-dasharray="3 6" stroke-opacity="0.55"/>
+          <polyline points="330,284 336,274 342,284" stroke-opacity="0.55"/>
+        </svg>
+        <!-- Layer 3: sparkles -->
+        <svg data-parallax="0.17" viewBox="0 0 480 430" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M440 96 L444 112 L460 116 L444 120 L440 136 L436 120 L420 116 L436 112 Z" fill="currentColor" fill-opacity="0.85" stroke="none"/>
+          <path d="M70 130 L72.8 141 L84 144 L72.8 147 L70 158 L67.2 147 L56 144 L67.2 141 Z" fill="currentColor" fill-opacity="0.4" stroke="none"/>
+          <path d="M414 282 L416 290 L424 292 L416 294 L414 302 L412 294 L404 292 L412 290 Z" fill="currentColor" fill-opacity="0.3" stroke="none"/>
+          <circle cx="96" cy="62" r="2.5" fill="currentColor" stroke="none" opacity="0.3"/>
+          <circle cx="452" cy="196" r="2" fill="currentColor" stroke="none" opacity="0.25"/>
+          <circle cx="36" cy="262" r="2" fill="currentColor" stroke="none" opacity="0.22"/>
+        </svg>
+      </div>
+      <p class="aip-chip overline">Process &amp; reflection</p>
+      <h1 class="aip-hero-title display">AI in my design process</h1>
+      <p class="aip-hero-summary body-lg">I've been working AI into my design process for about a year. It helps with some things. It slows me down on others.</p>
+      <div class="aip-scrollcue" aria-hidden="true">
+        <svg viewBox="0 0 28 44" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="6 12 14 20 22 12"/>
+          <polyline points="6 24 14 32 22 24"/>
+        </svg>
+      </div>
+    </div>
+  </header>
 
-    <div class="cs-layout">
+  <!-- ── Tool ticker ── -->
+  <div class="aip-ticker" aria-label="Tools I use">
+    <div class="aip-ticker-track">
+      <div class="aip-ticker-seq">
+        <span class="aip-ticker-item label"><img src="images/ai/claude_logo.svg" alt="" loading="lazy">Claude Code</span>
+        <span class="aip-ticker-sep" aria-hidden="true"></span>
+        <span class="aip-ticker-item label"><img src="images/ai/cursor_logo.png" alt="" loading="lazy">Cursor</span>
+        <span class="aip-ticker-sep" aria-hidden="true"></span>
+        <span class="aip-ticker-item label"><img src="images/ai/gemini_logo.webp" alt="" loading="lazy">Google Gemini</span>
+        <span class="aip-ticker-sep" aria-hidden="true"></span>
+        <span class="aip-ticker-item label">Nano Banana Pro</span>
+        <span class="aip-ticker-sep" aria-hidden="true"></span>
+      </div>
+      <div class="aip-ticker-seq" aria-hidden="true">
+        <span class="aip-ticker-item label"><img src="images/ai/claude_logo.svg" alt="" loading="lazy">Claude Code</span>
+        <span class="aip-ticker-sep"></span>
+        <span class="aip-ticker-item label"><img src="images/ai/cursor_logo.png" alt="" loading="lazy">Cursor</span>
+        <span class="aip-ticker-sep"></span>
+        <span class="aip-ticker-item label"><img src="images/ai/gemini_logo.webp" alt="" loading="lazy">Google Gemini</span>
+        <span class="aip-ticker-sep"></span>
+        <span class="aip-ticker-item label">Nano Banana Pro</span>
+        <span class="aip-ticker-sep"></span>
+      </div>
+    </div>
+  </div>
 
-      <!-- TOC Sidebar -->
-      <aside class="cs-toc">
-        <a class="toc-back" href="index.html">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
-          Home
-        </a>
-        <div class="toc-track">
-          <div class="toc-indicator">
-            <span class="toc-indicator-layer toc-indicator-layer--1"></span>
-            <span class="toc-indicator-layer toc-indicator-layer--2"></span>
-            <span class="toc-indicator-layer toc-indicator-layer--3"></span>
-            <span class="toc-indicator-layer toc-indicator-layer--4"></span>
-            <span class="toc-indicator-layer toc-indicator-layer--5"></span>
-          </div>
-          <ul>
-            <li><a class="toc-link" href="#showcase">Showcase</a></li>
-            <li><a class="toc-link" href="#process">My process</a></li>
-            <li><a class="toc-link" href="#tradeoffs">Where it helps</a></li>
-          </ul>
-        </div>
-      </aside>
-
-      <!-- Sections -->
-      <div class="cs-sections">
-
-        <!-- Section 1: Showcase -->
-        <section class="cs-section" id="showcase">
-          <h5>
-            <svg class="cs-section-icon cs-section-icon--code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <polyline points="16 18 22 12 16 6" pathLength="100"/>
-              <polyline points="8 6 2 12 8 18" pathLength="100"/>
+  <!-- ── Showcase ── -->
+  <section class="aip-band aip-section" id="showcase">
+    <div class="aip-frame">
+      <div class="aip-section-head">
+        <div>
+          <h5 class="h5 aip-chip aip-reveal">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="16 18 22 12 16 6"/>
+              <polyline points="8 6 2 12 8 18"/>
             </svg>
             Built with Claude Code
           </h5>
-          <h2 class="h2">Things I've shipped using AI</h2>
-          <p class="body-lg">I use Claude Code, Cursor, Google Gemini, and Nano Banana Pro, both for client work and just to see what's possible. The projects below were built entirely through prompting.</p>
+          <h2 class="aip-section-title h1">Things I've shipped using AI</h2>
+        </div>
+        <p class="aip-section-intro body-lg aip-reveal">I use Claude Code, Cursor, Google Gemini, and Nano Banana Pro, both for client work and just to see what's possible. The projects below were built entirely through prompting.</p>
+      </div>
 
-          <div class="aif-showcase-grid">
+      <div class="aip-rows">
 
-            <!-- Portfolio -->
-            <div class="aif-showcase-card">
-              <div class="aif-showcase-thumb">
-                <img src="images/ai/portfolio_screen.png" alt="Screenshot of this portfolio site" loading="lazy">
-              </div>
-              <div class="aif-showcase-content">
-                <p class="aif-showcase-title h3">This Portfolio</p>
-                <p class="aif-showcase-desc body-lg">Every animation and interaction on this site (the TOC indicator, the section icon draws, the scroll fade-ins) was built through prompting, not written by hand.</p>
-                <div class="aif-showcase-footer">
-                  <div class="aif-showcase-tags">
-                    <span class="aif-showcase-tag">Cursor</span>
-                    <span class="aif-showcase-tag">Claude Code</span>
-                    <span class="aif-showcase-tag">HTML/CSS</span>
-                    <span class="aif-showcase-tag">Vanilla JS</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Retro Arcade -->
-            <div class="aif-showcase-card">
-              <div class="aif-showcase-thumb">
-                <img src="images/ai/retro_arcade.png" alt="Screenshot of the Retro Arcade project" loading="lazy">
-                <span class="aif-showcase-badge">In progress</span>
-              </div>
-              <div class="aif-showcase-content">
-                <p class="aif-showcase-title h3">Retro Arcade</p>
-                <p class="aif-showcase-desc body-lg">A browser-based arcade with playable games, a score system, and a retro aesthetic. Built entirely through prompting with Claude Code.</p>
-                <div class="aif-showcase-footer">
-                  <div class="aif-showcase-tags">
-                    <span class="aif-showcase-tag">JavaScript</span>
-                    <span class="aif-showcase-tag">Claude Code</span>
-                    <span class="aif-showcase-tag">Canvas</span>
-                  </div>
-                  <a class="aif-showcase-link" href="https://friskygrape.github.io/game/" target="_blank" rel="noopener" aria-label="View Retro Arcade on GitHub">
-                    GitHub
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            <!-- Thesis Prototype -->
-            <div class="aif-showcase-card">
-              <div class="aif-showcase-thumb aif-showcase-thumb--placeholder">
-                <div class="aif-showcase-placeholder-icon" aria-hidden="true">
-                  <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="10" y="6" width="28" height="36" rx="3"/>
-                    <line x1="16" y1="16" x2="32" y2="16"/>
-                    <line x1="16" y1="22" x2="32" y2="22"/>
-                    <line x1="16" y1="28" x2="24" y2="28"/>
-                  </svg>
-                </div>
-                <span class="aif-showcase-badge">Coming soon</span>
-              </div>
-              <div class="aif-showcase-content">
-                <p class="aif-showcase-title h3">Thesis Prototype</p>
-                <p class="aif-showcase-desc body-lg">A functional prototype built from my grad design thesis. Real interactions and logic, not just static screens.</p>
-                <div class="aif-showcase-footer">
-                  <div class="aif-showcase-tags">
-                    <span class="aif-showcase-tag">Claude Code</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
+        <!-- Portfolio -->
+        <div class="aip-row aip-reveal">
+          <span class="aip-row-index overline">01</span>
+          <div class="aip-row-thumb">
+            <img src="images/ai/portfolio_screen.png" alt="Screenshot of this portfolio site" loading="lazy">
           </div>
-
-          <div class="aif-logo-banner">
-            <div class="aif-logo-slot"><img src="images/ai/logos/claude-code.png" alt="Claude Code" loading="lazy"></div>
-            <div class="aif-logo-slot"><img src="images/ai/logos/cursor.png" alt="Cursor" loading="lazy"></div>
-            <div class="aif-logo-slot"><img src="images/ai/logos/gemini.png" alt="Google Gemini" loading="lazy"></div>
-            <div class="aif-logo-slot"><img src="images/ai/logos/nano-banana.png" alt="Nano Banana Pro" loading="lazy"></div>
+          <div>
+            <p class="aip-row-title h3">This Portfolio</p>
+            <p class="aip-row-desc body-lg">Every animation and interaction on this site (the TOC indicator, the section icon draws, the scroll fade-ins) was built through prompting, not written by hand.</p>
           </div>
-        </section>
-
-        <!-- Section 2: My process -->
-        <section class="cs-section" id="process">
-          <div class="aif-process-panel">
-            <div class="aif-process-panel-header">
-              <div>
-                <h5>
-                  <svg class="cs-section-icon cs-section-icon--chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <rect x="15" y="5" width="4" height="12" rx="1"/>
-                    <rect x="7" y="8" width="4" height="9" rx="1"/>
-                    <path d="M11 13H7"/>
-                    <path d="M19 9h-4"/>
-                    <path d="M3 3v16a2 2 0 0 0 2 2h16"/>
-                  </svg>
-                  Process
-                </h5>
-                <h2 class="h2">How I use AI in my work</h2>
-              </div>
+          <div class="aip-row-meta">
+            <div class="aip-row-tags">
+              <span class="aip-row-tag tag">Cursor</span>
+              <span class="aip-row-tag tag">Claude Code</span>
+              <span class="aip-row-tag tag">HTML/CSS</span>
+              <span class="aip-row-tag tag">Vanilla JS</span>
             </div>
+          </div>
+          <span class="aip-row-arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="7 5 14 12 7 19"/><polyline points="13 5 20 12 13 19"/></svg>
+          </span>
+        </div>
 
-            <div class="aif-bento-grid">
+        <!-- Retro Arcade -->
+        <a class="aip-row aip-reveal" href="https://friskygrape.github.io/game/" target="_blank" rel="noopener" aria-label="View Retro Arcade on GitHub">
+          <span class="aip-row-index overline">02</span>
+          <div class="aip-row-thumb">
+            <img src="images/ai/retro_arcade.png" alt="Screenshot of the Retro Arcade project" loading="lazy">
+            <span class="aip-row-badge tag">In progress</span>
+          </div>
+          <div>
+            <p class="aip-row-title h3">Retro Arcade</p>
+            <p class="aip-row-desc body-lg">A browser-based arcade with playable games, a score system, and a retro aesthetic. Built entirely through prompting with Claude Code.</p>
+            <span class="aip-row-ext label">
+              GitHub
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </span>
+          </div>
+          <div class="aip-row-meta">
+            <div class="aip-row-tags">
+              <span class="aip-row-tag tag">JavaScript</span>
+              <span class="aip-row-tag tag">Claude Code</span>
+              <span class="aip-row-tag tag">Canvas</span>
+            </div>
+          </div>
+          <span class="aip-row-arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="7 5 14 12 7 19"/><polyline points="13 5 20 12 13 19"/></svg>
+          </span>
+        </a>
 
-              <!-- Research (wide) -->
-              <div class="aif-phase-card aif-phase-card--wide">
-                <div class="aif-phase-card-art">
-                  <svg viewBox="0 0 380 178" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <!-- Network cluster nodes -->
-                    <circle cx="162" cy="89" r="9" stroke-opacity="0.9"/>
-                    <circle cx="200" cy="56" r="6.5"/>
-                    <circle cx="212" cy="110" r="6.5"/>
-                    <circle cx="178" cy="134" r="6"/>
-                    <circle cx="132" cy="116" r="6"/>
-                    <circle cx="142" cy="62" r="6"/>
-                    <circle cx="234" cy="76" r="5" stroke-opacity="0.55"/>
-                    <circle cx="224" cy="140" r="5" stroke-opacity="0.55"/>
-                    <circle cx="116" cy="80" r="4.5" stroke-opacity="0.45"/>
-                    <!-- Connection lines -->
-                    <line x1="162" y1="89" x2="200" y2="56"/>
-                    <line x1="162" y1="89" x2="212" y2="110"/>
-                    <line x1="162" y1="89" x2="178" y2="134"/>
-                    <line x1="162" y1="89" x2="132" y2="116"/>
-                    <line x1="162" y1="89" x2="142" y2="62"/>
-                    <line x1="200" y1="56" x2="234" y2="76" stroke-opacity="0.35"/>
-                    <line x1="212" y1="110" x2="224" y2="140" stroke-opacity="0.35"/>
-                    <line x1="142" y1="62" x2="116" y2="80" stroke-opacity="0.35"/>
-                    <!-- Node labels (short lines) -->
-                    <line x1="211" y1="52" x2="228" y2="52" stroke-opacity="0.45" stroke-width="1"/>
-                    <line x1="211" y1="57" x2="222" y2="57" stroke-opacity="0.3" stroke-width="1"/>
-                    <line x1="224" y1="106" x2="240" y2="106" stroke-opacity="0.45" stroke-width="1"/>
-                    <!-- Scattered unexplored dots -->
-                    <circle cx="66"  cy="38"  r="3" fill="currentColor" stroke="none" opacity="0.3"/>
-                    <circle cx="42"  cy="74"  r="2" fill="currentColor" stroke="none" opacity="0.22"/>
-                    <circle cx="298" cy="28"  r="2.5" fill="currentColor" stroke="none" opacity="0.28"/>
-                    <circle cx="316" cy="148" r="3" fill="currentColor" stroke="none" opacity="0.3"/>
-                    <circle cx="56"  cy="152" r="2" fill="currentColor" stroke="none" opacity="0.22"/>
-                    <circle cx="336" cy="82"  r="2" fill="currentColor" stroke="none" opacity="0.22"/>
-                    <circle cx="86"  cy="168" r="2.5" fill="currentColor" stroke="none" opacity="0.25"/>
-                    <circle cx="350" cy="120" r="2" fill="currentColor" stroke="none" opacity="0.2"/>
-                    <!-- Magnifying glass -->
-                    <circle cx="162" cy="89" r="54" stroke-width="2.5"/>
-                    <line x1="204" y1="133" x2="242" y2="168" stroke-width="4.5" stroke-linecap="round"/>
-                  </svg>
-                </div>
-                <div class="aif-phase-card-content">
-                  <p class="aif-phase-card-name h4">Research</p>
-                  <p class="aif-phase-card-text body-lg">When I'm diving into a new space, I use AI to get a handle on the jargon, what competitors are doing, and what users actually care about. Clueless to context, as fast as possible.</p>
-                </div>
-              </div>
+        <!-- Thesis Prototype -->
+        <div class="aip-row aip-reveal">
+          <span class="aip-row-index overline">03</span>
+          <div class="aip-row-thumb aip-row-thumb--placeholder">
+            <svg viewBox="0 0 220 120" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <!-- Thesis document -->
+              <rect x="22" y="18" width="64" height="84" rx="5"/>
+              <line x1="34" y1="34" x2="74" y2="34" stroke-width="2" stroke-opacity="0.85"/>
+              <line x1="34" y1="46" x2="74" y2="46" stroke-opacity="0.6"/>
+              <line x1="34" y1="56" x2="68" y2="56" stroke-opacity="0.6"/>
+              <line x1="34" y1="66" x2="74" y2="66" stroke-opacity="0.6"/>
+              <line x1="34" y1="76" x2="60" y2="76" stroke-opacity="0.6"/>
+              <line x1="34" y1="90" x2="50" y2="90" stroke-opacity="0.35"/>
+              <!-- Becomes -->
+              <line x1="98" y1="60" x2="126" y2="60" stroke-opacity="0.6"/>
+              <polyline points="120,54 127,60 120,66" stroke-opacity="0.6"/>
+              <!-- Working prototype screen -->
+              <rect x="138" y="12" width="58" height="96" rx="7" stroke-width="2"/>
+              <rect x="146" y="24" width="42" height="14" rx="3" fill="currentColor" fill-opacity="0.12" stroke="none"/>
+              <rect x="146" y="44" width="42" height="22" rx="3" fill="currentColor" fill-opacity="0.08" stroke="none"/>
+              <!-- Tappable button with ripple -->
+              <rect x="146" y="74" width="26" height="13" rx="4" fill="currentColor" fill-opacity="0.16" stroke="none"/>
+              <circle cx="159" cy="80" r="7" stroke-opacity="0.65"/>
+              <circle cx="159" cy="80" r="13" stroke-opacity="0.28"/>
+              <circle cx="159" cy="80" r="19" stroke-opacity="0.12"/>
+              <!-- Home indicator -->
+              <line x1="158" y1="100" x2="176" y2="100" stroke-opacity="0.4"/>
+            </svg>
+            <span class="aip-row-badge tag">Coming soon</span>
+          </div>
+          <div>
+            <p class="aip-row-title h3">Thesis Prototype</p>
+            <p class="aip-row-desc body-lg">A functional prototype built from my grad design thesis. Real interactions and logic, not just static screens.</p>
+          </div>
+          <div class="aip-row-meta">
+            <div class="aip-row-tags">
+              <span class="aip-row-tag tag">Claude Code</span>
+            </div>
+          </div>
+          <span class="aip-row-arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="7 5 14 12 7 19"/><polyline points="13 5 20 12 13 19"/></svg>
+          </span>
+        </div>
 
-              <!-- Planning & Validation (narrow) -->
-              <div class="aif-phase-card">
-                <div class="aif-phase-card-art">
-                  <svg viewBox="0 0 172 178" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <!-- Flow boxes -->
-                    <rect x="38" y="14" width="88" height="32" rx="7"/>
-                    <rect x="38" y="74" width="88" height="32" rx="7" stroke-dasharray="5 3" stroke-opacity="0.8"/>
-                    <rect x="38" y="134" width="88" height="32" rx="7"/>
-                    <!-- Connecting arrows -->
-                    <line x1="82" y1="46" x2="82" y2="72"/>
-                    <polyline points="76,67 82,74 88,67"/>
-                    <line x1="82" y1="106" x2="82" y2="132"/>
-                    <polyline points="76,127 82,134 88,127"/>
-                    <!-- Critique indicator on middle box -->
-                    <circle cx="116" cy="90" r="10" stroke-opacity="0.7"/>
-                    <line x1="116" y1="85" x2="116" y2="93" stroke-width="2"/>
-                    <circle cx="116" cy="97" r="1.5" fill="currentColor" stroke="none"/>
-                    <!-- Sparkle near it -->
-                    <line x1="136" y1="66" x2="136" y2="72" stroke-opacity="0.45" stroke-width="1"/>
-                    <line x1="133" y1="69" x2="139" y2="69" stroke-opacity="0.45" stroke-width="1"/>
-                    <line x1="133.5" y1="66.5" x2="138.5" y2="71.5" stroke-opacity="0.28" stroke-width="1"/>
-                    <line x1="138.5" y1="66.5" x2="133.5" y2="71.5" stroke-opacity="0.28" stroke-width="1"/>
-                  </svg>
-                </div>
-                <div class="aif-phase-card-content">
-                  <p class="aif-phase-card-name h4">Planning &amp; Validation</p>
-                  <p class="aif-phase-card-text body-lg">I treat AI as a partner that pokes holes in my early flows. It catches things I'd miss on my own before I commit to a direction.</p>
-                </div>
-              </div>
+      </div>
+    </div>
+  </section>
 
-              <!-- Writing (narrow) -->
-              <div class="aif-phase-card">
-                <div class="aif-phase-card-art">
-                  <svg viewBox="0 0 172 178" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
-                    <!-- Document frame -->
-                    <rect x="22" y="14" width="128" height="152" rx="8"/>
-                    <!-- Heading line -->
-                    <line x1="40" y1="42" x2="136" y2="42" stroke-width="2.5" stroke-opacity="0.9"/>
-                    <!-- Body lines (solid) -->
-                    <line x1="40" y1="62" x2="130" y2="62" stroke-opacity="0.8"/>
-                    <line x1="40" y1="78" x2="136" y2="78" stroke-opacity="0.8"/>
-                    <line x1="40" y1="94" x2="116" y2="94" stroke-opacity="0.8"/>
-                    <!-- Generating lines (fading out) -->
-                    <line x1="40" y1="110" x2="126" y2="110" stroke-opacity="0.38"/>
-                    <line x1="40" y1="126" x2="104" y2="126" stroke-opacity="0.24"/>
-                    <line x1="40" y1="142" x2="88"  y2="142" stroke-opacity="0.14"/>
-                    <!-- Cursor -->
-                    <rect x="89" y="138" width="2" height="12" rx="1" fill="currentColor" stroke="none" opacity="0.75"/>
-                  </svg>
-                </div>
-                <div class="aif-phase-card-content">
-                  <p class="aif-phase-card-name h4">Writing</p>
-                  <p class="aif-phase-card-text body-lg">For technical docs, UX copy, or usability test scripts, I use AI to get the first draft down. More time on the vibe, less time staring at a blank cursor.</p>
-                </div>
-              </div>
+  <!-- ── Process — dark chapter ── -->
+  <section class="aip-band aip-band--dark aip-section aip-process" id="process">
+    <div class="aip-frame">
+      <div class="aip-section-head">
+        <div>
+          <h5 class="h5 aip-chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="15" y="5" width="4" height="12" rx="1"/>
+              <rect x="7" y="8" width="4" height="9" rx="1"/>
+              <path d="M3 3v16a2 2 0 0 0 2 2h16"/>
+            </svg>
+            Process
+          </h5>
+          <h2 class="aip-section-title h1">How I use AI in my work</h2>
+        </div>
+      </div>
 
-              <!-- Concept / Design (wide) -->
-              <div class="aif-phase-card aif-phase-card--wide">
-                <div class="aif-phase-card-art">
-                  <svg viewBox="0 0 380 178" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <!-- Screen 1 (left, dimmed) -->
-                    <rect x="22" y="18" width="96" height="144" rx="7" stroke-opacity="0.38"/>
-                    <rect x="30" y="28" width="80" height="16" rx="3" stroke-opacity="0.3" fill="currentColor" fill-opacity="0.05"/>
-                    <rect x="30" y="52" width="36" height="62" rx="3" stroke-opacity="0.25" fill="currentColor" fill-opacity="0.04"/>
-                    <rect x="72" y="52" width="38" height="62" rx="3" stroke-opacity="0.25" fill="currentColor" fill-opacity="0.04"/>
-                    <rect x="30" y="122" width="80" height="12" rx="3" stroke-opacity="0.2" fill="currentColor" fill-opacity="0.03"/>
-                    <!-- Screen 2 (middle, selected) -->
-                    <rect x="142" y="10" width="96" height="160" rx="7" stroke-width="2" stroke-opacity="1"/>
-                    <rect x="150" y="20" width="80" height="20" rx="4" fill="currentColor" fill-opacity="0.18"/>
-                    <rect x="150" y="48" width="80" height="30" rx="3" fill="currentColor" fill-opacity="0.12"/>
-                    <rect x="150" y="86" width="36" height="44" rx="3" fill="currentColor" fill-opacity="0.1"/>
-                    <rect x="194" y="86" width="36" height="44" rx="3" fill="currentColor" fill-opacity="0.1"/>
-                    <rect x="150" y="138" width="80" height="14" rx="3" fill="currentColor" fill-opacity="0.08"/>
-                    <!-- Selection badge -->
-                    <circle cx="228" cy="22" r="10" fill="currentColor" fill-opacity="0.22"/>
-                    <polyline points="223,22 226.5,25.5 233,18.5" stroke-width="1.5"/>
-                    <!-- Screen 3 (right, dimmed) -->
-                    <rect x="262" y="18" width="96" height="144" rx="7" stroke-opacity="0.38"/>
-                    <rect x="270" y="28" width="80" height="20" rx="3" stroke-opacity="0.3" fill="currentColor" fill-opacity="0.05"/>
-                    <rect x="270" y="56" width="80" height="14" rx="2" stroke-opacity="0.25" fill="currentColor" fill-opacity="0.04"/>
-                    <rect x="270" y="76" width="80" height="14" rx="2" stroke-opacity="0.22" fill="currentColor" fill-opacity="0.04"/>
-                    <rect x="270" y="96" width="80" height="14" rx="2" stroke-opacity="0.2" fill="currentColor" fill-opacity="0.04"/>
-                    <rect x="270" y="118" width="42" height="24" rx="6" stroke-opacity="0.28" fill="currentColor" fill-opacity="0.05"/>
-                  </svg>
-                </div>
-                <div class="aif-phase-card-content">
-                  <p class="aif-phase-card-name h4">Concept &amp; Design</p>
-                  <p class="aif-phase-card-text body-lg">When I need to explore directions fast, I prompt for a handful of layout approaches and use the strongest ones as a starting point. Most get scrapped, but the ones that don't get me to a decision faster.</p>
-                </div>
-              </div>
+      <div class="aip-bento aip-reveal">
 
-              <!-- Prototyping (narrow) -->
-              <div class="aif-phase-card">
-                <div class="aif-phase-card-art">
-                  <svg viewBox="0 0 172 178" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <!-- Main browser frame -->
-                    <rect x="12" y="20" width="122" height="90" rx="6"/>
-                    <!-- Browser chrome dots -->
-                    <circle cx="24" cy="30" r="2.5" fill="currentColor" stroke="none" opacity="0.38"/>
-                    <circle cx="34" cy="30" r="2.5" fill="currentColor" stroke="none" opacity="0.38"/>
-                    <circle cx="44" cy="30" r="2.5" fill="currentColor" stroke="none" opacity="0.38"/>
-                    <!-- Input bar -->
-                    <rect x="22" y="40" width="102" height="13" rx="3" fill="currentColor" fill-opacity="0.08"/>
-                    <!-- Content rows -->
-                    <rect x="22" y="60" width="64" height="9" rx="2" fill="currentColor" fill-opacity="0.08"/>
-                    <!-- CTA button -->
-                    <rect x="22" y="76" width="46" height="22" rx="5" fill="currentColor" fill-opacity="0.15"/>
-                    <!-- Click ripples on button -->
-                    <circle cx="45" cy="87" r="7"  stroke-opacity="0.7"/>
-                    <circle cx="45" cy="87" r="13" stroke-opacity="0.32"/>
-                    <circle cx="45" cy="87" r="19" stroke-opacity="0.13"/>
-                    <!-- Arrow to second screen -->
-                    <line x1="140" y1="65" x2="156" y2="65" stroke-opacity="0.55"/>
-                    <polyline points="151,59 157,65 151,71" stroke-opacity="0.55"/>
-                    <!-- Second screen -->
-                    <rect x="124" y="108" width="44" height="58" rx="5"/>
-                    <rect x="130" y="116" width="32" height="9" rx="2" fill="currentColor" fill-opacity="0.12"/>
-                    <rect x="130" y="130" width="22" height="7" rx="2" fill="currentColor" fill-opacity="0.1"/>
-                    <rect x="130" y="141" width="32" height="7" rx="2" fill="currentColor" fill-opacity="0.1"/>
-                    <rect x="130" y="152" width="18" height="7" rx="2" fill="currentColor" fill-opacity="0.1"/>
-                  </svg>
-                </div>
-                <div class="aif-phase-card-content">
-                  <p class="aif-phase-card-name h4">Prototyping</p>
-                  <p class="aif-phase-card-text body-lg">I use tools like Cursor to build prototypes that actually behave like the real thing. Enough logic so users can explore freely, not just click through a rigid path.</p>
-                </div>
-              </div>
+          <!-- 01 Research -->
+          <article class="aip-cell aip-cell--wide">
+            <div class="aip-cell-copy">
+              <span class="aip-cell-index overline">01</span>
+              <p class="aip-cell-name h4">Research</p>
+              <p class="aip-cell-text body">When I'm diving into a new space, I use AI to get a handle on the jargon, what competitors are doing, so I can focus on what users actually care about.</p>
+            </div>
+            <div class="aip-cell-art" aria-hidden="true">
+                <svg viewBox="0 0 380 178" fill="none" stroke="none">
+                  <!-- Left: raw research rows -->
+                  <rect x="44" y="22"  width="142" height="5" rx="2" fill="currentColor" opacity="0.13"/>
+                  <rect x="44" y="36"  width="118" height="5" rx="2" fill="currentColor" opacity="0.12"/>
+                  <rect x="44" y="50"  width="155" height="5" rx="2" fill="currentColor" opacity="0.13"/>
+                  <rect x="44" y="64"  width="126" height="5" rx="2" fill="currentColor" opacity="0.12"/>
+                  <rect x="44" y="78"  width="148" height="5" rx="2" fill="currentColor" opacity="0.13"/>
+                  <rect x="44" y="92"  width="110" height="5" rx="2" fill="currentColor" opacity="0.12"/>
+                  <rect x="44" y="106" width="152" height="5" rx="2" fill="currentColor" opacity="0.13"/>
+                  <rect x="44" y="120" width="130" height="5" rx="2" fill="currentColor" opacity="0.12"/>
+                  <rect x="44" y="134" width="144" height="5" rx="2" fill="currentColor" opacity="0.13"/>
+                  <rect x="44" y="148" width="116" height="5" rx="2" fill="currentColor" opacity="0.12"/>
+                  <rect x="44" y="162" width="138" height="5" rx="2" fill="currentColor" opacity="0.13"/>
+                  <!-- Scan line: sweeps down, pauses at relevant rows to extract -->
+                  <rect x="44" y="20" width="155" height="5" rx="2" fill="currentColor" opacity="0">
+                    <animate attributeName="opacity"
+                      values="0;0.8;0.8;0;0"
+                      keyTimes="0;0.04;0.71;0.73;1"
+                      dur="10s" repeatCount="indefinite"/>
+                    <animateTransform attributeName="transform" type="translate"
+                      values="0,0;0,0;0,30;0,30;0,86;0,86;0,128;0,128;0,142;0,0;0,0"
+                      keyTimes="0;0.04;0.13;0.20;0.38;0.45;0.58;0.65;0.71;0.73;1"
+                      dur="10s" repeatCount="indefinite" calcMode="spline"
+                      keySplines="0 0 1 1;0.42 0 0.58 1;0 0 1 1;0.42 0 0.58 1;0 0 1 1;0.42 0 0.58 1;0 0 1 1;0.42 0 0.58 1;0 0 1 1;0 0 1 1"/>
+                  </rect>
+                  <!-- Flow arrow -->
+                  <polyline points="214,84 225,89 214,94" stroke="currentColor" stroke-opacity="0.25" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+                  <!-- Extraction 1: spawns at y=50 (row 3), draws, then collapses to centre -->
+                  <rect x="232" y="46" width="3" height="0" rx="1.5" fill="currentColor" opacity="0">
+                    <animate attributeName="height" values="0;0;14;14"
+                      keyTimes="0;0.15;0.18;1" dur="10s" repeatCount="indefinite"
+                      calcMode="spline" keySplines="0 0 1 1;0 0 0.2 1;0 0 1 1"/>
+                    <animate attributeName="y" values="46;46;67;67"
+                      keyTimes="0;0.83;0.88;1" dur="10s" repeatCount="indefinite"
+                      calcMode="spline" keySplines="0 0 1 1;0.4 0 0.6 1;0 0 1 1"/>
+                    <animate attributeName="opacity" values="0;0;0.7;0.7;0"
+                      keyTimes="0;0.15;0.18;0.97;1" dur="10s" repeatCount="indefinite"/>
+                  </rect>
+                  <rect x="242" y="50" width="0" height="6" rx="2" fill="currentColor" opacity="0">
+                    <animate attributeName="width" values="0;0;108;108"
+                      keyTimes="0;0.18;0.22;1" dur="10s" repeatCount="indefinite"
+                      calcMode="spline" keySplines="0 0 1 1;0 0 0.2 1;0 0 1 1"/>
+                    <animate attributeName="y" values="50;50;71;71"
+                      keyTimes="0;0.83;0.88;1" dur="10s" repeatCount="indefinite"
+                      calcMode="spline" keySplines="0 0 1 1;0.4 0 0.6 1;0 0 1 1"/>
+                    <animate attributeName="opacity" values="0;0;0.88;0.88;0"
+                      keyTimes="0;0.18;0.22;0.97;1" dur="10s" repeatCount="indefinite"/>
+                  </rect>
+                  <!-- Extraction 2: spawns at y=106 (row 7), draws, then collapses to centre -->
+                  <rect x="232" y="102" width="3" height="0" rx="1.5" fill="currentColor" opacity="0">
+                    <animate attributeName="height" values="0;0;14;14"
+                      keyTimes="0;0.40;0.43;1" dur="10s" repeatCount="indefinite"
+                      calcMode="spline" keySplines="0 0 1 1;0 0 0.2 1;0 0 1 1"/>
+                    <animate attributeName="y" values="102;102;81;81"
+                      keyTimes="0;0.83;0.88;1" dur="10s" repeatCount="indefinite"
+                      calcMode="spline" keySplines="0 0 1 1;0.4 0 0.6 1;0 0 1 1"/>
+                    <animate attributeName="opacity" values="0;0;0.7;0.7;0"
+                      keyTimes="0;0.40;0.43;0.97;1" dur="10s" repeatCount="indefinite"/>
+                  </rect>
+                  <rect x="242" y="106" width="0" height="6" rx="2" fill="currentColor" opacity="0">
+                    <animate attributeName="width" values="0;0;96;96"
+                      keyTimes="0;0.43;0.47;1" dur="10s" repeatCount="indefinite"
+                      calcMode="spline" keySplines="0 0 1 1;0 0 0.2 1;0 0 1 1"/>
+                    <animate attributeName="y" values="106;106;85;85"
+                      keyTimes="0;0.83;0.88;1" dur="10s" repeatCount="indefinite"
+                      calcMode="spline" keySplines="0 0 1 1;0.4 0 0.6 1;0 0 1 1"/>
+                    <animate attributeName="opacity" values="0;0;0.88;0.88;0"
+                      keyTimes="0;0.43;0.47;0.97;1" dur="10s" repeatCount="indefinite"/>
+                  </rect>
+                  <!-- Extraction 3: spawns at y=148 (row 10), draws, then collapses to centre -->
+                  <rect x="232" y="144" width="3" height="0" rx="1.5" fill="currentColor" opacity="0">
+                    <animate attributeName="height" values="0;0;14;14"
+                      keyTimes="0;0.60;0.63;1" dur="10s" repeatCount="indefinite"
+                      calcMode="spline" keySplines="0 0 1 1;0 0 0.2 1;0 0 1 1"/>
+                    <animate attributeName="y" values="144;144;95;95"
+                      keyTimes="0;0.83;0.88;1" dur="10s" repeatCount="indefinite"
+                      calcMode="spline" keySplines="0 0 1 1;0.4 0 0.6 1;0 0 1 1"/>
+                    <animate attributeName="opacity" values="0;0;0.7;0.7;0"
+                      keyTimes="0;0.60;0.63;0.97;1" dur="10s" repeatCount="indefinite"/>
+                  </rect>
+                  <rect x="242" y="148" width="0" height="6" rx="2" fill="currentColor" opacity="0">
+                    <animate attributeName="width" values="0;0;104;104"
+                      keyTimes="0;0.63;0.67;1" dur="10s" repeatCount="indefinite"
+                      calcMode="spline" keySplines="0 0 1 1;0 0 0.2 1;0 0 1 1"/>
+                    <animate attributeName="y" values="148;148;99;99"
+                      keyTimes="0;0.83;0.88;1" dur="10s" repeatCount="indefinite"
+                      calcMode="spline" keySplines="0 0 1 1;0.4 0 0.6 1;0 0 1 1"/>
+                    <animate attributeName="opacity" values="0;0;0.88;0.88;0"
+                      keyTimes="0;0.63;0.67;0.97;1" dur="10s" repeatCount="indefinite"/>
+                  </rect>
+                </svg>
+            </div>
+          </article>
 
-              <!-- Data & Analytics (wide) -->
-              <div class="aif-phase-card aif-phase-card--wide">
-                <div class="aif-phase-card-art">
-                  <svg viewBox="0 0 380 178" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <!-- Raw notes (left) -->
-                    <line x1="18" y1="38"  x2="60" y2="38"  stroke-opacity="0.5"/>
-                    <line x1="18" y1="52"  x2="50" y2="52"  stroke-opacity="0.42"/>
-                    <line x1="18" y1="66"  x2="64" y2="66"  stroke-opacity="0.5"/>
-                    <line x1="18" y1="80"  x2="44" y2="80"  stroke-opacity="0.38"/>
-                    <line x1="18" y1="94"  x2="58" y2="94"  stroke-opacity="0.48"/>
-                    <line x1="18" y1="108" x2="48" y2="108" stroke-opacity="0.4"/>
-                    <line x1="18" y1="122" x2="62" y2="122" stroke-opacity="0.5"/>
-                    <line x1="18" y1="136" x2="40" y2="136" stroke-opacity="0.36"/>
-                    <line x1="18" y1="150" x2="56" y2="150" stroke-opacity="0.42"/>
-                    <!-- Arrow -->
+          <!-- 02 Planning & Validation -->
+          <article class="aip-cell">
+            <div class="aip-cell-copy">
+              <span class="aip-cell-index overline">02</span>
+              <p class="aip-cell-name h4">Planning &amp; Validation</p>
+              <p class="aip-cell-text body">I treat AI as a collaborator and have it poke holes in my early ideas. I regularly use <span class="aip-tool">Claude Code</span>'s Plan mode to talk through complex logic, which helps me catch edge cases and blind spots before I commit to a direction.</p>
+            </div>
+            <div class="aip-cell-art" aria-hidden="true">
+                <svg viewBox="0 0 280 178" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <!-- Source box (solid) -->
+                  <rect x="8" y="69" width="80" height="40" rx="6"/>
+                  <!-- Output boxes -->
+                  <rect x="192" y="34" width="80" height="40" rx="6"/>
+                  <rect x="192" y="104" width="80" height="40" rx="6"/>
+                  <!-- Fork junction dot -->
+                  <circle cx="140" cy="89" r="3" fill="white" stroke="none" opacity="0.38"/>
+                  <!-- Base lines (static ghost track) -->
+                  <line x1="96" y1="89" x2="140" y2="89" stroke="white" stroke-opacity="0.2"/>
+                  <path d="M 140,89 L 140,54 L 184,54" stroke="white" stroke-opacity="0.2"/>
+                  <path d="M 140,89 L 140,124 L 184,124" stroke="white" stroke-opacity="0.2"/>
+                  <!-- Animated flowing lines -->
+                  <line x1="96" y1="89" x2="140" y2="89" stroke="white" class="aip-loop-flow"/>
+                  <path d="M 140,89 L 140,54 L 184,54" stroke="white" class="aip-loop-flow"/>
+                  <path d="M 140,89 L 140,124 L 184,124" stroke="white" class="aip-loop-flow"/>
+                  <!-- Arrowheads -->
+                  <polyline points="180,50 184,54 180,58" stroke="white"/>
+                  <polyline points="180,120 184,124 180,128" stroke="white"/>
+                </svg>
+            </div>
+          </article>
+
+          <!-- 03 Writing -->
+          <article class="aip-cell">
+            <div class="aip-cell-copy">
+              <span class="aip-cell-index overline">03</span>
+              <p class="aip-cell-name h4">Writing</p>
+              <p class="aip-cell-text body">Whether it's keeping UX copy clear and concise, writing comprehensive documentation, or drafting scripts for user interviews, I use <span class="aip-tool">Google Gemini</span> to help improve my writing.</p>
+            </div>
+            <div class="aip-cell-art" aria-hidden="true">
+                <svg id="aip-writing-svg" viewBox="0 0 172 178" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+                  <rect x="22" y="14" width="128" height="152" rx="8"/>
+                  <g class="aip-writing-static">
+                    <line x1="40" y1="42" x2="132" y2="42" stroke-width="1.5" stroke-opacity="0.65"/>
+                    <line x1="40" y1="60" x2="124" y2="60" stroke-width="1.5" stroke-opacity="0.65"/>
+                    <line x1="40" y1="78" x2="132" y2="78" stroke-width="1.5" stroke-opacity="0.65"/>
+                    <line x1="40" y1="96" x2="110" y2="96" stroke-width="1.5" stroke-opacity="0.65"/>
+                    <line x1="40" y1="114" x2="120" y2="114" stroke-width="1.5" stroke-opacity="0.65"/>
+                    <rect x="40" y="124" width="3" height="16" rx="1" fill="white" stroke="none" class="aip-loop-caret"/>
+                  </g>
+                </svg>
+            </div>
+          </article>
+
+          <!-- 04 Concept & Design -->
+          <article class="aip-cell">
+            <div class="aip-cell-copy">
+              <span class="aip-cell-index overline">04</span>
+              <p class="aip-cell-name h4">Concepts/Wireframes</p>
+              <p class="aip-cell-text body">I use <span class="aip-tool">Claude Code</span> alongside the Figma MCP to integrate AI directly into my design canvas, bridging the gap between strategy and layout. It lets me instantly map out my thoughts, structure user flows, and generate early wireframes to validate the information architecture.</p>
+            </div>
+            <div class="aip-cell-art" aria-hidden="true">
+                <svg viewBox="0 0 380 178" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <!-- Browser chrome -->
+                  <rect x="10" y="8" width="360" height="162" rx="6"/>
+                  <line x1="10" y1="26" x2="370" y2="26" stroke-opacity="0.3"/>
+                  <circle cx="26" cy="17" r="3.5" fill="currentColor" fill-opacity="0.25" stroke="none"/>
+                  <circle cx="37" cy="17" r="3.5" fill="currentColor" fill-opacity="0.25" stroke="none"/>
+                  <circle cx="48" cy="17" r="3.5" fill="currentColor" fill-opacity="0.25" stroke="none"/>
+                  <rect x="134" y="12" width="112" height="9" rx="4.5" fill="currentColor" fill-opacity="0.12" stroke="none"/>
+                  <!-- Page nav (static) -->
+                  <rect x="24" y="31" width="40" height="8" rx="2" fill="currentColor" fill-opacity="0.22" stroke="none"/>
+                  <rect x="274" y="31" width="22" height="8" rx="2" fill="currentColor" fill-opacity="0.12" stroke="none"/>
+                  <rect x="302" y="31" width="22" height="8" rx="2" fill="currentColor" fill-opacity="0.12" stroke="none"/>
+                  <rect x="330" y="31" width="26" height="8" rx="2" fill="currentColor" fill-opacity="0.12" stroke="none"/>
+                  <line x1="10" y1="44" x2="370" y2="44" stroke-opacity="0.2"/>
+                  <rect class="aip-wf-r1" x="24"  y="58"  width="218" height="98" rx="4" fill="currentColor" fill-opacity="0.08"/>
+                  <rect class="aip-wf-r2" x="250" y="58"  width="106" height="46" rx="4" fill="currentColor" fill-opacity="0.08"/>
+                  <rect class="aip-wf-r3" x="250" y="110" width="106" height="46" rx="4" fill="currentColor" fill-opacity="0.08"/>
+                </svg>
+            </div>
+          </article>
+
+          <!-- 05 Prototyping -->
+          <article class="aip-cell aip-cell--wide">
+            <div class="aip-cell-copy">
+              <span class="aip-cell-index overline">05</span>
+              <p class="aip-cell-name h4">Prototyping</p>
+              <p class="aip-cell-text body">I use <span class="aip-tool">Cursor</span> and <span class="aip-tool">Claude Code</span> to build functional prototypes. Baking in real logic and design tokens allows for genuine user exploration and creates a much smoother translation from design to code.</p>
+            </div>
+            <div class="aip-cell-art" aria-hidden="true">
+                <svg viewBox="0 0 172 178" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="12" y="20" width="122" height="90" rx="6"/>
+                  <circle cx="24" cy="30" r="2.5" fill="currentColor" stroke="none" opacity="0.38"/>
+                  <circle cx="34" cy="30" r="2.5" fill="currentColor" stroke="none" opacity="0.38"/>
+                  <circle cx="44" cy="30" r="2.5" fill="currentColor" stroke="none" opacity="0.38"/>
+                  <rect x="22" y="40" width="102" height="13" rx="3" fill="currentColor" fill-opacity="0.08"/>
+                  <rect x="22" y="60" width="64" height="9" rx="2" fill="currentColor" fill-opacity="0.08"/>
+                  <rect x="22" y="76" width="46" height="22" rx="5" fill="currentColor" fill-opacity="0.15"/>
+                  <circle cx="45" cy="87" r="7"  stroke-opacity="0.7"/>
+                  <circle cx="45" cy="87" r="13" stroke-opacity="0.32" class="aip-loop-ring"/>
+                  <circle cx="45" cy="87" r="19" stroke-opacity="0.13" class="aip-loop-ring aip-loop-ring--late"/>
+                  <line x1="140" y1="65" x2="156" y2="65" stroke-opacity="0.55"/>
+                  <polyline points="151,59 157,65 151,71" stroke-opacity="0.55"/>
+                  <rect x="124" y="108" width="44" height="58" rx="5"/>
+                  <rect x="130" y="116" width="32" height="9" rx="2" fill="currentColor" fill-opacity="0.12"/>
+                  <rect x="130" y="130" width="22" height="7" rx="2" fill="currentColor" fill-opacity="0.1"/>
+                  <rect x="130" y="141" width="32" height="7" rx="2" fill="currentColor" fill-opacity="0.1"/>
+                  <rect x="130" y="152" width="18" height="7" rx="2" fill="currentColor" fill-opacity="0.1"/>
+                </svg>
+            </div>
+          </article>
+
+          <!-- 06 Data & Analytics -->
+          <article class="aip-cell">
+            <div class="aip-cell-copy">
+              <span class="aip-cell-index overline">06</span>
+              <p class="aip-cell-name h4">Data &amp; Analytics</p>
+              <p class="aip-cell-text body">I use AI to make sense of dense data. It quickly parses through test results and metrics to find the underlying user insights, turning raw information into clear validation for where the product should go next.</p>
+            </div>
+            <div class="aip-cell-art" aria-hidden="true">
+                <svg viewBox="0 0 380 178" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="18" y1="38"  x2="60" y2="38"  stroke-opacity="0.5"/>
+                  <line x1="18" y1="52"  x2="50" y2="52"  stroke-opacity="0.42"/>
+                  <line x1="18" y1="66"  x2="64" y2="66"  stroke-opacity="0.5"/>
+                  <line x1="18" y1="80"  x2="44" y2="80"  stroke-opacity="0.38"/>
+                  <line x1="18" y1="94"  x2="58" y2="94"  stroke-opacity="0.48"/>
+                  <line x1="18" y1="108" x2="48" y2="108" stroke-opacity="0.4"/>
+                  <line x1="18" y1="122" x2="62" y2="122" stroke-opacity="0.5"/>
+                  <line x1="18" y1="136" x2="40" y2="136" stroke-opacity="0.36"/>
+                  <line x1="18" y1="150" x2="56" y2="150" stroke-opacity="0.42"/>
+                  <g class="aip-loop-nudge">
                     <line x1="76" y1="94" x2="112" y2="94" stroke-width="2"/>
                     <polyline points="106,88 113,94 106,100" stroke-width="2"/>
-                    <!-- Three groups of findings (right) -->
-                    <!-- Group 1 header -->
-                    <line x1="130" y1="32" x2="180" y2="32" stroke-width="1.2" stroke-opacity="0.65"/>
-                    <line x1="130" y1="48" x2="176" y2="48" stroke-opacity="0.72"/>
-                    <line x1="130" y1="62" x2="162" y2="62" stroke-opacity="0.68"/>
-                    <line x1="130" y1="76" x2="172" y2="76" stroke-opacity="0.68"/>
-                    <line x1="130" y1="90" x2="156" y2="90" stroke-opacity="0.62"/>
-                    <line x1="130" y1="104" x2="170" y2="104" stroke-opacity="0.68"/>
-                    <!-- Divider -->
-                    <line x1="194" y1="26" x2="194" y2="118" stroke-opacity="0.14" stroke-dasharray="4 3"/>
-                    <!-- Group 2 header -->
-                    <line x1="206" y1="32" x2="256" y2="32" stroke-width="1.2" stroke-opacity="0.65"/>
-                    <line x1="206" y1="48" x2="248" y2="48" stroke-opacity="0.72"/>
-                    <line x1="206" y1="62" x2="232" y2="62" stroke-opacity="0.68"/>
-                    <line x1="206" y1="76" x2="250" y2="76" stroke-opacity="0.68"/>
-                    <line x1="206" y1="90" x2="238" y2="90" stroke-opacity="0.62"/>
-                    <!-- Divider -->
-                    <line x1="270" y1="26" x2="270" y2="118" stroke-opacity="0.14" stroke-dasharray="4 3"/>
-                    <!-- Group 3 header -->
-                    <line x1="282" y1="32" x2="332" y2="32" stroke-width="1.2" stroke-opacity="0.65"/>
-                    <line x1="282" y1="48" x2="328" y2="48" stroke-opacity="0.72"/>
-                    <line x1="282" y1="62" x2="308" y2="62" stroke-opacity="0.68"/>
-                    <line x1="282" y1="76" x2="326" y2="76" stroke-opacity="0.68"/>
-                    <line x1="282" y1="90" x2="314" y2="90" stroke-opacity="0.62"/>
-                    <line x1="282" y1="104" x2="320" y2="104" stroke-opacity="0.68"/>
-                    <line x1="282" y1="118" x2="300" y2="118" stroke-opacity="0.62"/>
-                    <!-- Grouping bracket + insight orb -->
-                    <path d="M348,30 L354,30 L354,118 L348,118" stroke-opacity="0.38" fill="none"/>
-                    <circle cx="360" cy="74" r="12" stroke-opacity="0.55"/>
-                    <circle cx="360" cy="74" r="5.5" fill="currentColor" fill-opacity="0.22" stroke="none"/>
-                    <line x1="356" y1="74" x2="364" y2="74" stroke-opacity="0.75"/>
-                    <line x1="360" y1="70" x2="360" y2="78" stroke-opacity="0.75"/>
-                  </svg>
-                </div>
-                <div class="aif-phase-card-content">
-                  <p class="aif-phase-card-name h4">Data &amp; Analytics</p>
-                  <p class="aif-phase-card-text body-lg">After usability sessions, I use AI to comb through the raw notes and find the patterns. The stakeholder debrief gets a lot easier when the story's already there.</p>
-                </div>
-              </div>
+                  </g>
+                  <line x1="130" y1="32" x2="180" y2="32" stroke-width="1.2" stroke-opacity="0.65"/>
+                  <line x1="130" y1="48" x2="176" y2="48" stroke-opacity="0.72"/>
+                  <line x1="130" y1="62" x2="162" y2="62" stroke-opacity="0.68"/>
+                  <line x1="130" y1="76" x2="172" y2="76" stroke-opacity="0.68"/>
+                  <line x1="130" y1="90" x2="156" y2="90" stroke-opacity="0.62"/>
+                  <line x1="130" y1="104" x2="170" y2="104" stroke-opacity="0.68"/>
+                  <line x1="194" y1="26" x2="194" y2="118" stroke-opacity="0.14" stroke-dasharray="4 3"/>
+                  <line x1="206" y1="32" x2="256" y2="32" stroke-width="1.2" stroke-opacity="0.65"/>
+                  <line x1="206" y1="48" x2="248" y2="48" stroke-opacity="0.72"/>
+                  <line x1="206" y1="62" x2="232" y2="62" stroke-opacity="0.68"/>
+                  <line x1="206" y1="76" x2="250" y2="76" stroke-opacity="0.68"/>
+                  <line x1="206" y1="90" x2="238" y2="90" stroke-opacity="0.62"/>
+                  <line x1="270" y1="26" x2="270" y2="118" stroke-opacity="0.14" stroke-dasharray="4 3"/>
+                  <line x1="282" y1="32" x2="332" y2="32" stroke-width="1.2" stroke-opacity="0.65"/>
+                  <line x1="282" y1="48" x2="328" y2="48" stroke-opacity="0.72"/>
+                  <line x1="282" y1="62" x2="308" y2="62" stroke-opacity="0.68"/>
+                  <line x1="282" y1="76" x2="326" y2="76" stroke-opacity="0.68"/>
+                  <line x1="282" y1="90" x2="314" y2="90" stroke-opacity="0.62"/>
+                  <line x1="282" y1="104" x2="320" y2="104" stroke-opacity="0.68"/>
+                  <line x1="282" y1="118" x2="300" y2="118" stroke-opacity="0.62"/>
+                  <path d="M348,30 L354,30 L354,118 L348,118" stroke-opacity="0.38" fill="none"/>
+                  <circle cx="360" cy="74" r="12" stroke-opacity="0.55"/>
+                  <circle cx="360" cy="74" r="5.5" fill="currentColor" fill-opacity="0.22" stroke="none"/>
+                  <line x1="356" y1="74" x2="364" y2="74" stroke-opacity="0.75"/>
+                  <line x1="360" y1="70" x2="360" y2="78" stroke-opacity="0.75"/>
+                </svg>
+            </div>
+          </article>
 
-            </div><!-- /aif-bento-grid -->
-          </div><!-- /aif-process-panel -->
-        </section>
+      </div>
+    </div>
+  </section>
 
-        <!-- Section 3: Where it helps -->
-        <section class="cs-section" id="tradeoffs">
-          <h5>
-            <svg class="cs-section-icon cs-section-icon--check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <circle cx="12" cy="12" r="10" pathLength="100"/>
-              <polyline points="8 12.5 11 15.5 16.5 9" pathLength="100"/>
+  <!-- ── Tradeoffs ── -->
+  <section class="aip-band aip-section" id="tradeoffs">
+    <div class="aip-frame">
+      <div class="aip-section-head">
+        <div>
+          <h5 class="h5 aip-chip aip-reveal">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="8 12.5 11 15.5 16.5 9"/>
             </svg>
             Tradeoffs
           </h5>
-          <h2 class="h2">Where it helps vs. where it doesn't</h2>
+          <h2 class="aip-section-title h1">Where it helps vs. where it doesn't</h2>
+        </div>
+      </div>
 
-          <div class="aif-compare">
-            <div class="aif-compare-col aif-compare-col--positive">
-              <div class="aif-compare-content">
-                <ul class="aif-compare-list positive">
-                  <li>Mass changes across a prototype</li>
-                  <li>Building and iterating on components</li>
-                  <li>Micro-interactions and animations</li>
-                  <li>Summarising research</li>
-                  <li>UX writing and documentation</li>
-                  <li>Knocking out a backlog of QA changes</li>
-                </ul>
-              </div>
-              <div class="aif-compare-accent aif-compare-accent--positive">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
-                <span class="aif-compare-accent-label">Do</span>
-              </div>
-            </div>
-            <div class="aif-compare-col aif-compare-col--negative">
-              <div class="aif-compare-accent aif-compare-accent--negative">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3H10z"/><path d="M17 2h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"/></svg>
-                <span class="aif-compare-accent-label">Don't</span>
-              </div>
-              <div class="aif-compare-content">
-                <ul class="aif-compare-list negative">
-                  <li>Visual polish and fine tweaks</li>
-                  <li>Keeping design consistent</li>
-                  <li>Spatial accuracy and layout</li>
-                  <li>Design inspiration (I still go external for that)</li>
-                  <li>Quick single-element edits</li>
-                  <li>Struggles with vague or open-ended prompts</li>
-                </ul>
-              </div>
-            </div>
+      <div class="aip-compare aip-reveal">
+        <div class="aip-compare-col">
+          <div class="aip-compare-head aip-compare-head--positive">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+            <span class="overline">Do</span>
           </div>
-
-          <div class="aif-pullquote">
-            <p class="aif-pullquote-text">"AI gets me to 60&ndash;70% quickly. Getting that last 10&ndash;30% of polish often takes longer through prompting than just doing it myself."</p>
+          <ul class="aip-compare-list positive">
+            <li>Mass changes across a prototype</li>
+            <li>Building and iterating on components</li>
+            <li>Micro-interactions and animations</li>
+            <li>Summarising research</li>
+            <li>UX writing and documentation</li>
+            <li>Knocking out a backlog of QA changes</li>
+          </ul>
+        </div>
+        <div class="aip-compare-col">
+          <div class="aip-compare-head aip-compare-head--negative">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3H10z"/><path d="M17 2h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"/></svg>
+            <span class="overline">Don't</span>
           </div>
-        </section>
+          <ul class="aip-compare-list negative">
+            <li>Visual polish and fine tweaks</li>
+            <li>Keeping design consistent</li>
+            <li>Spatial accuracy and layout</li>
+            <li>Design inspiration (I still go external for that)</li>
+            <li>Quick single-element edits</li>
+            <li>Struggles with vague or open-ended prompts</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
 
+  <!-- ── Pullquote ── -->
+  <section class="aip-band aip-band--dark aip-quote">
+    <div class="aip-frame">
+      <div class="aip-quote-mark" aria-hidden="true">
+        <svg viewBox="0 0 44 44" fill="currentColor">
+          <path d="M10 30c-2.8 0-5-1-6.6-2.9C1.8 25.2 1 22.8 1 19.9c0-3.4 1-6.6 3.1-9.6C6.2 7.2 9 5 12.4 3.6l1.8 3C11.5 7.9 9.4 9.5 8 11.4c-1.5 1.9-2.2 3.8-2.2 5.6 0 .8.2 1.5.5 2 .9-.9 2.2-1.4 3.7-1.4 1.8 0 3.2.6 4.4 1.7 1.1 1.1 1.7 2.6 1.7 4.4 0 1.8-.6 3.3-1.8 4.5C13.2 29.4 11.7 30 10 30zm22.5 0c-2.8 0-5-1-6.6-2.9-1.6-1.9-2.4-4.3-2.4-7.2 0-3.4 1-6.6 3.1-9.6 2.1-3.1 4.9-5.3 8.3-6.7l1.8 3c-2.7 1.3-4.8 2.9-6.2 4.8-1.5 1.9-2.2 3.8-2.2 5.6 0 .8.2 1.5.5 2 .9-.9 2.2-1.4 3.7-1.4 1.8 0 3.2.6 4.4 1.7 1.1 1.1 1.7 2.6 1.7 4.4 0 1.8-.6 3.3-1.8 4.5-1.1 1.2-2.6 1.8-4.3 1.8z"/>
+        </svg>
+      </div>
+      <p class="aip-quote-text">"AI gets me to 60&ndash;70% quickly. Getting that last 10&ndash;30% of polish often takes longer through prompting than just doing it myself."</p>
+    </div>
+  </section>
 
-      </div><!-- /cs-sections -->
-    </div><!-- /cs-layout -->
-  </div><!-- /cs-body -->
-</div><!-- /cs-page -->
+  <!-- ── Footer link band ── -->
+  <div class="aip-band aip-footer">
+    <div class="aip-frame">
+      <a class="aip-footer-back label" href="index.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        Home
+      </a>
+      <span class="aip-footer-diamond" aria-hidden="true"></span>
+    </div>
+  </div>
+
+</main>
 
 <script src="js/nav.js" defer></script>
 <script>
 (function () {
-  // ── TOC indicator ──
-  const targets = [...document.querySelectorAll('.cs-section[id]')].filter(Boolean);
-  const links   = document.querySelectorAll('.toc-link');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  const indicator = document.querySelector('.toc-indicator');
-  const layers    = [...document.querySelectorAll('.toc-indicator-layer')];
-  let currentIndicatorId = null;
-  let lastClickedId = null;
-  let lastClickedAt = 0;
-  const PIN_DURATION = 1200;
-
-  const INDICATOR_SIZE = 12;
-  const REST_OFFSETS   = [0, 0, 0, 0, 0];
-  const LERP_RATE      = 0.18;
-  const SCROLL_DURATION = 500;
-  const MAX_EXTRA_SEP  = 5;
-  const layerState     = layers.map(() => ({ y: 0 }));
-  let targetY       = 0;
-  let maxExtraSep   = 0;
-  let animating     = false;
-  let firstPlacement = true;
-  let syncActive    = false;
-
-  const trackEl = document.querySelector('.toc-track');
-  let inactiveLinkH = 0, activeLinkH = 0, baseLinkTop = 0;
-
-  function measureLinkHeights() {
-    const ref   = links[0];
-    const clone = ref.cloneNode(true);
-    clone.classList.remove('active');
-    clone.style.cssText = 'transition:none;position:absolute;visibility:hidden;pointer-events:none';
-    ref.parentNode.appendChild(clone);
-    inactiveLinkH = clone.getBoundingClientRect().height;
-    clone.classList.add('active');
-    activeLinkH = clone.getBoundingClientRect().height;
-    clone.remove();
-    baseLinkTop = ref.getBoundingClientRect().top - trackEl.getBoundingClientRect().top;
-  }
-  measureLinkHeights();
-
-  function targetForLink(a) {
-    const idx = [...links].indexOf(a);
-    return baseLinkTop + idx * inactiveLinkH + (activeLinkH - INDICATOR_SIZE) / 2;
-  }
-
-  function layerTargetFor(i) {
-    if (i === 0) return targetY + REST_OFFSETS[0];
-    return layerState[i - 1].y + (REST_OFFSETS[i] - REST_OFFSETS[i - 1]);
-  }
-
-  function tick() {
-    let stillMoving = false;
-    for (let i = 0; i < layerState.length; i++) {
-      const s = layerState[i];
-      if (i === 0 && syncActive) {
-        layers[0].style.setProperty('--toc-layer-y', `${s.y}px`);
-        stillMoving = true;
-        continue;
-      }
-      const lt = layerTargetFor(i);
-      const dy = lt - s.y;
-      s.y += dy * LERP_RATE;
-      if (i > 0) {
-        const restGap   = REST_OFFSETS[i] - REST_OFFSETS[i - 1];
-        const maxAbsGap = Math.abs(restGap) + maxExtraSep;
-        const gap       = s.y - layerState[i - 1].y;
-        if (Math.abs(gap) > maxAbsGap) {
-          s.y = layerState[i - 1].y + Math.sign(gap) * maxAbsGap;
-        }
-      }
-      layers[i].style.setProperty('--toc-layer-y', `${s.y}px`);
-      if (Math.abs(dy) > 0.1) stillMoving = true;
-    }
-    if (stillMoving) {
-      requestAnimationFrame(tick);
-    } else {
-      layerState[0].y = targetY + REST_OFFSETS[0];
-      for (let i = 1; i < layerState.length; i++) {
-        layerState[i].y = layerState[i - 1].y + (REST_OFFSETS[i] - REST_OFFSETS[i - 1]);
-      }
-      layers.forEach((l, i) => l.style.setProperty('--toc-layer-y', `${layerState[i].y}px`));
-      animating = false;
-    }
-  }
-
-  function moveIndicator(id) {
-    if (lastClickedId && id !== lastClickedId) return;
-    if (id === currentIndicatorId) return;
-    currentIndicatorId = id;
-    const active = document.querySelector(`.toc-link[href="#${id}"]`);
-    if (!active) return;
-    const newTarget = targetForLink(active);
-    if (firstPlacement) {
-      targetY = newTarget;
-      layerState[0].y = newTarget + REST_OFFSETS[0];
-      for (let i = 1; i < layerState.length; i++) {
-        layerState[i].y = layerState[i - 1].y + (REST_OFFSETS[i] - REST_OFFSETS[i - 1]);
-      }
-      layers.forEach((l, i) => l.style.setProperty('--toc-layer-y', `${layerState[i].y}px`));
-      firstPlacement = false;
-      layers.forEach(l => l.style.animationPlayState = 'running');
-    } else {
-      const D = Math.abs(newTarget - layerState[0].y);
-      maxExtraSep = Math.min(MAX_EXTRA_SEP, Math.max(0.3, D / 22));
-      targetY = newTarget;
-      if (!animating) { animating = true; requestAnimationFrame(tick); }
-    }
-  }
-
-  function setActive(id) {
-    links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + id));
-    moveIndicator(id);
-  }
-
-  const tocEl = document.querySelector('.cs-toc');
-
-  function findActive() {
-    const cut = tocEl ? tocEl.getBoundingClientRect().bottom : 88;
-    let id = targets[0]?.id;
-    for (const t of targets) {
-      if (t.getBoundingClientRect().top <= cut) id = t.id;
-    }
-    if (lastClickedId) {
-      if (Date.now() - lastClickedAt < PIN_DURATION) return lastClickedId;
-      lastClickedId = null;
-    }
-    if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 4) {
-      return targets[targets.length - 1].id;
-    }
-    return id;
-  }
-
-  const io = new IntersectionObserver(
-    () => setActive(findActive()),
-    { rootMargin: '-88px 0px 0px 0px', threshold: Array.from({ length: 21 }, (_, i) => i / 20) }
-  );
-  targets.forEach(t => io.observe(t));
-
-  function syncScrollAndIndicator(yScrollTarget, yIndicatorTarget, duration) {
-    const startScroll = window.scrollY;
-    const startLead   = layerState[0].y;
-    const dScroll     = yScrollTarget - startScroll;
-    const dLead       = yIndicatorTarget - startLead;
-    const startTime   = performance.now();
-    syncActive = true;
-    function step(now) {
-      const t     = Math.min((now - startTime) / duration, 1);
-      const eased = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-      window.scrollTo({ top: startScroll + dScroll * eased, behavior: 'instant' });
-      layerState[0].y = startLead + dLead * eased;
-      if (t < 1) { requestAnimationFrame(step); }
-      else { layerState[0].y = yIndicatorTarget; syncActive = false; }
-    }
-    requestAnimationFrame(step);
-    if (!animating) { animating = true; requestAnimationFrame(tick); }
-  }
-
-  links.forEach(a => {
-    a.addEventListener('click', e => {
-      e.preventDefault();
-      const id  = a.getAttribute('href').slice(1);
-      const sec = document.getElementById(id);
-      if (!sec) return;
-      lastClickedId  = id;
-      lastClickedAt  = Date.now();
-      currentIndicatorId = id;
-      const yIndicator = targetForLink(a);
-      const yScroll    = sec.getBoundingClientRect().top + window.scrollY - 80;
-      links.forEach(l => l.classList.toggle('active', l === a));
-      targetY = yIndicator;
-      const D = Math.abs(yIndicator - layerState[0].y);
-      maxExtraSep = Math.min(MAX_EXTRA_SEP, Math.max(0.3, D / 22));
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        window.scrollTo({ top: yScroll, behavior: 'instant' });
-        layers.forEach((l, i) => { layerState[i].y = yIndicator; l.style.transform = `translateY(${yIndicator}px) rotate(45deg)`; });
-        return;
-      }
-      syncScrollAndIndicator(yScroll, yIndicator, SCROLL_DURATION);
-    });
-  });
-
-  setActive(findActive());
-
-  // ── Fade-in for cs-hero and cs-section children ──
-  const fadeGroups = new WeakMap();
-  const isHeading  = el => /^H[1-5]$/.test(el.tagName);
-  const isStandaloneBlock = el =>
-    el.classList.contains('cs-placeholder') ||
-    el.classList.contains('cs-features')    ||
-    el.classList.contains('cs-results')     ||
-    el.classList.contains('cs-stats')       ||
-    el.classList.contains('cs-retention')   ||
-    el.classList.contains('cs-compare')     ||
-    el.classList.contains('cs-issues')      ||
-    el.classList.contains('cs-quote')       ||
-    el.classList.contains('cs-split')       ||
-    el.classList.contains('aif-process-panel') ||
-    el.classList.contains('aif-bento-grid')  ||
-    el.classList.contains('aif-compare')    ||
-    el.classList.contains('aif-pullquote');
-
-  function buildFadeGroups(parent) {
-    const groups = [];
-    let current = [];
-    for (const child of parent.children) {
-      if (isHeading(child) || isStandaloneBlock(child)) {
-        if (current.length) { groups.push(current); current = []; }
-        groups.push([child]);
-      } else {
-        current.push(child);
-      }
-    }
-    if (current.length) groups.push(current);
-    return groups;
-  }
-
-  const fadeIO = new IntersectionObserver((entries) => {
+  /* ── Scroll reveal ── */
+  const revealIO = new IntersectionObserver((entries) => {
     entries.forEach(e => {
       if (e.isIntersecting) {
-        const group = fadeGroups.get(e.target);
-        if (group) { group.forEach(el => el.classList.add('is-visible')); }
-        else        { e.target.classList.add('is-visible'); }
-        fadeIO.unobserve(e.target);
+        e.target.classList.add('is-visible');
+        revealIO.unobserve(e.target);
       }
     });
-  }, { rootMargin: '0px 0px -20% 0px', threshold: 0 });
+  }, { rootMargin: '0px 0px -12% 0px', threshold: 0 });
+  document.querySelectorAll('.aip-reveal, .aip-compare').forEach(el => revealIO.observe(el));
 
-  document.querySelectorAll('.cs-hero, .cs-section').forEach(parent => {
-    fadeIO.observe(parent);
-    buildFadeGroups(parent).forEach(group => {
-      fadeGroups.set(group[0], group);
-      fadeIO.observe(group[0]);
+  /* ── Flicker-in text (hero on load, section titles on scroll) ── */
+  function flickerIn(el, baseDelay) {
+    const text = el.textContent;
+    el.setAttribute('aria-label', text.trim());
+    el.textContent = '';
+    let ci = 0;
+    for (const part of text.trim().split(/(\s+)/)) {
+      if (/^\s+$/.test(part)) {
+        el.appendChild(document.createTextNode(' '));
+        continue;
+      }
+      const word = document.createElement('span');
+      word.className = 'aip-flicker-word';
+      word.setAttribute('aria-hidden', 'true');
+      for (const ch of part) {
+        const s = document.createElement('span');
+        s.className = 'aip-flicker-char';
+        s.textContent = ch;
+        s.style.animationDelay = (baseDelay + ci * 0.014 + Math.random() * 0.14).toFixed(3) + 's';
+        word.appendChild(s);
+        ci++;
+      }
+      el.appendChild(word);
+    }
+    el.classList.add('aip-flickering');
+  }
+
+  if (!reduceMotion) {
+    const heroTitle = document.querySelector('.aip-hero-title');
+    if (heroTitle) flickerIn(heroTitle, 0.15);
+
+    const flickerIO = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          flickerIn(e.target, 0.05);
+          flickerIO.unobserve(e.target);
+        }
+      });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0 });
+    document.querySelectorAll('.aip-section-title').forEach(el => flickerIO.observe(el));
+  }
+
+  /* ── Parallax ── */
+  const parallaxEls = [...document.querySelectorAll('[data-parallax]')].map(el => ({
+    el,
+    ref: el.parentElement,
+    speed: parseFloat(el.dataset.parallax)
+  }));
+
+  let parallaxTicking = false;
+  function parallaxUpdate() {
+    parallaxTicking = false;
+    const mid = window.innerHeight / 2;
+    for (const p of parallaxEls) {
+      const r = p.ref.getBoundingClientRect();
+      if (r.bottom < -200 || r.top > window.innerHeight + 200) continue;
+      const d = (r.top + r.height / 2) - mid;
+      p.el.style.transform = `translate3d(0, ${(-d * p.speed).toFixed(1)}px, 0)`;
+    }
+  }
+  function onParallaxScroll() {
+    if (!parallaxTicking) {
+      parallaxTicking = true;
+      requestAnimationFrame(parallaxUpdate);
+    }
+  }
+  if (!reduceMotion && parallaxEls.length) {
+    window.addEventListener('scroll', onParallaxScroll, { passive: true });
+    window.addEventListener('resize', onParallaxScroll);
+    parallaxUpdate();
+  }
+
+  /* ── Pullquote: scroll-driven word reveal ── */
+  const quote = document.querySelector('.aip-quote-text');
+  if (quote && !reduceMotion) {
+    const words = quote.textContent.trim().split(/\s+/);
+    quote.textContent = '';
+    const spans = words.map((w, i) => {
+      const s = document.createElement('span');
+      s.className = 'aip-qword';
+      s.textContent = w;
+      quote.appendChild(s);
+      if (i < words.length - 1) quote.appendChild(document.createTextNode(' '));
+      return s;
     });
-  });
 
-  // ── Section icon replay on scroll ──
-  const iconReplayIO = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      const section = e.target.closest('.cs-section');
-      if (section) section.classList.toggle('in-view', e.isIntersecting);
-    });
-  }, { threshold: 0 });
-  document.querySelectorAll('.cs-section h5').forEach(el => iconReplayIO.observe(el));
+    let quoteTicking = false;
+    function quoteUpdate() {
+      quoteTicking = false;
+      const r = quote.getBoundingClientRect();
+      const vh = window.innerHeight;
+      const p = Math.min(1, Math.max(0, (vh * 0.9 - r.top) / (vh * 0.55)));
+      const lit = Math.round(p * spans.length);
+      spans.forEach((s, i) => s.classList.toggle('is-lit', i < lit));
+    }
+    window.addEventListener('scroll', () => {
+      if (!quoteTicking) { quoteTicking = true; requestAnimationFrame(quoteUpdate); }
+    }, { passive: true });
+    quoteUpdate();
+  }
 
+  /* ── Writing cell: terminal typing animation ── */
+  (function () {
+    const svg = document.getElementById('aip-writing-svg');
+    if (!svg) return;
+
+    const staticGrp = svg.querySelector('.aip-writing-static');
+    if (reduceMotion) return;
+    if (staticGrp) staticGrp.style.display = 'none';
+
+    const NS        = 'http://www.w3.org/2000/svg';
+    const TEXT_LEFT = 40;
+    const TEXT_TOP  = 42;
+    const LINE_H    = 18;
+    const CHAR_W    = 7;
+    const PAUSE_MS  = 950;
+    const SCROLL_MS = 330;
+    const BLINK_MS  = 350;
+    const MAX_VIS   = 6;
+    const WIDTHS    = [92, 78, 92, 66, 84, 92, 60, 88, 72, 90, 80, 62];
+
+    // Pre-compute speed zones: fast during word chars, slow at gaps
+    function buildZones(linePixelWidth) {
+      const zones = [];
+      let px = TEXT_LEFT;
+      const end = TEXT_LEFT + linePixelWidth;
+      while (px < end) {
+        const wordEnd = Math.min(end, px + (3 + Math.floor(Math.random() * 5)) * CHAR_W);
+        zones.push({ to: wordEnd, speed: 32 + Math.random() * 18 }); // 32–50 px/s
+        px = wordEnd;
+        if (px < end) {
+          const spaceEnd = Math.min(end, px + 6);
+          const thinking = Math.random() < 0.25;
+          zones.push({ to: spaceEnd, speed: thinking ? 2 + Math.random() * 2 : 5 + Math.random() * 6 });
+          px = spaceEnd;
+        }
+      }
+      return zones;
+    }
+
+    function zoneSpeed(zones, x) {
+      for (const z of zones) if (x < z.to) return z.speed;
+      return zones[zones.length - 1]?.speed ?? 80;
+    }
+
+    /* clip fixed to document interior */
+    const defs = document.createElementNS(NS, 'defs');
+    const clip  = document.createElementNS(NS, 'clipPath');
+    clip.id = 'aip-write-clip';
+    const cr = document.createElementNS(NS, 'rect');
+    cr.setAttribute('x', '24'); cr.setAttribute('y', '24');
+    cr.setAttribute('width', '124'); cr.setAttribute('height', '136');
+    clip.appendChild(cr); defs.appendChild(clip);
+    svg.insertBefore(defs, svg.firstChild);
+
+    const clipWrap = document.createElementNS(NS, 'g');
+    clipWrap.setAttribute('clip-path', 'url(#aip-write-clip)');
+    svg.appendChild(clipWrap);
+
+    const grp = document.createElementNS(NS, 'g');
+    clipWrap.appendChild(grp);
+
+    const cur = document.createElementNS(NS, 'rect');
+    cur.setAttribute('width', '2'); cur.setAttribute('height', '13');
+    cur.setAttribute('rx', '1'); cur.setAttribute('fill', 'white');
+    cur.setAttribute('stroke', 'none');
+    grp.appendChild(cur);
+
+    function posCursor(x, y) {
+      cur.setAttribute('x', x);
+      cur.setAttribute('y', y - 6.5);
+    }
+
+    let blinkTimer = null;
+    function startBlink() {
+      let on = true;
+      blinkTimer = setInterval(() => { on = !on; cur.style.opacity = on ? '1' : '0'; }, BLINK_MS);
+    }
+    function stopBlink() { clearInterval(blinkTimer); cur.style.opacity = '1'; }
+
+    let lineCount     = 0;
+    let scrolledLines = 0;
+    let scrollOffset  = 0;
+    let activeEl      = null;
+    let activeX       = TEXT_LEFT;
+    let activeTargetX = TEXT_LEFT;
+    let activeY       = TEXT_TOP;
+    let activeZones   = [];
+    let typingSpeed   = 0;
+    let phase         = 'typing';
+    let lastT         = null;
+
+    function pruneLines() {
+      const threshold = scrollOffset - 30;
+      for (const el of [...grp.querySelectorAll('line')]) {
+        if (parseFloat(el.getAttribute('y1')) < threshold) grp.removeChild(el);
+      }
+    }
+
+    function doScroll(done) {
+      const from = scrollOffset;
+      const to   = from + LINE_H;
+      const t0   = performance.now();
+      function tick(t) {
+        const p = Math.min(1, (t - t0) / SCROLL_MS);
+        const e = p < 0.5 ? 2 * p * p : -1 + (4 - 2 * p) * p;
+        grp.setAttribute('transform', `translate(0,${-(from + LINE_H * e)})`);
+        if (p < 1) { requestAnimationFrame(tick); }
+        else {
+          scrollOffset = to; scrolledLines++;
+          grp.setAttribute('transform', `translate(0,${-to})`);
+          pruneLines(); done();
+        }
+      }
+      requestAnimationFrame(tick);
+    }
+
+    function spawnLine() {
+      const y  = TEXT_TOP + lineCount * LINE_H;
+      const el = document.createElementNS(NS, 'line');
+      el.setAttribute('x1', TEXT_LEFT); el.setAttribute('y1', y);
+      el.setAttribute('x2', TEXT_LEFT); el.setAttribute('y2', y);
+      el.setAttribute('stroke-width', '1.5');
+      el.setAttribute('stroke-opacity', '0.65');
+      el.setAttribute('stroke-linecap', 'round');
+      grp.insertBefore(el, cur);
+      const w = WIDTHS[lineCount % WIDTHS.length];
+      lineCount++;
+      activeEl       = el;
+      activeX        = TEXT_LEFT;
+      activeTargetX  = TEXT_LEFT + w;
+      activeY        = y;
+      activeZones    = buildZones(w);
+      typingSpeed    = 0;
+      posCursor(TEXT_LEFT + 7, y);
+      phase = 'typing';
+    }
+
+    function nextLine() {
+      if (lineCount - scrolledLines >= MAX_VIS) {
+        phase = 'scrolling';
+        doScroll(() => spawnLine());
+      } else {
+        spawnLine();
+      }
+    }
+
+    function loop(t) {
+      if (lastT === null) lastT = t;
+      const dt = Math.min((t - lastT) / 1000, 0.05);
+      lastT = t;
+
+      if (phase === 'typing') {
+        // Lerp current speed toward the zone target — smooth transitions, no snapping
+        const target = zoneSpeed(activeZones, activeX);
+        typingSpeed += (target - typingSpeed) * Math.min(1, dt * 6);
+        activeX = Math.min(activeTargetX, activeX + typingSpeed * dt);
+        activeEl.setAttribute('x2', activeX);
+        posCursor(activeX + 7, activeY);
+
+        if (activeX >= activeTargetX) {
+          phase = 'pausing';
+          startBlink();
+          setTimeout(() => { stopBlink(); nextLine(); }, PAUSE_MS);
+        }
+      }
+
+      requestAnimationFrame(loop);
+    }
+
+    spawnLine();
+    requestAnimationFrame(loop);
+  })();
 })();
 </script>
 </body>
