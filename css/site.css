@@ -1,4 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Open+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
+/* Variable axes (wght@400..800) rather than fixed instances, so weight can be
+   interpolated — the hero highlights un-bold gradually as you scroll away.
+   Same families and same weight range as before. */
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@400..800&family=Open+Sans:ital,wght@0,400..700;1,400&display=swap');
 
 @property --layer-offset {
   syntax: '<length>';
@@ -388,11 +391,16 @@ nav.is-open .nav-hamburger span:nth-child(3) { transform: translateY(-7px) rotat
   from { clip-path: inset(0 100% 0 0); }
   to   { clip-path: inset(0 0% 0 0); }
 }
+/* --hl-fade runs 0 (fully emphasised) to 1 (indistinguishable from body text).
+   The hero scroll handler drives it; everywhere else it stays at its default 0. */
 .hl {
   display: inline;
   position: relative;
-  color: var(--charcoal);
-  font-weight: var(--weight-semibold);
+  color: color-mix(in srgb,
+                   var(--color-secondary) calc(var(--hl-fade, 0) * 100%),
+                   var(--charcoal));
+  font-weight: calc(var(--weight-semibold) -
+                    (var(--weight-semibold) - var(--weight-regular)) * var(--hl-fade, 0));
 }
 .hl::before {
   content: '';
@@ -411,6 +419,42 @@ nav.is-open .nav-hamburger span:nth-child(3) { transform: translateY(-7px) rotat
 }
 .hl-run::before {
   animation-play-state: running;
+}
+/* Once the entrance wipe has finished, the underline hands over to the scroll.
+   The animation has to be dropped first — its `both` fill would keep pinning
+   clip-path to the drawn state and override anything set here.
+
+   Retracting means walking the right edge back toward the left, exactly
+   reversing the direction hl-wipe drew it in. Because this reads scroll
+   position rather than running on a clock, it holds wherever the scroll
+   stops. */
+.hl-settled::before {
+  animation: none;
+  clip-path: inset(0 calc(var(--hl-fade, 0) * 100%) 0 0);
+}
+
+/* ── Flicker-in text ─────────────────────────────────── */
+.flicker-word { display: inline-block; white-space: nowrap; }
+.flicker-char {
+  display: inline-block;
+  animation: flicker-in 0.3s 1 both;
+  /* longhand after the shorthand, which would otherwise reset it to 0.
+     Held in a variable so the animation can be restarted without wiping the
+     per-character stagger, which inline animation-delay would not survive. */
+  animation-delay: var(--d, 0s);
+}
+/* Dropping the animation for one frame is what lets it play again */
+.flicker-reset .flicker-char { animation-name: none; }
+@keyframes flicker-in {
+  0%   { opacity: 0;   animation-timing-function: step-end; }
+  10%  { opacity: 0.5; animation-timing-function: step-end; }
+  20%  { opacity: 0.2; animation-timing-function: step-end; }
+  30%  { opacity: 0.7; animation-timing-function: step-end; }
+  40%  { opacity: 0; }
+  to   { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .flicker-char { animation: none; }
 }
 
 /* ── Right col / Album stack ─────────────────────────── */
