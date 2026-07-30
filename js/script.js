@@ -430,6 +430,7 @@ const SPREAD = {
 
 let scrolledAway = false;
 let scrollT = 0;
+let introDone = false;   // hero departure stays off until the splash has handed over
 let isHovering = false;
 let carouselTimer = null;
 let cycleStarted = Date.now();
@@ -475,11 +476,129 @@ cards.forEach(wrap => {
 });
 stack.addEventListener('mouseleave', () => applyHover(false));
 
+/* Hero departure — the left column leaves in three depth planes.
+   Driven off the same rect read as the card spread, so no extra layout work.
+   `t` is squared and saturates at 45vh, which is right for snapping the cards
+   away but would finish the headline's travel while it is still fully visible,
+   so the departure uses its own linear progress over a full viewport. */
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+/* Offsets are where each plane sits at a full viewport of scroll.
+
+   The dot grid lags DOWNWARD while everything else lifts, so the two move
+   against each other — that opposition is what reads as depth, rather than
+   one uniform drift.
+
+   The three stacked items rise less the further down the page they sit
+   (avatar 210 > headline 140 > bio 90). Stacking order forces this: if a
+   lower element rose faster it would climb into the one above it, and at
+   this travel range the gaps are far too small to absorb that.
+
+   Horizontal drift pulls the text column left while the card column goes
+   right, so the hero also separates sideways.
+
+   No fadeBy means no opacity write — .right-col is left alone because the
+   card stack already drives its own fade off scrollT. */
+const DEPART = [
+  { el: document.getElementById('dot-grid'),    y:   70, x:   0, fadeFrom: 0.60, fadeBy: 1.00 },
+  { el: document.getElementById('hero-avatar'), y: -210, x:   0, fadeFrom: 0.10, fadeBy: 0.45 },
+  { el: document.getElementById('hero-h1'),     y: -150, x:   0, fadeFrom: 0.30, fadeBy: 0.75 },
+  { el: document.querySelector('.bio'),         y:  -80, x:   0, fadeFrom: 0.45, fadeBy: 1.00 },
+  { el: document.querySelector('.right-col'),   y:  -50, x:  76 },
+];
+
+const AVATAR_LAYERS = [...document.querySelectorAll('.hero-avatar-layer')];
+/* Highlights give up their weight, colour and underline one after another
+   rather than together — the topmost starts first and finishes first.
+   Document order is used rather than measured position because for normal text
+   flow they are the same thing, and it stays correct through any rewrap
+   without needing to re-measure. Two of the four share a line; those move
+   together, which reads correctly.
+
+   This runs on its own clock, not the hero's: nothing happens until Featured
+   Work fills a third of the viewport, then it plays out over the next 0.55vh
+   of travel. Measured against the real layout, that puts the start at 0.33 of
+   a viewport — where the bio is still fully on screen and fully opaque — and
+   the last highlight finished around 0.63, while it is still readable.
+
+   Spans overlap (0.30 long, starting 0.08 apart) so the group still reads as
+   one gesture rather than four separate events. */
+const HL_ELS   = [...document.querySelectorAll('.bio .hl')];
+const FW_EL    = document.querySelector('.featured-work');
+const HL_SPAN  = 0.30;
+const HL_STEP  = 0.08;
+const HL_ONSET = 2 / 3;    // fraction of the viewport still below Featured Work at the start
+const HL_RANGE = 0.55;     // viewports of scroll the whole cascade spans
+
+/* Featured Work's offset from the hero's top, in layout terms — constant while
+   scrolling, so applyDeparture stays a pure function of the hero's position
+   instead of taking a second live rect reading that could disagree with it. */
+const HERO_EL = document.querySelector('.hero');
+let fwOffset = 0;
+function measureFwOffset() {
+  if (FW_EL && HERO_EL) {
+    fwOffset = FW_EL.getBoundingClientRect().top - HERO_EL.getBoundingClientRect().top;
+  }
+}
+
+function applyDeparture(top) {
+  if (reduceMotion) return;
+  const d = Math.min(1, Math.max(0, -top / window.innerHeight));
+
+  for (const p of DEPART) {
+    if (!p.el) continue;
+    p.el.style.transform = `translate(${(d * p.x).toFixed(1)}px, ${(d * p.y).toFixed(1)}px)`;
+    if (p.fadeBy === undefined) continue;
+    const fade = (d - p.fadeFrom) / (p.fadeBy - p.fadeFrom);
+    p.el.style.opacity = (1 - Math.min(1, Math.max(0, fade))).toFixed(3);
+  }
+
+  /* The diamond layers fan apart on the way out. Driving --layer-offset rather
+     than transform keeps this clear of avatar-physics.js, which owns the
+     layers' transform while you are poking the avatar. Spread completes by the
+     time the avatar has faded, so all of it happens while it is still visible. */
+  const spread = Math.min(1, d / 0.45);
+  for (let i = 0; i < AVATAR_LAYERS.length; i++) {
+    AVATAR_LAYERS[i].style.setProperty('--layer-offset', `${(16 + spread * 26) * (i + 1)}px`);
+  }
+
+  /* Emphasis has its own progress, held at 0 until Featured Work has risen far
+     enough to fill a third of the screen. Each highlight then runs its own
+     window, offset by its position in the paragraph. */
+  if (HL_ELS.length && FW_EL) {
+    const vh = window.innerHeight;
+    const e  = (vh * HL_ONSET - (top + fwOffset)) / (vh * HL_RANGE);
+    for (let i = 0; i < HL_ELS.length; i++) {
+      const f = (e - i * HL_STEP) / HL_SPAN;
+      HL_ELS[i].style.setProperty('--hl-fade', Math.min(1, Math.max(0, f)).toFixed(3));
+    }
+  }
+}
+
+/* flickerIn lives in js/flicker.js, which every page loads before this one. */
+
+/* Called when the intro hands over. Applying immediately means a visitor who
+   scrolled during the intro lands on the right frame instead of seeing the
+   hero pop when the flag flips. */
+function startDeparture() {
+  introDone = true;
+  measureFwOffset();
+  applyDeparture(document.querySelector('.hero').getBoundingClientRect().top);
+}
+
+// d is a fraction of viewport height, so a resize changes it — refresh rather
+// than leaving the planes stale until the next scroll.
+window.addEventListener('resize', () => {
+  measureFwOffset();
+  if (introDone) applyDeparture(document.querySelector('.hero').getBoundingClientRect().top);
+});
+
 window.addEventListener('scroll', () => {
   const top = stack.closest('.hero').getBoundingClientRect().top;
   const raw = Math.max(0, -top / (window.innerHeight * 0.45));
   const t   = Math.min(1, raw * raw);
   scrollT = t;
+
+  if (introDone) applyDeparture(top);
 
   cards.forEach(wrap => {
     const slot = wrap.dataset.slot || 'spawn';
@@ -522,6 +641,18 @@ const heroAvatar = document.getElementById('hero-avatar');
 const bioPara    = document.querySelector('.bio');
 const hlEls      = document.querySelectorAll('.hl');
 
+/* Draw a highlight, then hand its underline over to the scroll. Once settled
+   the retraction is driven by --hl-fade, so it holds wherever scrolling stops.
+   The timeout is a fallback for any case where the wipe never fires
+   animationend; adding the class twice is harmless. */
+function runHighlight(el) {
+  el.classList.add('hl-run');
+  const settle = () => el.classList.add('hl-settled');
+  el.addEventListener('animationend', settle, { once: true });
+  setTimeout(settle, 800);
+}
+
+
 heroAvatar.style.opacity  = '0';
 heroAvatar.style.transform = 'translateY(-20px)';
 heroH1.style.opacity = '0';
@@ -538,54 +669,78 @@ if (window.location.hash) {
   heroAvatar.classList.add('is-floating');
   heroH1.style.opacity = '1';
   bioPara.style.opacity = '1';
-  bioPara.style.transform = 'translateY(0)';
+  bioPara.style.transform = '';
+  startDeparture();
   illus[0].innerHTML = albums[0].svg();
   applySlotInstant(cards[0], 'front');
   applySlotInstant(cards[1], 'mid');
   applySlotInstant(cards[2], 'back');
-  hlEls.forEach(el => el.classList.add('hl-run'));
+  hlEls.forEach(el => runHighlight(el));
   scheduleAdvance(2500);
   const hashTarget = document.querySelector(window.location.hash);
   if (hashTarget) hashTarget.scrollIntoView({ behavior: 'instant' });
 } else {
 
-// Phase 1 – "hi!" drops in
+/* The intro runs on the real <h1>, lifted above the splash backdrop. It ends on
+   its own natural layout, so there is nothing to hand off to and the text never
+   fades — it just appears, moves into place, and stays. */
+const h1Hi   = document.querySelector('.h1-hi');
+const h1Name = document.querySelector('.h1-name');
+
+// The splash spans are now only position references — never painted.
+splHi.style.visibility = splName.style.visibility = 'hidden';
+splHi.style.transform  = splName.style.transform  = 'none';
+
+/* .hero-inner carries z-index:1, so it is its own stacking context — the h1
+   cannot rise above the splash on its own. Lift the whole column instead; the
+   avatar, bio and cards inside it are all still at opacity 0 at this point. */
+const heroInner = document.querySelector('.hero-inner');
+heroInner.style.zIndex = '1000';
+heroH1.style.opacity = '1';
+
+// Measure the offset that puts each real word exactly over its splash counterpart
+const flipOnto = (word, ref) => {
+  const w = word.getBoundingClientRect(), r = ref.getBoundingClientRect();
+  return {
+    dx: (r.left + r.width  / 2) - (w.left + w.width  / 2),
+    dy: (r.top  + r.height / 2) - (w.top  + w.height / 2),
+    s:  r.height / w.height
+  };
+};
+const fHi = flipOnto(h1Hi, splHi), fNm = flipOnto(h1Name, splName);
+const at = (f, ox = 0, oy = 0) =>
+  `translate(${f.dx + ox}px, ${f.dy + oy}px) scale(${f.s})`;
+
+h1Hi.style.transformOrigin = h1Name.style.transformOrigin = 'center center';
+h1Hi.style.willChange = h1Name.style.willChange = 'transform, opacity';
+h1Hi.style.transform   = at(fHi, 0, -44);
+h1Name.style.transform = at(fNm, -28, 0);
+h1Hi.style.opacity = h1Name.style.opacity = '0';
+
+// Phase 1 – "Hi" drops in
 requestAnimationFrame(() => {
-  splHi.style.transition = 'opacity 0.5s ease, transform 0.7s cubic-bezier(0.16,1,0.3,1)';
-  splHi.style.opacity = '1';
-  splHi.style.transform = 'translateY(0)';
+  h1Hi.style.transition = 'opacity 0.5s ease, transform 0.7s cubic-bezier(0.16,1,0.3,1)';
+  h1Hi.style.opacity = '1';
+  h1Hi.style.transform = at(fHi);
 });
 
 // Phase 2 – "I'm Deron." slides in
 setTimeout(() => {
-  splName.style.transition = 'opacity 0.55s ease, transform 0.75s cubic-bezier(0.25,0.46,0.45,0.94)';
-  splName.style.opacity = '1';
-  splName.style.transform = 'translateX(0)';
+  h1Name.style.transition = 'opacity 0.55s ease, transform 0.75s cubic-bezier(0.25,0.46,0.45,0.94)';
+  h1Name.style.opacity = '1';
+  h1Name.style.transform = at(fNm);
 }, 500);
 
-// Phase 3 – morph to h1 position
+// Phase 3 – travel to the real h1 position. Transform only, opacity untouched.
 setTimeout(() => {
-  const mid = el => { const r = el.getBoundingClientRect(); return { x: r.left + r.width/2, y: r.top + r.height/2, h: r.height }; };
-  const shiM = mid(splHi),   snmM = mid(splName);
-  const thiM = mid(document.querySelector('.h1-hi')),
-        tnmM = mid(document.querySelector('.h1-name'));
   const ease = 'cubic-bezier(0.76,0,0.24,1)';
-
-  splHi.style.transition = `transform 0.8s ${ease}`;
-  splHi.style.transformOrigin = 'center center';
-  splHi.style.transform = `translate(${thiM.x-shiM.x}px,${thiM.y-shiM.y}px) scale(${thiM.h/shiM.h})`;
-
-  splName.style.transition = `transform 0.8s ${ease}`;
-  splName.style.transformOrigin = 'center center';
-  splName.style.transform = `translate(${tnmM.x-snmM.x}px,${tnmM.y-snmM.y}px) scale(${tnmM.h/snmM.h})`;
+  h1Hi.style.transition   = `transform 0.8s ${ease}`;
+  h1Name.style.transition = `transform 0.8s ${ease}`;
+  h1Hi.style.transform = h1Name.style.transform = 'none';
 }, 1200);
 
-// Phase 4 – crossfade: splash out, page in
+// Phase 4 – the backdrop drops away around the already-settled headline
 setTimeout(() => {
-  splHi.style.transition   = 'opacity 0.3s ease';
-  splName.style.transition = 'opacity 0.3s ease 40ms';
-  splHi.style.opacity = splName.style.opacity = '0';
-
   heroAvatar.style.transition = 'opacity 0.5s ease, transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94)';
   heroAvatar.style.opacity   = '1';
   heroAvatar.style.transform  = 'translateY(0)';
@@ -595,13 +750,15 @@ setTimeout(() => {
     heroAvatar.classList.add('is-floating');
   }, 700);
 
-  heroH1.style.transition = 'opacity 0.3s ease 0.1s';
-  heroH1.style.opacity = '1';
-
   setTimeout(() => {
     splash.style.transition = 'opacity 0.35s ease';
     splash.style.opacity = '0';
-    setTimeout(() => splash.remove(), 400);
+    setTimeout(() => {
+      splash.remove();
+      // hand the headline back to normal flow
+      h1Hi.style.cssText = h1Name.style.cssText = '';
+      heroInner.style.zIndex = '';
+    }, 400);
   }, 200);
 
   // Cards fan in — inject SVG now so SMIL timers start fresh
@@ -611,15 +768,24 @@ setTimeout(() => {
   setTimeout(() => applySlot(cards[2], 'back'), 240);
   setTimeout(restartProgress, 260);
 
-  // Bio slides up
+  // Bio slides up while its characters flicker on, then hands its transform
+  // over to the scroll departure. Opacity goes to 1 immediately — each char
+  // now handles its own reveal, so fading the paragraph too would double it up.
   setTimeout(() => {
-    bioPara.style.transition = 'opacity 0.6s ease, transform 0.65s cubic-bezier(0.25,0.46,0.45,0.94)';
+    bioPara.style.transition = 'transform 0.65s cubic-bezier(0.25,0.46,0.45,0.94)';
     bioPara.style.opacity = '1';
     bioPara.style.transform = 'translateY(0)';
+    flickerIn(bioPara, 0.08, 0.005);   // ~250 chars, so a tighter step than a title
+    setTimeout(() => {
+      // a scroll-linked transform run through a 0.65s transition lags the pointer
+      bioPara.style.transition = '';
+      bioPara.style.transform  = '';
+      startDeparture();
+    }, 900);
   }, 200);
 
   // Highlights fire after bio finishes sliding in (~850ms), staggered
-  hlEls.forEach((el, i) => setTimeout(() => el.classList.add('hl-run'), 900 + i * 200));
+  hlEls.forEach((el, i) => setTimeout(() => runHighlight(el), 900 + i * 200));
 
   scheduleAdvance(2200);
 }, 2000);
@@ -656,16 +822,25 @@ function advance() {
 }
 
 /* ── Featured Work — scroll-in ───────────────────────────── */
+/* Deliberately never unobserved: leaving strips .in-view so the reveal is armed
+   again, and coming back replays it. The reset happens off screen, so the
+   fade-out is never actually seen. */
 const fwObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('in-view');
-      fwObserver.unobserve(entry.target);
+    if (!entry.isIntersecting) {
+      entry.target.classList.remove('in-view');
+      return;
     }
+    entry.target.classList.add('in-view');
+    // Start the title after its card has finished fading up, otherwise the
+    // card's own 0.56s fade swallows the flicker.
+    const title = entry.target.querySelector('.fw-title');
+    if (title) flickerIn(title, 0.35 + Number(entry.target.dataset.fwIndex || 0) * 0.1);
   });
 }, { threshold: 0.15 });
 
 document.querySelectorAll('.fw-heading, .fw-card').forEach((el, i) => {
   el.style.transitionDelay = `${i * 100}ms`;
+  el.dataset.fwIndex = i;
   fwObserver.observe(el);
 });
