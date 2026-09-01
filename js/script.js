@@ -574,8 +574,6 @@ function applyDeparture(top) {
   }
 }
 
-/* flickerIn lives in js/flicker.js, which every page loads before this one. */
-
 /* Called when the intro hands over. Applying immediately means a visitor who
    scrolled during the intro lands on the right frame instead of seeing the
    hero pop when the flag flips. */
@@ -768,14 +766,11 @@ setTimeout(() => {
   setTimeout(() => applySlot(cards[2], 'back'), 240);
   setTimeout(restartProgress, 260);
 
-  // Bio slides up while its characters flicker on, then hands its transform
-  // over to the scroll departure. Opacity goes to 1 immediately — each char
-  // now handles its own reveal, so fading the paragraph too would double it up.
+  // Bio slides up, then hands its transform over to the scroll departure
   setTimeout(() => {
-    bioPara.style.transition = 'transform 0.65s cubic-bezier(0.25,0.46,0.45,0.94)';
+    bioPara.style.transition = 'opacity 0.6s ease, transform 0.65s cubic-bezier(0.25,0.46,0.45,0.94)';
     bioPara.style.opacity = '1';
     bioPara.style.transform = 'translateY(0)';
-    flickerIn(bioPara, 0.08, 0.005);   // ~250 chars, so a tighter step than a title
     setTimeout(() => {
       // a scroll-linked transform run through a 0.65s transition lags the pointer
       bioPara.style.transition = '';
@@ -832,15 +827,10 @@ const fwObserver = new IntersectionObserver((entries) => {
       return;
     }
     entry.target.classList.add('in-view');
-    // Start the title after its card has finished fading up, otherwise the
-    // card's own 0.56s fade swallows the flicker.
-    const title = entry.target.querySelector('.fw-title');
-    if (title) flickerIn(title, 0.35 + Number(entry.target.dataset.fwIndex || 0) * 0.1);
   });
 }, { threshold: 0.15 });
 
 document.querySelectorAll('.fw-heading, .fw-card').forEach((el, i) => {
   el.style.transitionDelay = `${i * 100}ms`;
-  el.dataset.fwIndex = i;
   fwObserver.observe(el);
 });

@@ -433,30 +433,6 @@ nav.is-open .nav-hamburger span:nth-child(3) { transform: translateY(-7px) rotat
   clip-path: inset(0 calc(var(--hl-fade, 0) * 100%) 0 0);
 }
 
-/* ── Flicker-in text ─────────────────────────────────── */
-.flicker-word { display: inline-block; white-space: nowrap; }
-.flicker-char {
-  display: inline-block;
-  animation: flicker-in 0.3s 1 both;
-  /* longhand after the shorthand, which would otherwise reset it to 0.
-     Held in a variable so the animation can be restarted without wiping the
-     per-character stagger, which inline animation-delay would not survive. */
-  animation-delay: var(--d, 0s);
-}
-/* Dropping the animation for one frame is what lets it play again */
-.flicker-reset .flicker-char { animation-name: none; }
-@keyframes flicker-in {
-  0%   { opacity: 0;   animation-timing-function: step-end; }
-  10%  { opacity: 0.5; animation-timing-function: step-end; }
-  20%  { opacity: 0.2; animation-timing-function: step-end; }
-  30%  { opacity: 0.7; animation-timing-function: step-end; }
-  40%  { opacity: 0; }
-  to   { opacity: 1; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .flicker-char { animation: none; }
-}
-
 /* ── Right col / Album stack ─────────────────────────── */
 .right-col {
   display: none; /* hidden — kept for future use */
