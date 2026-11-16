@@ -9,7 +9,7 @@ css/site.css          — shared stylesheet, single source of truth for all toke
 styleguide.html       — living design reference, must stay in sync with site.css
 index.html            — homepage
 about.html
-ai-fun.html           — AI in my design process page (active development)
+ai-design.html        — "AI x Design" page, live but not in the nav yet
 discounts.html
 onboarding.html
 optik.html
@@ -17,6 +17,8 @@ support.html
 lottie/               — Lottie JSON animation files
 images/
 ```
+
+Old AI page versions (`ai-fun.html`, v2, the v3 layout prototypes) are archived outside the repo in `../Portfolio-archive/ai-page-old/`. The AI page art generators live in `Brand and Motion Design Agent/work/ai-page-art-generators/`.
 
 ## Design system
 
@@ -35,13 +37,13 @@ When the user says "body" in a paragraph context, they mean `body-lg` (18px desk
 **Palette** (raw): `--purple` `--plum` `--charcoal` `--silver` `--ash` `--mist` `--white`
 **Semantic**: `--color-primary` `--color-secondary` `--color-subtle` `--color-inverse`
 
-**Token source of truth**: `css/site.css` and `styleguide.html` must always match. When tokens change in either file, update the other in the same session.
+**Token source of truth**: `css/site.css` and `styleguide.html` must always match. When tokens change in either file (palette, semantic mappings, type scale), update the other in the same session, including swatches and spec text. This project has no `design/brand.md` or `tokens.json`. These two files are the brand kit.
 
 ## CSS rules
 
 - **Never hardcode** `font-size`, `font-family`, or `font-weight` — use type classes or CSS vars.
-- **Minimum font size on desktop is 16px.** No exceptions for labels, captions, overlines, or helper text. Use weight, color, letter-spacing, or text-transform for hierarchy instead.
-- **No decorative shadows.** Don't add `box-shadow`, `drop-shadow`, or glow effects as a polish move. Use color, contrast, border treatments, or motion instead. Only add shadows if explicitly asked.
+- **Minimum font size on desktop is 16px.** No exceptions for labels, captions, overlines, or helper text. Use weight, color, letter-spacing, or text-transform for hierarchy instead. Mobile overrides may go smaller.
+- **No decorative shadows.** Don't add `box-shadow`, `drop-shadow`, or glow effects as a polish move. Use color, contrast, border treatments, or motion instead. Only add shadows if explicitly asked. Shadows already approved stay. Scoped exception: soft contact shading inside 3D assets (the Tactile Tiles process scenes and the 3D tools tiles) is part of their style.
 - New component CSS goes in a page-level `<style>` block. Shared/reusable patterns go in `site.css`.
 - Default to existing type and spacing classes before writing any new CSS rules.
 
@@ -52,6 +54,7 @@ When the user says "body" in a paragraph context, they mean `body-lg` (18px desk
 - **No em dashes (—).** Rewrite the sentence.
 - No semicolons. Use a comma or conjunction instead.
 - No repetitive sentence structure across bullets.
+- Keep it natural and human. No filler or over-explaining.
 
 ## Cross-page consistency
 
@@ -61,10 +64,27 @@ If a change applies to a shared element (navigation, a CSS class used across pag
 
 - **Never commit or push without being explicitly asked.** Just edit files and leave them in the working tree.
 - **Never merge branches without explicit instruction.**
-- Branch strategy:
-  - `ai-page` — `ai-fun.html` only (new AI page, active work)
-  - `fixes` — any fix or improvement to existing pages
-  - Never mix work from both branches in a single commit.
+- **`main` is the live site.** GitHub Pages publishes https://friskygrape.github.io/portfolio/ from `main`, so merging to `main` and pushing is going live.
+- **Work from `main`.** Start every change on a short branch off an up-to-date `main` (`git checkout main && git pull`, then `git checkout -b <topic>`). Keep one topic per branch (e.g. `ai-design-process-titles`, `fix-about-spacing`). Merge it back into `main` when Deron approves, push, then delete the branch.
+- `ai-page` is retired. It's kept on GitHub as an archive of the AI page history and still carries old changes to index, about, `js/script.js` and the styleguide. Never merge it.
+
+## Permissions
+
+Read and edit any portfolio file without asking. Confirm only two kinds of change: drastic changes to a page or the site architecture, and any change to user-written copy.
+
+## AI x Design page (ai-design.html)
+
+- **Live, nav item hidden:** the page is on `main` (since 2026-11-15) but its `<a href="ai-design.html" class="label" hidden>AI x Design</a>` nav link is hidden on every page until Deron says it's ready. To launch it, remove `hidden` from that link on all 7 pages in one branch.
+- **View it locally** at http://localhost:8080/ai-design.html, since the nav link is hidden.
+- **Widths:** the main content max width is 980px (`--nv-max`). The hero (`#overview`) is the exception: it's full screen (full width, `100svh`), and everything below it is capped at 980px. For comparison, case-study `.cs-body` is 1200px, its content column next to the TOC is 880px, and homepage featured work is 1120px.
+- **Process scenes:** the "How I use AI in my work" scenes use the Tactile Tiles style (`Brand and Motion Design Agent/styles/tactile-tiles.md`). Status and handoff are in `Brand and Motion Design Agent/work/portfolio-process-scenes/STATUS.md`.
+- **Reduced motion:** every looping video uses a poster of its finished state (e.g. the Kept promo on its end card). The `.js-loop-video` script only plays when motion is allowed and the video is in view.
+
+## Preview and verification
+
+- The `portfolio` preview server (`.claude/launch.json`, port 8080) serves `/tmp/portfolio-preview`, a copy of the repo. macOS privacy blocks it from reading `~/Documents`, so don't point it at the repo.
+- After every edit, sync: `rsync -a --delete --exclude '.git' "/Users/deronli/Documents/Claude Code/Portfolio/" /tmp/portfolio-preview/`. Then load the page with a cache-busting query (`?fresh=<timestamp>`).
+- Show work at http://localhost:8080/<page>. Don't open a new tab per revision (see `design-foundations/references/verification.md`).
 
 ## Things to never touch without an explicit ask
 
