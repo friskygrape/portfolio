@@ -77,7 +77,7 @@ Read and edit any portfolio file without asking. Confirm only two kinds of chang
 - **Live, nav item hidden:** the page is on `main` (since 2026-11-15) but its `<a href="ai-design.html" class="label" hidden>AI x Design</a>` nav link is hidden on every page until Deron says it's ready. To launch it, remove `hidden` from that link on all 7 pages in one branch.
 - **View it locally** at http://localhost:8080/ai-design.html, since the nav link is hidden.
 - **Widths:** the main content max width is 980px (`--nv-max`). The hero (`#overview`) is the exception: it's full screen (full width, `100svh`), and everything below it is capped at 980px. For comparison, case-study `.cs-body` is 1200px, its content column next to the TOC is 880px, and homepage featured work is 1120px.
-- **Process scenes:** the "How I use AI in my work" scenes use the Tactile Tiles style (`Brand and Motion Design Agent/styles/tactile-tiles.md`). Status and handoff are in `Brand and Motion Design Agent/work/portfolio-process-scenes/STATUS.md`.
+- **Process scenes:** the "How I Use AI in My Work" scenes use the Tactile Tiles style (`Brand and Motion Design Agent/styles/tactile-tiles.md`). Status and handoff are in `Brand and Motion Design Agent/work/portfolio-process-scenes/STATUS.md`.
 - **Reduced motion:** every looping video uses a poster of its finished state (e.g. the Kept promo on its end card). The `.js-loop-video` script only plays when motion is allowed and the video is in view.
 
 ## Preview and verification

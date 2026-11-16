@@ -258,6 +258,7 @@
     /* No footer for now: the page ends with breathing room after the last section */
     main { padding-bottom: 140px; }
     .nv-head { text-align: center; margin-bottom: 56px; }
+    .nv-intro { max-width: 640px; margin: 16px auto 0; color: var(--nv-body); }
     .nv-h2 {
       margin: 0;
       color: var(--nv-ink);   /* type: .h1 */
@@ -805,8 +806,9 @@
       padding-bottom: 6svh;                                 /* optical centre: sits slightly above the middle */
     }
     .nv-hero .nv-title { max-width: 11ch; }
-    .nv-art--left  { left: -4vw;  width: clamp(420px, 36vw, 820px); }
-    .nv-art--right { right: -6vw; width: clamp(460px, 40vw, 900px); }
+    /* the ribbons frame the type from the outer edges, a column of air between them and the headline */
+    .nv-art--left  { top: 6svh; left: -5vw;  width: clamp(380px, 31vw, 720px); }
+    .nv-art--right { top: 2svh; right: -6vw; width: clamp(400px, 32vw, 740px); }
 
     @media (max-width: 900px) {
       .nv-hero { min-height: 100svh; padding-top: 88px; }
@@ -814,11 +816,48 @@
       .nv-art--left  { width: 420px; left: -200px; }
       .nv-art--right { width: 460px; right: -240px; }
     }
+    /* Phones: the ribbons tuck into the top corners above the headline, fully opaque (a see-through
+       3D object reads as murk), so the type and buttons sit on clear ground. */
+    @media (max-width: 768px) {
+      .nv-hero .nv-art { opacity: 1; }
+      .nv-art--left  { top: 48px; left: -96px;  width: 248px; }
+      .nv-art--right { top: 32px; right: -64px; width: 248px; }
+      .nv-hero .nv-hero-inner { padding-top: 18svh; }
+    }
 
     /* ── Hero session: two cursors, one canvas ──
        Paint (human) and pixels (Claude) sit above the art and below the type. The cursors are
        flat Figma-style pointers with name tags: no shadow, 16px tag type. */
-    :root { --hs-claude: #B85434; }                       /* Claude clay, darkened so white 16px tag text passes AA (4.8:1) */
+
+    /* ── Hero palette: the light version of the page ──
+       A warm beige ground (from Deron's card reference) with the page's own dark greys for type.
+       Slightly deeper at the edges so the hero ends clearly against the #F7F6F4 page.
+       The strokes and cursors use the card palette (coral, pink, forest, sky, navy, rust, mustard). */
+    .nv-hero {
+      --hv-bg: #E2DCD1;  --hv-bg-2: #E5DFD4; --hv-edge: #DDD6CA;   /* warm beige */
+      --hv-ink: var(--nv-ink);            /* headline #0C0A09: 14.5:1 */
+      --hv-body: var(--nv-body);          /* sub line #57534E: 5.6:1 */
+      --hv-line: var(--nv-body);
+      --hv-you: #2A3590;                  /* navy "You" tag, white text 10.4:1 */
+      --hs-claude: #C8392A;               /* rust "Claude" tag, white text 5.2:1 */
+      --hv-grid: rgba(12, 10, 9, 0.16);
+      background: radial-gradient(120% 90% at 50% 42%, var(--hv-bg-2) 40%, var(--hv-edge));
+      color: var(--hv-body);
+    }
+    /* Texture: a dot grid, matching the homepage hero (22px spacing, 1.5px dots), static here so it
+       doesn't compete with the cursor painting. Fades out behind the headline and at the bottom edge. */
+    .nv-hero::before {
+      inset: 0;
+      background: radial-gradient(circle, var(--hv-grid) 1.5px, transparent 1.6px) 11px 11px / 22px 22px;
+      -webkit-mask-image: radial-gradient(ellipse 75% 80% at 50% 45%, rgba(0,0,0,0.35) 20%, #000 60%, transparent 100%);
+              mask-image: radial-gradient(ellipse 75% 80% at 50% 45%, rgba(0,0,0,0.35) 20%, #000 60%, transparent 100%);
+    }
+    .nv-hero .nv-title { color: var(--hv-ink); }
+    .nv-hero .nv-sub { color: var(--hv-body); }
+    .nv-hero .nv-btn { background: transparent; border-color: var(--hv-line); color: var(--hv-ink); }
+    .nv-hero .nv-btn:hover { background: rgba(12, 10, 9, 0.06); }
+    .nv-hero .nv-btn--dark { background: var(--nv-ink); border-color: var(--nv-ink); color: var(--nv-bg); }
+    .nv-hero .nv-btn--dark:hover { background: var(--nv-dark-2); }
     .nv-hero { touch-action: pan-y pinch-zoom; }          /* sideways drags paint on touch, vertical drags still scroll */
     .hs-layer {
       position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none;
@@ -846,7 +885,8 @@
       background: var(--hs-c); color: var(--white);
       white-space: nowrap;
     }
-    .hs-cur--deron  { --hs-c: var(--nv-ink); }
+    .hs-cur--deron  { --hs-c: var(--hv-you); }
+    .hs-cur--deron .hs-tag { color: #FFFFFF; }
     .hs-cur--claude { --hs-c: var(--hs-claude); }
     @media (max-width: 768px) { .hs-tag { padding: 2px 8px; font-size: var(--text-caption); } }
 
@@ -864,15 +904,13 @@
       #showcase .sc-b { transition: none; }
     }
 
-
     /* ════ Showcase: two stacked case studies ════ */
     /* Two compact rows that fit one laptop viewport together. One anatomy, mirrored: a 540px
        media window beside the caption. The agent comes first with its film on the left, then
        Extra Life Mart with its screens on the right, so the eye zigzags down the pair.
-       Extra Life Mart is one static image (all five screens, at the art's own 2.31:1 shape) so it
-       can be swapped by changing a single <img>. The agent's film plays in view. The cards build
-       in with a scroll-scrubbed choreography (see Scroll build), reversible in both directions.
-       Eat Me and This Portfolio are hidden for now (HTML comment in #showcase). */
+       Both windows hold a silent looping film (Extra Life Mart's is its 24 s gameplay hero loop,
+       960×540, about 1.2 MB, loaded only near view). Films play in view. The cards build
+       in with a scroll-scrubbed choreography (see Scroll build), reversible in both directions. */
     .e-grid {
       width: min(var(--nv-max), calc(100% - var(--nv-gutter) * 2)); margin: 0 auto;
       display: flex; flex-direction: column; gap: 20px;
@@ -884,7 +922,28 @@
       padding: 28px; border: 1px solid var(--nv-line); border-radius: 12px; background: var(--nv-card);
     }
     .e-case--elm { grid-template-columns: minmax(0, 1fr) 500px; }
-    .e-case--elm .e-shot { order: 2; }
+    /* The whole card is the link: it lifts on hover and settles a little when pressed. Uses `translate`,
+       not transform, so it never fights the scroll build's inline transform. A soft shadow grows under it
+       as it lifts (asked for by Deron, the same shadow as the process cards' hover). */
+    .e-case { position: relative; cursor: pointer; transition: translate 0.4s var(--nv-ease), box-shadow 0.4s var(--nv-ease); }
+    .e-hit { position: absolute; inset: 0; z-index: 2; border: 0; padding: 0; background: none; border-radius: inherit; cursor: pointer; }
+    .e-hit:focus-visible { outline: 2px solid var(--nv-ink); outline-offset: 4px; }
+    @media (hover: hover) { .e-case:hover { translate: 0 -6px; box-shadow: 0 18px 40px -18px rgba(28, 25, 23, 0.22); } }
+    .e-case:active { translate: 0 -2px; box-shadow: 0 8px 20px -12px rgba(28, 25, 23, 0.2); transition-duration: 0.12s; }
+    @media (prefers-reduced-motion: reduce) { .e-case, .e-case:hover, .e-case:active { translate: none; } }
+
+    /* Lightbox: the full Kept promo, 1080p with sound. It only loads and plays when the visitor presses play. */
+    .nv-lightbox { margin: auto; width: min(1120px, calc(100vw - 48px)); max-width: none; max-height: none; padding: 0; border: 0; background: transparent; overflow: visible; }
+    .nv-lightbox::backdrop { background: rgba(12, 10, 9, 0.82); }
+    .nv-lightbox video { display: block; width: 100%; aspect-ratio: 16 / 9; border-radius: 12px; background: #000; }
+    .nv-lb-close {
+      position: absolute; right: 0; bottom: calc(100% + 12px); display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 14px; border: 1px solid rgba(255, 255, 255, 0.28); border-radius: 999px; background: transparent; color: var(--white); cursor: pointer;
+    }
+    .nv-lb-close:hover { background: rgba(255, 255, 255, 0.1); }
+    .nv-lb-close:focus-visible { outline: 2px solid var(--white); outline-offset: 2px; }
+    .nv-lb-close svg { width: 16px; height: 16px; }
+    .e-case--elm .e-shot, .e-case--elm .e-film { order: 2; }
 
     /* Media windows */
     /* Both projects share one window: 16:9, same border and fill */
@@ -923,7 +982,7 @@
     @media (max-width: 900px) {
       .e-grid { width: calc(100% - 32px); gap: 20px; }
       .e-case, .e-case--elm { grid-template-columns: minmax(0, 1fr); row-gap: 20px; padding: 20px; }
-      .e-case--elm .e-shot { order: 0; }
+      .e-case--elm .e-shot, .e-case--elm .e-film { order: 0; }
     }
     @media (prefers-reduced-motion: reduce) {
       .e-case, .e-film, .e-shot, .e-cap, .e-vid, .e-img { transform: none !important; opacity: 1 !important; clip-path: none !important; will-change: auto; }
@@ -950,8 +1009,6 @@
 
   <!-- ════════ Hero ════════ -->
   <header class="nv-hero" id="overview">
-    <div class="nv-art nv-art--left" aria-hidden="true"><div class="nv-art-drift"><img src="images/ai/v3/art-left.webp" alt="" width="900" height="1100"><canvas></canvas></div></div>
-    <div class="nv-art nv-art--right" aria-hidden="true"><div class="nv-art-drift"><img src="images/ai/v3/art-right.webp" alt="" width="1000" height="1200"><canvas></canvas></div></div>
     <!-- Hero session: the visitor's pointer (or Deron's, while idle) paints watercolour,
          the Claude cursor answers in pixels that either resolve into paint or scatter. -->
     <canvas class="hs-layer hs-paint" aria-hidden="true"></canvas>
@@ -961,8 +1018,8 @@
     <div class="hs-cur hs-cur--claude" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3.5 2.5v18l5.2-5 9.6-.5z"/></svg><span class="hs-tag tag">Claude</span></div>
 
     <div class="nv-wrap nv-hero-inner">
-      <h1 class="nv-title display" id="nv-title">AI in my design process</h1>
-      <p class="nv-sub lead">I've been working AI into my design process for about a year. It helps with some things. It slows me down on others.</p>
+      <h1 class="nv-title display" id="nv-title">AI x Design</h1>
+      <p class="nv-sub lead">An evolving look at how I integrate AI into my design workflows and the side projects I am building along the way.</p>
 
       <div class="nv-ctas">
         <a class="nv-btn nv-btn--dark label" href="#showcase">Built with Claude Code</a>
@@ -975,7 +1032,8 @@
   <section class="nv-section ev" id="showcase">
     <div class="nv-wrap">
     <div class="nv-head nv-in">
-      <h2 class="nv-h2 h1">AI Projects</h2>
+      <h2 class="nv-h2 h1">My AI Projects</h2>
+      <p class="nv-intro body-lg">I have always believed the best way to learn is by building. Here are a few side projects I have been tinkering with, and the AI tools I used to build them.</p>
       <div class="nv-tools" role="group" aria-label="Tools I use">
         <div class="tt-stage">
           <ul class="tt-row">
@@ -993,38 +1051,28 @@
     </div>
     <div class="e-grid">
       <article class="e-case e-case--ag">
+        <button type="button" class="e-hit" data-lightbox="kept-lightbox" aria-haspopup="dialog" aria-label="Watch the Kept promo in full, 1080p with sound"></button>
         <div class="e-film"><video class="js-loop-video e-vid" muted loop playsinline preload="metadata" poster="images/ai/kept-promo-poster.webp" aria-label="A promo for Kept, a fictional finance app: a 3D phone, rendered in Blender by the Brand and Motion Design Agent, focuses on its net worth, cash flow and savings goal tiles"><source src="images/ai/kept-promo.webm" type="video/webm"><source src="images/ai/kept-promo.mp4" type="video/mp4"></video></div>
-        <div class="e-cap"><h3 class="e-title h3">Brand &amp; Motion Design Agent</h3><div class="e-copy"><p class="e-text body">A custom Claude Code agent that does brand and motion work: brand kits, icons, 3D device mockups in Blender, pixel art, and video. It renders and checks its own output against a design checklist before it shows me anything.</p><div class="e-meta"><div class="nv-tags "><span class="nv-tag tag">Claude Code</span><span class="nv-tag tag">Blender</span><span class="nv-tag tag">Remotion</span><span class="nv-tag tag">Figma MCP</span></div></div></div></div>
+        <div class="e-cap"><h3 class="e-title h3">Motion Design Subagents &amp; Skills</h3><div class="e-copy"><p class="e-text body">I love motion design and the subtle details that bring an interface to life. To bridge the gap, I started developing custom subagents and skills for Claude Code to automate motion work that would otherwise take days or weeks to build manually.</p><div class="e-meta"><div class="nv-tags "><span class="nv-tag tag">Claude Code</span><span class="nv-tag tag">Blender</span><span class="nv-tag tag">Remotion</span><span class="nv-tag tag">ElevenLabs</span></div></div></div></div>
       </article>
       <article class="e-case e-case--elm">
-        <div class="e-shot"><img class="e-img" src="images/ai/extra-life-mart.webp" width="3000" height="1300" alt="Five Extra Life Mart screenshots: the stocked shop, a customer's order on the counter, the change drawer, the stock order screen and the end of day receipt" loading="lazy"></div>
-        <div class="e-cap"><div class="e-head"><h3 class="e-title h3">Extra Life Mart</h3><span class="nv-pill tag">In progress</span></div><div class="e-copy"><p class="e-text body">A pixel art shop game for phone browsers. Run a little beachfront convenience store: order snacks by the box, stock your shelves, and serve customers through the window by hand.</p><div class="e-meta"><div class="nv-tags "><span class="nv-tag tag">Claude Code</span><span class="nv-tag tag">Google Gemini</span><span class="nv-tag tag">Phaser</span><span class="nv-tag tag">TypeScript</span></div><a class="nv-link tag" href="https://friskygrape.github.io/extra-life-mart/" target="_blank" rel="noopener" aria-label="Play Extra Life Mart in your browser">
-          Play it
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
-        </a></div></div></div>
+        <a class="e-hit" href="https://friskygrape.github.io/extra-life-mart/" target="_blank" rel="noopener" aria-label="Play Extra Life Mart in a new tab"></a>
+        <div class="e-film"><video class="js-loop-video e-vid" muted loop playsinline preload="none" poster="images/ai/extra-life-mart-poster.webp" aria-label="Extra Life Mart gameplay: open the shop, fill a customer's order, sell from the shelves, count back change, buy a new snack licence and order stock for tomorrow"><source src="images/ai/extra-life-mart.webm" type="video/webm"><source src="images/ai/extra-life-mart.mp4" type="video/mp4"></video></div>
+        <div class="e-cap"><div class="e-head"><h3 class="e-title h3">Extra Life Mart</h3><span class="nv-pill tag">In progress</span></div><div class="e-copy"><p class="e-text body">Frustrated by mobile app stores packed with aggressive ads and monetization loops, I wanted to build something pure: a cozy, free browser game where you play a beachfront shop owner managing inventory, stocking shelves, and serving customers.</p><div class="e-meta"><div class="nv-tags "><span class="nv-tag tag">Claude Code</span><span class="nv-tag tag">Google Gemini</span><span class="nv-tag tag">Phaser</span><span class="nv-tag tag">TypeScript</span></div></div></div></div>
       </article>
-      <!-- HIDDEN FOR NOW (Deron): Eat Me and This Portfolio, kept as their old 2x2 tile markup.
-           To restore, move each into the .e-case anatomy above (media, then .e-cap).
-      <article class="e-tile e-em" style="--col:0" data-e><div class="e-media"><div class="nv-strip e-strip" tabindex="0" aria-label="Eat Me screenshots, scroll sideways for more"><img class="" src="images/ai/eat-me.webp" width="3000" height="1300" alt="Five Eat Me screenshots: a grocery receipt photo, the scanned items ready to review, food sorted by expiry, a recipe that uses expiring food and the expenses screen" loading="lazy"></div></div><div class="e-num"><span class="nv-card-label tag e-label"><span class="nv-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg></span>
-            03
-          </span><span class="nv-pill tag">Coming soon</span></div><h3 class="e-title h3">Eat Me</h3><p class="e-text body">A functional prototype built from my grad design thesis. Real interactions and logic, not just static screens.</p><div class="e-meta"><div class="nv-tags "><span class="nv-tag tag">Claude Code</span><span class="nv-tag tag">Claude API</span><span class="nv-tag tag">React Native</span><span class="nv-tag tag">Expo</span></div></div></article>
-      <article class="e-tile e-pf" style="--col:1" data-e><div class="e-media"><img class="e-img e-shot" src="images/ai/portfolio_screen.png" width="3546" height="1720" alt="Screenshot of this portfolio site" loading="lazy"></div><div class="e-num"><span class="nv-card-label tag e-label"><span class="nv-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></span>
-            01
-          </span></div><h3 class="e-title h3">This Portfolio</h3><p class="e-text body">Every animation and interaction on this site (the TOC indicator, the section icon draws, the scroll fade-ins) was built through prompting, not written by hand.</p><div class="e-meta"><div class="nv-tags "><span class="nv-tag tag">Cursor</span><span class="nv-tag tag">Claude Code</span><span class="nv-tag tag">HTML/CSS</span><span class="nv-tag tag">Vanilla JS</span></div></div></article>
-      END HIDDEN FOR NOW (Deron) -->
     </div>
   </section>
 
   <!-- ════════ Process ════════ -->
   <section class="nv-section nv-wrap" id="process">
     <div class="nv-head nv-in">
-      <h2 class="nv-h2 h1">How I use AI in my work</h2>
+      <h2 class="nv-h2 h1">How I Use AI in My Work</h2>
     </div>
 
     <div class="nv-bento">
 
       <!-- Research -->
-      <article class="nv-card nv-card--dark nv-span-3 pr-card">
+      <article class="nv-card nv-span-3 pr-card">
         <div class="nv-card-top">
           <span class="nv-card-label tag">
             <span class="nv-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
@@ -1035,7 +1083,7 @@
         <div class="nv-visual" aria-hidden="true">
           <div class="nv-frame"><video class="js-loop-video" muted loop playsinline preload="metadata" poster="images/ai/process/research-poster.webp"><source src="images/ai/process/research.webm" type="video/webm"><source src="images/ai/process/research.mp4" type="video/mp4"></video></div>
         </div>
-        <p class="nv-card-text body">When I'm diving into a new space, I use AI to get a handle on the jargon, what competitors are doing, so I can focus on what users actually care about.</p>
+        <p class="nv-card-text body">When I am diving into a new space, I use AI to quickly cut through the industry jargon, map out the competitive landscape, and audit existing product experiences.</p>
       </article>
 
       <!-- Planning & Validation -->
@@ -1050,7 +1098,7 @@
         <div class="nv-visual" aria-hidden="true">
           <div class="nv-frame"><video class="js-loop-video" muted loop playsinline preload="metadata" poster="images/ai/process/planning-poster.webp"><source src="images/ai/process/planning.webm" type="video/webm"><source src="images/ai/process/planning.mp4" type="video/mp4"></video></div>
         </div>
-        <p class="nv-card-text body">I treat AI as a collaborator and have it poke holes in my early ideas. I made my own <strong class="nv-tool-name">PM Skill</strong> and use it with <strong class="nv-tool-name">Claude Code</strong>'s Plan mode to talk through complex logic and evaluate my direction, which helps me catch edge cases and blind spots before I commit.</p>
+        <p class="nv-card-text body">I treat AI as a collaborator and have it poke holes in my early ideas. I made my own <strong class="nv-tool-name">PM Skill</strong> and use it with <strong class="nv-tool-name">Claude Code</strong>'s <strong class="nv-tool-name">Plan mode</strong> to talk through complex logic and evaluate my direction, which helps me catch edge cases and blind spots before I commit.</p>
       </article>
 
       <!-- Writing -->
@@ -1095,7 +1143,7 @@
         <div class="nv-visual" aria-hidden="true">
           <div class="nv-frame"><video class="js-loop-video" muted loop playsinline preload="metadata" poster="images/ai/process/prototyping-poster.webp"><source src="images/ai/process/prototyping.webm" type="video/webm"><source src="images/ai/process/prototyping.mp4" type="video/mp4"></video></div>
         </div>
-        <p class="nv-card-text body">I use <strong class="nv-tool-name">Cursor</strong> and <strong class="nv-tool-name">Claude Code</strong> to build functional prototypes. Baking in real logic and design tokens allows for genuine user exploration and creates a much smoother translation from design to code. I also made my own <strong class="nv-tool-name">Design QA Skill</strong> to double-check the output against my Figma designs.</p>
+        <p class="nv-card-text body">I use <strong class="nv-tool-name">Cursor</strong> and <strong class="nv-tool-name">Claude Code</strong> to build robust, functional prototypes. Baking in real logic and design tokens allows for genuine user testing and creates a seamless translation from design to code, all while managing my changes and live updates via <strong class="nv-tool-name">GitHub</strong>.</p>
       </article>
 
       <!-- Data & Analytics -->
@@ -1116,63 +1164,11 @@
     </div>
   </section>
 
-  <!-- ════════ Tradeoffs (pros/cons + quote panel): HIDDEN FOR NOW (Deron). Remove `hidden` to restore. ════════ -->
-  <section class="nv-section nv-wrap" id="tradeoffs" hidden>
-    <div class="nv-head nv-in">
-      <h2 class="nv-h2 h1">Where it helps vs. where it doesn't</h2>
-    </div>
-
-    <div class="nv-compare">
-      <article class="nv-card nv-in">
-        <div class="nv-card-top">
-          <span class="nv-card-label tag">
-            <span class="nv-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg></span>
-            Do
-          </span>
-        </div>
-        <ul class="nv-list nv-list--pos body">
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Mass changes across a prototype</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Building and iterating on components</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Micro-interactions and animations</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Summarising research</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>UX writing and documentation</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Knocking out a backlog of QA changes</li>
-        </ul>
-      </article>
-      <article class="nv-card nv-card--dark nv-in">
-        <div class="nv-card-top">
-          <span class="nv-card-label tag">
-            <span class="nv-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3H10z"/><path d="M17 2h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"/></svg></span>
-            Don't
-          </span>
-        </div>
-        <ul class="nv-list nv-list--neg body">
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>Visual polish and fine tweaks</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>Keeping design consistent</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>Spatial accuracy and layout</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>Design inspiration (I still go external for that)</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>Quick single-element edits</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>Struggles with vague or open-ended prompts</li>
-        </ul>
-      </article>
-    </div>
-
-    <!-- Dark quote panel -->
-    <div class="nv-cta nv-in">
-      <p class="nv-quote">"AI gets me to 60&ndash;70% quickly. Getting that last 10&ndash;30% of polish often takes longer through prompting than just doing it myself."</p>
-      <div class="nv-meter" aria-hidden="true"><span></span></div>
-      <div class="nv-ctas">
-        <a class="nv-btn label" href="index.html">Home</a>
-        <a class="nv-btn nv-btn--ghost label" href="#overview">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
-          AI in my design process
-        </a>
-      </div>
-    </div>
-  </section>
-
+  <dialog class="nv-lightbox" id="kept-lightbox" aria-label="Kept promo video">
+    <button type="button" class="nv-lb-close label" data-close>Close <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+    <video controls playsinline preload="none" poster="images/ai/kept-promo-poster.webp"><source src="images/ai/kept-promo-1080.mp4" type="video/mp4"></video>
+  </dialog>
 </main>
-
 
 <script src="js/nav.js" defer></script>
 <script>
@@ -1196,12 +1192,13 @@
   const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const pctx = paintCv.getContext('2d'), xctx = pixCv.getContext('2d');
 
-  /* Paint colours, sampled from the hero art (art-left / art-right) */
-  const PAL = { verm: '#C4502F', ochre: '#C9733F', teal: '#2F6E62', ultra: '#3E4FA0', olive: '#6E7A45' };
-  const WRONG = { '#C4502F': PAL.ultra, '#C9733F': PAL.ultra, '#2F6E62': PAL.verm, '#3E4FA0': PAL.ochre, '#6E7A45': PAL.ultra };
+  /* Paint colours: the card palette (coral, mustard, forest, navy, pink), value-tuned for the beige */
+  const PAL = { verm: '#F04A43', ochre: '#AE7E22', teal: '#135941', ultra: '#2A3590', olive: '#EE6A84' };
+  const WRONG = { [PAL.verm]: PAL.ultra, [PAL.ochre]: PAL.ultra, [PAL.teal]: PAL.verm, [PAL.ultra]: PAL.ochre, [PAL.olive]: PAL.teal };
   const VISITOR_COLS = [PAL.verm, PAL.teal, PAL.ultra, PAL.ochre, PAL.olive];
-  const BG = [247, 246, 244];
-  const PAINT_ALPHA = 0.8, RES = 0.6;
+  const BG = [226, 220, 209];             /* hero ground (--hv-bg): pixel edges fade into it */
+  const BONE = [243, 240, 234];           /* pale blooms lift toward bone, not toward the dark ground */
+  const PAINT_ALPHA = 0.85, RES = 0.6;
 
   /* ── utilities ── */
   const clamp = (v, a, b) => (v < a ? a : v > b ? b : v);
@@ -1267,7 +1264,7 @@
     gr.addColorStop(0, col); gr.addColorStop(0.5, col.replace('rgb(', 'rgba(').replace(')', ',0.6)')); gr.addColorStop(1, col.replace('rgb(', 'rgba(').replace(')', ',0)'));
     g.fillStyle = gr; g.fillRect(0, 0, 64, 64); dabs.set(col, c); return c;
   }
-  const shade = (hex, k) => { const c = hexRgb(hex); return `rgb(${c.map((ch, i) => Math.round(k < 0 ? ch * (1 + k) : ch + (BG[i] - ch) * k))})`; };
+  const shade = (hex, k) => { const c = hexRgb(hex); return `rgb(${c.map((ch, i) => Math.round(k < 0 ? ch * (1 + k) : ch + (BONE[i] - ch) * k))})`; };
   function newStroke(color) {
     return { color, dark: shade(color, -0.38), light: shade(color, 0.5), seed: seedN++, pts: [], len: 0, done: false, reveal: Infinity, fadeAt: Infinity, fadeDur: 1.5, cache: null, bb: null, scratch: null };
   }
@@ -1366,7 +1363,7 @@
   function drawPaint(v) {
     pctx.setTransform(1, 0, 0, 1, 0, 0);
     pctx.clearRect(0, 0, paintCv.width, paintCv.height);
-    pctx.globalCompositeOperation = 'multiply';
+    pctx.globalCompositeOperation = 'multiply';      /* watercolour on a light ground: glazes deepen where they overlap */
     for (const s of strokes) {
       const a = strokeAlpha(s); if (a <= 0) continue;
       const l = layer(s, v); if (!l) continue;
@@ -1379,7 +1376,7 @@
   }
 
   /* ── Claude's pixel strokes ── */
-  function makePix(path, color, outcome, radius) {
+  function makePix(path, color, outcome, radius, clean) {   /* clean: a crisp line of whole cells, no stray halo (napkin sketches) */
     const r = rng(seedN++ * 13), base = hexRgb(color), R = radius / CELL + 0.25, cand = new Map();
     for (const p of path.pts) {
       const gx = Math.floor(p.x / CELL), gy = Math.floor(p.y / CELL), k = Math.ceil(R + 1);
@@ -1392,9 +1389,9 @@
     }
     const cells = [];
     for (const c of cand.values()) {
-      const keep = c.dist < R * 0.62 ? 1 : c.dist < R ? 1 - ((c.dist - R * 0.62) / (R * 0.38)) * 0.55 : c.dist < R + 1 ? 0.14 : 0;
+      const keep = clean ? (c.dist < R ? 1 : 0) : c.dist < R * 0.62 ? 1 : c.dist < R ? 1 - ((c.dist - R * 0.62) / (R * 0.38)) * 0.55 : c.dist < R + 1 ? 0.14 : 0;
       if (r() >= keep) continue;
-      const edge = clamp((c.dist - R * 0.4) / (R * 0.9), 0, 1) * 0.5, j = (r() - 0.5) * 0.18;
+      const edge = clean ? 0 : clamp((c.dist - R * 0.4) / (R * 0.9), 0, 1) * 0.5, j = (r() - 0.5) * 0.18;
       const col = base.map((ch, i) => Math.round(clamp((ch + (j > 0 ? (255 - ch) * j : ch * j)) * (1 - edge) + BG[i] * edge, 0, 255)));
       cells.push({ x: c.cx * CELL, y: c.cy * CELL, d: c.d, col: `rgb(${col})`, a0: 0.82 + 0.18 * r(), born: -1, fade0: -1, vx: 0, vy: 0, delay: 0, life: 1 });
     }
@@ -1518,22 +1515,28 @@
     for (const el of textEls) { if (!el) continue; const r = el.getBoundingClientRect(); x0 = Math.min(x0, r.left); y0 = Math.min(y0, r.top); x1 = Math.max(x1, r.right); y1 = Math.max(y1, r.bottom); }
     return { x: x0 - hr.left, y: y0 - hr.top, w: x1 - x0, h: y1 - y0 };
   };
-  /* The two cursors park either side of "process": the shared work, bracketed */
-  function wordRect(word) {
-    const hr = hero.getBoundingClientRect(), node = title.firstChild, i = node.textContent.lastIndexOf(word);
-    const rg = document.createRange(); rg.setStart(node, i); rg.setEnd(node, i + word.length);
-    const rs = rg.getClientRects(), r = rs[rs.length - 1];
-    return { l: r.left - hr.left, r: r.right - hr.left, t: r.top - hr.top, y: r.top - hr.top + r.height * 0.42 };
+  /* The headline as laid out: one box per line, so the cursors can rest beside it whatever it says */
+  function titleLines() {
+    const hr = hero.getBoundingClientRect(), rg = document.createRange(), lines = [];
+    rg.selectNodeContents(title);
+    for (const r of rg.getClientRects()) {
+      if (r.width < 4) continue;
+      const t = r.top - hr.top, l = lines.find((q) => Math.abs(q.t - t) < 6);
+      if (l) { l.l = Math.min(l.l, r.left - hr.left); l.r = Math.max(l.r, r.right - hr.left); }
+      else lines.push({ l: r.left - hr.left, r: r.right - hr.left, t, h: r.height });
+    }
+    return lines.sort((a, b) => a.t - b.t);
   }
   /* Where the cursors rest: beside the headline, never on its words. Wide: on the side where the
-     session ended, Deron by the first line, Claude by "process". Narrow: above the headline, where the
-     session happens, so neither cursor crosses the type to get there. */
+     session ended, Deron by the first line, Claude by the last (stacked when it's one line). Narrow:
+     above the headline, where the session happens, so neither cursor crosses the type to get there. */
   function parks(side) {
     const span = (k) => 12 + cur[k].el.querySelector('.hs-tag').offsetWidth;
-    const AI = wordRect('AI'), de = wordRect('design'), pr = wordRect('process');
-    if (!wide) { const y = AI.t - 60; return { d: { x: Math.max(8, AI.l - 2), y }, c: { x: Math.min(W - span('c') - 8, de.r - span('c') + 6), y } }; }
-    if (side === 'r') return { d: { x: de.r + 18, y: de.y }, c: { x: pr.r + 18, y: pr.y } };
-    return { d: { x: AI.l - span('d') - 22, y: AI.y }, c: { x: pr.l - span('c') - 22, y: pr.y } };
+    const L = titleLines(), f = L[0], z = L[L.length - 1], one = L.length === 1;
+    const dy = f.t + f.h * (one ? 0.18 : 0.42), cy = one ? f.t + f.h * 0.72 : z.t + z.h * 0.42;
+    if (!wide) { const y = f.t - 60; return { d: { x: Math.max(8, f.l - 2), y }, c: { x: Math.min(W - span('c') - 8, f.r - span('c') + 6), y } }; }
+    if (side === 'r') return { d: { x: f.r + 18, y: dy }, c: { x: z.r + 18, y: cy } };
+    return { d: { x: f.l - span('d') - 22, y: dy }, c: { x: z.l - span('c') - 22, y: cy } };
   }
   function geo(mirror) {
     const X = (x) => (mirror ? W - x : x);
@@ -1622,7 +1625,7 @@
     visitor = true; claudeBusy = false;
     for (const b of beats) if (b.group === 'script' && b.st === 1 && b.end) b.end();
     beats = beats.filter((b) => b.group !== 'script');
-    for (const px of pixes) if (px.mode === 'draw' || px.mode === 'hold') {
+    for (const px of pixes) if (!px.amb && (px.mode === 'draw' || px.mode === 'hold')) {
       if (px.outcome === 'help' && px.target) { resolveNow(px, px.target); for (const c of px.cells) c.fade0 = T; px.target.reveal = Infinity; px.target.done = true; }
       else startScatter(px);
     }
@@ -1694,30 +1697,334 @@
     pth.L = pth.pts[pth.pts.length - 1].d;
     return pth;
   }
+  /* ── Claude reads the visitor's stroke ──
+     It works out what the stroke is trying to be (a box, a circle, a wave, a line, or a
+     closed shape) and finishes it: closes the circle, draws the missing sides of the box,
+     carries the wave on, turns a line into a box, or fills a finished shape with wireframe
+     content. A "miss" is a confident misreading: a circle squared off, a box rounded. */
+  const wrapA = (a) => Math.atan2(Math.sin(a), Math.cos(a));
+  function resample(src, step) {
+    const out = [{ x: src[0].x, y: src[0].y }];
+    for (let i = 1; i < src.length; i++) {
+      let a = out[out.length - 1]; const b = src[i]; let d = Math.hypot(b.x - a.x, b.y - a.y);
+      while (d >= step) { const t = step / d; a = { x: a.x + (b.x - a.x) * t, y: a.y + (b.y - a.y) * t }; out.push(a); d = Math.hypot(b.x - a.x, b.y - a.y); }
+    }
+    return out;
+  }
+  function fitCircle(P) {                       /* least-squares circle (Kasa) */
+    let sx = 0, sy = 0, sxx = 0, syy = 0, sxy = 0, sxz = 0, syz = 0, sz = 0; const n = P.length;
+    for (const p of P) { const z = p.x * p.x + p.y * p.y; sx += p.x; sy += p.y; sxx += p.x * p.x; syy += p.y * p.y; sxy += p.x * p.y; sxz += p.x * z; syz += p.y * z; sz += z; }
+    const A = [[sxx, sxy, sx], [sxy, syy, sy], [sx, sy, n]], bv = [-sxz, -syz, -sz];
+    for (let i = 0; i < 3; i++) { let m = i; for (let j = i + 1; j < 3; j++) if (Math.abs(A[j][i]) > Math.abs(A[m][i])) m = j;
+      [A[i], A[m]] = [A[m], A[i]]; [bv[i], bv[m]] = [bv[m], bv[i]]; if (Math.abs(A[i][i]) < 1e-9) return null;
+      for (let j = i + 1; j < 3; j++) { const f = A[j][i] / A[i][i]; for (let k = i; k < 3; k++) A[j][k] -= f * A[i][k]; bv[j] -= f * bv[i]; } }
+    const x = [0, 0, 0]; for (let i = 2; i >= 0; i--) { let v = bv[i]; for (let k = i + 1; k < 3; k++) v -= A[i][k] * x[k]; x[i] = v / A[i][i]; }
+    const cx = -x[0] / 2, cy = -x[1] / 2; let r = 0; for (const p of P) r += Math.hypot(p.x - cx, p.y - cy); r /= n;
+    let err = 0; for (const p of P) err += Math.abs(Math.hypot(p.x - cx, p.y - cy) - r); err /= n * r;
+    return { cx, cy, r, err };
+  }
+  function analyse(s) {
+    const P = resample(s.pts, 8); if (P.length < 8) return null;
+    const dir = []; for (let i = 1; i < P.length; i++) dir.push(Math.atan2(P[i].y - P[i - 1].y, P[i].x - P[i - 1].x));
+    let turn = 0; const k = []; for (let i = 1; i < dir.length; i++) { const d = wrapA(dir[i] - dir[i - 1]); turn += d; k.push(d); }
+    let corners = 0, lastC = -9;
+    for (let i = 3; i < dir.length - 3; i++) if (Math.abs(wrapA(dir[i + 2] - dir[i - 3])) > 1.1 && i - lastC > 5) { corners++; lastC = i; }
+    let waves = 0, sg = 0;
+    for (let i = 2; i < k.length - 2; i++) { const m = (k[i - 2] + k[i - 1] + k[i] + k[i + 1] + k[i + 2]) / 5; if (Math.abs(m) > 0.035) { const ns = Math.sign(m); if (sg && ns !== sg) waves++; sg = ns; } }
+    let x0 = 1e9, y0 = 1e9, x1 = -1e9, y1 = -1e9;
+    for (const p of P) { x0 = Math.min(x0, p.x); y0 = Math.min(y0, p.y); x1 = Math.max(x1, p.x); y1 = Math.max(y1, p.y); }
+    const bw = x1 - x0, bh = y1 - y0;
+    let rectErr = 0; for (const p of P) rectErr += Math.min(p.x - x0, x1 - p.x, p.y - y0, y1 - p.y); rectErr /= P.length * Math.max(bw, bh, 1);
+    const circ = fitCircle(P), a = P[0], e = P[P.length - 1], chord = Math.hypot(e.x - a.x, e.y - a.y);
+    const closed = chord < Math.max(36, s.len * 0.2) && s.len > 180;
+    let kind = 'free';
+    if (closed) kind = rectErr < (circ ? circ.err * 0.8 : 1) ? 'boxClosed' : 'ringClosed';
+    else if (waves >= 2 && Math.abs(turn) < 4) kind = 'wave';
+    else if (corners >= 1 && rectErr < 0.06) kind = 'box';
+    else if (Math.abs(turn) > 1.6 && circ && circ.r < 500 && circ.err < 0.12) kind = 'ring';
+    else if (chord / s.len > 0.88) kind = 'line';
+    return { P, kind, turn, circ, box: { x0, y0, x1, y1, w: bw, h: bh }, a, e };
+  }
+  /* segment builders: each returns a list of point lists, Claude lifts the pen between them */
+  const arcPts = (cx, cy, r, a0, a1) => { const out = [], n = Math.max(8, Math.ceil(Math.abs(a1 - a0) * r / 6)); for (let i = 0; i <= n; i++) { const a = a0 + (a1 - a0) * i / n; out.push({ x: cx + Math.cos(a) * r, y: cy + Math.sin(a) * r }); } return out; };
+  const linePts = (ax, ay, bx, by) => resample([{ x: ax, y: ay }, { x: bx, y: by }], 6).concat([{ x: bx, y: by }]);
+  function ringFinish(A) {
+    const c = A.circ, dirn = Math.sign(A.turn) || 1;
+    const as = Math.atan2(A.a.y - c.cy, A.a.x - c.cx), ae = Math.atan2(A.e.y - c.cy, A.e.x - c.cx);
+    let gap = wrapA(as - ae); if (dirn > 0 && gap < 0) gap += Math.PI * 2; if (dirn < 0 && gap > 0) gap -= Math.PI * 2;
+    if (Math.abs(gap) < 0.3) return null;
+    return [arcPts(c.cx, c.cy, c.r, ae, ae + gap + dirn * 0.12)];
+  }
+  function rectWalk(b, from, to, dirn, close) {   /* walk the box outline from one point to another */
+    const C = [{ x: b.x0, y: b.y0 }, { x: b.x1, y: b.y0 }, { x: b.x1, y: b.y1 }, { x: b.x0, y: b.y1 }];
+    const per = (p) => {                         /* nearest outline position, 0..4 around the corners */
+      const c = [[(p.x - b.x0) / (b.w || 1), Math.abs(p.y - b.y0)], [1 + (p.y - b.y0) / (b.h || 1), Math.abs(p.x - b.x1)], [2 + (b.x1 - p.x) / (b.w || 1), Math.abs(p.y - b.y1)], [3 + (b.y1 - p.y) / (b.h || 1), Math.abs(p.x - b.x0)]];
+      const m = c.reduce((q, r) => (r[1] < q[1] ? r : q)); return clamp(m[0] - Math.floor(m[0] / 4) * 4, 0, 3.999);
+    };
+    const at4 = (t) => { const i = Math.floor(t) % 4, f = t - Math.floor(t), A = C[i], B = C[(i + 1) % 4]; return { x: A.x + (B.x - A.x) * f, y: A.y + (B.y - A.y) * f }; };
+    const t0 = per(from); let t1 = close ? t0 + dirn * 4 : per(to);
+    if (!close) { if (dirn > 0 && t1 <= t0) t1 += 4; if (dirn < 0 && t1 >= t0) t1 -= 4; }
+    if (Math.abs(t1 - t0) < 0.15) return null;
+    const pts = [], L = Math.abs(t1 - t0) * (b.w + b.h) / 2, n = Math.max(8, Math.ceil(L / 6));
+    for (let i = 0; i <= n; i++) { let t = t0 + (t1 - t0) * i / n; t = ((t % 4) + 4) % 4; pts.push(at4(t)); }
+    return [pts];
+  }
+  function boxFinish(A) {
+    return rectWalk(A.box, A.e, A.a, A.turn >= 0 ? 1 : -1, false);   /* turning clockwise on screen goes forward round the corners */
+  }
+  function lineToBox(A) {                       /* a single line becomes the top or bottom of a box */
+    const dx = A.e.x - A.a.x, dy = A.e.y - A.a.y, l = Math.hypot(dx, dy), nx = -dy / l, ny = dx / l, h = clamp(l * 0.55, 60, 220);
+    const roomy = (sg) => { const mx = (A.a.x + A.e.x) / 2 + nx * h * sg, my = (A.a.y + A.e.y) / 2 + ny * h * sg; return my > 110 && my < H - 30 && mx > 10 && mx < W - 10 && !nearText(mx, my, 40); };
+    const sg = roomy(1) ? 1 : -1, B = { x: A.e.x + nx * h * sg, y: A.e.y + ny * h * sg }, Cc = { x: A.a.x + nx * h * sg, y: A.a.y + ny * h * sg };
+    return [[...linePts(A.e.x, A.e.y, B.x, B.y), ...linePts(B.x, B.y, Cc.x, Cc.y), ...linePts(Cc.x, Cc.y, A.a.x, A.a.y)]];
+  }
+  function waveFinish(A) {                      /* carry the rhythm on: repeat the last stretch along the stroke's axis */
+    const dx = A.e.x - A.a.x, dy = A.e.y - A.a.y, l = Math.hypot(dx, dy) || 1, ux = dx / l, uy = dy / l;
+    const P = A.P, u = P.map((p) => (p.x - A.a.x) * ux + (p.y - A.a.y) * uy), v = P.map((p) => -(p.x - A.a.x) * uy + (p.y - A.a.y) * ux);
+    const mv = v.reduce((a, b) => a + b, 0) / v.length, xs = [];
+    for (let i = 1; i < v.length; i++) if ((v[i - 1] - mv) * (v[i] - mv) < 0) xs.push(u[i]);
+    if (xs.length < 3) return null;
+    const period = 2 * (xs[xs.length - 1] - xs[0]) / (xs.length - 1), uEnd = u[u.length - 1], out = [];
+    const last = P.map((p, i) => ({ u: u[i], v: v[i] })).filter((q) => q.u >= uEnd - period);
+    for (let rep = 1; rep <= 2; rep++) for (const q of last) out.push({ x: A.a.x + (q.u + period * rep) * ux - q.v * uy, y: A.a.y + (q.u + period * rep) * uy + q.v * ux });
+    return [resample([A.e, ...out], 6)];
+  }
+  function ringContent(A) {                     /* a closed circle reads as an avatar: name and detail lines beside it */
+    const c = A.circ || { cx: (A.box.x0 + A.box.x1) / 2, cy: (A.box.y0 + A.box.y1) / 2, r: Math.max(A.box.w, A.box.h) / 2 };
+    const right = c.cx + c.r * 2.8 < W - 20 && !nearText(c.cx + c.r * 2.4, c.cy, 20), sg = right ? 1 : -1, x0 = c.cx + sg * c.r * 1.45;
+    return [linePts(x0, c.cy - c.r * 0.3, x0 + sg * c.r * 2.2, c.cy - c.r * 0.3), linePts(x0, c.cy + c.r * 0.3, x0 + sg * c.r * 1.4, c.cy + c.r * 0.3)];
+  }
+  function boxContent(A) {                      /* a closed box gets wireframe content: an image cross, or text lines */
+    const b = A.box, i = Math.min(b.w, b.h) * 0.18;
+    if (b.w / b.h > 0.6 && b.w / b.h < 1.7 || Math.min(b.w, b.h) < 90) return [linePts(b.x0 + i, b.y0 + i, b.x1 - i, b.y1 - i), linePts(b.x1 - i, b.y0 + i, b.x0 + i, b.y1 - i)];
+    const rows = Math.max(2, Math.min(4, Math.floor((b.h - i * 2) / 30))), out = [];
+    for (let r = 0; r < rows; r++) { const y = b.y0 + i + (b.h - i * 2) * (r + 0.5) / rows; out.push(linePts(b.x0 + i, y, b.x1 - i - (b.w - i * 2) * (r === rows - 1 ? 0.4 : r * 0.1), y)); }
+    return out;
+  }
+  function circleAround(A, full) {              /* the misread: whatever it was, Claude rounds it */
+    const b = A.box, cx = (b.x0 + b.x1) / 2, cy = (b.y0 + b.y1) / 2, r = Math.max(b.w, b.h) * 0.55 + 8, a0 = Math.atan2(A.e.y - cy, A.e.x - cx);
+    return [arcPts(cx, cy, r, a0, a0 + (Math.sign(A.turn) || 1) * (full ? Math.PI * 2.05 : Math.PI * 1.2))];
+  }
+  function squareOff(A) {                       /* the misread: a circle squared into a box */
+    const b = A.box; return rectWalk({ ...b }, A.e, A.e, (Math.sign(A.turn) || 1), true);
+  }
+  function plan(s, outcome) {
+    const A = analyse(s); if (!A) return null;
+    const help = { ring: ringFinish, box: boxFinish, line: lineToBox, wave: waveFinish, ringClosed: ringContent, boxClosed: boxContent };
+    const miss = { ring: squareOff, ringClosed: squareOff, box: (q) => circleAround(q, false), boxClosed: (q) => circleAround(q, true) };
+    const fn = outcome === 'help' ? help[A.kind] : miss[A.kind];
+    let segs = fn ? fn(A) : null;
+    if (segs) {                                 /* never draw across the copy: stop short of it, or fall back to carrying the stroke on */
+      const rects = copyRects(), hit = (p) => rects.some((r) => p.x > r.l - 14 && p.x < r.r + 14 && p.y > r.t - 14 && p.y < r.b + 14);
+      let all = 0, kept = 0; const out = [];
+      for (const sg of segs) { all += sg.length; const i = sg.findIndex(hit), t = i < 0 ? sg : sg.slice(0, i); kept += t.length; if (t.length > 2) out.push(t); if (i >= 0) break; }
+      segs = all && kept / all > 0.45 ? out : null;
+    }
+    if (!segs) {
+      const pth = continuation(s, clamp(s.len * 0.6, wide ? 130 : 90, wide ? 280 : 170), outcome === 'miss');
+      if (!pth) return null; segs = [pth.pts.map((p) => ({ x: p.x, y: p.y }))];
+    }
+    return segs.filter((sg) => sg.length > 2);
+  }
+  /* the copy as it actually sits: each line of the headline and sub line, and each button */
+  function copyRects() {
+    const hr = hero.getBoundingClientRect(), out = [], rg = document.createRange();
+    for (const el of [title, hero.querySelector('.nv-sub')]) { if (!el) continue; rg.selectNodeContents(el); for (const r of rg.getClientRects()) out.push({ l: r.left - hr.left, r: r.right - hr.left, t: r.top - hr.top, b: r.bottom - hr.top }); }
+    for (const el of hero.querySelectorAll('.nv-ctas a, .nv-ctas button')) { const r = el.getBoundingClientRect(); out.push({ l: r.left - hr.left, r: r.right - hr.left, t: r.top - hr.top, b: r.bottom - hr.top }); }
+    return out;
+  }
+  const segPath = (pts, w) => mkPath((u) => { const p = pts[Math.round(u * (pts.length - 1))]; return [p.x, p.y]; }, pts.length - 1, () => w);
+
   function claudeTurn(s) {
     const outcome = PATTERN[turnN % PATTERN.length];
-    const len = clamp(s.len * 0.6, wide ? 130 : 90, wide ? 280 : 170);
-    const path = continuation(s, len, outcome === 'miss'); if (!path) return;
+    const segs = plan(s, outcome); if (!segs || !segs.length) return;
     turnN++; claudeBusy = true;
-    const avgW = s.pts.reduce((a, p) => a + p.w, 0) / s.pts.length;
-    path.pts.forEach((p) => { p.w = avgW; });
-    const t = T + 0.18, G = 'turn', start = path.pts[0];
+    const avgW = s.pts.reduce((a, p) => a + p.w, 0) / s.pts.length, G = 'turn';
+    const col = outcome === 'help' ? s.color : WRONG[s.color] || PAL.ultra;
     if (!cur.c.on) setOn('c', true);
-    const travel = clamp(Math.hypot(cur.c.x - start.x, cur.c.y - start.y) / 1400, 0.3, 0.7);
-    moveTo('c', t, travel, start, { arc: -0.12 }, G);
-    const dur = clamp(path.L / 360, 0.5, 0.9), t2 = t + travel;
-    if (outcome === 'help') {
-      const px = makePix(path, s.color, 'help', avgW * 0.55), sc = newStroke(s.color);
-      sc.pts = path.pts.map((p) => ({ ...p })); sc.len = path.L; px.target = sc;
-      pixDraw(t2, dur, px, G);
-      resolve(t2 + dur + 0.3, px, sc, G);
-      beat(t2 + dur + 0.3 + RES, 0, { start() { const f = T + 3; s.fadeAt = Math.max(s.fadeAt, f); sc.fadeAt = f; sc.fadeDur = s.fadeDur = 1.4; claudeBusy = false; } }, G);
-    } else {
-      const px = makePix(path, WRONG[s.color] || PAL.ultra, 'miss', avgW * 0.36);
-      pixDraw(t2, dur, px, G);
-      scatter(t2 + dur + 0.35, px, G);
-      beat(t2 + dur + 0.8, 0, { start() { claudeBusy = false; } }, G);
+    let t = T + 0.18, cx = cur.c.x, cy = cur.c.y; const done = [];
+    for (const sg of segs) {                    /* pen up, travel, draw: one segment after another */
+      const path = segPath(sg, avgW), start = path.pts[0];
+      const travel = clamp(Math.hypot(cx - start.x, cy - start.y) / 1400, done.length ? 0.16 : 0.3, 0.7);
+      moveTo('c', t, travel, start, { arc: -0.12 }, G);
+      const dur = clamp(path.L / 420, 0.35, 1.4);
+      const px = makePix(path, col, outcome, avgW * (outcome === 'help' ? 0.55 : 0.4));
+      pixDraw(t + travel, dur, px, G);
+      done.push({ px, path }); t += travel + dur + 0.04;
+      const e = path.pts[path.pts.length - 1]; cx = e.x; cy = e.y;
     }
+    if (outcome === 'help') {
+      const made = [];
+      done.forEach(({ px, path }, i) => {
+        const sc = newStroke(s.color); sc.pts = path.pts.map((p) => ({ ...p })); sc.len = path.L; px.target = sc; made.push(sc);
+        resolve(t + 0.3 + i * 0.12, px, sc, G);
+      });
+      beat(t + 0.3 + done.length * 0.12 + RES, 0, { start() { const f = T + 3; s.fadeAt = Math.max(s.fadeAt, f); s.fadeDur = 1.4; for (const sc of made) { sc.fadeAt = f; sc.fadeDur = 1.4; } claudeBusy = false; } }, G);
+    } else {
+      done.forEach(({ px }, i) => scatter(t + 0.35 + i * 0.08, px, G));
+      beat(t + 0.8 + done.length * 0.08, 0, { start() { claudeBusy = false; } }, G);
+    }
+  }
+
+  /* ── ambient: Claude's pixel strokes and napkin sketches around the edges ──
+     Drawn in the same cells as Claude's strokes in the session, held for a while, then they let
+     go from the oldest end and fall away. Two kinds take turns: long gestures that can run off
+     the edge of the screen, and rough lo-fi wireframes (a phone, a browser window, a card, a
+     flow, a chart). They keep clear of the copy and of where the session paints. */
+  const AMB_COLS = [PAL.ultra, PAL.verm, PAL.teal, '#5E9CC6', PAL.ochre, PAL.olive, '#C8392A'];
+  const SKETCH_COLS = [PAL.ultra, PAL.teal, '#C8392A', PAL.verm];
+  const GESTURES = [
+    (u) => [u - 0.5, 0.22 * Math.sin(u * Math.PI) - 0.15 * u],                                    /* long swoosh */
+    (u) => { const t = u * Math.PI * 2 * 2.5; return [(u - 0.5) * 1.1 - 0.16 * Math.sin(t), -0.16 * Math.cos(t)]; },   /* loops */
+    (u) => [u - 0.5, 0.12 * Math.sin(u * Math.PI * 2 * 3)],                                      /* long wave */
+    (u) => { const a = u * Math.PI * 3.2, r = 0.08 + 0.34 * u; return [Math.cos(a) * r, Math.sin(a) * r]; },   /* spiral */
+    (u) => [(u - 0.5) * 1.1, 0.22 * Math.sin(u * Math.PI * 2)],                                  /* S-curve */
+    (u) => { const a = (190 + 240 * u) * Math.PI / 180; return [Math.cos(a) * 0.45, Math.sin(a) * 0.45]; },   /* big arc */
+  ];
+  /* napkin sketch kit, in unit space: nothing is ruled. Lines bow and wobble, start a little
+     early and run a little long, corners are knocked off square, circles don't quite close. */
+  function kit(r) {
+    const nz = noise(Math.floor(r() * 1e6));
+    let ph = 0;
+    const line = (ax, ay, bx, by) => {
+      const l = Math.hypot(bx - ax, by - ay) || 1, nx = -(by - ay) / l, ny = (bx - ax) / l, bow = (r() - 0.5) * 0.12 * l, out = [];
+      const u0 = -0.02 - r() * 0.05, u1 = 1.02 + r() * 0.07; ph += 7;
+      for (let i = 0; i <= 30; i++) {
+        const u = u0 + (u1 - u0) * i / 30, b = Math.sin(Math.PI * clamp(u, 0, 1)) * bow + nz(ph + u * 3) * 0.022;
+        out.push([ax + (bx - ax) * u + nx * b, ay + (by - ay) * u + ny * b]);
+      }
+      return out;
+    };
+    const j = () => (r() - 0.5) * 0.06;
+    const rect = (x, y, w, h) => {                 /* one continuous outline through knocked-off corners */
+      const c = [[x + j(), y + j()], [x + w + j(), y + j()], [x + w + j(), y + h + j()], [x + j(), y + h + j()]];
+      return [...line(...c[0], ...c[1]), ...line(...c[1], ...c[2]), ...line(...c[2], ...c[3]), ...line(...c[3], c[0][0] + j() * 0.5, c[0][1] - 0.04)];
+    };
+    const circle = (cx, cy, rad) => {
+      const a0 = r() * 6.28, rx = rad * (1 + (r() - 0.5) * 0.18), ry = rad * (1 + (r() - 0.5) * 0.18), tilt = r() * 3.14, out = [];
+      for (let i = 0; i <= 48; i++) {
+        const a = a0 + (Math.PI * 2 + 0.45) * i / 48, k = 1 + 0.07 * i / 48 + nz(ph + i * 0.2) * 0.04;
+        const ex = Math.cos(a) * rx * k, ey = Math.sin(a) * ry * k;
+        out.push([cx + ex * Math.cos(tilt) - ey * Math.sin(tilt), cy + ex * Math.sin(tilt) + ey * Math.cos(tilt)]);
+      }
+      ph += 5; return out;
+    };
+    const arrow = (ax, ay, bx, by) => {
+      const s = line(ax, ay, bx, by), [tx, ty] = s[s.length - 3], a = Math.atan2(ty - ay, tx - ax), h = 0.13;
+      return [s, [...line(tx - Math.cos(a - 0.55) * h, ty - Math.sin(a - 0.55) * h, tx, ty), ...line(tx, ty, tx - Math.cos(a + 0.6) * h, ty - Math.sin(a + 0.6) * h)]];
+    };
+    const cross = (x, y, w, h) => [line(x, y, x + w, y + h), line(x + w, y, x, y + h)];
+    const poly = (...p) => { const out = []; for (let i = 1; i < p.length; i++) out.push(...line(...p[i - 1], ...p[i])); return out; };
+    return { line, rect, circle, arrow, cross, poly };
+  }
+  /* Few, big parts: the strokes are as wide as every other stroke, so the details need room.
+     gap is the tightest space between two parts, in units; it sets the smallest size a sketch can draw at. */
+  const SKETCHES = [
+    { w: 1.0, h: 1.7, gap: 0.24, make: (k) => [k.rect(0, 0, 1.0, 1.7), k.rect(0.24, 0.26, 0.52, 0.44), ...k.cross(0.24, 0.26, 0.52, 0.44), k.line(0.24, 1.0, 0.76, 1.0), k.line(0.24, 1.34, 0.6, 1.34)] },   /* phone */
+    { w: 2.0, h: 1.4, gap: 0.24, make: (k) => [k.rect(0, 0, 2.0, 1.4), k.line(0, 0.32, 2.0, 0.32), k.rect(0.24, 0.56, 0.66, 0.6), ...k.cross(0.24, 0.56, 0.66, 0.6), k.line(1.14, 0.7, 1.76, 0.7), k.line(1.14, 1.04, 1.62, 1.04)] },   /* browser */
+    { w: 2.0, h: 1.1, gap: 0.26, make: (k) => [k.rect(0, 0, 2.0, 1.1), k.circle(0.52, 0.55, 0.26), k.line(1.06, 0.4, 1.76, 0.4), k.line(1.06, 0.74, 1.56, 0.74)] },   /* card */
+    { w: 2.1, h: 0.8, gap: 0.24, make: (k) => [k.rect(0, 0.05, 0.66, 0.7), ...k.arrow(0.9, 0.4, 1.14, 0.4), k.circle(1.74, 0.4, 0.34)] },   /* flow */
+    { w: 1.6, h: 1.3, gap: 0.26, make: (k) => [k.poly([0.08, 0], [0.08, 1.22], [1.6, 1.22]), k.poly([0.36, 0.98], [0.68, 0.62], [0.98, 0.84], [1.28, 0.4], [1.56, 0.18])] },   /* chart */
+  ];
+  const SK_GAP_PX = 42;                            /* clear space between parts, at the stroke width */
+  let amb = [], ambNext = 0, ambCol = 0, ambSk = 0, ambShape = 0, ambKind = 0, ambLastZone = -1;
+  function ambZones() {
+    if (!textR) return [];
+    const z = [], top = 96;
+    if (wide) {
+      const left = textR.x - 40, rightX = textR.x + textR.w + 24, bottom = Math.max(textR.y + textR.h * 0.45, H * 0.62);   /* down to where the session paints */
+      if (left >= 160) z.push({ x: 16, y: top, w: left - 16, h: bottom - top, side: -1 });
+      if (W - 16 - rightX >= 160) z.push({ x: rightX, y: top, w: W - 16 - rightX, h: bottom - top, side: 1 });
+      const tcH = textR.y - 40 - top;
+      if (tcH >= 70) z.push({ x: textR.x + textR.w * 0.1, y: top, w: textR.w * 0.8, h: tcH, side: 0 });
+    } else {
+      const y = textR.y + textR.h + 28, h = H - 24 - y, mirror = loopK % 2 === 1;   /* the side the session isn't using */
+      if (h >= 60) z.push({ x: mirror ? 16 : W * 0.5, y, w: W * 0.5 - 16, h, side: mirror ? -1 : 1 });
+    }
+    return z;
+  }
+  const spill = (zone) => (zone.side ? zone.w * 0.7 : 0);   /* how far a drawing may run off the outer edge */
+  /* place unit-space parts in a zone; anything on a side zone may run off the outer edge of the screen */
+  function fitParts(parts, zone, r, S, hug) {
+    let x0 = 1e9, y0 = 1e9, x1 = -1e9, y1 = -1e9;
+    for (const pp of parts) for (const [x, y] of pp) { x0 = Math.min(x0, x); y0 = Math.min(y0, y); x1 = Math.max(x1, x); y1 = Math.max(y1, y); }
+    const pad = BRUSH * 0.6, bw = (x1 - x0) * S, bh = (y1 - y0) * S;
+    let ox = zone.x + pad + r() * Math.max(0, zone.w - pad * 2 - bw);
+    if (zone.side && (hug || bw > zone.w - pad * 2)) ox = zone.side < 0 ? zone.x + zone.w - pad - bw : zone.x + pad;   /* hug the copy side, spill off the edge */
+    const oy = zone.y + pad + r() * Math.max(0, zone.h - pad * 2 - bh);
+    return parts.map((pp) => resample(pp.map(([x, y]) => ({ x: ox + (x - x0) * S, y: oy + (y - y0) * S })), 6));
+  }
+  const unitScale = (parts, zone) => {
+    let x0 = 1e9, y0 = 1e9, x1 = -1e9, y1 = -1e9;
+    for (const pp of parts) for (const [x, y] of pp) { x0 = Math.min(x0, x); y0 = Math.min(y0, y); x1 = Math.max(x1, x); y1 = Math.max(y1, y); }
+    const pad = BRUSH * 0.6; return Math.min((zone.w + spill(zone) - pad * 2) / (x1 - x0), (zone.h - pad * 2) / (y1 - y0));
+  };
+  function gestureParts(zone, r) {
+    const fn = zone.h < 170 ? GESTURES[[0, 2, 4][ambShape++ % 3]] : GESTURES[ambShape++ % GESTURES.length], nz = noise(seedN * 17 + 3);
+    const rot = (r() - 0.5) * 0.9, flip = r() < 0.5 ? -1 : 1, cs = Math.cos(rot), sn = Math.sin(rot), raw = [];
+    for (let i = 0; i <= 120; i++) { const u = i / 120; let [x, y] = fn(u); x = x * flip + nz(u * 8) * 0.015; y += nz(u * 8 + 11) * 0.015; raw.push([x * cs - y * sn, x * sn + y * cs]); }
+    const S = Math.min(unitScale([raw], zone), wide ? 620 : 260) * (0.85 + r() * 0.3);
+    return fitParts([raw], zone, r, S, r() < 0.65);
+  }
+  function sketchParts(zone, r) {
+    const tries = SKETCHES.map((_, i) => SKETCHES[(ambSk + i) % SKETCHES.length]);
+    for (const sk of tries) {
+      const rot = (r() < 0.5 ? -1 : 1) * (0.06 + r() * 0.16), cs = Math.cos(rot), sn = Math.sin(rot);   /* drawn on a slant */
+      const parts = sk.make(kit(r)).map((pp) => pp.map(([x, y]) => { const dx = x - sk.w / 2, dy = y - sk.h / 2; return [dx * cs - dy * sn, dx * sn + dy * cs]; }));
+      const need = SK_GAP_PX * (wide ? 1 : 0.7) / sk.gap, room = unitScale(parts, zone);
+      if (room < need) continue;                   /* too tight here: the strokes would run together */
+      ambSk = SKETCHES.indexOf(sk) + 1;
+      return fitParts(parts, zone, r, Math.max(need, Math.min(room, need * 1.25)), true);
+    }
+    return null;
+  }
+  function ambSpawn(zi, zone, settled) {
+    const r = rng(seedN * 29 + 5);
+    let parts = ambKind++ % 2 ? sketchParts(zone, r) : null, sketch = !!parts;
+    if (!parts) parts = gestureParts(zone, r);
+    const pool = sketch ? SKETCH_COLS : AMB_COLS, used = new Set(amb.map((a) => a.color));
+    let col = pool[ambCol++ % pool.length];
+    for (let i = 0; i < pool.length && used.has(col); i++) col = pool[ambCol++ % pool.length];
+    const rad = (wide ? 24 : 17) * 0.55;                  /* background drawings: a finer brush than the session's, sketches included */
+    const a = { zi, color: col, parts: [], breakAt: 0, broken: false };
+    let t = T;
+    for (const pts of parts) {
+      if (pts.length < 2) continue;
+      const path = segPath(pts, BRUSH), px = makePix(path, col, 'amb', rad);
+      px.amb = true; pixes.unshift(px);                    /* behind the session's own strokes */
+      const dur = clamp(path.L / (sketch ? 980 : (wide ? 860 : 580)), sketch ? 0.15 : 0.5, sketch ? 0.75 : 1.8);
+      a.parts.push({ px, t0: t, dur }); t += dur + (sketch ? 0.05 : 0);
+      if (settled) { for (const c of px.cells) c.born = T - 1; px.mode = 'hold'; }
+    }
+    a.breakAt = t + 7 + r() * 5;
+    amb.push(a); ambLastZone = zi;
+  }
+  function ambBreak(a) {
+    const r = rng(seedN++ * 19), n = a.parts.length;
+    a.parts.forEach(({ px }, i) => {
+      startScatter(px);
+      for (const c of px.cells) { c.delay = (i / n) * 0.7 + (c.d / (px.L || 1)) * (n > 1 ? 0.25 : 0.8) + r() * 0.15; c.life = 0.8 + r() * 0.6; }   /* lets go from where it began */
+    });
+    a.broken = true;
+  }
+  function ambTick() {
+    amb = amb.filter((a) => a.parts.some((p) => pixes.includes(p.px)));
+    for (const a of amb) {
+      for (const p of a.parts) if (p.px.mode === 'draw' && T >= p.t0) {
+        const u = clamp((T - p.t0) / p.dur, 0, 1), front = E.inOut(u) * p.px.L;
+        for (const c of p.px.cells) if (c.born < 0 && c.d <= front) c.born = T;
+        if (u >= 1) p.px.mode = 'hold';
+      }
+      if (!a.broken && T >= a.breakAt) { ambBreak(a); ambNext = Math.max(ambNext, T + 1.4); }
+    }
+    if (T < ambNext) return;
+    const zones = ambZones(), live = amb.filter((a) => !a.broken);
+    if (live.length >= Math.min(wide ? 3 : 1, zones.length)) return;
+    const free = zones.map((z, i) => i).filter((i) => !live.some((a) => a.zi === i));
+    if (!free.length) return;
+    const pick = free.find((i) => i !== ambLastZone) ?? free[0];
+    ambSpawn(pick, zones[pick], false);
+    ambNext = T + 2.4 + Math.random() * 1.8;
   }
 
   /* ── frame loop ── */
@@ -1745,6 +2052,7 @@
       if (T - vInput > 6 && !claudeBusy && !vStroke && !beats.length) exitVisitor();
     }
     runBeats();
+    ambTick();
     place();
     /* paint redraws on stop-motion "twos" (15fps), the boil changes drawing at 10fps */
     const v = Math.floor(T * 10) % 3;
@@ -1768,7 +2076,7 @@
   function measure() {
     const r = hero.getBoundingClientRect();
     W = r.width; H = r.height; heroTop = r.top + scrollY;
-    wide = W >= 900; CELL = wide ? 10 : 8; BRUSH = wide ? 32 : 22;
+    wide = W >= 900; CELL = wide ? 10 : 8; BRUSH = wide ? 32 : 22;   /* the session brush: yours and Claude's */
     DPR = Math.min(devicePixelRatio || 1, 1.5, Math.sqrt(2.2e6 / (W * H)));   /* soft paint needs no retina buffer; caps fill cost */
     for (const cv of [paintCv, pixCv]) { cv.width = Math.round(W * DPR); cv.height = Math.round(H * DPR); }
     textR = textRect();
@@ -1779,6 +2087,8 @@
   function reset(startAt) {
     for (const s of strokes) if (s.scratch) s.scratch.owner = null;
     strokes = []; pixes = []; beats = []; T = 0; loopK = 0; seedN = 1; visitor = false; vStroke = null; pending = null; claudeBusy = false;
+    amb = []; ambCol = 0; ambSk = 0; ambShape = 0; ambKind = 0; ambLastZone = -1; ambNext = startAt + 1.2;
+    lastPaint = -1; lastBoil = -1; vLast = 0; vInput = -1e9; turnN = 0;   /* the clock restarts at 0: timers kept from before would stall the paint layer */
     setOn('d', false); setOn('c', false);
     buildLoop(0, startAt);
   }
@@ -1789,6 +2099,7 @@
     for (const px of pixes) px.cells.length = 0;
     pixes = [];
     for (const s of strokes) { s.done = true; s.reveal = Infinity; }
+    amb = []; ambZones().slice(0, wide ? 3 : 1).forEach((z, i) => ambSpawn(i, z, true));   /* ambient strokes, settled */
     drawPaint(0); drawPix();
     setOn('d', true); setOn('c', true); place();
   }
@@ -1840,43 +2151,6 @@
 
   /* The headline is never typed out: it rises in with the sub and CTAs (CSS), and the
      two cursors in the hero session work around it, never on its words. */
-
-  /* Twinkling pixels: copies small blocks of the art to nearby cells and fades
-     them in and out. Uses drawImage only (no pixel reads), so it also works
-     when the page is opened straight from disk. */
-  function twinkle(wrap) {
-    const img = wrap.querySelector('img'), cv = wrap.querySelector('canvas');
-    const B = 14;
-    const start = () => {
-      const W = img.naturalWidth, H = img.naturalHeight;
-      cv.width = W; cv.height = H;
-      const ctx = cv.getContext('2d');
-      const live = [];
-      let visible = true;
-      new IntersectionObserver(([e]) => { visible = e.isIntersecting; if (visible) requestAnimationFrame(frame); }).observe(wrap);
-      const cols = Math.floor(W / B), rows = Math.floor(H / B);
-      function frame(t) {
-        if (!visible) return;
-        while (live.length < 90) {
-          const sx = ((Math.random() * cols) | 0) * B, sy = ((Math.random() * rows) | 0) * B;
-          const dx = ((Math.random() * 5) | 0) - 2, dy = ((Math.random() * 5) | 0) - 2;
-          const half = Math.random() < 0.4, s = half ? B / 2 : B;
-          live.push({ sx, sy, x: sx + dx * B, y: sy + dy * B, s, born: t, life: 800 + Math.random() * 1600 });
-        }
-        ctx.clearRect(0, 0, W, H);
-        for (let k = live.length - 1; k >= 0; k--) {
-          const q = live[k], age = (t - q.born) / q.life;
-          if (age >= 1) { live.splice(k, 1); continue; }
-          ctx.globalAlpha = Math.sin(age * Math.PI) * 0.85;
-          ctx.drawImage(img, q.sx, q.sy, q.s, q.s, q.x, q.y, q.s, q.s);
-        }
-        requestAnimationFrame(frame);
-      }
-      requestAnimationFrame(frame);
-    };
-    img.complete && img.naturalWidth ? start() : img.addEventListener('load', start);
-  }
-  if (!reduce) document.querySelectorAll('.nv-art-drift').forEach(w => { try { twinkle(w); } catch (e) { console.warn(e); } });
 
   /* Pixel wordmark in the footer */
   const wm = document.querySelector('.nv-wordmark');
@@ -2068,7 +2342,8 @@
     const k = 1 - Math.pow(1 - 0.12, dt / 16.7);   // smoothing, frame-rate independent
     let moving = false;
     items.forEach((it) => {
-      const tg = it.target(vh, y);
+      // Play once: progress only moves forward, so scrolling back up never reverses an arrival
+      const tg = it.max = Math.max(it.max || 0, it.target(vh, y));
       if (it.cur === undefined) it.cur = tg;
       const d = tg - it.cur;
       if (Math.abs(d) > 0.0005) { it.cur += d * k; moving = true; } else it.cur = tg;
@@ -2148,7 +2423,8 @@
     queued = false;
     const y = scrollY;
     cards.forEach((k) => {
-      const t = clamp((y - k.start) / (k.end - k.start));
+      // Play once: the build only moves forward, so it stays assembled when scrolling back up
+      const t = k.t = Math.max(k.t || 0, clamp((y - k.start) / (k.end - k.start)));
       const eC = ease(seg(t, 0, 0.8)), eW = ease(seg(t, 0.05, 0.9)), eT = ease(seg(t, 0.2, 1)), eI = ease(seg(t, 0.1, 1));
       k.c.style.transform = `translate3d(0, ${((1 - eC) * k.rise).toFixed(2)}px, 0) scale(${(k.s0 + (1 - k.s0) * eC).toFixed(4)})`;
       k.c.style.opacity = (0.15 + 0.85 * seg(t, 0, 0.45)).toFixed(3);
@@ -2560,7 +2836,7 @@
     layout();
 
     // ── entrance target from scroll: strip centre from the bottom of the viewport to its middle, each sticker
-    // on its own overlapping slice. Repeats both ways. ──
+    // on its own overlapping slice. Plays once: a sticker that has landed stays put when scrolling back up. ──
     function progress(snap) {
       const vh = window.innerHeight;
       let moved = false;
@@ -2568,7 +2844,7 @@
       const p = (vh - mid) / (vh / 2);                    // 0: strip centre at the bottom · 1: at mid-viewport
       for (const t of tiles) {
         const o = t.rowLen > 1 ? (t.col / (t.rowLen - 1)) * (1 - IN.slice) : 0;
-        const qt = clamp01((p - o) / IN.slice);
+        const qt = t.qMax = Math.max(t.qMax || 0, clamp01((p - o) / IN.slice));   // the furthest it has got: never moves backwards
         if (qt !== t.qt) { t.qt = qt; moved = true; }
         if (snap || t.q === undefined) t.q = qt;
       }
@@ -2586,6 +2862,19 @@
       pose(i, m, rx = 0, ry = 0) { for (const [j, t] of tiles.entries()) { const v = j === i ? m : 0; t.m.x = t.m.t = v; t.m.v = 0; t.rx.x = t.rx.t = j === i ? rx : 0; t.ry.x = t.ry.t = j === i ? ry : 0; } draw(); },
     };
   }
+})();
+</script>
+<script>
+/* Project cards: the motion card opens the Kept promo in a lightbox (it waits for play), Extra Life Mart opens in a new tab */
+(() => {
+  document.querySelectorAll('[data-lightbox]').forEach((btn) => {
+    const dlg = document.getElementById(btn.dataset.lightbox); if (!dlg || !dlg.showModal) return;
+    const video = dlg.querySelector('video');
+    btn.addEventListener('click', () => { dlg.showModal(); dlg.querySelector('[data-close]').focus(); });
+    dlg.querySelector('[data-close]').addEventListener('click', () => dlg.close());
+    dlg.addEventListener('click', (e) => { if (e.target === dlg) dlg.close(); });   /* a click on the backdrop closes it */
+    dlg.addEventListener('close', () => { video.pause(); btn.focus(); });
+  });
 })();
 </script>
 </body>
