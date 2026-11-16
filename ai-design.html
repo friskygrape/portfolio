@@ -1,0 +1,2592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI x Design · Deron Li</title>
+  <link rel="stylesheet" href="css/site.css">
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
+  <link rel="shortcut icon" href="images/favicon.ico">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-8R2R3N4KR2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-8R2R3N4KR2');
+  </script>
+  <style>
+
+    /* ════════════════════════════════════════════════════
+       AI PAGE v3 — warm stone canvas, centred hero with
+       pixel-watercolour art, bento cards, dark CTA panel.
+       ════════════════════════════════════════════════════ */
+
+    :root {
+      --nv-bg: #F7F6F4;
+      --nv-card: #FFFFFF;
+      --nv-ink: #0C0A09;
+      --nv-body: #57534E;
+      --nv-mute: #8A847E;
+      --nv-line: #E7E5E4;
+      --nv-line-soft: #EFEEEC;
+      --nv-row: #F5F5F4;
+      --nv-dark: #1C1917;
+      --nv-dark-2: #292524;
+      --nv-dark-line: rgba(255, 255, 255, 0.09);
+      --nv-max: 980px;
+      --nv-gutter: 40px;
+      --nv-ease: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    html, body { background: var(--nv-bg); color: var(--nv-body); }
+
+    /* Nav: the shared site nav from site.css, unchanged on this page */
+
+    .nv-wrap {
+      width: min(var(--nv-max), calc(100% - var(--nv-gutter) * 2));
+      margin: 0 auto;
+    }
+
+    /* ── Reveal ── */
+    .nv-in {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.7s var(--nv-ease), transform 0.7s var(--nv-ease);
+    }
+    .nv-in.is-visible { opacity: 1; transform: none; }
+
+    /* ════════════════════════════════════════════════════
+       HERO
+       ════════════════════════════════════════════════════ */
+    .nv-hero {
+      position: relative;
+      padding: 168px 0 0;
+      overflow: clip;
+      text-align: center;
+    }
+    /* faint horizontal scan lines across the hero */
+    .nv-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0 0 30%;
+      background: repeating-linear-gradient(0deg, rgba(12, 10, 9, 0.025) 0 1px, transparent 1px 4px);
+      mask-image: radial-gradient(ellipse 60% 70% at 50% 30%, black, transparent);
+      pointer-events: none;
+    }
+    .nv-art {
+      position: absolute;
+      top: 0;
+      pointer-events: none;
+      user-select: none;
+      animation: nv-art-in 1.4s ease backwards;
+    }
+    .nv-art img { display: block; width: 100%; height: auto; }
+    .nv-art canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .nv-art-drift { position: relative; animation: nv-drift 40s ease-in-out infinite alternate; }
+    .nv-art--right .nv-art-drift { animation-delay: -20s; }
+    @keyframes nv-drift {
+      0%   { transform: translate3d(0, 0, 0) scale(1); }
+      50%  { transform: translate3d(-1.5%, 1.2%, 0) scale(1.04); }
+      100% { transform: translate3d(1%, -0.8%, 0) scale(1.02); }
+    }
+
+    /* Film grain over the hero */
+    .nv-grain {
+      position: absolute;
+      inset: -50%;
+      pointer-events: none;
+      z-index: 2;
+      opacity: 0.35;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.3 0 0 0 0 0.28 0 0 0 0 0.26 0 0 0 0.09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      animation: nv-grain 0.33s steps(3) infinite;
+    }
+    @keyframes nv-grain {
+      0%   { transform: translate(0, 0); }
+      33%  { transform: translate(-3%, 2%); }
+      66%  { transform: translate(2%, -3%); }
+      100% { transform: translate(-1%, 1%); }
+    }
+
+    /* Typed headline caret */
+    .nv-type-caret {
+      display: inline-block;
+      width: 0.06em;
+      height: 0.82em;
+      margin-left: 0.04em;
+      vertical-align: -0.04em;
+      background: var(--nv-ink);
+      animation: nv-blink 1s steps(1) infinite;
+    }
+    .nv-art--left  { left: max(-180px, calc(50% - 900px)); width: 600px; }
+    .nv-art--right { right: max(-200px, calc(50% - 920px)); width: 660px; animation-delay: 0.15s, 1.55s; }
+    @keyframes nv-art-in {
+      from { opacity: 0; transform: scale(1.04); }
+      to   { opacity: 1; transform: none; }
+    }
+
+    .nv-hero-inner { position: relative; z-index: 1; }
+
+    .nv-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      border: 1px solid var(--nv-line);
+      border-radius: 99px;
+      background: var(--nv-card);
+      color: var(--nv-ink);
+      font-weight: var(--weight-medium);
+    }
+    .nv-badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--lavender);
+    }
+
+    .nv-title {
+      margin: 28px auto 0;
+      max-width: 11ch;
+      color: var(--nv-ink);   /* type: .display */
+    }
+    .nv-sub {
+      margin: 24px auto 0;
+      max-width: 34ch;
+      color: var(--nv-body);
+    }
+
+    .nv-ctas {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 36px;
+    }
+    .nv-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 22px;
+      border-radius: 99px;
+      border: 1px solid var(--nv-line);
+      background: var(--nv-card);
+      color: var(--nv-ink);
+      text-decoration: none;
+      transition: background-color 0.25s ease, transform 0.25s var(--nv-ease);
+    }
+    .nv-btn:hover { transform: translateY(-1px); background: var(--nv-row); }
+    .nv-btn--dark { background: var(--nv-ink); border-color: var(--nv-ink); color: var(--white); }
+    .nv-btn--dark:hover { background: var(--nv-dark-2); }
+    .nv-btn svg { width: 16px; height: 16px; }
+
+    .nv-hero .nv-badge { animation: nv-up 0.7s var(--nv-ease) 0.1s backwards; }
+    .nv-hero .nv-title { animation: nv-up 0.8s var(--nv-ease) 0.2s backwards; }
+    .nv-hero .nv-sub   { animation: nv-up 0.8s var(--nv-ease) 0.32s backwards; }
+    .nv-hero .nv-ctas  { animation: nv-up 0.8s var(--nv-ease) 0.44s backwards; }
+    @keyframes nv-up {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: none; }
+    }
+
+    /* ── Tools strip ── */
+    .nv-tools { margin-top: 32px; text-align: center; }
+
+    /* ════════════════════════════════════════════════════
+       TOOLS (flat logos that become stickers)
+       At rest each tool is its plain, flat official mark (an SVG <img>,
+       ~48px). On hover or tap that one mark turns into a die-cut 3D sticker
+       in three.js (script at the end of body): a white border grows out from
+       behind it, depth and bevel arrive as it lifts, and it tilts toward the
+       pointer. Entrance, anchored to scroll and repeatable: as the strip
+       rises to mid-viewport each tool settles down as the 3D sticker with a
+       soft half-turn, overlapping left to right like a wave, and has fully
+       landed on its flat mark by the time the strip is centred; scrolling
+       back up rewinds it. Reduced
+       motion and no WebGL keep the flat marks and skip the entrance. Contact
+       shading exists only inside the 3D sticker. Layout: one compact strip
+       on desktop; at 760px and below, a centred 4 + 3 pyramid.
+       ════════════════════════════════════════════════════ */
+    .tt-stage { position: relative; }
+    /* Desktop: one compact strip of stickers, evenly spaced. */
+    /* Every tool takes the same column: 104px fits the widest name ("Claude Code", ~96px at 16px)
+       with air, and the 8px gap makes an even 112px pitch. Logos centre in their columns and names
+       centre under them, so logo centres and names are evenly distributed (strip: 776px). */
+    .tt-row {
+      display: grid;
+      grid-template-columns: repeat(7, 104px);
+      justify-content: center;
+      align-items: start;
+      gap: 0 8px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .tt-item { position: relative; min-width: 0; display: flex; flex-direction: column; align-items: center; }
+    .tt-slot { position: relative; display: block; width: 52px; aspect-ratio: 1; }   /* stickers 43-50px on their longest side */
+    /* The flat logo: the official SVG, placed exactly where the sticker's printed mark sits, so the
+       3D sticker can grow out of it on hover. It is also the reduced-motion and no-WebGL state. */
+    .tt-mark {
+      position: absolute;
+      max-width: none;
+      object-fit: contain;
+    }
+    /* With WebGL, a flat mark stays hidden until its sticker has spun in and landed on it */
+    .tt-live .tt-item:not(.is-in) .tt-mark { visibility: hidden; }
+    /* Short name under each logo; it fades in once its sticker has landed */
+    .tt-name {
+      margin-top: 12px;
+      color: var(--nv-body);   /* type: .tag */
+      white-space: nowrap;
+    }
+    .tt-live .tt-name { opacity: 0; }   /* with WebGL, the script fades each name in with its landing, in step with scroll */
+    .tt-live .tt-item.is-in .tt-name { opacity: 1; }
+    .tt-canvas { position: absolute; display: block; pointer-events: none; }
+    /* Mobile: the same equal columns, 4 + 3 and centred: 84px columns with a 4px gap give an 88px
+       pitch in both rows (348px wide). Items are top-aligned, so a wrapped name never moves its logo. */
+    @media (max-width: 760px) {
+      .tt-row { display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-start; gap: 24px 4px; }
+      .tt-item { flex: 0 0 84px; }
+      /* "Claude Code" is wider than its 80px column: let names wrap so neighbours never touch */
+      .tt-name { white-space: normal; text-wrap: balance; }
+    }
+
+    /* ════════════════════════════════════════════════════
+       SECTIONS + BENTO
+       ════════════════════════════════════════════════════ */
+    .nv-section { padding: 140px 0 0; scroll-margin-top: 40px; }
+    /* No footer for now: the page ends with breathing room after the last section */
+    main { padding-bottom: 140px; }
+    .nv-head { text-align: center; margin-bottom: 56px; }
+    .nv-h2 {
+      margin: 0;
+      color: var(--nv-ink);   /* type: .h1 */
+    }
+    .nv-lede {
+      margin: 16px auto 0;
+      max-width: 54ch;
+      color: var(--nv-body);
+    }
+
+    .nv-bento {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 20px;
+    }
+    .nv-span-3 { grid-column: span 3; }
+    .nv-span-2 { grid-column: span 2; }
+    .nv-span-5 { grid-column: span 5; }
+
+    .nv-card {
+      display: flex;
+      flex-direction: column;
+      padding: 28px;
+      border: 1px solid var(--nv-line);
+      border-radius: 12px;
+      background: var(--nv-card);
+      color: var(--nv-body);
+      overflow: hidden;
+    }
+    .nv-card--dark {
+      border-color: var(--nv-dark);
+      background: radial-gradient(120% 90% at 30% 0%, var(--nv-dark-2), var(--nv-dark) 60%);
+      color: rgba(255, 255, 255, 0.62);
+    }
+
+    .nv-card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .nv-card-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--nv-ink);
+    }
+    .nv-card--dark .nv-card-label { color: var(--white); }
+    .nv-ico {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border: 1px solid var(--nv-line);
+      border-radius: 8px;
+      color: var(--nv-ink);
+    }
+    .nv-card--dark .nv-ico { border-color: var(--nv-dark-line); color: var(--white); }
+    .nv-ico svg { width: 15px; height: 15px; stroke-width: 1.75; }
+    .nv-card-meta { margin: 0; color: var(--nv-mute); }   /* the stage name is the card heading */
+    .nv-card--dark .nv-card-meta { color: rgba(255, 255, 255, 0.45); }
+
+    .nv-visual {
+      position: relative;
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 220px;
+      margin: 24px 0 28px;
+      background: radial-gradient(color-mix(in srgb, var(--nv-line) 80%, transparent) 1px, transparent 1px) 0 0 / 14px 14px;
+      border-radius: 12px;
+    }
+    .nv-card--dark .nv-visual { background-image: radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px); }
+
+    .nv-card-title {
+      margin: 0;
+      color: var(--nv-ink);
+    }
+    .nv-card--dark .nv-card-title { color: var(--white); }
+    .nv-card-text {
+      margin: 0;   /* sits straight under the visual now the title lives top right */
+    }
+    .nv-card-text .nv-tool-name { color: var(--nv-ink); font-weight: var(--weight-bold); }   /* inline emphasis: 700, near-black (styleguide) */
+    .nv-card--dark .nv-card-text .nv-tool-name { color: var(--white); }
+
+    .nv-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px; }
+    .nv-tag {
+      padding: 2px 10px;
+      border: 1px solid var(--nv-line);
+      border-radius: 99px;
+      color: var(--nv-body);
+    }
+    .nv-card--dark .nv-tag { border-color: var(--nv-dark-line); color: rgba(255,255,255,0.7); }
+
+    .nv-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 2px 12px;
+      border: 1px solid var(--nv-line);
+      border-radius: 99px;
+      background: var(--nv-card);
+      color: var(--nv-ink);
+      white-space: nowrap;
+    }
+    .nv-card--dark .nv-pill { background: rgba(255,255,255,0.06); border-color: var(--nv-dark-line); color: var(--white); }
+
+    .nv-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 16px;
+      color: var(--white);
+      text-decoration: none;
+    }
+    .nv-link svg { width: 16px; height: 16px; transition: transform 0.25s var(--nv-ease); }
+    .nv-link:hover svg { transform: translate(2px, -2px); }
+
+    /* Screenshot frame inside a card */
+    .nv-frame {
+      width: 100%;
+      border: 1px solid var(--nv-line);
+      border-radius: 12px;
+      overflow: hidden;
+      background: var(--nv-card);
+    }
+    .nv-card--dark .nv-frame { border-color: var(--nv-dark-line); background: #000; }
+    .nv-frame img,
+    .nv-frame video {
+      display: block;
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      object-fit: cover;
+      object-position: top;
+      transition: transform 0.9s var(--nv-ease);
+    }
+    /* Showcase cards lift gently on hover (uses `translate` so it doesn't fight the .nv-in reveal transform) */
+    #showcase .nv-card {
+      transition: opacity 0.7s var(--nv-ease), transform 0.7s var(--nv-ease),
+                  translate 0.45s var(--nv-ease), box-shadow 0.45s var(--nv-ease);
+    }
+    #showcase .nv-card:hover {
+      translate: 0 -4px;
+      box-shadow: 0 18px 40px -18px rgba(28, 25, 23, 0.22);
+    }
+
+    /* ── Scroll motion (Showcase + Process) ──
+       Shared language: soft decelerating travel, opacity + transform only,
+       scroll-linked values smoothed so every move glides to rest.
+       Showcase, "the window opens": each card arrives quietly, then the work
+       inside it opens toward you like an aperture as you scroll. The frame
+       grows from 80% while the content inside settles from a slight zoom.
+       Process, "the wave": cards rise and fade with scroll, right column
+       trailing the left, so the grid lifts in a visible wave. */
+    :root {
+      --sc-out: cubic-bezier(0.2, 0, 0, 1);         /* travel: emphasised decelerate, kin of --nv-ease */
+      --sc-fade: cubic-bezier(0.33, 0, 0.4, 1);     /* text opacity: soft, even ease-in-out */
+    }
+    #showcase .sc-card {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.6s var(--nv-ease), transform 1s var(--sc-out),
+                  translate 0.45s var(--nv-ease), box-shadow 0.45s var(--nv-ease);
+    }
+    #showcase .sc-card.is-in { opacity: 1; transform: none; }
+    #showcase .sc-b {
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 1.1s var(--sc-fade), transform 1.1s var(--sc-out);
+    }
+    #showcase .sc-b.is-in { opacity: 1; transform: none; }
+    /* Aperture: the frame and its content are driven by scroll (--w frame scale, --wi content scale) */
+    #showcase .sc-win { transform: scale(var(--w, 1)); transform-origin: 50% 40%; }
+    #showcase .sc-win-in { transform: scale(var(--wi, 1)); transform-origin: 50% 40%; transition: none; }
+    /* Process wave: --pe is the card's eased progress (0 hidden, 1 settled) */
+    #process .pr-card {
+      opacity: var(--pe, 1);
+      transform: translateY(calc((1 - var(--pe, 1)) * var(--pr-travel)));
+      --pr-travel: 72px;
+    }
+    @media (max-width: 768px) { #process .pr-card { --pr-travel: 40px; } }
+
+    /* App Store style screenshot strip */
+    .nv-visual--strip { display: block; min-height: 0; background: none; }
+    .nv-strip {
+      overflow-x: auto;
+      border: 1px solid var(--nv-dark-line);
+      border-radius: 12px;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255,255,255,0.25) transparent;
+    }
+    .nv-strip img { display: block; width: 100%; height: auto; }
+    .nv-split { display: grid; grid-template-columns: 1fr 1.25fr; gap: 40px; align-items: center; }
+    .nv-frame--3d img { height: auto; aspect-ratio: 16 / 10; }
+    .nv-card:not(.nv-card--dark) .nv-strip { border-color: var(--nv-line); scrollbar-color: rgba(0,0,0,0.2) transparent; }
+
+    /* Horizontal card (full width) */
+    .nv-card--row { display: grid; grid-template-columns: 1.1fr 1fr; gap: 40px; align-items: center; }
+    .nv-card--row .nv-visual { margin: 0; }
+
+    /* ════════════════════════════════════════════════════
+       MINI UIs inside process cards (monochrome)
+       ════════════════════════════════════════════════════ */
+    .nv-ui {
+      width: min(400px, 100%);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .nv-ui-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border: 1px solid var(--nv-line);
+      border-radius: 10px;
+      background: var(--nv-card);
+      color: var(--nv-ink);
+      font-weight: var(--weight-medium);
+    }
+    .nv-ui-row svg { width: 16px; height: 16px; stroke-width: 1.75; flex-shrink: 0; }
+    .nv-ui-row .grow { flex: 1; }
+    .nv-ui-row--on { border-color: var(--nv-ink); }
+    .nv-card--dark .nv-ui-row { background: rgba(255,255,255,0.04); border-color: var(--nv-dark-line); color: rgba(255,255,255,0.85); }
+    .nv-card--dark .nv-ui-row--on { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); color: var(--white); }
+
+    .nv-sk { height: 8px; border-radius: 4px; background: var(--nv-line); }
+    .nv-sk--soft { background: var(--nv-line-soft); }
+    .nv-card--dark .nv-sk { background: rgba(255,255,255,0.14); }
+
+    .nv-caret {
+      display: inline-block;
+      width: 2px;
+      height: 18px;
+      background: currentColor;
+      animation: nv-blink 1s steps(1) infinite;
+    }
+    @keyframes nv-blink { 50% { opacity: 0; } }
+
+    .nv-check { color: var(--nv-ink); }
+    .nv-flag  { color: #C2410C; }
+
+    /* Writing doc */
+    .nv-doc {
+      width: min(360px, 100%);
+      border: 1px solid var(--nv-line);
+      border-radius: 12px;
+      background: var(--nv-card);
+      overflow: hidden;
+    }
+    .nv-doc-tabs { display: flex; gap: 4px; padding: 8px; border-bottom: 1px solid var(--nv-line-soft); }
+    .nv-doc-tab { padding: 2px 10px; border-radius: 99px; color: var(--nv-mute); font-weight: var(--weight-medium); white-space: nowrap; }
+    .nv-doc-tab--on { background: var(--nv-row); color: var(--nv-ink); }
+    .nv-doc-body { display: flex; flex-direction: column; gap: 10px; padding: 16px; }
+    .nv-strike { position: relative; }
+    .nv-strike::after { content: ''; position: absolute; left: -4px; right: -4px; top: 50%; border-top: 1.5px solid var(--nv-mute); }
+    .nv-improve {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0 -8px;
+      padding: 8px;
+      border-radius: 8px;
+      background: var(--nv-row);
+    }
+    .nv-improve img { width: 16px; height: 16px; }
+    .nv-improve .nv-sk { background: var(--nv-ink); opacity: 0.75; }
+
+    /* Concepts frames */
+    .nv-wires { display: flex; align-items: center; gap: 12px; width: min(460px, 100%); }
+    .nv-wire {
+      flex: 1;
+      aspect-ratio: 3 / 4;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      padding: 10px;
+      border: 1px solid var(--nv-line);
+      border-radius: 10px;
+      background: var(--nv-card);
+    }
+    .nv-wire--on { border-color: var(--nv-ink); }
+    .nv-wire-block { border-radius: 5px; background: var(--nv-row); }
+    .nv-arrow { width: 20px; height: 20px; color: var(--nv-mute); flex-shrink: 0; }
+    .nv-chips { position: absolute; top: 12px; left: 12px; display: flex; gap: 6px; flex-wrap: wrap; }
+    .nv-chips img { width: 16px; height: 16px; }
+    .nv-chips svg { width: 14px; height: 14px; }
+
+    /* Prototyping */
+    .nv-proto { display: flex; align-items: center; gap: 28px; width: 100%; justify-content: center; }
+    .nv-code {
+      flex: 1;
+      max-width: 340px;
+      padding: 16px 18px;
+      border: 1px solid var(--nv-line);
+      border-radius: 12px;
+      background: var(--nv-card);
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: var(--text-body);
+      line-height: 1.8;
+      color: var(--nv-mute);
+      white-space: nowrap;
+      overflow: hidden;
+    }
+    .nv-code b { color: var(--nv-ink); font-weight: var(--weight-medium); }
+    .nv-phone {
+      position: relative;
+      width: 118px;
+      height: 210px;
+      flex-shrink: 0;
+      padding: 18px 10px 12px;
+      border: 1.5px solid var(--nv-ink);
+      border-radius: 22px;
+      background: var(--nv-card);
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+    .nv-phone-cta { margin-top: auto; height: 24px; border-radius: 7px; background: var(--nv-ink); }
+    .nv-phone .nv-pill { position: absolute; top: -14px; right: -36px; }
+    .nv-tap {
+      position: absolute;
+      left: 50%;
+      bottom: 16px;
+      width: 28px;
+      height: 28px;
+      margin-left: -14px;
+      border: 1.5px solid var(--nv-ink);
+      border-radius: 50%;
+      opacity: 0;
+      animation: nv-tap 2.6s ease-out infinite;
+    }
+    @keyframes nv-tap {
+      0%   { transform: scale(0.4); opacity: 0.8; }
+      70%, 100% { transform: scale(2); opacity: 0; }
+    }
+
+    /* Data chart */
+    .nv-chart {
+      position: relative;
+      display: flex;
+      align-items: flex-end;
+      gap: 5px;
+      width: 100%;
+      height: 170px;
+      padding-bottom: 1px;
+      border-bottom: 1px solid var(--nv-line);
+    }
+    .nv-chart .nv-bar {
+      flex: 1;
+      border-radius: 3px 3px 0 0;
+      background: linear-gradient(180deg, #A8A29E, #D6D3D1);
+      transform-origin: bottom;
+      transition: height 0.6s var(--nv-ease), background-color 0.4s ease;
+    }
+    .nv-chart .nv-bar.is-new { animation: nv-grow 0.6s var(--nv-ease); }
+    .nv-chart .nv-bar.on { background: var(--nv-ink); }
+    .is-visible .nv-chart .nv-bar { animation: nv-grow 0.9s var(--nv-ease) backwards; animation-delay: calc(var(--i) * 0.03s); }
+    @keyframes nv-grow { from { transform: scaleY(0); } }
+    .nv-chart .nv-pill { position: absolute; right: 0; top: -14px; z-index: 1; }
+    .nv-chart::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 40%;
+      border-top: 1px dashed var(--nv-line);
+    }
+
+    /* ════════════════════════════════════════════════════
+       TRADEOFFS
+       ════════════════════════════════════════════════════ */
+    .nv-compare { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .nv-list { list-style: none; margin: 20px 0 0; padding: 0; }
+    .nv-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px 0;
+      border-top: 1px solid var(--nv-line-soft);
+      color: var(--nv-ink);
+      font-family: var(--font-heading);
+    }
+    .nv-card--dark .nv-list li { border-top-color: var(--nv-dark-line); color: rgba(255,255,255,0.88); }
+    .nv-list svg { width: 18px; height: 18px; margin-top: 3px; flex-shrink: 0; stroke-width: 2; }
+    .nv-list--pos svg { color: #15803D; }
+    .nv-list--neg svg { color: #FB923C; }
+
+    /* ════════════════════════════════════════════════════
+       DARK QUOTE PANEL
+       ════════════════════════════════════════════════════ */
+    .nv-cta {
+      margin-top: 140px;
+      padding: 96px 40px;
+      border-radius: 12px;
+      background: radial-gradient(80% 70% at 50% 0%, #3A3330, var(--nv-dark) 70%);
+      text-align: center;
+    }
+    .nv-quote {
+      margin: 0 auto;
+      max-width: 22ch;
+      color: var(--white);
+      font-size: calc(var(--text-h1) * 1.1);
+      font-weight: var(--weight-semibold);
+      line-height: 1.15;
+      letter-spacing: var(--tracking-tight);
+    }
+    .nv-meter {
+      width: min(420px, 100%);
+      height: 8px;
+      margin: 40px auto 0;
+      border-radius: 99px;
+      background: repeating-linear-gradient(-45deg, rgba(255,255,255,0.12) 0 4px, transparent 4px 9px);
+      overflow: hidden;
+    }
+    .nv-meter span {
+      display: block;
+      width: 0;
+      height: 100%;
+      border-radius: 99px;
+      background: var(--white);
+      transition: width 1.4s var(--nv-ease) 0.3s;
+    }
+    .is-visible .nv-meter span { width: 65%; }
+    .nv-cta .nv-ctas { margin-top: 44px; }
+    .nv-cta .nv-btn { background: var(--white); border-color: var(--white); }
+    .nv-cta .nv-btn--ghost { background: transparent; border-color: rgba(255,255,255,0.18); color: var(--white); }
+    .nv-cta .nv-btn--ghost:hover { background: rgba(255,255,255,0.06); }
+
+    /* ════════════════════════════════════════════════════
+       FOOTER
+       ════════════════════════════════════════════════════ */
+    .nv-footer {
+      position: relative;
+      margin-top: 140px;
+      padding: 56px 0 0;
+      border-radius: 12px 12px 0 0;
+      background: var(--nv-card);
+      overflow: hidden;
+    }
+    .nv-footer-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 32px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid var(--nv-line);
+    }
+    .nv-footer-name { color: var(--nv-ink); text-decoration: none; }
+    .nv-footer-links { display: flex; gap: 28px; }
+    .nv-footer-links a { color: var(--nv-body); text-decoration: none; transition: color 0.2s ease; }
+    .nv-footer-links a:hover { color: var(--nv-ink); }
+    .nv-wordmark {
+      position: relative;
+      height: 260px;
+      margin-top: 24px;
+    }
+    .nv-wordmark canvas {
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      transform: translateX(-50%);
+      width: min(1200px, 100%);
+      height: auto;
+    }
+    .nv-wordmark-text {
+      display: none;
+      position: absolute;
+      left: 50%;
+      bottom: -0.28em;
+      transform: translateX(-50%);
+      color: var(--nv-line-soft);
+      font-size: calc(var(--text-display) * 2.4);
+      font-weight: var(--weight-bold);
+      letter-spacing: var(--tracking-tightest);
+      line-height: 1;
+      white-space: nowrap;
+      user-select: none;
+    }
+    .nv-wordmark img {
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      width: max(1400px, 100%);
+      transform: translateX(-50%);
+      pointer-events: none;
+    }
+
+    /* ════════════════════════════════════════════════════
+       RESPONSIVE
+       ════════════════════════════════════════════════════ */
+    @media (max-width: 900px) {
+      .nv-bento { grid-template-columns: 1fr; }
+      .nv-span-2, .nv-span-3, .nv-span-5 { grid-column: auto; }
+      .nv-card--row { grid-template-columns: 1fr; gap: 24px; }
+      .nv-card--row .nv-visual { order: -1; }
+      .nv-split { grid-template-columns: 1fr; gap: 24px; }
+      .nv-compare { grid-template-columns: 1fr; }
+      .nv-art--left  { width: 420px; left: -200px; }
+      .nv-art--right { width: 460px; right: -240px; }
+    }
+    @media (max-width: 768px) {
+      :root { --nv-gutter: 16px; }
+      .nv-hero { padding-top: 120px; }
+      .nv-art { opacity: 0.7; }
+      .nv-ctas { flex-wrap: wrap; }
+      .nv-section { padding-top: 96px; }
+      main { padding-bottom: 96px; }
+      .nv-head { margin-bottom: 36px; }
+      .nv-card { padding: 20px; border-radius: 12px; }
+      .nv-strip img { width: 260%; max-width: none; }
+      .nv-proto { flex-direction: column; gap: 24px; }
+      .nv-code { max-width: 100%; width: 100%; }
+      .nv-phone .nv-pill { right: -60px; }
+      .nv-cta { padding: 64px 20px; border-radius: 12px; margin-top: 96px; }
+      .nv-quote { font-size: var(--text-h2); }
+      .nv-footer { margin-top: 96px; border-radius: 12px 12px 0 0; }
+      .nv-footer-top { flex-direction: column; }
+      .nv-wordmark { height: 140px; }
+      .nv-wordmark img { width: 900px; }
+    }
+
+    /* ════════════════════════════════════════════════════
+       HERO, FULL SCREEN
+       The landing moment fills the viewport edge to edge; content from the tools strip
+       onward returns to --nv-max. Badge, headline, sub and CTAs sit as one block,
+       optically centred (a touch above the middle), framed by the art anchored to the
+       viewport corners. The headline scales with both width and height.
+       ════════════════════════════════════════════════════ */
+    .nv-hero {
+      display: flex;
+      flex-direction: column;
+      min-height: max(640px, 100svh);
+      padding: 96px 0 0;
+    }
+    .nv-hero .nv-hero-inner {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: min(1280px, calc(100% - 80px));
+      padding-bottom: 6svh;                                 /* optical centre: sits slightly above the middle */
+    }
+    .nv-hero .nv-title { max-width: 11ch; }
+    .nv-art--left  { left: -4vw;  width: clamp(420px, 36vw, 820px); }
+    .nv-art--right { right: -6vw; width: clamp(460px, 40vw, 900px); }
+
+    @media (max-width: 900px) {
+      .nv-hero { min-height: 100svh; padding-top: 88px; }
+      .nv-hero .nv-hero-inner { width: calc(100% - var(--nv-gutter) * 2); padding-bottom: 4svh; }
+      .nv-art--left  { width: 420px; left: -200px; }
+      .nv-art--right { width: 460px; right: -240px; }
+    }
+
+    /* ── Hero session: two cursors, one canvas ──
+       Paint (human) and pixels (Claude) sit above the art and below the type. The cursors are
+       flat Figma-style pointers with name tags: no shadow, 16px tag type. */
+    :root { --hs-claude: #B85434; }                       /* Claude clay, darkened so white 16px tag text passes AA (4.8:1) */
+    .nv-hero { touch-action: pan-y pinch-zoom; }          /* sideways drags paint on touch, vertical drags still scroll */
+    .hs-layer {
+      position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none;
+      /* paint thins to a whisper behind the type (ellipse set from the text block in JS), so it never fights the copy */
+      --hs-mask: radial-gradient(ellipse var(--hs-rx, 40%) var(--hs-ry, 30%) at var(--hs-mx, 50%) var(--hs-my, 50%), rgba(0,0,0,var(--hs-keep)) 0%, rgba(0,0,0,calc(var(--hs-keep) + 0.06)) 72%, #000 100%);
+      -webkit-mask-image: var(--hs-mask); mask-image: var(--hs-mask);
+    }
+    .hs-paint { --hs-keep: 0.26; }
+    .hs-pix   { --hs-keep: 0.4; }
+    .hs-cur {
+      position: absolute; left: 0; top: 0; z-index: 3;
+      pointer-events: none; opacity: 0;
+      transition: opacity 0.4s var(--nv-ease);
+      will-change: transform;
+    }
+    .hs-cur.is-on { opacity: 1; }
+    /* While the visitor paints, the "You" tag rides their real pointer: the system arrow stays, ours hides */
+    .hs-cur.is-pointer svg { visibility: hidden; }
+    .hs-cur.is-pointer { transition: opacity 0.2s var(--nv-ease); }
+    .hs-cur svg { position: absolute; left: -3.5px; top: -2.5px; width: 24px; height: 24px; overflow: visible; }
+    .hs-cur path { fill: var(--hs-c); stroke: var(--white); stroke-width: 1.5px; stroke-linejoin: round; }
+    .hs-tag {
+      position: absolute; left: 12px; top: 20px;
+      padding: 4px 8px; border-radius: 2px 8px 8px 8px;
+      background: var(--hs-c); color: var(--white);
+      white-space: nowrap;
+    }
+    .hs-cur--deron  { --hs-c: var(--nv-ink); }
+    .hs-cur--claude { --hs-c: var(--hs-claude); }
+    @media (max-width: 768px) { .hs-tag { padding: 2px 8px; font-size: var(--text-caption); } }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hs-cur { transition: none; }
+      .nv-art, .nv-hero .nv-badge, .nv-hero .nv-title, .nv-hero .nv-sub, .nv-hero .nv-ctas,
+      .nv-caret, .nv-tap, .is-visible .nv-chart .nv-bar,
+      .nv-art-drift, .nv-grain, .nv-marquee, .nv-type-caret { animation: none; }
+      .nv-in { opacity: 1; transform: none; transition: none; }
+      .nv-meter span, .nv-frame img, .nv-frame video { transition: none; }
+      #showcase .nv-card { transition: box-shadow 0.3s var(--nv-ease); }
+      #showcase .nv-card:hover { translate: none; }
+      #showcase .sc-card, #showcase .sc-b, #showcase .sc-win, #showcase .sc-win-in, #process .pr-card { opacity: 1; transform: none; }
+      #showcase .sc-card { transition: box-shadow 0.3s var(--nv-ease); }
+      #showcase .sc-b { transition: none; }
+    }
+
+
+    /* ════ Showcase: two stacked case studies ════ */
+    /* Two compact rows that fit one laptop viewport together. One anatomy, mirrored: a 540px
+       media window beside the caption. The agent comes first with its film on the left, then
+       Extra Life Mart with its screens on the right, so the eye zigzags down the pair.
+       Extra Life Mart is one static image (all five screens, at the art's own 2.31:1 shape) so it
+       can be swapped by changing a single <img>. The agent's film plays in view. The cards build
+       in with a scroll-scrubbed choreography (see Scroll build), reversible in both directions.
+       Eat Me and This Portfolio are hidden for now (HTML comment in #showcase). */
+    .e-grid {
+      width: min(var(--nv-max), calc(100% - var(--nv-gutter) * 2)); margin: 0 auto;
+      display: flex; flex-direction: column; gap: 20px;
+    }
+    /* Each project is a card, matching the process cards (.nv-card) */
+    .e-case {
+      display: grid; grid-template-columns: 500px minmax(0, 1fr); column-gap: 40px; align-items: center;
+      min-width: 0; color: var(--nv-body);
+      padding: 28px; border: 1px solid var(--nv-line); border-radius: 12px; background: var(--nv-card);
+    }
+    .e-case--elm { grid-template-columns: minmax(0, 1fr) 500px; }
+    .e-case--elm .e-shot { order: 2; }
+
+    /* Media windows */
+    /* Both projects share one window: 16:9, same border and fill */
+    .e-film, .e-shot { aspect-ratio: 16 / 9; border-radius: 12px; overflow: hidden; border: 1px solid var(--nv-line); background: #F4F2F0; }
+    .e-vid { display: block; width: 100%; height: 100%; object-fit: cover; }
+    /* A wider image sits matted and centred in the window, shown whole. A 16:9 image fills it edge to edge. */
+    .e-shot { display: grid; place-items: center; padding: 20px; line-height: 0; }
+    .e-img { display: block; width: 100%; height: 100%; object-fit: contain; }
+
+    /* Caption */
+    .e-cap { display: flex; flex-direction: column; align-items: flex-start; min-width: 0; }
+    .e-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
+    .e-title {
+      margin: 0; color: var(--nv-ink); text-wrap: balance;   /* type: .h3 */
+    }
+    .e-text { margin: 12px 0 0; }
+    /* tags and the link flow as one wrapped line set */
+    .e-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 20px; }
+    .e-meta .nv-tags { display: contents; }
+    .e-meta .nv-link { margin: 0 0 0 8px; }
+    .ev .nv-link { color: var(--nv-ink); }
+
+    /* Scroll build: scrubbed by scroll, so scrolling up rewinds it and scrolling down replays it.
+       Each card's progress runs from its top entering the viewport to its spot when the pair is
+       centred, so both have landed (exactly at the resting layout) by the time the pair sits in view.
+       The card rises ~110px from 0.9 scale. Following the zigzag, its window swings in from its own
+       side (a 4deg tilt settling to 0) and the caption slides in from the other. Inside the windows:
+       the agent's film zooms out from 1.25, and Extra Life Mart's five screens rise into the window
+       one after another (the script slices the single image into five clipped copies, so the art
+       stays one swappable <img>). Slide distances are capped by the page margin, so nothing ever
+       overflows sideways. The script writes transforms and opacity only. */
+    .e-shot { position: relative; }
+    .e-slice { position: absolute; inset: 20px; width: calc(100% - 40px); height: calc(100% - 40px); }
+    .e-case, .e-film, .e-shot, .e-cap, .e-vid, .e-img { will-change: transform; }
+
+    @media (max-width: 900px) {
+      .e-grid { width: calc(100% - 32px); gap: 20px; }
+      .e-case, .e-case--elm { grid-template-columns: minmax(0, 1fr); row-gap: 20px; padding: 20px; }
+      .e-case--elm .e-shot { order: 0; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .e-case, .e-film, .e-shot, .e-cap, .e-vid, .e-img { transform: none !important; opacity: 1 !important; clip-path: none !important; will-change: auto; }
+      .e-slice { display: none; }
+    }
+
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="logo label" href="index.html">Deron Li</a>
+  <div class="nav-links">
+    <a href="index.html#work" class="label">Work</a>
+    <a href="ai-design.html" class="label">AI x Design</a>
+    <a href="about.html" class="label">About</a>
+  </div>
+  <button class="nav-hamburger" aria-label="Toggle menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<main>
+
+  <!-- ════════ Hero ════════ -->
+  <header class="nv-hero" id="overview">
+    <div class="nv-art nv-art--left" aria-hidden="true"><div class="nv-art-drift"><img src="images/ai/v3/art-left.webp" alt="" width="900" height="1100"><canvas></canvas></div></div>
+    <div class="nv-art nv-art--right" aria-hidden="true"><div class="nv-art-drift"><img src="images/ai/v3/art-right.webp" alt="" width="1000" height="1200"><canvas></canvas></div></div>
+    <!-- Hero session: the visitor's pointer (or Deron's, while idle) paints watercolour,
+         the Claude cursor answers in pixels that either resolve into paint or scatter. -->
+    <canvas class="hs-layer hs-paint" aria-hidden="true"></canvas>
+    <canvas class="hs-layer hs-pix" aria-hidden="true"></canvas>
+    <div class="nv-grain" aria-hidden="true"></div>
+    <div class="hs-cur hs-cur--deron" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3.5 2.5v18l5.2-5 9.6-.5z"/></svg><span class="hs-tag tag">You</span></div>
+    <div class="hs-cur hs-cur--claude" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3.5 2.5v18l5.2-5 9.6-.5z"/></svg><span class="hs-tag tag">Claude</span></div>
+
+    <div class="nv-wrap nv-hero-inner">
+      <h1 class="nv-title display" id="nv-title">AI in my design process</h1>
+      <p class="nv-sub lead">I've been working AI into my design process for about a year. It helps with some things. It slows me down on others.</p>
+
+      <div class="nv-ctas">
+        <a class="nv-btn nv-btn--dark label" href="#showcase">Built with Claude Code</a>
+        <a class="nv-btn label" href="#process">Process</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ════════ Showcase ════════ -->
+  <section class="nv-section ev" id="showcase">
+    <div class="nv-wrap">
+    <div class="nv-head nv-in">
+      <h2 class="nv-h2 h1">AI Projects</h2>
+      <div class="nv-tools" role="group" aria-label="Tools I use">
+        <div class="tt-stage">
+          <ul class="tt-row">
+            <li class="tt-item" style="--i:0"><span class="tt-slot"><img class="tt-mark" src="images/ai/tools/sticker/marks/claude-code.svg" alt="" width="48" height="48" decoding="async" style="left:8.50%;top:8.48%;width:82.91%;height:82.91%"></span><span class="tt-name tag">Claude Code</span></li>
+            <li class="tt-item" style="--i:1"><span class="tt-slot"><img class="tt-mark" src="images/ai/tools/sticker/marks/cursor.svg" alt="" width="48" height="48" decoding="async" style="left:14.48%;top:14.65%;width:70.94%;height:70.94%"></span><span class="tt-name tag">Cursor</span></li>
+            <li class="tt-item" style="--i:2"><span class="tt-slot"><img class="tt-mark" src="images/ai/tools/sticker/marks/google-gemini.svg" alt="" width="48" height="48" decoding="async" style="left:9.67%;top:9.67%;width:80.68%;height:80.68%"></span><span class="tt-name tag">Gemini</span></li>
+            <li class="tt-item" style="--i:3"><span class="tt-slot"><img class="tt-mark" src="images/ai/tools/sticker/marks/github.svg" alt="" width="48" height="48" decoding="async" style="left:15.72%;top:16.09%;width:68.55%;height:68.55%"></span><span class="tt-name tag">GitHub</span></li>
+            <li class="tt-item" style="--i:4"><span class="tt-slot"><img class="tt-mark" src="images/ai/tools/sticker/marks/figma.svg" alt="" width="48" height="48" decoding="async" style="left:12.35%;top:12.40%;width:75.40%;height:75.40%"></span><span class="tt-name tag">Figma</span></li>
+            <li class="tt-item" style="--i:5"><span class="tt-slot"><img class="tt-mark" src="images/ai/tools/sticker/marks/framer.svg" alt="" width="48" height="48" decoding="async" style="left:13.57%;top:13.87%;width:72.77%;height:72.77%"></span><span class="tt-name tag">Framer</span></li>
+            <li class="tt-item" style="--i:6"><span class="tt-slot"><img class="tt-mark" src="images/ai/tools/sticker/marks/elevenlabs.svg" alt="" width="48" height="48" decoding="async" style="left:16.72%;top:16.70%;width:66.56%;height:66.56%"></span><span class="tt-name tag">ElevenLabs</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    </div>
+    <div class="e-grid">
+      <article class="e-case e-case--ag">
+        <div class="e-film"><video class="js-loop-video e-vid" muted loop playsinline preload="metadata" poster="images/ai/kept-promo-poster.webp" aria-label="A promo for Kept, a fictional finance app: a 3D phone, rendered in Blender by the Brand and Motion Design Agent, focuses on its net worth, cash flow and savings goal tiles"><source src="images/ai/kept-promo.webm" type="video/webm"><source src="images/ai/kept-promo.mp4" type="video/mp4"></video></div>
+        <div class="e-cap"><h3 class="e-title h3">Brand &amp; Motion Design Agent</h3><div class="e-copy"><p class="e-text body">A custom Claude Code agent that does brand and motion work: brand kits, icons, 3D device mockups in Blender, pixel art, and video. It renders and checks its own output against a design checklist before it shows me anything.</p><div class="e-meta"><div class="nv-tags "><span class="nv-tag tag">Claude Code</span><span class="nv-tag tag">Blender</span><span class="nv-tag tag">Remotion</span><span class="nv-tag tag">Figma MCP</span></div></div></div></div>
+      </article>
+      <article class="e-case e-case--elm">
+        <div class="e-shot"><img class="e-img" src="images/ai/extra-life-mart.webp" width="3000" height="1300" alt="Five Extra Life Mart screenshots: the stocked shop, a customer's order on the counter, the change drawer, the stock order screen and the end of day receipt" loading="lazy"></div>
+        <div class="e-cap"><div class="e-head"><h3 class="e-title h3">Extra Life Mart</h3><span class="nv-pill tag">In progress</span></div><div class="e-copy"><p class="e-text body">A pixel art shop game for phone browsers. Run a little beachfront convenience store: order snacks by the box, stock your shelves, and serve customers through the window by hand.</p><div class="e-meta"><div class="nv-tags "><span class="nv-tag tag">Claude Code</span><span class="nv-tag tag">Google Gemini</span><span class="nv-tag tag">Phaser</span><span class="nv-tag tag">TypeScript</span></div><a class="nv-link tag" href="https://friskygrape.github.io/extra-life-mart/" target="_blank" rel="noopener" aria-label="Play Extra Life Mart in your browser">
+          Play it
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+        </a></div></div></div>
+      </article>
+      <!-- HIDDEN FOR NOW (Deron): Eat Me and This Portfolio, kept as their old 2x2 tile markup.
+           To restore, move each into the .e-case anatomy above (media, then .e-cap).
+      <article class="e-tile e-em" style="--col:0" data-e><div class="e-media"><div class="nv-strip e-strip" tabindex="0" aria-label="Eat Me screenshots, scroll sideways for more"><img class="" src="images/ai/eat-me.webp" width="3000" height="1300" alt="Five Eat Me screenshots: a grocery receipt photo, the scanned items ready to review, food sorted by expiry, a recipe that uses expiring food and the expenses screen" loading="lazy"></div></div><div class="e-num"><span class="nv-card-label tag e-label"><span class="nv-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg></span>
+            03
+          </span><span class="nv-pill tag">Coming soon</span></div><h3 class="e-title h3">Eat Me</h3><p class="e-text body">A functional prototype built from my grad design thesis. Real interactions and logic, not just static screens.</p><div class="e-meta"><div class="nv-tags "><span class="nv-tag tag">Claude Code</span><span class="nv-tag tag">Claude API</span><span class="nv-tag tag">React Native</span><span class="nv-tag tag">Expo</span></div></div></article>
+      <article class="e-tile e-pf" style="--col:1" data-e><div class="e-media"><img class="e-img e-shot" src="images/ai/portfolio_screen.png" width="3546" height="1720" alt="Screenshot of this portfolio site" loading="lazy"></div><div class="e-num"><span class="nv-card-label tag e-label"><span class="nv-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></span>
+            01
+          </span></div><h3 class="e-title h3">This Portfolio</h3><p class="e-text body">Every animation and interaction on this site (the TOC indicator, the section icon draws, the scroll fade-ins) was built through prompting, not written by hand.</p><div class="e-meta"><div class="nv-tags "><span class="nv-tag tag">Cursor</span><span class="nv-tag tag">Claude Code</span><span class="nv-tag tag">HTML/CSS</span><span class="nv-tag tag">Vanilla JS</span></div></div></article>
+      END HIDDEN FOR NOW (Deron) -->
+    </div>
+  </section>
+
+  <!-- ════════ Process ════════ -->
+  <section class="nv-section nv-wrap" id="process">
+    <div class="nv-head nv-in">
+      <h2 class="nv-h2 h1">How I use AI in my work</h2>
+    </div>
+
+    <div class="nv-bento">
+
+      <!-- Research -->
+      <article class="nv-card nv-card--dark nv-span-3 pr-card">
+        <div class="nv-card-top">
+          <span class="nv-card-label tag">
+            <span class="nv-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
+            01
+          </span>
+          <h3 class="nv-card-meta tag">Research</h3>
+        </div>
+        <div class="nv-visual" aria-hidden="true">
+          <div class="nv-frame"><video class="js-loop-video" muted loop playsinline preload="metadata" poster="images/ai/process/research-poster.webp"><source src="images/ai/process/research.webm" type="video/webm"><source src="images/ai/process/research.mp4" type="video/mp4"></video></div>
+        </div>
+        <p class="nv-card-text body">When I'm diving into a new space, I use AI to get a handle on the jargon, what competitors are doing, so I can focus on what users actually care about.</p>
+      </article>
+
+      <!-- Planning & Validation -->
+      <article class="nv-card nv-span-2 pr-card">
+        <div class="nv-card-top">
+          <span class="nv-card-label tag">
+            <span class="nv-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg></span>
+            02
+          </span>
+          <h3 class="nv-card-meta tag">Planning &amp; Validation</h3>
+        </div>
+        <div class="nv-visual" aria-hidden="true">
+          <div class="nv-frame"><video class="js-loop-video" muted loop playsinline preload="metadata" poster="images/ai/process/planning-poster.webp"><source src="images/ai/process/planning.webm" type="video/webm"><source src="images/ai/process/planning.mp4" type="video/mp4"></video></div>
+        </div>
+        <p class="nv-card-text body">I treat AI as a collaborator and have it poke holes in my early ideas. I made my own <strong class="nv-tool-name">PM Skill</strong> and use it with <strong class="nv-tool-name">Claude Code</strong>'s Plan mode to talk through complex logic and evaluate my direction, which helps me catch edge cases and blind spots before I commit.</p>
+      </article>
+
+      <!-- Writing -->
+      <article class="nv-card nv-span-2 pr-card">
+        <div class="nv-card-top">
+          <span class="nv-card-label tag">
+            <span class="nv-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></span>
+            03
+          </span>
+          <h3 class="nv-card-meta tag">Writing</h3>
+        </div>
+        <div class="nv-visual" aria-hidden="true">
+          <div class="nv-frame"><video class="js-loop-video" muted loop playsinline preload="metadata" poster="images/ai/process/writing-poster.webp"><source src="images/ai/process/writing.webm" type="video/webm"><source src="images/ai/process/writing.mp4" type="video/mp4"></video></div>
+        </div>
+        <p class="nv-card-text body">Whether it's keeping UX copy clear and concise, writing comprehensive documentation, or drafting scripts for user interviews, I use <strong class="nv-tool-name">Google Gemini</strong> to help improve my writing.</p>
+      </article>
+
+      <!-- Concepts/Wireframes -->
+      <article class="nv-card nv-span-3 pr-card">
+        <div class="nv-card-top">
+          <span class="nv-card-label tag">
+            <span class="nv-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg></span>
+            04
+          </span>
+          <h3 class="nv-card-meta tag">Concepts/Wireframes</h3>
+        </div>
+        <div class="nv-visual" aria-hidden="true">
+          <div class="nv-frame"><video class="js-loop-video" muted loop playsinline preload="metadata" poster="images/ai/process/wireframes-poster.webp"><source src="images/ai/process/wireframes.webm" type="video/webm"><source src="images/ai/process/wireframes.mp4" type="video/mp4"></video></div>
+        </div>
+        <p class="nv-card-text body">I use <strong class="nv-tool-name">Claude Code</strong> alongside the <strong class="nv-tool-name">Figma MCP</strong> to integrate AI directly into my design canvas. It lets me instantly map out my thoughts, structure user flows, and generate early wireframes to validate the information architecture.</p>
+      </article>
+
+      <!-- Prototyping -->
+      <article class="nv-card nv-span-3 pr-card">
+        <div class="nv-card-top">
+          <span class="nv-card-label tag">
+            <span class="nv-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 3 7.07 16.97 2.51-7.39 7.39-2.51L3 3z"/><path d="m13 13 6 6"/></svg></span>
+            05
+          </span>
+          <h3 class="nv-card-meta tag">Prototyping</h3>
+        </div>
+        <div class="nv-visual" aria-hidden="true">
+          <div class="nv-frame"><video class="js-loop-video" muted loop playsinline preload="metadata" poster="images/ai/process/prototyping-poster.webp"><source src="images/ai/process/prototyping.webm" type="video/webm"><source src="images/ai/process/prototyping.mp4" type="video/mp4"></video></div>
+        </div>
+        <p class="nv-card-text body">I use <strong class="nv-tool-name">Cursor</strong> and <strong class="nv-tool-name">Claude Code</strong> to build functional prototypes. Baking in real logic and design tokens allows for genuine user exploration and creates a much smoother translation from design to code. I also made my own <strong class="nv-tool-name">Design QA Skill</strong> to double-check the output against my Figma designs.</p>
+      </article>
+
+      <!-- Data & Analytics -->
+      <article class="nv-card nv-span-2 pr-card">
+        <div class="nv-card-top">
+          <span class="nv-card-label tag">
+            <span class="nv-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span>
+            06
+          </span>
+          <h3 class="nv-card-meta tag">Data &amp; Analytics</h3>
+        </div>
+        <div class="nv-visual" aria-hidden="true">
+          <div class="nv-frame"><video class="js-loop-video" muted loop playsinline preload="metadata" poster="images/ai/process/data-poster.webp"><source src="images/ai/process/data.webm" type="video/webm"><source src="images/ai/process/data.mp4" type="video/mp4"></video></div>
+        </div>
+        <p class="nv-card-text body">I use AI to make sense of dense data. It quickly parses through test results and metrics to find the underlying user insights, turning raw information into clear validation for where the product should go next.</p>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ════════ Tradeoffs (pros/cons + quote panel): HIDDEN FOR NOW (Deron). Remove `hidden` to restore. ════════ -->
+  <section class="nv-section nv-wrap" id="tradeoffs" hidden>
+    <div class="nv-head nv-in">
+      <h2 class="nv-h2 h1">Where it helps vs. where it doesn't</h2>
+    </div>
+
+    <div class="nv-compare">
+      <article class="nv-card nv-in">
+        <div class="nv-card-top">
+          <span class="nv-card-label tag">
+            <span class="nv-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg></span>
+            Do
+          </span>
+        </div>
+        <ul class="nv-list nv-list--pos body">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Mass changes across a prototype</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Building and iterating on components</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Micro-interactions and animations</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Summarising research</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>UX writing and documentation</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Knocking out a backlog of QA changes</li>
+        </ul>
+      </article>
+      <article class="nv-card nv-card--dark nv-in">
+        <div class="nv-card-top">
+          <span class="nv-card-label tag">
+            <span class="nv-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3H10z"/><path d="M17 2h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"/></svg></span>
+            Don't
+          </span>
+        </div>
+        <ul class="nv-list nv-list--neg body">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>Visual polish and fine tweaks</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>Keeping design consistent</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>Spatial accuracy and layout</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>Design inspiration (I still go external for that)</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>Quick single-element edits</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>Struggles with vague or open-ended prompts</li>
+        </ul>
+      </article>
+    </div>
+
+    <!-- Dark quote panel -->
+    <div class="nv-cta nv-in">
+      <p class="nv-quote">"AI gets me to 60&ndash;70% quickly. Getting that last 10&ndash;30% of polish often takes longer through prompting than just doing it myself."</p>
+      <div class="nv-meter" aria-hidden="true"><span></span></div>
+      <div class="nv-ctas">
+        <a class="nv-btn label" href="index.html">Home</a>
+        <a class="nv-btn nv-btn--ghost label" href="#overview">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+          AI in my design process
+        </a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+
+<script src="js/nav.js" defer></script>
+<script>
+/* ════════════════════════════════════════════════════
+   HERO SESSION: "two hands on one canvas"
+   Human strokes are watercolour (soft, granulated, a 10fps stop-motion boil).
+   Claude's strokes are pixels on a grid. A stroke that helps resolves into paint in
+   place; a stroke that misses scatters and the human stroke stays.
+   Idle: a scripted session between Deron's cursor and Claude's (about 15s, mirrored
+   every other loop). Visitor: their own pointer paints (hover on desktop, sideways drag
+   on touch) and Claude answers each stroke: help, miss, help.
+   Reduced motion: the same session seeked to its finished state, drawn once.
+   One rAF loop, running only while the hero is on screen and the tab is visible.
+   ════════════════════════════════════════════════════ */
+(() => {
+  const hero = document.getElementById('overview');
+  if (!hero) return;
+  const paintCv = hero.querySelector('.hs-paint'), pixCv = hero.querySelector('.hs-pix');
+  const title = document.getElementById('nv-title');
+  const textEls = [title, hero.querySelector('.nv-sub'), hero.querySelector('.nv-ctas')];
+  const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const pctx = paintCv.getContext('2d'), xctx = pixCv.getContext('2d');
+
+  /* Paint colours, sampled from the hero art (art-left / art-right) */
+  const PAL = { verm: '#C4502F', ochre: '#C9733F', teal: '#2F6E62', ultra: '#3E4FA0', olive: '#6E7A45' };
+  const WRONG = { '#C4502F': PAL.ultra, '#C9733F': PAL.ultra, '#2F6E62': PAL.verm, '#3E4FA0': PAL.ochre, '#6E7A45': PAL.ultra };
+  const VISITOR_COLS = [PAL.verm, PAL.teal, PAL.ultra, PAL.ochre, PAL.olive];
+  const BG = [247, 246, 244];
+  const PAINT_ALPHA = 0.8, RES = 0.6;
+
+  /* ── utilities ── */
+  const clamp = (v, a, b) => (v < a ? a : v > b ? b : v);
+  const E = {
+    inOut: (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2),
+    out: (t) => 1 - Math.pow(1 - t, 3),
+    sine: (t) => -(Math.cos(Math.PI * t) - 1) / 2,
+  };
+  function rng(seed) { let s = (Math.imul(seed | 0, 2654435761) >>> 0) || 1; return () => ((s = (Math.imul(s, 1664525) + 1013904223) >>> 0) / 4294967296); }
+  function noise(seed) {
+    const r = rng(seed), v = new Float32Array(256).map(r);
+    return (x) => { const i = Math.floor(x), f = x - i, u = f * f * (3 - 2 * f); return v[i & 255] + (v[(i + 1) & 255] - v[i & 255]) * u - 0.5; };
+  }
+  const hexRgb = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16));
+
+  /* paper grain: punched out of each stroke so the paint granulates like watercolour */
+  const grain = document.createElement('canvas'); grain.width = grain.height = 192;
+  { const seedC = document.createElement('canvas'); seedC.width = seedC.height = 48;
+    const s = seedC.getContext('2d'), id = s.createImageData(48, 48), r = rng(7);
+    for (let i = 0; i < id.data.length; i += 4) id.data[i + 3] = Math.pow(r(), 2.2) * 255;
+    s.putImageData(id, 0, 0);
+    const g = grain.getContext('2d'); g.imageSmoothingEnabled = true; g.drawImage(seedC, 0, 0, 192, 192);
+    const fine = g.createImageData(192, 192), r2 = rng(11), base = g.getImageData(0, 0, 192, 192);
+    for (let i = 0; i < fine.data.length; i += 4) fine.data[i + 3] = clamp(base.data[i + 3] * 0.8 + Math.pow(r2(), 6) * 90, 0, 255);
+    g.putImageData(fine, 0, 0); }
+
+  /* ── state ── */
+  let W = 0, H = 0, DPR = 1, wide = true, CELL = 10, BRUSH = 24, heroTop = 0, textR = null;
+  let T = 0, beats = [], strokes = [], pixes = [], loopK = 0, loopEnd = 1e9, seedN = 1;
+  const cur = {
+    d: { el: hero.querySelector('.hs-cur--deron'), x: -80, y: 0, on: false, sx: 0 },
+    c: { el: hero.querySelector('.hs-cur--claude'), x: -80, y: 0, on: false, sx: 0 },
+  };
+  const setOn = (k, on) => { cur[k].on = on; cur[k].el.classList.toggle('is-on', on); };
+  const place = () => { for (const k of ['d', 'c']) { const c = cur[k]; c.el.style.transform = `translate3d(${(c.x + c.sx).toFixed(1)}px,${c.y.toFixed(1)}px,0)`; } };
+
+  /* ── paths ── */
+  function mkPath(fn, steps, wFn) {
+    const pts = []; let d = 0;
+    for (let i = 0; i <= steps; i++) {
+      const u = i / steps, [x, y] = fn(u), p = pts[pts.length - 1];
+      if (p) d += Math.hypot(x - p.x, y - p.y);
+      pts.push({ x, y, d, w: wFn ? wFn(u) : BRUSH });
+    }
+    return { pts, L: d };
+  }
+  function at(path, dd) {
+    const pts = path.pts; if (dd <= 0) return pts[0];
+    for (let i = 1; i < pts.length; i++) if (pts[i].d >= dd) {
+      const a = pts[i - 1], b = pts[i], t = (dd - a.d) / (b.d - a.d || 1);
+      return { x: a.x + (b.x - a.x) * t, y: a.y + (b.y - a.y) * t };
+    }
+    return pts[pts.length - 1];
+  }
+  const handW = (seed) => { const n = noise(seed); return (u) => BRUSH * (0.86 + 0.32 * (n(u * 4) + 0.5)); };
+
+  /* ── watercolour strokes ── */
+  const dabs = new Map();
+  function dab(col) {                          /* a soft round sprite of one colour, made once */
+    if (dabs.has(col)) return dabs.get(col);
+    const c = document.createElement('canvas'); c.width = c.height = 64;
+    const g = c.getContext('2d'), gr = g.createRadialGradient(32, 32, 0, 32, 32, 32);
+    gr.addColorStop(0, col); gr.addColorStop(0.5, col.replace('rgb(', 'rgba(').replace(')', ',0.6)')); gr.addColorStop(1, col.replace('rgb(', 'rgba(').replace(')', ',0)'));
+    g.fillStyle = gr; g.fillRect(0, 0, 64, 64); dabs.set(col, c); return c;
+  }
+  const shade = (hex, k) => { const c = hexRgb(hex); return `rgb(${c.map((ch, i) => Math.round(k < 0 ? ch * (1 + k) : ch + (BG[i] - ch) * k))})`; };
+  function newStroke(color) {
+    return { color, dark: shade(color, -0.38), light: shade(color, 0.5), seed: seedN++, pts: [], len: 0, done: false, reveal: Infinity, fadeAt: Infinity, fadeDur: 1.5, cache: null, bb: null, scratch: null };
+  }
+  function addPt(s, x, y, w) {
+    const p = s.pts[s.pts.length - 1], d = p ? Math.hypot(x - p.x, y - p.y) : 0;
+    if (p && d < 2) return;
+    s.len += d; s.pts.push({ x, y, w, d: s.len }); s.bb = null;
+  }
+  function bbox(s) {
+    let x0 = 1e9, y0 = 1e9, x1 = -1e9, y1 = -1e9, mw = 0;
+    for (const p of s.pts) { x0 = Math.min(x0, p.x); y0 = Math.min(y0, p.y); x1 = Math.max(x1, p.x); y1 = Math.max(y1, p.y); mw = Math.max(mw, p.w); }
+    const pad = mw * 0.75 + 10;
+    return { x: Math.floor(x0 - pad), y: Math.floor(y0 - pad), w: Math.ceil(x1 - x0 + pad * 2), h: Math.ceil(y1 - y0 + pad * 2) };
+  }
+  /* One boil variant of a stroke: opaque, wobbling segments (two passes), a blurred
+     punch-out down the middle so the edges read darker (the watercolour "bloom" edge),
+     then paper grain. Transparency is applied when compositing, so joints never double up. */
+  function drawStroke(g, s, v, b) {
+    const pts = s.pts, n = pts.length; if (n < 2) return;
+    const nz = noise(s.seed * 31 + v * 7), L = s.len, maxD = Math.min(s.reveal, L);
+    g.save();
+    g.setTransform(DPR, 0, 0, DPR, -b.x * DPR, -b.y * DPR);
+    g.lineCap = 'round'; g.lineJoin = 'round'; g.strokeStyle = s.color;
+    const P = (i, k) => { const p = pts[i]; return [p.x + nz(p.d * 0.035 + k * 40) * 3.4, p.y + nz(p.d * 0.035 + k * 40 + 17) * 3.4]; };
+    const taper = (d) => Math.min(1, 0.3 + 0.7 * Math.min(d / 28, 1)) * Math.min(1, 0.35 + 0.65 * Math.min((L - d) / 40, 1));
+    let wSum = 0, wN = 0;
+    for (let i = 1; i < n && pts[i - 1].d < maxD; i++) { wSum += pts[i].w * taper(pts[i].d); wN++; }
+    const wAvg = wSum / Math.max(wN, 1);
+    /* soft outer wash: one feathered path */
+    g.filter = `blur(${(2.6 * DPR).toFixed(1)}px)`;
+    g.globalAlpha = 0.85; g.lineWidth = wAvg * 1.02; g.beginPath();
+    for (let i = 0; i < n && pts[i].d <= maxD; i++) { const p = P(i, 1); i ? g.lineTo(p[0], p[1]) : g.moveTo(p[0], p[1]); }
+    g.stroke(); g.filter = 'none'; g.globalAlpha = 1;
+    /* body: hand-varied width */
+    let prev = P(0, 0);
+    for (let i = 1; i < n && pts[i - 1].d < maxD; i++) {
+      const c = P(i, 0), p = pts[i];
+      g.lineWidth = p.w * taper(p.d) * 0.8 * (0.88 + 0.24 * (nz(p.d * 0.07 + 9) + 0.5));
+      g.beginPath(); g.moveTo(prev[0], prev[1]); g.lineTo(c[0], c[1]); g.stroke(); prev = c;
+    }
+    /* pigment: darker pools and pale blooms, kept inside the stroke */
+    g.globalCompositeOperation = 'source-atop';
+    for (const [spr, k0, amp, wm] of [[dab(s.dark), 70, 1.7, 1.1], [dab(s.light), 130, 1.0, 0.8]]) {
+      let next = 0;
+      for (let i = 0; i < n && pts[i].d <= maxD; i++) {
+        const p = pts[i]; if (p.d < next) continue;
+        const sz = p.w * wm * (0.7 + 0.6 * (nz(p.d * 0.05 + k0 + 3) + 0.5)); next = p.d + sz * 0.3;
+        const a = clamp((nz(p.d * 0.016 + k0) + 0.1) * amp, 0, 0.55); if (a < 0.02) continue;
+        const c = P(i, 0), off = nz(p.d * 0.03 + k0 + 5) * p.w * 0.3;
+        g.globalAlpha = a; g.drawImage(spr, c[0] + off - sz / 2, c[1] - off - sz / 2, sz, sz);
+      }
+    }
+    g.globalCompositeOperation = 'destination-out';
+    g.globalAlpha = 0.16;
+    g.filter = `blur(${(5 * DPR).toFixed(1)}px)`;
+    g.beginPath();
+    for (let i = 0; i < n && pts[i].d <= maxD; i++) { const p = P(i, 0); i ? g.lineTo(p[0], p[1]) : g.moveTo(p[0], p[1]); }
+    g.lineWidth = wAvg * 0.5; g.stroke();
+    g.filter = 'none';
+    g.globalAlpha = 0.42;
+    g.setTransform(DPR, 0, 0, DPR, 0, 0);
+    g.translate(-v * 41, -v * 67);
+    g.fillStyle = g.createPattern(grain, 'repeat');
+    g.fillRect(v * 41, v * 67, b.w + 2, b.h + 2);
+    g.restore();
+  }
+  const scratchPool = [];
+  function scratchFor(s) {
+    if (s.scratch) return s.scratch;
+    let c = scratchPool.find((c) => !c.owner);
+    if (!c) { c = { cv: document.createElement('canvas'), owner: null }; scratchPool.push(c); }
+    if (c.cv.width !== paintCv.width || c.cv.height !== paintCv.height) { c.cv.width = paintCv.width; c.cv.height = paintCv.height; }
+    c.owner = s; s.scratch = c; return c;
+  }
+  function layer(s, v) {
+    if (s.pts.length < 2) return null;
+    const settled = s.done && s.reveal >= s.len;
+    if (settled) {
+      if (s.scratch) { s.scratch.owner = null; s.scratch = null; }
+      s.cache = s.cache || [];
+      if (!s.cache[v]) {
+        const b = s.bb || (s.bb = bbox(s)), cv = document.createElement('canvas');
+        cv.width = Math.ceil(b.w * DPR); cv.height = Math.ceil(b.h * DPR);
+        drawStroke(cv.getContext('2d'), s, v, b);
+        s.cache[v] = { cv, b };
+      }
+      return s.cache[v];
+    }
+    const b = s.bb || (s.bb = bbox(s)), sc = scratchFor(s).cv, g = sc.getContext('2d');
+    g.setTransform(1, 0, 0, 1, 0, 0); g.clearRect(0, 0, Math.ceil(b.w * DPR) + 4, Math.ceil(b.h * DPR) + 4);
+    drawStroke(g, s, v, b);
+    return { cv: sc, b, sub: true };
+  }
+  const strokeAlpha = (s) => (T < s.fadeAt ? 1 : 1 - E.inOut(clamp((T - s.fadeAt) / s.fadeDur, 0, 1)));
+
+  function drawPaint(v) {
+    pctx.setTransform(1, 0, 0, 1, 0, 0);
+    pctx.clearRect(0, 0, paintCv.width, paintCv.height);
+    pctx.globalCompositeOperation = 'multiply';
+    for (const s of strokes) {
+      const a = strokeAlpha(s); if (a <= 0) continue;
+      const l = layer(s, v); if (!l) continue;
+      pctx.globalAlpha = a * PAINT_ALPHA;
+      const b = l.b, w = Math.ceil(b.w * DPR), h = Math.ceil(b.h * DPR);
+      if (l.sub) pctx.drawImage(l.cv, 0, 0, w, h, Math.round(b.x * DPR), Math.round(b.y * DPR), w, h);
+      else pctx.drawImage(l.cv, Math.round(b.x * DPR), Math.round(b.y * DPR));
+    }
+    pctx.globalAlpha = 1;
+  }
+
+  /* ── Claude's pixel strokes ── */
+  function makePix(path, color, outcome, radius) {
+    const r = rng(seedN++ * 13), base = hexRgb(color), R = radius / CELL + 0.25, cand = new Map();
+    for (const p of path.pts) {
+      const gx = Math.floor(p.x / CELL), gy = Math.floor(p.y / CELL), k = Math.ceil(R + 1);
+      for (let dy = -k; dy <= k; dy++) for (let dx = -k; dx <= k; dx++) {
+        const cx = gx + dx, cy = gy + dy, key = cx * 100003 + cy;
+        const dist = Math.hypot((cx + 0.5) * CELL - p.x, (cy + 0.5) * CELL - p.y) / CELL;
+        const c = cand.get(key);
+        if (!c || dist < c.dist) cand.set(key, { cx, cy, dist, d: p.d });
+      }
+    }
+    const cells = [];
+    for (const c of cand.values()) {
+      const keep = c.dist < R * 0.62 ? 1 : c.dist < R ? 1 - ((c.dist - R * 0.62) / (R * 0.38)) * 0.55 : c.dist < R + 1 ? 0.14 : 0;
+      if (r() >= keep) continue;
+      const edge = clamp((c.dist - R * 0.4) / (R * 0.9), 0, 1) * 0.5, j = (r() - 0.5) * 0.18;
+      const col = base.map((ch, i) => Math.round(clamp((ch + (j > 0 ? (255 - ch) * j : ch * j)) * (1 - edge) + BG[i] * edge, 0, 255)));
+      cells.push({ x: c.cx * CELL, y: c.cy * CELL, d: c.d, col: `rgb(${col})`, a0: 0.82 + 0.18 * r(), born: -1, fade0: -1, vx: 0, vy: 0, delay: 0, life: 1 });
+    }
+    return { cells, L: path.L, path, mode: 'draw', tm: 0, outcome, color };
+  }
+  function drawPix() {
+    xctx.setTransform(1, 0, 0, 1, 0, 0);
+    xctx.clearRect(0, 0, pixCv.width, pixCv.height);
+    const sz = Math.ceil(CELL * DPR);
+    for (let i = pixes.length - 1; i >= 0; i--) {
+      const px = pixes[i]; let alive = false;
+      for (const c of px.cells) {
+        if (c.born < 0) { alive = true; continue; }
+        let a = c.a0 * clamp((T - c.born) / 0.06, 0, 1), x = c.x, y = c.y;
+        if (px.mode === 'resolve') { if (c.fade0 >= 0) a *= 1 - clamp((T - c.fade0) / 0.18, 0, 1); }
+        else if (px.mode === 'scatter') {
+          const t = T - px.tm - c.delay;
+          if (t > 0) { x += c.vx * t; y += c.vy * t + 520 * t * t; a *= 1 - E.out(clamp(t / c.life, 0, 1)); }
+        }
+        if (a <= 0.01) { if (px.mode === 'draw' || px.mode === 'hold' || c.fade0 < 0 && px.mode === 'resolve') alive = true; continue; }
+        alive = true;
+        xctx.globalAlpha = a; xctx.fillStyle = c.col;
+        xctx.fillRect(Math.round(x * DPR), Math.round(y * DPR), sz, sz);
+      }
+      if (!alive) pixes.splice(i, 1);
+    }
+    xctx.globalAlpha = 1;
+  }
+  function startScatter(px) {
+    px.mode = 'scatter'; px.tm = T;
+    const r = rng(seedN++ * 7), end = at(px.path, px.L);
+    for (const c of px.cells) {
+      const ox = c.x - end.x, oy = c.y - end.y, m = Math.hypot(ox, oy) || 1;
+      c.vx = (ox / m) * (30 + r() * 70) + (r() - 0.5) * 90;
+      c.vy = -40 - r() * 120;
+      c.delay = (1 - c.d / px.L) * 0.18 + r() * 0.08;    // unravels back from where Claude stopped
+      c.life = 0.55 + r() * 0.45;
+    }
+  }
+
+  /* ── beats: a tiny timeline in session seconds ── */
+  function beat(t0, dur, o, group) { beats.push(Object.assign({ t0, t1: t0 + dur, st: 0, group }, o)); }
+  function runBeats() {
+    for (const b of beats) {
+      if (b.st === 2 || T < b.t0) continue;
+      if (b.st === 0) { b.st = 1; b.start && b.start(); }
+      const u = b.t1 > b.t0 ? clamp((T - b.t0) / (b.t1 - b.t0), 0, 1) : 1;
+      b.update && b.update(u);
+      if (T >= b.t1) { b.st = 2; b.end && b.end(); }
+    }
+    beats = beats.filter((b) => b.st !== 2);
+  }
+  function moveTo(k, t0, dur, to, opt = {}, group) {
+    const ease = opt.ease || E.inOut, arc = opt.arc ?? 0.14; let from;
+    beat(t0, dur, {
+      start() { from = { x: cur[k].x, y: cur[k].y }; },
+      update(u) {
+        const e = ease(u), tg = typeof to === 'function' ? to() : to;
+        const dx = tg.x - from.x, dy = tg.y - from.y, cx = (from.x + tg.x) / 2 - dy * arc, cy = (from.y + tg.y) / 2 + dx * arc;
+        cur[k].x = (1 - e) * (1 - e) * from.x + 2 * (1 - e) * e * cx + e * e * tg.x;
+        cur[k].y = (1 - e) * (1 - e) * from.y + 2 * (1 - e) * e * cy + e * e * tg.y;
+      },
+    }, group);
+  }
+  function jump(k, t0, p, on, group) { beat(t0, 0, { start() { cur[k].x = p.x; cur[k].y = p.y; if (on != null) setOn(k, on); } }, group); }
+  /* Deron paints: an eased hand speed, the cursor riding the wet tip */
+  function paint(t0, dur, path, s, group) {
+    let i = 0; const wn = noise(s.seed + 5);
+    beat(t0, dur, {
+      start() { strokes.push(s); },
+      update(u) {
+        const front = E.sine(u) * path.L;
+        while (i < path.pts.length && path.pts[i].d <= front) { const p = path.pts[i++]; addPt(s, p.x, p.y, p.w); }
+        const p = at(path, front);
+        cur.d.x = p.x + wn(T * 2.5) * 2.4; cur.d.y = p.y + wn(T * 2.5 + 9) * 2.4;
+      },
+      end() { s.done = true; },
+    }, group);
+  }
+  /* Claude draws: machine-smooth, cells lighting up as the tip passes */
+  function pixDraw(t0, dur, px, group) {
+    beat(t0, dur, {
+      start() { pixes.push(px); },
+      update(u) {
+        const front = E.inOut(u) * px.L;
+        for (const c of px.cells) if (c.born < 0 && c.d <= front) c.born = T;
+        const p = at(px.path, front); cur.c.x = p.x; cur.c.y = p.y;
+      },
+      end() { for (const c of px.cells) if (c.born < 0) c.born = T; px.mode = 'hold'; },
+    }, group);
+  }
+  /* Help: the pixels swap for paint in place, sweeping along the stroke (the AutoDraw swap) */
+  function resolveNow(px, s) {
+    if (px.mode === 'resolve' || px.mode === 'scatter') return;
+    px.mode = 'resolve'; px.tm = T; s.reveal = 0; strokes.push(s);
+    for (const c of px.cells) if (c.born < 0) c.born = T - 1;
+  }
+  function resolve(t0, px, s, group) {
+    beat(t0, RES, {
+      start() { resolveNow(px, s); },
+      update(u) {
+        const front = E.sine(u) * px.L;
+        for (const c of px.cells) if (c.fade0 < 0 && c.d <= front) c.fade0 = T;
+        s.reveal = front + CELL * 1.5;
+      },
+      end() { for (const c of px.cells) if (c.fade0 < 0) c.fade0 = T; s.reveal = Infinity; s.done = true; },
+    }, group);
+  }
+  /* Miss: the pixels let go and fall away; a small "no" from the cursor */
+  function scatter(t0, px, group) {
+    beat(t0, 0.42, {
+      start() { startScatter(px); },
+      update(u) { cur.c.sx = Math.sin(u * Math.PI * 4) * 5 * (1 - u); },
+      end() { cur.c.sx = 0; },
+    }, group);
+  }
+
+  /* ── geometry ── */
+  const textRect = () => {
+    const hr = hero.getBoundingClientRect(); let x0 = 1e9, y0 = 1e9, x1 = -1e9, y1 = -1e9;
+    for (const el of textEls) { if (!el) continue; const r = el.getBoundingClientRect(); x0 = Math.min(x0, r.left); y0 = Math.min(y0, r.top); x1 = Math.max(x1, r.right); y1 = Math.max(y1, r.bottom); }
+    return { x: x0 - hr.left, y: y0 - hr.top, w: x1 - x0, h: y1 - y0 };
+  };
+  /* The two cursors park either side of "process": the shared work, bracketed */
+  function wordRect(word) {
+    const hr = hero.getBoundingClientRect(), node = title.firstChild, i = node.textContent.lastIndexOf(word);
+    const rg = document.createRange(); rg.setStart(node, i); rg.setEnd(node, i + word.length);
+    const rs = rg.getClientRects(), r = rs[rs.length - 1];
+    return { l: r.left - hr.left, r: r.right - hr.left, t: r.top - hr.top, y: r.top - hr.top + r.height * 0.42 };
+  }
+  /* Where the cursors rest: beside the headline, never on its words. Wide: on the side where the
+     session ended, Deron by the first line, Claude by "process". Narrow: above the headline, where the
+     session happens, so neither cursor crosses the type to get there. */
+  function parks(side) {
+    const span = (k) => 12 + cur[k].el.querySelector('.hs-tag').offsetWidth;
+    const AI = wordRect('AI'), de = wordRect('design'), pr = wordRect('process');
+    if (!wide) { const y = AI.t - 60; return { d: { x: Math.max(8, AI.l - 2), y }, c: { x: Math.min(W - span('c') - 8, de.r - span('c') + 6), y } }; }
+    if (side === 'r') return { d: { x: de.r + 18, y: de.y }, c: { x: pr.r + 18, y: pr.y } };
+    return { d: { x: AI.l - span('d') - 22, y: AI.y }, c: { x: pr.l - span('c') - 22, y: pr.y } };
+  }
+  function geo(mirror) {
+    const X = (x) => (mirror ? W - x : x);
+    let A, B;
+    if (wide) {
+      const left = textR.x, right = W - (textR.x + textR.w);
+      const r = clamp(Math.min(W * 0.066, left * 0.32, H * 0.1), 56, 112);
+      A = { cx: clamp(left * 0.5, r + 32, left - r - 24), cy: clamp(H * 0.8, textR.y + textR.h * 0.6, H - r - 56), r };
+      const lam = clamp(Math.min(W * 0.055, (right - 130) / 3.4), 56, 100);
+      B = { x: Math.min(textR.x + textR.w + clamp((right - lam * 3.4) / 2, 24, 140), W - 110 - lam * 3.4), y: clamp(H * 0.84, textR.y + textR.h + 40, H - 64), lam, amp: lam * 0.17 };
+    } else {
+      const r = clamp(W * 0.11, 32, 48), lam = clamp((W - 140) / 3.4, 40, 64);
+      A = { cx: W * 0.24, cy: clamp((textR.y + textR.h + H) / 2 + 8, textR.y + textR.h + r + 28, H - r - 40), r };
+      B = { x: W * 0.12, y: clamp(textR.y * 0.62, 120, textR.y - 48), lam, amp: lam * 0.18 };
+    }
+    const nA = noise(seedN * 3 + 1), nB = noise(seedN * 5 + 2);
+    const circ = (a0, a1, hand) => (u) => {
+      const a = (a0 + (a1 - a0) * u) * Math.PI / 180, rr = A.r * (1 + (hand ? nA(u * 5) * 0.09 : 0));
+      return [X(A.cx + Math.cos(a) * rr), A.cy + Math.sin(a) * rr];
+    };
+    const wave = (x0, x1) => (u) => {
+      const x = x0 + (x1 - x0) * u, ph = ((x - B.x) / B.lam) * Math.PI * 2;
+      return [X(x), B.y + Math.sin(ph) * B.amp + nB(u * 3) * 3];
+    };
+    const wDeron = handW(seedN * 11);
+    return {
+      A: {
+        human: mkPath(circ(150, 372, true), 90, wDeron),
+        claude: mkPath(circ(372, 515, false), 64, () => BRUSH * 1.02),
+        aside: { x: X(A.cx + A.r * 0.7), y: A.cy - A.r - 44 },
+        wait: { x: X(A.cx + A.r * 0.8), y: Math.min(H - 48, A.cy + A.r + 44) },
+      },
+      B: {
+        human: mkPath(wave(B.x, B.x + B.lam * 2), 60, wDeron),
+        claude: mkPath((u) => { const a = -0.5, L = B.lam * 1.45; return [X(B.x + B.lam * 2 + Math.cos(a) * L * u), B.y + Math.sin(a) * L * u]; }, 40, () => BRUSH),
+        fix: mkPath(wave(B.x + B.lam * 2, B.x + B.lam * 3.3), 44, wDeron),
+        wait: { x: X(B.x + B.lam * 2.7), y: B.y - B.lam * 0.95 },
+        aside: { x: X(B.x + B.lam * 1.3), y: B.y + B.lam * 0.7 },
+      },
+      enterD: { x: mirror ? W + 40 : -40, y: H * 0.96 }, enterC: { x: mirror ? -40 : W + 40, y: H * 0.62 },
+    };
+  }
+
+  /* ── the scripted session (idle) ── */
+  function buildLoop(k, t) {
+    const g = geo(k % 2 === 1), P = parks(k % 2 === 1 ? 'l' : 'r'), G = 'script', m = k % 2 === 1 ? -1 : 1;   /* m keeps every arc bowing away from the type when mirrored */
+    const cA = [PAL.verm, PAL.ultra, PAL.ochre][k % 3], cB = [PAL.teal, PAL.ochre, PAL.ultra][k % 3];
+    const sA = newStroke(cA), sAc = newStroke(cA), sB = newStroke(cB), sFix = newStroke(cB);
+    const pA = makePix(g.A.claude, cA, 'help', BRUSH * 0.55), pB = makePix(g.B.claude, WRONG[cB], 'miss', BRUSH * 0.36);
+    pA.target = sAc; sAc.pts = g.A.claude.pts.map((p) => ({ ...p })); sAc.len = g.A.claude.L;
+    if (!cur.d.on) jump('d', t, g.enterD, true, G);
+    if (!cur.c.on) jump('c', t + 0.15, g.enterC, true, G);
+    moveTo('d', t, 1.0, g.A.human.pts[0], { ease: E.out }, G);
+    moveTo('c', t + 0.15, 1.15, g.A.wait, { ease: E.out, arc: 0.12 * m }, G);
+    paint(t + 1.0, 1.35, g.A.human, sA, G);
+    moveTo('d', t + 2.35, 0.8, g.A.aside, { arc: -0.2 * m, ease: E.out }, G);
+    moveTo('c', t + 2.25, 0.4, g.A.claude.pts[0], {}, G);
+    pixDraw(t + 2.65, 0.75, pA, G);
+    resolve(t + 3.75, pA, sAc, G);
+    moveTo('d', t + 3.9, 1.2, g.B.human.pts[0], { arc: 0.14 * m }, G);
+    moveTo('c', t + 4.3, 1.2, g.B.wait, { arc: 0.12 * m }, G);
+    paint(t + 5.1, 1.25, g.B.human, sB, G);
+    moveTo('d', t + 6.35, 0.6, g.B.aside, { ease: E.out }, G);
+    moveTo('c', t + 6.3, 0.4, g.B.claude.pts[0], {}, G);
+    pixDraw(t + 6.7, 0.8, pB, G);
+    scatter(t + 7.9, pB, G);
+    moveTo('c', t + 8.35, 0.6, () => { const e = g.B.claude.pts[g.B.claude.pts.length - 1]; return { x: e.x + (k % 2 ? 40 : -40), y: e.y - 48 }; }, { ease: E.out }, G);
+    moveTo('d', t + 8.2, 0.45, g.B.fix.pts[0], {}, G);
+    paint(t + 8.7, 1.0, g.B.fix, sFix, G);
+    moveTo('c', t + 9.6, 1.3, P.c, { arc: 0.1 * m }, G);
+    moveTo('d', t + 9.75, 1.3, P.d, { arc: 0.1 * m }, G);
+    beat(t + 13.2, 0, { start() { for (const s of [sA, sAc, sB, sFix]) { s.fadeAt = T; s.fadeDur = 1.6; } } }, G);
+    loopEnd = t + 14.9;
+  }
+
+  /* ── visitor: their pointer is the human hand ── */
+  let pending = null, visitor = false, vStroke = null, vLast = 0, vInput = -1e9, vPtr = null, vCol = 0, turnN = 0, claudeBusy = false;
+  const PATTERN = ['help', 'miss', 'help'];
+  /* a cursor plus its name tag, as a box, against the type block */
+  const onType = (x, y) => textR && x + 100 > textR.x - 8 && x - 4 < textR.x + textR.w + 8 && y + 48 > textR.y - 8 && y - 4 < textR.y + textR.h + 8;
+  const pathOnType = (x0, y0, x1, y1) => { for (let i = 1; i < 12; i++) { const u = i / 12; if (onType(x0 + (x1 - x0) * u, y0 + (y1 - y0) * u)) return true; } return false; };
+  const nearText = (x, y, pad) => textR && x > textR.x - pad && x < textR.x + textR.w + pad && y > textR.y - pad && y < textR.y + textR.h + pad;
+
+  function enterVisitor() {
+    if (visitor) return;
+    visitor = true; claudeBusy = false;
+    for (const b of beats) if (b.group === 'script' && b.st === 1 && b.end) b.end();
+    beats = beats.filter((b) => b.group !== 'script');
+    for (const px of pixes) if (px.mode === 'draw' || px.mode === 'hold') {
+      if (px.outcome === 'help' && px.target) { resolveNow(px, px.target); for (const c of px.cells) c.fade0 = T; px.target.reveal = Infinity; px.target.done = true; }
+      else startScatter(px);
+    }
+    for (const s of strokes) s.fadeAt = Math.min(s.fadeAt, T + 2.4);
+    cur.d.el.classList.add('is-pointer'); cur.d.sx = 0; cur.c.sx = 0;
+  }
+  function exitVisitor() {
+    visitor = false; loopK++;
+    setOn('d', false); cur.d.el.classList.remove('is-pointer');
+    cur.d.x = -60; cur.d.y = H * 0.9;
+    buildLoop(loopK, T + 0.3);
+  }
+  function localXY(e) { const r = hero.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top }; }
+  function onMove(e) {
+    if (RM) return;
+    if (e.pointerType === 'touch' && !e.buttons && e.type !== 'pointerdown') return;
+    enterVisitor();
+    const p = localXY(e); vPtr = p; vInput = T;
+    const onLink = !!(e.target.closest && e.target.closest('a, button'));
+    cur.d.x = p.x; cur.d.y = p.y; setOn('d', !onLink); place();   /* the "You" tag follows the real pointer */
+    if (onLink) { endVStroke(); return; }
+    if (!vStroke) {
+      vStroke = newStroke(VISITOR_COLS[vCol++ % VISITOR_COLS.length]);
+      vStroke.lastT = T; vStroke.sp = 0; strokes.push(vStroke);
+    }
+    const s = vStroke, q = s.pts[s.pts.length - 1];
+    const dt = Math.max(T - s.lastT, 0.008), sp = q ? Math.hypot(p.x - q.x, p.y - q.y) / dt : 0;
+    s.sp += (sp - s.sp) * 0.25; s.lastT = T;
+    const w = BRUSH * clamp(1.15 - s.sp / 2600, 0.55, 1.15);
+    addPt(s, p.x, p.y, w); vLast = T;
+    if (s.len > (wide ? 900 : 520)) endVStroke();
+  }
+  function endVStroke() {
+    const s = vStroke; vStroke = null; if (!s) return;
+    s.done = true; s.fadeAt = T + 3.2; s.fadeDur = 1.4;
+    if (s.len > (wide ? 90 : 60)) { if (claudeBusy) pending = s; else claudeTurn(s); }   /* busy: answer the latest stroke next */
+  }
+  /* Claude carries the visitor's stroke on, curving the way it was curving */
+  function continuation(s, len, zig) {
+    const pts = s.pts, n = pts.length; if (n < 4) return null;
+    const pAt = (d) => { for (let i = n - 1; i >= 0; i--) if (pts[i].d <= d) return pts[i]; return pts[0]; };
+    const e = pts[n - 1], m = pAt(s.len - 28), f = pAt(s.len - 56);
+    let ang = Math.atan2(e.y - m.y, e.x - m.x);
+    const ang0 = Math.atan2(m.y - f.y, m.x - f.x);
+    let da = ang - ang0; da = Math.atan2(Math.sin(da), Math.cos(da));
+    let kk = clamp(da / 28, -0.03, 0.03);
+    if (zig) { ang -= (kk >= 0 ? 1 : -1) * 0.55; kk = 0; }   /* the misread: straight on, off the curve */
+    const out = []; let x = e.x, y = e.y, d = 0; const step = 4;
+    const ok = (x, y) => x > 16 && x < W - 96 && y > (wide ? 104 : 96) && y < H - 60 && !nearText(x, y, 20);   /* clear of the floating nav */
+    while (d < len) {
+      ang += kk; kk *= 0.985;
+      let nx = x + Math.cos(ang) * step, ny = y + Math.sin(ang) * step;
+      if (!ok(nx, ny)) {                    /* an edge or the type ahead: bend away, whichever side is open */
+        if (d > len * 0.5) break;
+        let found = false;
+        for (let t = 1; t <= 8 && !found; t++) for (const sg of [1, -1]) {
+          const a2 = ang + sg * t * 0.3, tx = x + Math.cos(a2) * step * 6, ty = y + Math.sin(a2) * step * 6;
+          if (ok(tx, ty)) { ang = a2; kk = sg * Math.abs(kk); found = true; break; }
+        }
+        if (!found) break;
+        nx = x + Math.cos(ang) * step; ny = y + Math.sin(ang) * step;
+      }
+      x = nx; y = ny; d += step;
+      out.push([x, y]);
+    }
+    if (out.length < 14) return null;
+    const pth = mkPath((u) => out[Math.min(out.length - 1, Math.round(u * (out.length - 1)))], out.length - 1, () => BRUSH);
+    pth.pts.unshift({ x: e.x, y: e.y, d: 0, w: BRUSH }); pth.pts.forEach((p, i) => { if (i) p.d += Math.hypot(out[0][0] - e.x, out[0][1] - e.y); });
+    pth.L = pth.pts[pth.pts.length - 1].d;
+    return pth;
+  }
+  function claudeTurn(s) {
+    const outcome = PATTERN[turnN % PATTERN.length];
+    const len = clamp(s.len * 0.6, wide ? 130 : 90, wide ? 280 : 170);
+    const path = continuation(s, len, outcome === 'miss'); if (!path) return;
+    turnN++; claudeBusy = true;
+    const avgW = s.pts.reduce((a, p) => a + p.w, 0) / s.pts.length;
+    path.pts.forEach((p) => { p.w = avgW; });
+    const t = T + 0.18, G = 'turn', start = path.pts[0];
+    if (!cur.c.on) setOn('c', true);
+    const travel = clamp(Math.hypot(cur.c.x - start.x, cur.c.y - start.y) / 1400, 0.3, 0.7);
+    moveTo('c', t, travel, start, { arc: -0.12 }, G);
+    const dur = clamp(path.L / 360, 0.5, 0.9), t2 = t + travel;
+    if (outcome === 'help') {
+      const px = makePix(path, s.color, 'help', avgW * 0.55), sc = newStroke(s.color);
+      sc.pts = path.pts.map((p) => ({ ...p })); sc.len = path.L; px.target = sc;
+      pixDraw(t2, dur, px, G);
+      resolve(t2 + dur + 0.3, px, sc, G);
+      beat(t2 + dur + 0.3 + RES, 0, { start() { const f = T + 3; s.fadeAt = Math.max(s.fadeAt, f); sc.fadeAt = f; sc.fadeDur = s.fadeDur = 1.4; claudeBusy = false; } }, G);
+    } else {
+      const px = makePix(path, WRONG[s.color] || PAL.ultra, 'miss', avgW * 0.36);
+      pixDraw(t2, dur, px, G);
+      scatter(t2 + dur + 0.35, px, G);
+      beat(t2 + dur + 0.8, 0, { start() { claudeBusy = false; } }, G);
+    }
+  }
+
+  /* ── frame loop ── */
+  let running = false, inView = false, lastNow = 0, lastBoil = -1, lastPaint = -1;
+  function frame(now) {
+    if (!running) return;
+    const dt = Math.min(0.05, lastNow ? (now - lastNow) / 1000 : 0.016); lastNow = now; T += dt;
+    if (!visitor && T >= loopEnd) { loopK++; buildLoop(loopK, T); }
+    if (visitor) {
+      if (vStroke && T - vLast > 0.22) endVStroke();
+      if (pending && !claudeBusy) { const s = pending; pending = null; if (T < s.fadeAt - 0.5) claudeTurn(s); }
+      if (vPtr && !claudeBusy) {           /* between turns Claude keeps a polite distance */
+        const side = vPtr.x > W - 140 ? -1 : 1, k = 1 - Math.exp(-dt * 2.6);
+        let tx = vPtr.x + 72 * side, ty = vPtr.y + 52;
+        if (onType(tx, ty)) {                 /* never rest on the headline or CTAs: step out to the nearest side */
+          const o = [[textR.x - 120, ty], [textR.x + textR.w + 20, ty], [tx, textR.y - 60], [tx, textR.y + textR.h + 20]];
+          [tx, ty] = o.reduce((b, q) => (Math.hypot(q[0] - tx, q[1] - ty) < Math.hypot(b[0] - tx, b[1] - ty) ? q : b));
+        }
+        if (pathOnType(cur.c.x, cur.c.y, tx, ty)) {   /* changing sides: go round under the CTAs, not across the copy */
+          const below = textR.y + textR.h + 24;
+          if (cur.c.y < below - 4) { ty = below; tx = clamp(cur.c.x, textR.x - 110, textR.x + textR.w + 20); } else ty = below;
+        }
+        if (cur.c.on) { cur.c.x += (tx - cur.c.x) * k; cur.c.y += (ty - cur.c.y) * k; }
+      }
+      if (T - vInput > 6 && !claudeBusy && !vStroke && !beats.length) exitVisitor();
+    }
+    runBeats();
+    place();
+    /* paint redraws on stop-motion "twos" (15fps), the boil changes drawing at 10fps */
+    const v = Math.floor(T * 10) % 3;
+    if (T - lastPaint >= 1 / 15 - 0.004) {
+      const live = strokes.some((s) => !s.done || s.reveal < s.len || T > s.fadeAt);
+      if (live || v !== lastBoil) { drawPaint(v); lastBoil = v; lastPaint = T; }
+    }
+    strokes = strokes.filter((s) => { const gone = T > s.fadeAt + s.fadeDur; if (gone && s.scratch) s.scratch.owner = null; return !gone; });
+    if (pixes.length || pixDirty) { drawPix(); pixDirty = pixes.length > 0; }
+    requestAnimationFrame(frame);
+  }
+  let pixDirty = false;
+  function setRunning() {
+    const want = inView && !document.hidden && !RM;
+    if (want && !running) { running = true; lastNow = 0; requestAnimationFrame(frame); }
+    else if (!want) running = false;
+  }
+
+  /* ── sizing, reset, reduced motion ── */
+  let lastW = 0;
+  function measure() {
+    const r = hero.getBoundingClientRect();
+    W = r.width; H = r.height; heroTop = r.top + scrollY;
+    wide = W >= 900; CELL = wide ? 10 : 8; BRUSH = wide ? 32 : 22;
+    DPR = Math.min(devicePixelRatio || 1, 1.5, Math.sqrt(2.2e6 / (W * H)));   /* soft paint needs no retina buffer; caps fill cost */
+    for (const cv of [paintCv, pixCv]) { cv.width = Math.round(W * DPR); cv.height = Math.round(H * DPR); }
+    textR = textRect();
+    const st = hero.style;
+    st.setProperty('--hs-mx', `${(textR.x + textR.w / 2).toFixed(0)}px`); st.setProperty('--hs-my', `${(textR.y + textR.h / 2).toFixed(0)}px`);
+    st.setProperty('--hs-rx', `${(textR.w * 0.62 + 40).toFixed(0)}px`); st.setProperty('--hs-ry', `${(textR.h * 0.66 + 30).toFixed(0)}px`);
+  }
+  function reset(startAt) {
+    for (const s of strokes) if (s.scratch) s.scratch.owner = null;
+    strokes = []; pixes = []; beats = []; T = 0; loopK = 0; seedN = 1; visitor = false; vStroke = null; pending = null; claudeBusy = false;
+    setOn('d', false); setOn('c', false);
+    buildLoop(0, startAt);
+  }
+  function poster() {
+    /* The finished state: the same session, seeked to the park beat and drawn once */
+    reset(0);
+    for (T = 0; T < 11.4; T += 1 / 30) runBeats();
+    for (const px of pixes) px.cells.length = 0;
+    pixes = [];
+    for (const s of strokes) { s.done = true; s.reveal = Infinity; }
+    drawPaint(0); drawPix();
+    setOn('d', true); setOn('c', true); place();
+  }
+  function init() {
+    measure(); lastW = W;
+    if (RM) { poster(); return; }
+    reset(0.9);
+    place();
+    new IntersectionObserver(([e]) => { inView = e.isIntersecting; setRunning(); }).observe(hero);
+    document.addEventListener('visibilitychange', setRunning);
+    hero.addEventListener('pointermove', onMove, { passive: true });
+    hero.addEventListener('pointerdown', (e) => { if (e.pointerType === 'touch') onMove(e); }, { passive: true });
+    for (const t of ['pointerup', 'pointercancel', 'pointerleave']) hero.addEventListener(t, (e) => {
+      endVStroke();
+      if (visitor && (t === 'pointerleave' || e.pointerType === 'touch')) setOn('d', false);   /* tag leaves with the pointer or finger */
+    }, { passive: true });
+  }
+  let rz = 0;
+  addEventListener('resize', () => {
+    clearTimeout(rz);
+    rz = setTimeout(() => {
+      const w = hero.getBoundingClientRect().width;
+      measure();
+      if (RM) { poster(); return; }
+      if (Math.abs(w - lastW) > 40) { lastW = w; reset(0.2); }
+      else { for (const s of strokes) { s.cache = null; s.bb = null; } lastBoil = -1; }
+    }, 150);
+  });
+  addEventListener('scroll', () => { heroTop = hero.getBoundingClientRect().top + scrollY; }, { passive: true });
+  const go = () => { try { init(); } catch (e) { console.warn(e); } };
+  document.fonts && document.fonts.ready ? document.fonts.ready.then(go) : addEventListener('load', go);
+})();
+</script>
+<script>
+(function () {
+  /* Reveal on scroll */
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('is-visible'); io.unobserve(e.target); }
+    });
+  }, { rootMargin: '0px 0px -10% 0px' });
+  document.querySelectorAll('.nv-in').forEach((el) => {
+    const sib = [...el.parentElement.children].filter(c => c.classList.contains('nv-in'));
+    el.style.transitionDelay = (sib.indexOf(el) % 2) * 0.08 + 's';
+    io.observe(el);
+  });
+
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* The headline is never typed out: it rises in with the sub and CTAs (CSS), and the
+     two cursors in the hero session work around it, never on its words. */
+
+  /* Twinkling pixels: copies small blocks of the art to nearby cells and fades
+     them in and out. Uses drawImage only (no pixel reads), so it also works
+     when the page is opened straight from disk. */
+  function twinkle(wrap) {
+    const img = wrap.querySelector('img'), cv = wrap.querySelector('canvas');
+    const B = 14;
+    const start = () => {
+      const W = img.naturalWidth, H = img.naturalHeight;
+      cv.width = W; cv.height = H;
+      const ctx = cv.getContext('2d');
+      const live = [];
+      let visible = true;
+      new IntersectionObserver(([e]) => { visible = e.isIntersecting; if (visible) requestAnimationFrame(frame); }).observe(wrap);
+      const cols = Math.floor(W / B), rows = Math.floor(H / B);
+      function frame(t) {
+        if (!visible) return;
+        while (live.length < 90) {
+          const sx = ((Math.random() * cols) | 0) * B, sy = ((Math.random() * rows) | 0) * B;
+          const dx = ((Math.random() * 5) | 0) - 2, dy = ((Math.random() * 5) | 0) - 2;
+          const half = Math.random() < 0.4, s = half ? B / 2 : B;
+          live.push({ sx, sy, x: sx + dx * B, y: sy + dy * B, s, born: t, life: 800 + Math.random() * 1600 });
+        }
+        ctx.clearRect(0, 0, W, H);
+        for (let k = live.length - 1; k >= 0; k--) {
+          const q = live[k], age = (t - q.born) / q.life;
+          if (age >= 1) { live.splice(k, 1); continue; }
+          ctx.globalAlpha = Math.sin(age * Math.PI) * 0.85;
+          ctx.drawImage(img, q.sx, q.sy, q.s, q.s, q.x, q.y, q.s, q.s);
+        }
+        requestAnimationFrame(frame);
+      }
+      requestAnimationFrame(frame);
+    };
+    img.complete && img.naturalWidth ? start() : img.addEventListener('load', start);
+  }
+  if (!reduce) document.querySelectorAll('.nv-art-drift').forEach(w => { try { twinkle(w); } catch (e) { console.warn(e); } });
+
+  /* Pixel wordmark in the footer */
+  const wm = document.querySelector('.nv-wordmark');
+  if (wm) {
+    const word = wm.querySelector('.nv-wordmark-text').textContent;
+    const cv = document.createElement('canvas');
+    const W = 1200, H = 300, B = 8;
+    cv.width = W; cv.height = H; wm.insertBefore(cv, wm.firstChild);
+    const off = document.createElement('canvas'); off.width = W; off.height = H;
+    const ox = off.getContext('2d');
+    const draw = () => {
+      ox.clearRect(0, 0, W, H);
+      ox.fillStyle = '#000';
+      ox.font = '700 290px ' + getComputedStyle(document.body).fontFamily;
+      ox.textAlign = 'center'; ox.textBaseline = 'alphabetic';
+      ox.fillText(word, W / 2, H + 34);
+      const d = ox.getImageData(0, 0, W, H).data;
+      const ctx = cv.getContext('2d');
+      const cells = [];
+      for (let y = 0; y < H; y += B) for (let x = 0; x < W; x += B) {
+        if (d[((y + B / 2) * W + x + B / 2) * 4 + 3] > 128) cells.push([x, y]);
+      }
+      const paint = (t) => {
+        ctx.clearRect(0, 0, W, H);
+        for (const [x, y] of cells) {
+          const fade = Math.pow(y / H, 2.2);        // dissolve grows toward the bottom
+          const n = Math.sin(x * 12.9898 + y * 78.233) * 43758.5453 % 1;
+          const flick = reduce ? 0 : Math.sin(t / 900 + x * 0.05 + y * 0.09) * 0.12;
+          if (Math.abs(n) < fade * 0.7 + flick * fade) continue;
+          ctx.fillStyle = Math.abs(n) > 0.85 ? '#D6D3D1' : '#E7E5E4';
+          ctx.fillRect(x, y, B - 1, B - 1);
+        }
+      };
+      if (reduce) { paint(0); return; }
+      let vis = false;
+      new IntersectionObserver(([e]) => { vis = e.isIntersecting; if (vis) requestAnimationFrame(loop); }).observe(wm);
+      let last = 0;
+      function loop(t) { if (!vis) return; if (t - last > 120) { paint(t); last = t; } requestAnimationFrame(loop); }
+      paint(0);
+    };
+    document.fonts.ready.then(() => { try { draw(); } catch (e) { console.warn(e); } });
+  }
+
+  /* Data chart bars */
+  const chart = document.getElementById('nv-chart');
+  if (chart) {
+    const heights = [38, 46, 41, 55, 49, 60, 52, 64, 58, 70, 62, 74, 68, 92, 80];
+    heights.forEach((h, i) => {
+      const b = document.createElement('span');
+      b.className = 'nv-bar';
+      b.style.height = h + '%';
+      b.style.setProperty('--i', i);
+      if (h === 92) b.classList.add('on');
+      chart.appendChild(b);
+    });
+    // Live: a new bar arrives every 1.4s, the newest is highlighted
+    if (!reduce) {
+      let vis = false;
+      new IntersectionObserver(([e]) => { vis = e.isIntersecting; }).observe(chart);
+      setInterval(() => {
+        if (!vis) return;
+        const bars = chart.querySelectorAll('.nv-bar');
+        const prev = parseFloat(bars[bars.length - 1].style.height);
+        const h = Math.max(30, Math.min(96, prev + (Math.random() - 0.45) * 22));
+        bars[0].remove();
+        bars.forEach(b => b.classList.remove('on', 'is-new'));
+        const b = document.createElement('span');
+        b.className = 'nv-bar on is-new';
+        b.style.height = h.toFixed(0) + '%';
+        chart.appendChild(b);
+      }, 1400);
+    }
+  }
+})();
+</script>
+<script>
+/* Scroll motion for Showcase ("the window opens") and Process ("the wave").
+   One rAF loop, positions cached in page coordinates (no layout reads while scrolling),
+   values eased toward their scroll target so every move glides to rest. */
+(() => {
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const clamp = (v) => Math.max(0, Math.min(1, v));
+  const easeOut = (t) => 1 - Math.pow(1 - t, 3);
+  const narrow = () => innerWidth <= 768;
+  const items = [];   // { el, top, target(vh, scrollY), apply(progress), cur }
+
+  /* ── Showcase: card + text arrive once; media opens with scroll ── */
+  const T = { text: 220, textStep: 70 };
+  // The agent clip holds a closed laptop for its first 0.6s. Its first play is cued just before
+  // the lid lifts and starts as the window opens, so the laptop opens as it arrives.
+  const VIDEO_CUE = 0.5;
+  const decode = (el) => (el.decode ? el.decode().catch(() => {}) : Promise.resolve());
+
+  document.querySelectorAll('#showcase .sc-card').forEach((card) => {
+    const media = [];
+    const video = card.querySelector('video');
+    let prepared = false, t0 = 0;
+    if (video) video.dataset.hold = '1';
+    let videoStarted = false;
+    function startVideo() {
+      if (videoStarted) return; videoStarted = true; delete video.dataset.hold;
+      const r = video.getBoundingClientRect();
+      if (r.bottom > 0 && r.top < innerHeight) video.play().catch(() => {});  // else the loop observer plays it on return
+    }
+
+    function prepare() {
+      if (prepared) return; prepared = true;
+      card.querySelectorAll('.sc-win-in').forEach((el) => {
+        if (el.tagName === 'IMG') { el.loading = 'eager'; media.push(decode(el)); }
+      });
+      if (video) media.push(new Promise((res) => {
+        if (video.readyState >= 2) return res();
+        video.addEventListener('loadeddata', res, { once: true });
+        video.preload = 'auto'; video.load();
+        setTimeout(res, 4000);
+      }).then(() => {
+        // Show the closed laptop rather than the finished poster, so playback has no jump
+        if (!t0 && video.readyState >= 2) { video.currentTime = VIDEO_CUE; video.removeAttribute('poster'); }
+      }));
+    }
+
+    // Text: long soft fade, one item after another. On tall (mobile) cards each item waits until it is on screen.
+    const texts = [...card.querySelectorAll('.sc-b')].map((el, i) => ({ el, at: T.text + i * T.textStep }));
+    const fire = (b) => {
+      if (b.fired || !t0 || !b.vis) return; b.fired = true;
+      setTimeout(() => b.el.classList.add('is-in'), Math.max(0, t0 + b.at - performance.now()));
+    };
+    function start() {
+      prepare();
+      const go = () => {
+        if (t0) return; t0 = performance.now(); card.classList.add('is-in'); texts.forEach(fire);
+        items.forEach((it) => { it.shown = undefined; }); kick();   // let an already-open window start its video
+        if (video) setTimeout(startVideo, 900);                       // never hold a still laptop for long
+      };
+      Promise.all(media).then(go); setTimeout(go, 1200);   // never land with half-decoded media, never wait long
+    }
+    new IntersectionObserver(([e], o) => { if (e.isIntersecting) { prepare(); o.disconnect(); } },
+      { rootMargin: '0px 0px 900px 0px' }).observe(card);
+    new IntersectionObserver(([e], o) => { if (e.isIntersecting) { start(); o.disconnect(); } },
+      { rootMargin: '0px 0px -12% 0px' }).observe(card);
+    const tio = new IntersectionObserver((es) => es.forEach((e) => {
+      if (!e.isIntersecting) return;
+      const b = texts.find((x) => x.el === e.target); b.vis = true; tio.unobserve(e.target); fire(b);
+    }), { rootMargin: '0px 0px -8% 0px' });
+    texts.forEach((b) => tio.observe(b.el));
+
+    // Aperture: opens from when the frame's top crosses 95% of the viewport (as the card arrives)
+    // until it reaches 20%, so the opening plays out across the reading zone
+    card.querySelectorAll('.sc-win').forEach((win) => {
+      const inner = win.querySelector('.sc-win-in');
+      let played = !video || !win.contains(video);
+      items.push({
+        el: win,
+        target(vh, y) { return clamp((y + vh * 0.95 - this.top) / (vh * 0.75)); },
+        apply(v) {
+          const e = 1 - (1 - v) * (1 - v), [f0, i0] = narrow() ? [0.9, 1.12] : [0.8, 1.25];
+          win.style.setProperty('--w', (f0 + (1 - f0) * e).toFixed(4));
+          inner.style.setProperty('--wi', (i0 + (1 - i0) * e).toFixed(4));
+          if (!played && e > 0.6 && t0) { played = true; startVideo(); }
+        },
+      });
+    });
+  });
+
+  /* ── Process: the grid lifts in a wave, right column trailing the left ── */
+  const proc = [...document.querySelectorAll('#process .pr-card')];
+  proc.forEach((card) => {
+    items.push({
+      el: card,
+      lag() { return !narrow() && card.offsetLeft > card.parentElement.offsetLeft + 40 ? 0.3 : 0; },
+      target(vh, y) { return clamp((y + vh - this.top) / (vh * (narrow() ? 0.45 : 0.55)) - this.lagV); },
+      apply(v) { card.style.setProperty('--pe', easeOut(v).toFixed(4)); },
+    });
+  });
+
+  /* ── Engine ── */
+  function measure() {
+    items.forEach((it) => {
+      // Measure the untransformed box: offset chain is unaffected by transforms
+      let top = 0, n = it.el; while (n) { top += n.offsetTop; n = n.offsetParent; }
+      it.top = top; it.lagV = it.lag ? it.lag() : 0;
+    });
+  }
+  measure();
+  let last = 0, running = false;
+  function frame(t) {
+    const dt = last ? Math.min(64, t - last) : 16.7; last = t;
+    const vh = innerHeight, y = scrollY;
+    const k = 1 - Math.pow(1 - 0.12, dt / 16.7);   // smoothing, frame-rate independent
+    let moving = false;
+    items.forEach((it) => {
+      const tg = it.target(vh, y);
+      if (it.cur === undefined) it.cur = tg;
+      const d = tg - it.cur;
+      if (Math.abs(d) > 0.0005) { it.cur += d * k; moving = true; } else it.cur = tg;
+      if (it.cur !== it.shown) { it.apply(it.cur); it.shown = it.cur; }
+    });
+    if (moving) requestAnimationFrame(frame); else { running = false; last = 0; }
+  }
+  const kick = () => { if (!running) { running = true; requestAnimationFrame(frame); } };
+  addEventListener('scroll', kick, { passive: true });
+  addEventListener('resize', () => { measure(); kick(); }, { passive: true });
+  new ResizeObserver(() => { measure(); kick(); }).observe(document.body);
+  kick();
+})();
+</script>
+<script>
+/* Showcase, two compact case studies: a scroll-scrubbed build (see "Scroll build" in the CSS).
+   One rAF-throttled scroll handler, paused while the section is off screen. Card positions are
+   cached from untransformed offsets, so scrolling reads no layout. The agent's film preloads near
+   view and starts on its launch frame (the loop observer below plays it in view).
+   Reduced motion: static resting layout, posters, no playback. */
+(() => {
+  const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const grid = document.querySelector('#showcase .e-grid');
+  if (!grid) return;
+  document.querySelectorAll('#showcase .e-film video').forEach((v) => {
+    if (RM) return;
+    new IntersectionObserver(([e], o) => {
+      if (!e.isIntersecting) return; o.disconnect();
+      v.preload = 'auto'; v.load();
+      v.addEventListener('loadeddata', () => { v.currentTime = 0; v.removeAttribute('poster'); }, { once: true });
+    }, { rootMargin: '0px 0px 900px 0px' }).observe(v);
+  });
+  if (RM) return;
+
+  const clamp = (v) => Math.max(0, Math.min(1, v));
+  const ease = (t) => 1 - Math.pow(1 - t, 3);                       // land softly on the resting layout
+  const seg = (t, a, b) => clamp((t - a) / (b - a));
+
+  // Extra Life Mart: slice the one image into five clipped copies (the original is slice 0)
+  const shot = grid.querySelector('.e-shot'), img = shot && shot.querySelector('.e-img');
+  const slices = [];
+  if (img) {
+    img.loading = 'eager';
+    for (let i = 0; i < 5; i++) {
+      const el = i ? img.cloneNode() : img;
+      if (i) { el.alt = ''; el.setAttribute('aria-hidden', 'true'); el.classList.add('e-slice'); shot.appendChild(el); }
+      el.style.clipPath = `inset(0 ${100 - (i + 1) * 20}% 0 ${i * 20}%)`;
+      slices.push(el);
+    }
+  }
+
+  const cards = [...grid.querySelectorAll('.e-case')].map((c) => ({
+    c, ag: c.classList.contains('e-case--ag'),
+    win: c.querySelector('.e-film, .e-shot'), cap: c.querySelector('.e-cap'), vid: c.querySelector('.e-vid'),
+  }));
+  let geo = { vh: 0 }, active = false, queued = false;
+  const offTop = (n) => { let t = 0; while (n) { t += n.offsetTop; n = n.offsetParent; } return t; };
+  const offLeft = (n) => { let l = 0; while (n) { l += n.offsetLeft; n = n.offsetParent; } return l; };
+  function measure() {
+    const vh = innerHeight, vw = document.documentElement.clientWidth, narrow = innerWidth <= 900;
+    const first = cards[0].c, last = cards[cards.length - 1].c;
+    const pTop = offTop(first), pH = offTop(last) + last.offsetHeight - pTop;
+    const restTop = Math.max(24, (vh - pH) / 2);                    // where the pair sits when centred
+    cards.forEach((k) => {
+      const top = offTop(k.c);
+      k.start = top - vh;                                           // scrollY when the card's top enters
+      k.end = Math.max(k.start + vh * 0.35, top - (restTop + top - pTop));   // scrollY when it reaches its resting spot
+      const wl = offLeft(k.win), wr = vw - (wl + k.win.offsetWidth);
+      const cl = offLeft(k.cap), cr = vw - (cl + k.cap.offsetWidth);
+      const room = (side) => Math.max(0, side - 8);                 // never past the page edge
+      k.winX = Math.min(narrow ? 40 : 160, room(k.ag ? wl : wr)) * (k.ag ? -1 : 1);
+      k.capX = Math.min(narrow ? 24 : 96, room(k.ag ? cr : cl)) * (k.ag ? 1 : -1);
+      k.rise = narrow ? 48 : 110; k.s0 = narrow ? 0.95 : 0.9; k.rot = narrow ? 2 : 4;
+    });
+  }
+  function update() {
+    queued = false;
+    const y = scrollY;
+    cards.forEach((k) => {
+      const t = clamp((y - k.start) / (k.end - k.start));
+      const eC = ease(seg(t, 0, 0.8)), eW = ease(seg(t, 0.05, 0.9)), eT = ease(seg(t, 0.2, 1)), eI = ease(seg(t, 0.1, 1));
+      k.c.style.transform = `translate3d(0, ${((1 - eC) * k.rise).toFixed(2)}px, 0) scale(${(k.s0 + (1 - k.s0) * eC).toFixed(4)})`;
+      k.c.style.opacity = (0.15 + 0.85 * seg(t, 0, 0.45)).toFixed(3);
+      k.win.style.transform = `translate3d(${((1 - eW) * k.winX).toFixed(2)}px, 0, 0) rotate(${((1 - eW) * k.rot * Math.sign(k.winX)).toFixed(3)}deg)`;
+      k.cap.style.transform = `translate3d(${((1 - eT) * k.capX).toFixed(2)}px, 0, 0)`;
+      k.cap.style.opacity = seg(t, 0.2, 0.75).toFixed(3);
+      if (k.vid) k.vid.style.transform = `scale(${(1.25 - 0.25 * eI).toFixed(4)})`;
+      else slices.forEach((el, i) => {                              // screens rise in one after another
+        const e = ease(seg(t, 0.25 + i * 0.1, 0.6 + i * 0.1));
+        el.style.transform = `translate3d(0, ${((1 - e) * 115).toFixed(2)}%, 0)`;
+      });
+    });
+  }
+  const queue = () => { if (active && !queued) { queued = true; requestAnimationFrame(update); } };
+  new IntersectionObserver(([e]) => { active = e.isIntersecting; queue(); }, { rootMargin: '200px 0px' }).observe(grid);
+  addEventListener('scroll', queue, { passive: true });
+  addEventListener('resize', () => { measure(); queue(); }, { passive: true });
+  new ResizeObserver(() => { measure(); queue(); }).observe(document.body);
+  measure(); active = true; update();
+})();
+</script>
+<script>
+/* Loop videos: play only when visible and motion is allowed, otherwise show the poster */
+(() => {
+  const vids = document.querySelectorAll(".js-loop-video");
+  if (!vids.length || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (e.isIntersecting) { if (!e.target.dataset.hold) e.target.play().catch(() => {}); }
+      else e.target.pause();
+    });
+  }, { threshold: 0.25 });
+  vids.forEach((v) => io.observe(v));
+})();
+</script>
+
+<!-- ════════ TOOLS STICKERS: flat logos at rest; the hovered one becomes a die-cut 3D sticker (three.js) ════════ -->
+<script type="module">
+(() => {
+  const sec = document.querySelector('.nv-tools');
+  const stage = sec && sec.querySelector('.tt-stage');
+  if (!stage) return;
+  const items = [...stage.querySelectorAll('.tt-item')];
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const glOK = (() => { try { return !!document.createElement('canvas').getContext('webgl2'); } catch (e) { return false; } })();
+  if (reduce || !glOK || new URLSearchParams(location.search).has('ttstatic')) return; // flat logos only
+
+  const ASSETS = 'images/ai/tools/sticker/';
+  const THREE_URL = 'https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.min.js';
+  // Shared with the Blender build (work/ai-page-tools-tiles/sticker/build_stickers.py). 1 unit = slot width.
+  const T = 0.10;                                   // sticker thickness: ~5px edge at 48px
+  const BF = 0.036, SF = 6, BB = 0.010, SB = 2;     // front round bevel (~2px rim highlight), back bevel
+  const BORDER = 0.08;                              // white die-cut border beyond the mark (outlines.py)
+  const COLS = 4, ROWS = 2;                          // print atlas grid (7 cells used)
+  const HIT_PAD = 8;                                 // css px around the slot: a 68px hover target for a 48px mark
+  const H_MID = 0.085, H_LIFT = 0.26, H_HOVER = 0.24; // gap under the sticker; masks baked at 0, H_MID, H_LIFT
+  const MASK = 2.2;                                  // shadow mask extent (slot widths)
+  const KEY = [-0.42, 0.78, 1.0];                    // direction to the key light (top-left, front)
+  const VIEW = 14 * Math.PI / 180;                   // a lifted sticker is seen from a little below: its bottom edge reads
+  const DIST = 6;                                    // camera distance in slot widths (gentle perspective)
+  // Calibrated against the brand colours: a lit face renders paper white, marks within a few levels of their official values
+  const KEY_I = 2.25, HEMI_I = 1.0, ENV_I = 0.12, BOUNCE_I = 1.6, SPEC = 0.4;
+  const BLEED = 150;                                 // canvas bleed (css px): room for stickers dropping in from above
+  const VIEWN = 6;                                   // each sticker's viewport, in slot widths (fits the fly-in path)
+  const TILT_HOVER = 0.30;                           // max tilt (rad, ~17°) toward the pointer
+  const TAP_MS = 650;                                // touch: a tap turns the mark into a sticker this long, then it settles
+  // The transformation, driven by one spring m (0 = flat logo, 1 = lifted sticker):
+  //   0 to 0.10   the 3D print fades in over the flat logo (same mark, same pixels), then the logo hides
+  //   0 to 0.55   the white border grows out from behind the mark to its full die-cut line
+  //   0.12 to 1   depth arrives as it rises: thickness, bevel, lift, the camera's low angle, shadow, tilt
+  const SWAP = 0.10, GROW = 0.55, RISE = 0.12;
+
+  // Entrance, anchored to scroll and repeatable. Strip progress p runs from 0 (the strip's centre at the
+  // bottom of the viewport) to 1 (its centre at the middle of the viewport), so every sticker has fully
+  // landed by mid-viewport, however fast the page moves. Each sticker plays across its own long slice of p
+  // (45% of the range, offset left to right), so neighbours overlap and the row moves like a wave.
+  // A light per-frame follow (~0.12) smooths wheel steps; scrolling up rewinds against the same mapping.
+  //   q 0 to 0.15   fades in, a little above its slot
+  //   q 0 to 0.8    settles down ~45px (30px on mobile) with a gentle 135° turn about Y and a slight tip,
+  //                 ease-in-out, coming down to the page
+  //   q 0.8 to 1    border and depth settle into the bare mark; its name fades in
+  const IN = { slice: 0.45, fade: 0.15, land: 0.8, drop: 45, dropM: 30, fan: 0.1, lift: 0.45,
+               turn: 0.75 * Math.PI, tip: 0.3, follow: 0.12 };  // max progress per second · follow gain · neighbour lag (~125ms)
+
+  // The flat marks stay hidden until their sticker lands on them
+  // (if WebGL fails they are shown at once).
+  sec.classList.add('tt-live');
+  const showMarks = () => items.forEach((li) => li.classList.add('is-in'));
+  const fail = (e) => { console.warn('[tools stickers] flat logos only', e); showMarks(); };
+  const lazy = new IntersectionObserver((es) => {
+    if (es.some((e) => e.isIntersecting)) { lazy.disconnect(); init().catch(fail); }
+  }, { rootMargin: '600px 0px' });
+  lazy.observe(stage);
+
+  const clamp01 = (x) => Math.min(1, Math.max(0, x));
+  const smooth = (x) => { x = clamp01(x); return x * x * (3 - 2 * x); };
+  const easeOutCubic = (x) => { x = clamp01(x); return 1 - (1 - x) ** 3; };
+
+  // A sticker whose border and depth can grow. Same rings as build_stickers.py at full growth; at
+  // grow 0 / depth 0 it is a zero-thickness plate hugging the mark (the outline pulled in by BORDER).
+  function sticker(THREE, P) {
+    const n = P.length, N = [];
+    for (let i = 0; i < n; i++) {
+      const a = P[(i + n - 1) % n], b = P[i], c = P[(i + 1) % n];
+      const e1x = b[1] - a[1], e1y = a[0] - b[0], e2x = c[1] - b[1], e2y = b[0] - c[0];
+      const l1 = Math.hypot(e1x, e1y), l2 = Math.hypot(e2x, e2y);
+      const nx = e1x / l1 + e2x / l2, ny = e1y / l1 + e2y / l2, l = Math.hypot(nx, ny);
+      N.push([nx / l, ny / l]);
+    }
+    const phis = [];
+    for (let k = 0; k <= SB; k++) phis.push([0, -Math.PI / 2 + (Math.PI / 2) * k / SB]);
+    for (let k = 0; k <= SF; k++) phis.push([1, (Math.PI / 2) * k / SF]);
+    const R = phis.length, V = R * n + 2 * n;
+    const pos = new Float32Array(V * 3), nor = new Float32Array(V * 3), uv = new Float32Array(V * 2), idx = [];
+    for (let r = 0; r < R - 1; r++) for (let i = 0; i < n; i++) {
+      const j = (i + 1) % n, a = r * n + i, b = r * n + j, c = (r + 1) * n + j, d = (r + 1) * n + i;
+      idx.push(a, b, c, a, c, d);
+    }
+    // caps: triangulated once on the full cut line, reused at every growth stage
+    const tri = THREE.ShapeUtils.triangulateShape(P.map((p) => new THREE.Vector2(p[0], p[1])), []);
+    const back = R * n, front = R * n + n;
+    for (const f of tri) { idx.push(front + f[0], front + f[1], front + f[2]); idx.push(back + f[0], back + f[2], back + f[1]); }
+    const g = new THREE.BufferGeometry();
+    g.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+    g.setAttribute('normal', new THREE.BufferAttribute(nor, 3));
+    g.setAttribute('uv', new THREE.BufferAttribute(uv, 2));
+    g.setIndex(idx);
+    let last = '';
+    // grow: border 0..1, depth: thickness/bevel 0..1
+    g.shape = (grow, depth) => {
+      const key = grow.toFixed(4) + depth.toFixed(4);
+      if (key === last) return; last = key;
+      const pull = BORDER * (1 - grow) * 0.97;            // stop just short of the cusp at sharp mark tips
+      const t = T * depth, bf = BF * depth, bb = BB * depth, half = t / 2;
+      const set = (v, x, y, z, nx, ny, nz) => {
+        pos[v * 3] = x; pos[v * 3 + 1] = y; pos[v * 3 + 2] = z - half;
+        // flat plate: normals lean to +Z, so a thin sticker never shades like a thick one
+        const mx = nx * depth, my = ny * depth, mz = nz * depth + (1 - depth), ml = Math.hypot(mx, my, mz) || 1;
+        nor[v * 3] = mx / ml; nor[v * 3 + 1] = my / ml; nor[v * 3 + 2] = mz / ml;
+        uv[v * 2] = x + 0.5; uv[v * 2 + 1] = 0.5 - y;
+      };
+      for (let r = 0; r < R; r++) {
+        const [front, p] = phis[r];
+        const ins = pull + (front ? bf * (1 - Math.cos(p)) : bb * (1 - Math.cos(p)));
+        const z = front ? t - bf + bf * Math.sin(p) : bb * (1 + Math.sin(p));
+        const c = Math.cos(p), s = Math.sin(p);
+        for (let i = 0; i < n; i++) set(r * n + i, P[i][0] - N[i][0] * ins, P[i][1] - N[i][1] * ins, z, N[i][0] * c, N[i][1] * c, s);
+      }
+      for (let i = 0; i < n; i++) {
+        const b0 = i * 3, f0 = ((R - 1) * n + i) * 3;
+        set(back + i, pos[b0], pos[b0 + 1], pos[b0 + 2] + half, 0, 0, -1);
+        uv[(back + i) * 2] = uv[(back + i) * 2 + 1] = 0.02;   // the back is plain white backing (a white corner of the cell)
+        set(front + i, pos[f0], pos[f0 + 1], pos[f0 + 2] + half, 0, 0, 1);
+      }
+      g.attributes.position.needsUpdate = g.attributes.normal.needsUpdate = g.attributes.uv.needsUpdate = true;
+    };
+    return g;
+  }
+  const loadTex = (THREE, url) => new Promise((res, rej) => new THREE.TextureLoader().load(url, res, undefined, rej));
+
+  async function init() {
+    const THREE = await import(THREE_URL);
+    const [cut, logos, masks] = await Promise.all([
+      fetch(ASSETS + 'outlines.json').then((r) => r.json()),
+      loadTex(THREE, ASSETS + 'sticker-logos.webp'),
+      loadTex(THREE, ASSETS + 'sticker-shadows.webp'),
+    ]);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'low-power' });
+    renderer.setClearColor(0x000000, 0);
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    renderer.toneMapping = THREE.NoToneMapping;     // a filmic curve turns the marks pastel
+    renderer.autoClear = false;
+    const canvas = renderer.domElement;
+    canvas.className = 'tt-canvas';
+    canvas.setAttribute('aria-hidden', 'true');
+    canvas.style.left = canvas.style.top = -BLEED + 'px';
+    stage.appendChild(canvas);
+
+    // Soft studio environment for the satin highlight that slides along the bevel as the sticker tilts
+    const pm = new THREE.PMREMGenerator(renderer);
+    const envScene = new THREE.Scene();
+    envScene.add(new THREE.Mesh(new THREE.BoxGeometry(20, 20, 20), new THREE.MeshBasicMaterial({ color: new THREE.Color(0.55, 0.54, 0.53), side: THREE.BackSide })));
+    const kd = new THREE.Vector3(...KEY).normalize();
+    const panel = new THREE.Mesh(new THREE.PlaneGeometry(7, 7), new THREE.MeshBasicMaterial({ color: new THREE.Color(5, 4.9, 4.7) }));
+    panel.position.copy(kd).multiplyScalar(8); panel.lookAt(0, 0, 0); envScene.add(panel);
+    const envMap = pm.fromScene(envScene, 0.04).texture;
+    pm.dispose();
+
+    logos.colorSpace = THREE.SRGBColorSpace;
+    logos.flipY = false;
+    logos.anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy());
+    masks.colorSpace = THREE.NoColorSpace;
+
+    const shadowMat = (i) => new THREE.ShaderMaterial({
+      transparent: true, depthWrite: false,
+      uniforms: { map: { value: masks }, w: { value: new THREE.Vector3(1, 0, 0) }, k: { value: 0.3 }, fade: { value: 0 }, row: { value: i } },
+      vertexShader: 'varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }',
+      fragmentShader: `uniform sampler2D map; uniform vec3 w; uniform float k; uniform float fade; uniform float row; varying vec2 vUv;
+        void main(){
+          // atlas: one row per sticker (top = first), columns flat / mid / lift
+          vec2 u = vec2(vUv.x / 3.0, 1.0 - (row + 1.0 - vUv.y) / ${cut.tiles.length}.0);
+          float a = texture2D(map, u).r * w.x + texture2D(map, u + vec2(1.0/3.0, 0.0)).r * w.y + texture2D(map, u + vec2(2.0/3.0, 0.0)).r * w.z;
+          vec2 e = min(vUv, 1.0 - vUv);
+          a *= smoothstep(0.0, 0.16, min(e.x, e.y));
+          gl_FragColor = vec4(0.110, 0.098, 0.090, clamp(a * k * fade, 0.0, 1.0));   // warm ink #1C1917
+        }`,
+    });
+    const shadowGeo = new THREE.PlaneGeometry(MASK, MASK);
+
+    const tiles = items.map((li, i) => {
+      const f = cut.tiles[i].p, P = [];
+      for (let k = 0; k < f.length; k += 2) P.push([f[k] / 1000, f[k + 1] / 1000]);   // thousandths of the slot
+      const geo = sticker(THREE, P);
+      const map = logos.clone();
+      map.repeat.set(1 / COLS, 1 / ROWS);
+      map.offset.set((i % COLS) / COLS, Math.floor(i / COLS) / ROWS);
+      map.needsUpdate = true;
+      const mat = new THREE.MeshPhysicalMaterial({ map, roughness: 0.55, metalness: 0, specularIntensity: SPEC, envMap, envMapIntensity: ENV_I, transparent: true });
+      const mesh = new THREE.Mesh(geo, mat);
+      const sh = new THREE.Mesh(shadowGeo, shadowMat(i));
+      // each sticker has its own little scene and camera, drawn into its own scissored viewport
+      const scene = new THREE.Scene();
+      const key = new THREE.DirectionalLight(0xffffff, KEY_I); key.position.copy(kd);
+      const bounce = new THREE.DirectionalLight(0xfaf6f0, BOUNCE_I); bounce.position.set(0, -1, 0.15);
+      scene.add(key, bounce, new THREE.HemisphereLight(0xffffff, 0xf6f3ee, HEMI_I), mesh, sh);
+      const camera = new THREE.PerspectiveCamera(20, 1, 1, 10000);
+      const spring = () => ({ x: 0, v: 0, t: 0 });
+      return { li, slot: li.querySelector('.tt-slot'), flatEls: [...li.querySelectorAll('.tt-mark')], name: li.querySelector('.tt-name'), mesh, sh, mat, scene, camera,
+        cx: 0, cy: 0, s: 1, m: spring(), rx: spring(), ry: spring(), press: spring(), flat: true, q: 1, qt: 1, col: 0, mid: 0 };
+    });
+
+    // ── layout: stickers mirror the DOM slots (CSS owns the responsive row) ──
+    let cw = 0, ch = 0, mobile = false;
+    const order = [];                                  // stickers left to right, row by row
+    const mq = matchMedia('(max-width: 760px)');
+    function layout() {
+      mobile = mq.matches;
+      const sr = stage.getBoundingClientRect();
+      cw = sr.width + BLEED * 2; ch = sr.height + BLEED * 2;
+      // cap the drawing buffer by pixels as well as DPR
+      const dpr = Math.min(window.devicePixelRatio || 1, 2, Math.sqrt(2.4e6 / (cw * ch)));
+      renderer.setPixelRatio(dpr);
+      renderer.setSize(cw, ch, false);
+      canvas.style.width = cw + 'px'; canvas.style.height = ch + 'px';
+      for (const t of tiles) {
+        const r = t.slot.getBoundingClientRect();
+        t.s = r.width;
+        t.cx = r.left + r.width / 2 - sr.left;
+        t.cy = r.top + r.height / 2 - sr.top;
+      }
+      // rows (4 + 3 on mobile): each sticker's column in its row and its offset from the row's centre
+      const rows = new Map();
+      for (const t of tiles) { const k = Math.round(t.cy); rows.set(k, [...(rows.get(k) || []), t]); }
+      order.length = 0;
+      for (const row of [...rows.entries()].sort((a, b) => a[0] - b[0]).map((e) => e[1]))
+        row.sort((a, b) => a.cx - b.cx).forEach((t, c, r) => { t.col = c; t.mid = c - (r.length - 1) / 2; t.rowLen = r.length; order.push(t); });
+      progress(true);
+      draw();
+    }
+
+    // ── state → scene (per sticker: slot centre at the origin, page at z = 0, css px units) ──
+    let clock = 0;
+    function place(t) {
+      const s = t.s, m = Math.max(0, t.m.x), press = clamp01(t.press.x);
+      let op = clamp01(m / SWAP);
+      let grow = easeOutCubic(m / GROW);
+      const rise = Math.max(0, (m - RISE) / (1 - RISE));       // may overshoot above 1: the springy top of the lift
+      let depth = smooth(rise);
+      let h = H_HOVER * rise;
+      h -= h * press;                                         // press pushes it back down flat
+      let free = clamp01(h / H_HOVER);                        // tilt only as far as it has risen
+      let spin = 0;
+      let ox = 0, oy = 0, tip = 0;
+      if (t.q < 1) {
+        // scroll-scrubbed entrance (see IN): override the hover state completely
+        const q = t.q;
+        if (q <= 0) return false;                              // not arrived: nothing drawn, flat mark hidden
+        const f = clamp01(q / IN.land), away = 1 - smooth(f);   // ease-in-out
+        const r = clamp01((q - IN.land) / (1 - IN.land));     // settle phase
+        op = smooth(q / IN.fade) * (1 - smooth((r - 0.8) / 0.2));   // fades off over the bare mark at the very end
+        oy = (mobile ? IN.dropM : IN.drop) / s * away;         // settling down from just above (slot units, up)
+        ox = t.mid * IN.fan * away;                            // the faintest fan from the row's centre
+        h = IN.lift * away * away;
+        spin = -IN.turn * away;                                // a soft 135° turn, unwinding as it lands
+        tip = IN.tip * away;                                   // tipped back a little, levels as it lands
+        depth = 1 - smooth(r);
+        grow = 1 - smooth(r);
+        free = 0;
+      }
+      t.mesh.geometry.shape(grow, depth);
+      const scale = s * (1 + 0.06 * depth - 0.03 * press);
+      t.mesh.position.set(ox * s, oy * s, (h + T * depth / 2) * s);
+      t.mesh.scale.setScalar(scale);
+      t.mesh.rotation.set(t.rx.x * free + tip, t.ry.x * free + spin, 0, 'YXZ');
+      // the shadow lies on the page under the sticker, offset down-right by the key light as it rises
+      t.sh.position.set((ox - t.ry.x * free * 0.05 + h * 0.25) * s, (oy + t.rx.x * free * 0.05 - h * 0.35) * s, 0);
+      t.sh.scale.setScalar(scale);
+      t.sh.scale.x = scale * Math.max(0.12, Math.abs(Math.cos(spin)));   // the shadow narrows as the sticker turns edge-on
+      const w = t.sh.material.uniforms.w.value;
+      if (h <= H_MID) { const k = Math.max(0, h / H_MID); w.set(1 - k, k, 0); }
+      else { const k = Math.min(1, (h - H_MID) / (H_LIFT - H_MID)); w.set(0, 1 - k, k); }
+      t.sh.material.uniforms.fade.value = depth * grow * op * op * op * (1 - 0.6 * clamp01((h - H_LIFT) / 0.6));   // no shadow while flat; it lags the fade-in, softens when high
+      t.mat.opacity = op;
+      // camera: straight on while flat (the 3D print lands exactly on the flat logo), easing to a low
+      // three-quarter view as depth arrives so the edge band reads under the lifted sticker
+      const v = VIEW * Math.min(1, depth), d = DIST * s, zf = T * Math.min(1, depth) * s;
+      t.camera.position.set(0, -Math.sin(v) * d, zf + Math.cos(v) * d);
+      t.camera.lookAt(0, 0, zf);
+      t.camera.fov = 2 * Math.atan((VIEWN * s / 2) / d) * 180 / Math.PI;
+      t.camera.updateProjectionMatrix();
+      // the flat logo hides once the print fully covers it, and returns before the print fades out
+      const flat = op < 1;
+      if (flat !== t.flat) { t.flat = flat; for (const el of t.flatEls) el.style.visibility = flat ? '' : 'hidden'; }
+      // the bare mark shows once the sticker has landed (and under its last fade), hides while airborne
+      const r = clamp01((t.q - IN.land) / (1 - IN.land));
+      const shown = t.q >= 1 || (t.q > IN.land && op < 1 && r > 0.8);
+      if (shown !== t.li.classList.contains('is-in')) t.li.classList.toggle('is-in', shown);
+      // the name fades in over the sticker's last 20%, in step with scroll
+      const nameOp = t.q >= 1 ? '' : String(smooth(r));
+      if (t.name.style.opacity !== nameOp) t.name.style.opacity = nameOp;
+      return t.q < 1 ? op > 0 : m > 1e-4;
+    }
+    function view(t) {
+      const n = VIEWN * t.s;
+      renderer.setViewport(t.cx + BLEED - n / 2, ch - (t.cy + BLEED) - n / 2, n, n);
+      renderer.setScissor(t.cx + BLEED - n / 2, ch - (t.cy + BLEED) - n / 2, n, n);
+    }
+    function draw() {
+      renderer.setScissorTest(false);
+      renderer.clear();
+      renderer.setScissorTest(true);
+      clock = performance.now();
+      const live = tiles.filter(place);                      // only stickers that are not flat logos are drawn
+      for (const t of live) { t.mesh.visible = false; t.sh.visible = true; view(t); renderer.render(t.scene, t.camera); }
+      for (const t of live) { t.mesh.visible = true; t.sh.visible = false; view(t); renderer.clearDepth(); renderer.render(t.scene, t.camera); }
+    }
+
+    // ── input ──
+    let pointer = null, down = -1, tap = -1, tapTimer = 0;
+    const over = (t, px, py) => Math.abs(px - t.cx) <= t.s / 2 + HIT_PAD && Math.abs(py - t.cy) <= t.s / 2 + HIT_PAD;
+    const hit = (px, py) => tiles.findIndex((t) => over(t, px, py));
+    function aim() {
+      for (const [i, t] of tiles.entries()) {
+        const on = pointer && !pointer.touch && t.q >= 1 && over(t, pointer.x, pointer.y);   // airborne stickers ignore hover
+        if (on) {
+          // the lifted face turns toward the pointer: the near edge dips, the far edge catches the light
+          const dx = Math.max(-0.5, Math.min(0.5, (pointer.x - t.cx) / t.s)), dy = Math.max(-0.5, Math.min(0.5, (pointer.y - t.cy) / t.s));
+          t.ry.t = dx * 2 * TILT_HOVER;
+          t.rx.t = dy * 2 * TILT_HOVER;
+        } else { t.rx.t = 0; t.ry.t = 0; }
+        t.m.t = on || tap === i ? 1 : 0;
+        t.press.t = down === i && !(pointer && pointer.touch) ? 1 : 0;
+      }
+      kick();
+    }
+    const local = (e) => { const r = stage.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top, touch: e.pointerType === 'touch' }; };
+    stage.addEventListener('pointermove', (e) => { pointer = local(e); aim(); });
+    stage.addEventListener('pointerleave', () => { if (pointer && pointer.touch) return; pointer = null; down = -1; aim(); });
+    stage.addEventListener('pointerdown', (e) => { pointer = local(e); down = hit(pointer.x, pointer.y); aim(); });
+    const up = () => {
+      if (down < 0) return;
+      if (pointer && pointer.touch) {
+        // touch: a tap turns the mark into a sticker for a moment, then it lies back down flat
+        tap = down; clearTimeout(tapTimer);
+        tapTimer = setTimeout(() => { tap = -1; aim(); }, TAP_MS);
+        pointer = null;
+      }
+      down = -1; aim();
+    };
+    stage.addEventListener('pointerup', up);
+    stage.addEventListener('pointercancel', up);
+
+    // ── loop: renders only while something moves and the strip is on screen (0 frames idle) ──
+    // m: springy (damping ratio ~0.6, one soft overshoot at the top of the lift); tilt: smooth follow
+    const SPR = { m: [150, 15], rx: [140, 18], ry: [140, 18], press: [700, 44] };
+    let running = false, visible = false, last = 0;
+    const stats = { frames: 0, ms: 0 };
+    function step(now) {
+      const dt = Math.min(1 / 30, Math.max(0, (now - last) / 1000)); last = now;
+      let busy = false;
+      for (const t of tiles) for (const k in SPR) {
+        const s = t[k], [K, C] = SPR[k];
+        s.v += (K * (s.t - s.x) - C * s.v) * dt; s.x += s.v * dt;
+        if (k === 'm' && s.x < 0) { s.x = 0; s.v = 0; }       // a flat logo can't sink into the page
+        if (Math.abs(s.v) > 1e-4 || Math.abs(s.t - s.x) > 1e-4) busy = true; else { s.x = s.t; s.v = 0; }
+      }
+      // the entrance follows its scroll-anchored target with a light per-frame follow (smooths wheel steps,
+      // never caps the rate), then stops: no frames once every sticker has reached its target
+      const k = 1 - Math.pow(1 - IN.follow, dt * 60);
+      for (const t of tiles) {
+        if (t.q === t.qt) continue;
+        t.q += (t.qt - t.q) * k;
+        if (Math.abs(t.qt - t.q) < 2e-3) t.q = t.qt; else busy = true;
+      }
+      const t0 = performance.now(); draw(); stats.ms += performance.now() - t0; stats.frames++;
+      if (busy && visible) requestAnimationFrame(step); else running = false;
+    }
+    function kick() { if (running || !visible) return; running = true; last = performance.now(); requestAnimationFrame(step); }
+    new IntersectionObserver((es) => {
+      visible = es.some((e) => e.isIntersecting);
+      // off screen nothing needs to animate: jump every sticker to where scroll puts it, so it never
+      // comes back frozen mid-flight
+      if (!visible) { for (const t of tiles) t.q = t.qt; draw(); }
+      if (visible) kick();
+    }, { rootMargin: '80px 0px' }).observe(stage);
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) kick(); });
+    new ResizeObserver(layout).observe(stage);
+    layout();
+
+    // ── entrance target from scroll: strip centre from the bottom of the viewport to its middle, each sticker
+    // on its own overlapping slice. Repeats both ways. ──
+    function progress(snap) {
+      const vh = window.innerHeight;
+      let moved = false;
+      const sr = stage.getBoundingClientRect(), mid = sr.top + sr.height / 2;
+      const p = (vh - mid) / (vh / 2);                    // 0: strip centre at the bottom · 1: at mid-viewport
+      for (const t of tiles) {
+        const o = t.rowLen > 1 ? (t.col / (t.rowLen - 1)) * (1 - IN.slice) : 0;
+        const qt = clamp01((p - o) / IN.slice);
+        if (qt !== t.qt) { t.qt = qt; moved = true; }
+        if (snap || t.q === undefined) t.q = qt;
+      }
+      if (moved) kick();
+    }
+    addEventListener('scroll', () => progress(false), { passive: true });
+    addEventListener('resize', () => progress(false));
+    progress(true);
+
+    // verification hooks
+    window.__tt = { stats, tiles, renderer, draw,
+      // pose one sticker at a given morph and tilt without springs (for frame strips)
+      // freeze the entrance at a given scroll progress (for frame strips)
+      scrub(q) { for (const t of tiles) { t.qt = t.q = q; } draw(); },
+      pose(i, m, rx = 0, ry = 0) { for (const [j, t] of tiles.entries()) { const v = j === i ? m : 0; t.m.x = t.m.t = v; t.m.v = 0; t.rx.x = t.rx.t = j === i ? rx : 0; t.ry.x = t.ry.t = j === i ? ry : 0; } draw(); },
+    };
+  }
+})();
+</script>
+</body>
+</html>
