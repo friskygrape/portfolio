@@ -1023,7 +1023,7 @@
 
       <div class="nv-ctas">
         <a class="nv-btn nv-btn--dark label" href="#showcase">Built with Claude Code</a>
-        <a class="nv-btn label" href="#process">Process</a>
+        <a class="nv-btn label" href="#process">My AI Workflow</a>
       </div>
     </div>
   </header>
@@ -1032,7 +1032,7 @@
   <section class="nv-section ev" id="showcase">
     <div class="nv-wrap">
     <div class="nv-head nv-in">
-      <h2 class="nv-h2 h1">My AI Projects</h2>
+      <h2 class="nv-h2 h1">My Side Projects</h2>
       <p class="nv-intro body-lg">I have always believed the best way to learn is by building. Here are a few side projects I have been tinkering with, and the AI tools I used to build them.</p>
       <div class="nv-tools" role="group" aria-label="Tools I use">
         <div class="tt-stage">
@@ -1066,7 +1066,7 @@
   <!-- ════════ Process ════════ -->
   <section class="nv-section nv-wrap" id="process">
     <div class="nv-head nv-in">
-      <h2 class="nv-h2 h1">How I Use AI in My Work</h2>
+      <h2 class="nv-h2 h1">My AI Workflow</h2>
     </div>
 
     <div class="nv-bento">
@@ -1553,26 +1553,32 @@
       B = { x: W * 0.12, y: clamp(textR.y * 0.62, 120, textR.y - 48), lam, amp: lam * 0.18 };
     }
     const nA = noise(seedN * 3 + 1), nB = noise(seedN * 5 + 2);
-    const circ = (a0, a1, hand) => (u) => {
-      const a = (a0 + (a1 - a0) * u) * Math.PI / 180, rr = A.r * (1 + (hand ? nA(u * 5) * 0.09 : 0));
-      return [X(A.cx + Math.cos(a) * rr), A.cy + Math.sin(a) * rr];
+    /* A: a box (a button or card). You draws the top and right side, Claude closes the bottom and left. */
+    const bw = A.r * 1.15, bh = A.r * 0.68, TL = [A.cx - bw, A.cy - bh], TR = [A.cx + bw, A.cy - bh], BR = [A.cx + bw, A.cy + bh], BL = [A.cx - bw, A.cy + bh];
+    const walk = (pts, hand, nz) => {                /* along a corner path at an even pace, a hand's wobble if asked */
+      const seg = pts.slice(1).map((q, i) => Math.hypot(q[0] - pts[i][0], q[1] - pts[i][1])), L = seg.reduce((a, b) => a + b, 0);
+      return (u) => {
+        let d = u * L, i = 0;
+        while (i < seg.length - 1 && d > seg[i]) d -= seg[i++];
+        const t = seg[i] ? d / seg[i] : 0, [ax, ay] = pts[i], [bx, by] = pts[i + 1];
+        const w = hand ? nz(u * 4) * 4 : 0, l = seg[i] || 1;
+        return [X(ax + (bx - ax) * t - (by - ay) / l * w), ay + (by - ay) * t + (bx - ax) / l * w];
+      };
     };
-    const wave = (x0, x1) => (u) => {
-      const x = x0 + (x1 - x0) * u, ph = ((x - B.x) / B.lam) * Math.PI * 2;
-      return [X(x), B.y + Math.sin(ph) * B.amp + nB(u * 3) * 3];
-    };
+    /* B: a flow arrow. You draws the shaft, Claude veers off it, You adds the head. */
+    const hs = B.lam * 0.42, xe = B.x + B.lam * 2;
     const wDeron = handW(seedN * 11);
     return {
       A: {
-        human: mkPath(circ(150, 372, true), 90, wDeron),
-        claude: mkPath(circ(372, 515, false), 64, () => BRUSH * 1.02),
+        human: mkPath(walk([[TL[0] - 4, TL[1] + 2], TR, BR], true, nA), 90, wDeron),
+        claude: mkPath(walk([BR, BL, [TL[0], TL[1] - 3]], false), 64, () => BRUSH * 1.02),
         aside: { x: X(A.cx + A.r * 0.7), y: A.cy - A.r - 44 },
         wait: { x: X(A.cx + A.r * 0.8), y: Math.min(H - 48, A.cy + A.r + 44) },
       },
       B: {
-        human: mkPath(wave(B.x, B.x + B.lam * 2), 60, wDeron),
+        human: mkPath(walk([[B.x, B.y + 3], [xe, B.y - 2]], true, nB), 60, wDeron),
         claude: mkPath((u) => { const a = -0.5, L = B.lam * 1.45; return [X(B.x + B.lam * 2 + Math.cos(a) * L * u), B.y + Math.sin(a) * L * u]; }, 40, () => BRUSH),
-        fix: mkPath(wave(B.x + B.lam * 2, B.x + B.lam * 3.3), 44, wDeron),
+        fix: mkPath(walk([[xe - hs, B.y - hs], [xe + 2, B.y - 2], [xe - hs, B.y + hs]], true, nB), 44, wDeron),
         wait: { x: X(B.x + B.lam * 2.7), y: B.y - B.lam * 0.95 },
         aside: { x: X(B.x + B.lam * 1.3), y: B.y + B.lam * 0.7 },
       },
@@ -1871,16 +1877,7 @@
      go from the oldest end and fall away. Two kinds take turns: long gestures that can run off
      the edge of the screen, and rough lo-fi wireframes (a phone, a browser window, a card, a
      flow, a chart). They keep clear of the copy and of where the session paints. */
-  const AMB_COLS = [PAL.ultra, PAL.verm, PAL.teal, '#5E9CC6', PAL.ochre, PAL.olive, '#C8392A'];
   const SKETCH_COLS = [PAL.ultra, PAL.teal, '#C8392A', PAL.verm];
-  const GESTURES = [
-    (u) => [u - 0.5, 0.22 * Math.sin(u * Math.PI) - 0.15 * u],                                    /* long swoosh */
-    (u) => { const t = u * Math.PI * 2 * 2.5; return [(u - 0.5) * 1.1 - 0.16 * Math.sin(t), -0.16 * Math.cos(t)]; },   /* loops */
-    (u) => [u - 0.5, 0.12 * Math.sin(u * Math.PI * 2 * 3)],                                      /* long wave */
-    (u) => { const a = u * Math.PI * 3.2, r = 0.08 + 0.34 * u; return [Math.cos(a) * r, Math.sin(a) * r]; },   /* spiral */
-    (u) => [(u - 0.5) * 1.1, 0.22 * Math.sin(u * Math.PI * 2)],                                  /* S-curve */
-    (u) => { const a = (190 + 240 * u) * Math.PI / 180; return [Math.cos(a) * 0.45, Math.sin(a) * 0.45]; },   /* big arc */
-  ];
   /* napkin sketch kit, in unit space: nothing is ruled. Lines bow and wobble, start a little
      early and run a little long, corners are knocked off square, circles don't quite close. */
   function kit(r) {
@@ -1919,15 +1916,25 @@
   }
   /* Few, big parts: the strokes are as wide as every other stroke, so the details need room.
      gap is the tightest space between two parts, in units; it sets the smallest size a sketch can draw at. */
+  const tick = (k, x, y) => k.poly([x, y + 0.16], [x + 0.11, y + 0.3], [x + 0.34, y]);
   const SKETCHES = [
-    { w: 1.0, h: 1.7, gap: 0.24, make: (k) => [k.rect(0, 0, 1.0, 1.7), k.rect(0.24, 0.26, 0.52, 0.44), ...k.cross(0.24, 0.26, 0.52, 0.44), k.line(0.24, 1.0, 0.76, 1.0), k.line(0.24, 1.34, 0.6, 1.34)] },   /* phone */
+    { w: 1.0, h: 1.7, gap: 0.24, make: (k) => [k.rect(0, 0, 1.0, 1.7), k.rect(0.24, 0.26, 0.52, 0.44), ...k.cross(0.24, 0.26, 0.52, 0.44), k.line(0.24, 1.0, 0.76, 1.0), k.line(0.24, 1.34, 0.6, 1.34)] },   /* phone: image + text */
+    { w: 1.5, h: 2.2, gap: 0.24, make: (k) => [k.line(0.24, 0.3, 0.86, 0.3), k.rect(0.24, 0.56, 1.02, 0.3), k.rect(0.24, 1.1, 1.02, 0.3), k.rect(0.24, 1.64, 0.62, 0.3), k.rect(0, 0, 1.5, 2.2)] },   /* sign-in form */
     { w: 2.0, h: 1.4, gap: 0.24, make: (k) => [k.rect(0, 0, 2.0, 1.4), k.line(0, 0.32, 2.0, 0.32), k.rect(0.24, 0.56, 0.66, 0.6), ...k.cross(0.24, 0.56, 0.66, 0.6), k.line(1.14, 0.7, 1.76, 0.7), k.line(1.14, 1.04, 1.62, 1.04)] },   /* browser */
-    { w: 2.0, h: 1.1, gap: 0.26, make: (k) => [k.rect(0, 0, 2.0, 1.1), k.circle(0.52, 0.55, 0.26), k.line(1.06, 0.4, 1.76, 0.4), k.line(1.06, 0.74, 1.56, 0.74)] },   /* card */
-    { w: 2.1, h: 0.8, gap: 0.24, make: (k) => [k.rect(0, 0.05, 0.66, 0.7), ...k.arrow(0.9, 0.4, 1.14, 0.4), k.circle(1.74, 0.4, 0.34)] },   /* flow */
-    { w: 1.6, h: 1.3, gap: 0.26, make: (k) => [k.poly([0.08, 0], [0.08, 1.22], [1.6, 1.22]), k.poly([0.36, 0.98], [0.68, 0.62], [0.98, 0.84], [1.28, 0.4], [1.56, 0.18])] },   /* chart */
+    { w: 1.7, h: 1.54, gap: 0.26, make: (k) => [0, 0.6, 1.2].flatMap((y, i) => [k.rect(0, y, 0.34, 0.34), k.line(0.6, y + 0.17, [1.7, 1.4, 1.55][i], y + 0.17)]) },   /* list rows */
+    { w: 2.0, h: 1.46, gap: 0.22, make: (k) => [k.rect(0, 0, 2.0, 1.46), ...k.cross(1.54, 0.22, 0.24, 0.24), k.line(0.26, 0.36, 1.1, 0.36), k.line(0.26, 0.68, 1.5, 0.68), k.rect(0.62, 0.98, 0.56, 0.26), k.rect(1.3, 0.98, 0.48, 0.26)] },   /* dialog */
+    { w: 1.6, h: 1.42, gap: 0.24, make: (k) => [tick(k, 0, 0), k.line(0.62, 0.15, 1.6, 0.15), tick(k, 0, 0.56), k.line(0.62, 0.71, 1.3, 0.71), k.rect(0, 1.12, 0.3, 0.3), k.line(0.62, 1.27, 1.45, 1.27)] },   /* checklist */
+    { w: 2.16, h: 0.9, gap: 0.24, make: (k) => [k.rect(0, 0, 0.66, 0.9), k.line(0.16, 0.3, 0.5, 0.3), ...k.arrow(0.88, 0.45, 1.28, 0.45), k.rect(1.5, 0, 0.66, 0.9), k.line(1.66, 0.3, 2.0, 0.3)] },   /* screen-to-screen flow */
+    { w: 1.6, h: 1.4, gap: 0.26, make: (k) => [0.2, 0.7, 1.2].flatMap((y, i) => { const x = [0.5, 1.1, 0.8][i]; return [k.line(0, y, 1.6, y), k.rect(x - 0.12, y - 0.12, 0.24, 0.24)]; }) },   /* settings sliders */
+    { w: 1.8, h: 1.76, gap: 0.22, make: (k) => [k.rect(0, 0, 1.8, 0.44), k.poly([1.36, 0.14], [1.48, 0.3], [1.6, 0.14]), k.rect(0, 0.66, 1.8, 1.1), k.line(0.24, 0.94, 1.2, 0.94), k.line(0.24, 1.22, 1.0, 1.22), k.line(0.24, 1.5, 1.1, 1.5)] },   /* dropdown */
+    { w: 1.6, h: 1.3, gap: 0.26, make: (k) => [k.poly([0.08, 0], [0.08, 1.22], [1.6, 1.22]), k.poly([0.36, 0.98], [0.68, 0.62], [0.98, 0.84], [1.28, 0.4], [1.56, 0.18])] },   /* line chart */
+    { w: 1.84, h: 1.44, gap: 0.24, make: (k) => [k.rect(0, 0, 0.8, 0.6), k.rect(1.04, 0, 0.8, 0.6), k.rect(0, 0.84, 0.8, 0.6), k.rect(1.04, 0.84, 0.8, 0.6)] },   /* image grid */
+    { w: 2.4, h: 1.5, gap: 0.22, make: (k) => [k.rect(0, 0, 2.4, 1.5), k.line(0, 0.44, 2.4, 0.44), k.line(1.3, 0.22, 1.52, 0.22), k.line(1.74, 0.22, 1.96, 0.22), k.line(0.3, 0.76, 1.6, 0.76), k.rect(0.3, 1.0, 0.6, 0.26)] },   /* landing page: nav, headline, button */
+    { w: 2.0, h: 1.1, gap: 0.26, make: (k) => [k.rect(0, 0, 2.0, 1.1), k.rect(0.24, 0.24, 0.56, 0.62), k.line(1.06, 0.4, 1.76, 0.4), k.line(1.06, 0.74, 1.56, 0.74)] },   /* card */
+    { w: 1.0, h: 1.8, gap: 0.24, make: (k) => [k.rect(0, 0, 1.0, 1.8), k.line(0.24, 0.28, 0.6, 0.28), k.rect(0.22, 0.52, 0.56, 0.5), k.line(0, 1.36, 1.0, 1.36)] },   /* phone: feed + tab bar */
   ];
   const SK_GAP_PX = 42;                            /* clear space between parts, at the stroke width */
-  let amb = [], ambNext = 0, ambCol = 0, ambSk = 0, ambShape = 0, ambKind = 0, ambLastZone = -1;
+  let amb = [], ambNext = 0, ambCol = 0, ambSk = 0, ambLastZone = -1;
   function ambZones() {
     if (!textR) return [];
     const z = [], top = 96;
@@ -1959,13 +1966,6 @@
     for (const pp of parts) for (const [x, y] of pp) { x0 = Math.min(x0, x); y0 = Math.min(y0, y); x1 = Math.max(x1, x); y1 = Math.max(y1, y); }
     const pad = BRUSH * 0.6; return Math.min((zone.w + spill(zone) - pad * 2) / (x1 - x0), (zone.h - pad * 2) / (y1 - y0));
   };
-  function gestureParts(zone, r) {
-    const fn = zone.h < 170 ? GESTURES[[0, 2, 4][ambShape++ % 3]] : GESTURES[ambShape++ % GESTURES.length], nz = noise(seedN * 17 + 3);
-    const rot = (r() - 0.5) * 0.9, flip = r() < 0.5 ? -1 : 1, cs = Math.cos(rot), sn = Math.sin(rot), raw = [];
-    for (let i = 0; i <= 120; i++) { const u = i / 120; let [x, y] = fn(u); x = x * flip + nz(u * 8) * 0.015; y += nz(u * 8 + 11) * 0.015; raw.push([x * cs - y * sn, x * sn + y * cs]); }
-    const S = Math.min(unitScale([raw], zone), wide ? 620 : 260) * (0.85 + r() * 0.3);
-    return fitParts([raw], zone, r, S, r() < 0.65);
-  }
   function sketchParts(zone, r) {
     const tries = SKETCHES.map((_, i) => SKETCHES[(ambSk + i) % SKETCHES.length]);
     for (const sk of tries) {
@@ -1980,20 +1980,20 @@
   }
   function ambSpawn(zi, zone, settled) {
     const r = rng(seedN * 29 + 5);
-    let parts = ambKind++ % 2 ? sketchParts(zone, r) : null, sketch = !!parts;
-    if (!parts) parts = gestureParts(zone, r);
-    const pool = sketch ? SKETCH_COLS : AMB_COLS, used = new Set(amb.map((a) => a.color));
+    const parts = sketchParts(zone, r);
+    if (!parts) return;                                   /* no room for a readable sketch here */
+    const pool = SKETCH_COLS, used = new Set(amb.map((a) => a.color));
     let col = pool[ambCol++ % pool.length];
     for (let i = 0; i < pool.length && used.has(col); i++) col = pool[ambCol++ % pool.length];
-    const rad = (wide ? 24 : 17) * 0.55;                  /* background drawings: a finer brush than the session's, sketches included */
+    const rad = (wide ? 24 : 17) * 0.46;                  /* background sketches: one even width, finer than the session's brush */
     const a = { zi, color: col, parts: [], breakAt: 0, broken: false };
     let t = T;
     for (const pts of parts) {
       if (pts.length < 2) continue;
-      const path = segPath(pts, BRUSH), px = makePix(path, col, 'amb', rad);
+      const path = segPath(pts, BRUSH), px = makePix(path, col, 'amb', rad, true);   /* clean: whole cells, no soft fringe, so the width stays even */
       px.amb = true; pixes.unshift(px);                    /* behind the session's own strokes */
-      const dur = clamp(path.L / (sketch ? 980 : (wide ? 860 : 580)), sketch ? 0.15 : 0.5, sketch ? 0.75 : 1.8);
-      a.parts.push({ px, t0: t, dur }); t += dur + (sketch ? 0.05 : 0);
+      const dur = clamp(path.L / 980, 0.15, 0.75);
+      a.parts.push({ px, t0: t, dur }); t += dur + 0.05;
       if (settled) { for (const c of px.cells) c.born = T - 1; px.mode = 'hold'; }
     }
     a.breakAt = t + 7 + r() * 5;
@@ -2087,7 +2087,7 @@
   function reset(startAt) {
     for (const s of strokes) if (s.scratch) s.scratch.owner = null;
     strokes = []; pixes = []; beats = []; T = 0; loopK = 0; seedN = 1; visitor = false; vStroke = null; pending = null; claudeBusy = false;
-    amb = []; ambCol = 0; ambSk = 0; ambShape = 0; ambKind = 0; ambLastZone = -1; ambNext = startAt + 1.2;
+    amb = []; ambCol = 0; ambSk = 0; ambLastZone = -1; ambNext = startAt + 1.2;
     lastPaint = -1; lastBoil = -1; vLast = 0; vInput = -1e9; turnN = 0;   /* the clock restarts at 0: timers kept from before would stall the paint layer */
     setOn('d', false); setOn('c', false);
     buildLoop(0, startAt);
