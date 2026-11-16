@@ -109,6 +109,7 @@
    ════════════════════════════════════════════════════════ */
 html {
   scroll-behavior: smooth;
+  scrollbar-gutter: stable; /* reserve the scrollbar's space on every page, so the nav and layout never shift between short and long pages */
 }
 html, body {
   height: 100%; background: #ffffff;
@@ -244,19 +245,19 @@ nav.is-open .nav-hamburger span:nth-child(3) { transform: translateY(-7px) rotat
 .lead {
   font-size: var(--text-lead);
   font-weight: var(--weight-regular);
-  line-height: var(--leading-relaxed);
+  line-height: var(--leading-normal);
 }
 .body-lg {
   font-size: var(--text-body-lg);
   font-weight: var(--weight-regular);
-  line-height: 1.6;
+  line-height: var(--leading-normal);
   letter-spacing: 0em;
 }
 
 .body {
   font-size: var(--text-body);
   font-weight: var(--weight-regular);
-  line-height: var(--leading-relaxed);
+  line-height: var(--leading-normal);
 }
 .label {
   font-family: var(--font-heading);
@@ -1013,7 +1014,7 @@ nav.is-open .nav-hamburger span:nth-child(3) { transform: translateY(-7px) rotat
 }
 .cs-list li {
   font-size: var(--text-body-lg);
-  line-height: var(--leading-relaxed);
+  line-height: var(--leading-normal);
   color: var(--color-secondary);
   padding-left: 20px;
   position: relative;
@@ -1042,7 +1043,7 @@ nav.is-open .nav-hamburger span:nth-child(3) { transform: translateY(-7px) rotat
   align-items: flex-start;
   gap: 12px;
   font-size: var(--text-body-lg);
-  line-height: var(--leading-relaxed);
+  line-height: var(--leading-normal);
   color: var(--color-secondary);
   opacity: 0;
   transform: translateX(-20px);
@@ -1676,7 +1677,7 @@ nav.is-open .nav-hamburger span:nth-child(3) { transform: translateY(-7px) rotat
 }
 .cs-issue-desc {
   font-size: var(--text-body-lg);
-  line-height: 1.6;
+  line-height: var(--leading-normal);
   color: var(--color-secondary);
   margin: 0;
 }
@@ -2304,7 +2305,7 @@ nav.is-open .nav-hamburger span:nth-child(3) { transform: translateY(-7px) rotat
 }
 .srv-insight-text {
   font-size: var(--text-body-lg);
-  line-height: var(--leading-relaxed);
+  line-height: var(--leading-normal);
   color: var(--charcoal);
 }
 .srv-block { margin-bottom: 48px; }
@@ -2629,7 +2630,7 @@ nav.is-open .nav-hamburger span:nth-child(3) { transform: translateY(-7px) rotat
 .srv-channel-card-desc {
   font-size: var(--text-label);
   color: var(--color-secondary);
-  line-height: var(--leading-relaxed);
+  line-height: var(--leading-normal);
   margin: 0;
 }
 .srv-channel-card .srv-channel-track {
@@ -2747,7 +2748,7 @@ nav.is-open .nav-hamburger span:nth-child(3) { transform: translateY(-7px) rotat
 }
 .about-lead {
   font-size: var(--text-lead);
-  line-height: var(--leading-relaxed);
+  line-height: var(--leading-normal);
   color: var(--color-secondary);
 }
 .about-section {
