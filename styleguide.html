@@ -242,9 +242,9 @@
     .h3 { font-size: var(--text-h3); font-weight: var(--weight-medium); line-height: 1.4; letter-spacing: 0em; }
     .h4 { font-size: var(--text-h4); font-weight: var(--weight-medium); line-height: 1.2; letter-spacing: 0.01em; }
     .h5 { font-family: var(--font-heading); font-size: 18px; font-weight: var(--weight-medium); letter-spacing: var(--tracking-wide); text-transform: uppercase; color: var(--color-tertiary); }
-    .lead    { font-size: var(--text-lead); font-weight: var(--weight-regular); line-height: var(--leading-relaxed); }
-    .body-lg { font-size: var(--text-body-lg); font-weight: var(--weight-regular); line-height: 1.6; letter-spacing: 0em; }
-    .body    { font-size: var(--text-body); font-weight: var(--weight-regular); line-height: var(--leading-relaxed); }
+    .lead    { font-size: var(--text-lead); font-weight: var(--weight-regular); line-height: var(--leading-normal); }
+    .body-lg { font-size: var(--text-body-lg); font-weight: var(--weight-regular); line-height: var(--leading-normal); letter-spacing: 0em; }
+    .body    { font-size: var(--text-body); font-weight: var(--weight-regular); line-height: var(--leading-normal); }
     .label   { font-family: var(--font-heading); font-size: var(--text-h4); font-weight: var(--weight-semibold); line-height: var(--leading-normal); }
     .overline { font-size: var(--text-overline); font-weight: var(--weight-semibold); line-height: var(--leading-normal); letter-spacing: var(--tracking-widest); text-transform: uppercase; }
     .caption { font-size: var(--text-caption); font-weight: var(--weight-semibold); line-height: 1.8; letter-spacing: 0em; }
@@ -285,7 +285,7 @@
     .cs-feature, .cs-issue { display: flex; flex-direction: column; }
     .cs-feature-icon, .cs-issue-icon { width: 28px; height: 28px; color: var(--lavender); flex-shrink: 0; }
     .cs-feature-title, .cs-issue-title { margin-top: 24px; margin-bottom: 12px; color: var(--charcoal); }
-    .cs-feature-desc, .cs-issue-desc { margin: 0; color: var(--color-secondary); font-size: var(--text-body-lg); line-height: 1.6; }
+    .cs-feature-desc, .cs-issue-desc { margin: 0; color: var(--color-secondary); font-size: var(--text-body-lg); line-height: var(--leading-normal); }
 
     /* Comparison cards */
     .cs-compare { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
@@ -425,7 +425,7 @@
     <div class="sg-type-row">
       <div class="sg-type-meta">
         <span class="sg-type-class">.lead</span>
-        <div class="sg-type-specs">Open Sans · 24px · 400 · 1.7<br>Mobile: 18px</div>
+        <div class="sg-type-specs">Open Sans · 24px · 400 · 1.5<br>Mobile: 18px</div>
       </div>
       <div class="sg-type-preview lead">The quick brown fox jumps over the lazy dog.</div>
     </div>
@@ -433,7 +433,7 @@
     <div class="sg-type-row">
       <div class="sg-type-meta">
         <span class="sg-type-class">.body-lg</span>
-        <div class="sg-type-specs">Open Sans · 18px · 400 · 1.6 · 0em</div>
+        <div class="sg-type-specs">Open Sans · 18px · 400 · 1.5 · 0em</div>
       </div>
       <div class="sg-type-preview body-lg">The quick brown fox jumps over the lazy dog.</div>
     </div>
@@ -441,9 +441,17 @@
     <div class="sg-type-row">
       <div class="sg-type-meta">
         <span class="sg-type-class">.body</span>
-        <div class="sg-type-specs">Open Sans · 16px · 400 · 1.7 · 0em</div>
+        <div class="sg-type-specs">Open Sans · 16px · 400 · 1.5 · 0em</div>
       </div>
       <div class="sg-type-preview body">The quick brown fox jumps over the lazy dog.</div>
+    </div>
+
+    <div class="sg-type-row">
+      <div class="sg-type-meta">
+        <span class="sg-type-class">strong (inline emphasis)</span>
+        <div class="sg-type-specs">Open Sans · inherits size · 700 · the page's darkest text colour (--charcoal; #0C0A09 ink on AI x Design)<br>New standard, used on AI x Design. Case studies still use purple until the redesign.</div>
+      </div>
+      <div class="sg-type-preview body">I use <strong style="font-weight: var(--weight-bold); color: var(--charcoal);">Claude Code</strong> alongside the <strong style="font-weight: var(--weight-bold); color: var(--charcoal);">Figma MCP</strong> to map out my thoughts.</div>
     </div>
 
     <div class="sg-type-row">
@@ -650,7 +658,7 @@
           </tr>
           <tr>
             <td><span class="sg-token-name">--leading-normal</span></td>
-            <td><span class="sg-token-value">1.5</span></td>
+            <td><span class="sg-token-value">1.5 · all body text (.lead, .body-lg, .body)</span></td>
           </tr>
           <tr>
             <td><span class="sg-token-name">--leading-relaxed</span></td>
