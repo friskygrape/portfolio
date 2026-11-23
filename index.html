@@ -526,7 +526,10 @@
     @media (max-width: 768px) {
       :root { --gutter: 16px; --gap: 16px; --t-lead: 20px; --nav-h: 56px; }
       body { font-size: 16px; }
-      .hero-in { display: block; padding: 32px 0 40px; }   /* copy at the top, the form stands in the lower half */
+      /* the copy sits in the middle of the screen, not the middle of the space under the nav (Deron, 2026-11-23); the ribbon may run behind it */
+      .hero-in { display: flex; align-items: center; padding: 24px 0 calc(var(--nav-h) + 24px); }
+      .hero-copy { width: 100%; }
+      .btn, .foot-cta { display: flex; justify-content: center; width: 100%; }   /* CTAs full width on phones */
       .role { margin-top: 12px; }
       .f1-sel b { font-size: 13px; }
       .hero-intro { margin-top: 20px; }

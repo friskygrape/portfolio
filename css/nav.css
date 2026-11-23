@@ -2,7 +2,9 @@
    SITE NAV (redesign). One shared piece for every page.
    Transparent over the top of the page, the page's own ground and a soft shadow once you scroll.
    It slides away while you scroll down and comes back when you scroll up.
-   "Deron Li" left, Work / AI x Design / About right, no hamburger on phones.
+   "Deron Li" left, Work / AI x Design / About right. On phones (768px and below) the links fold into a
+   hamburger on the right that opens a full-screen menu (Deron, 2026-11-23). The script adds the button,
+   so without JavaScript the links simply stay in the bar.
    The current page is marked with aria-current="page" on its link.
    Selectors are prefixed with nav.nav so the old site.css rules for bare `nav`, `.logo`,
    `.nav-links` and `.label` can't leak in on pages that still load site.css.
@@ -13,7 +15,8 @@
        <a class="nav-logo" href="index.html">Deron Li</a>
        <div class="nav-links"><a href="index.html#work">Work</a><a href="ai-design.html">AI x Design</a><a href="about.html">About</a></div>
      </div></nav>
-   Behaviour: js/site-nav.js (adds .is-scrolled; fills .nav-progress if present).
+   Behaviour: js/site-nav.js (adds .is-scrolled; fills .nav-progress if present; adds the menu button,
+   .has-menu, and .is-open while the phone menu is open).
    Every page reserves the scrollbar's space (as site.css does), so the nav never shifts
    sideways when you move between pages.
    ════════════════════════════════════════════════════════ */
@@ -76,7 +79,7 @@ nav.nav .nav-links a::after { content: ''; position: absolute; left: 0; right: 0
 nav.nav .nav-links a:hover, nav.nav .nav-links a[aria-current] { color: var(--nav-ink); }
 nav.nav .nav-links a:hover::after, nav.nav .nav-links a[aria-current]::after { transform: scaleX(1); }
 nav.nav :focus-visible { outline: 2px solid var(--nav-ink); outline-offset: 4px; border-radius: 4px; }
-nav.nav .nav-hamburger { display: none; }
+nav.nav .nav-hamburger, nav.nav .nav-toggle { display: none; }
 
 /* reading progress (case studies): the hairline fills with the accent as you read */
 nav.nav .nav-progress { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--nav-accent); transform: scaleX(var(--read, 0)); transform-origin: left; opacity: 0; transition: opacity 0.35s var(--nav-soft); }
@@ -94,6 +97,36 @@ nav.nav.is-night :focus-visible { outline-color: #FFFFFF; }
   nav.nav { --nav-h: 56px; --nav-gutter: 16px; }
   nav.nav .nav-links { gap: 20px; }
   nav.nav .nav-links a { padding: 12px 0; border-bottom: 0; }
+
+  /* ── phone menu: logo left, hamburger right, links in a full-screen sheet ── */
+  nav.nav.has-menu .nav-toggle {
+    position: relative; display: grid; place-items: center; width: 44px; height: 44px; margin-right: -10px; padding: 0;
+    border: 0; background: none; color: var(--nav-ink); cursor: pointer; -webkit-tap-highlight-color: transparent;
+  }
+  nav.nav.has-menu .nav-toggle i { position: absolute; left: 11px; right: 11px; height: 2px; border-radius: 2px; background: currentColor; transition: transform 0.4s var(--nav-out), opacity 0.2s var(--nav-soft); }
+  nav.nav.has-menu .nav-toggle i:nth-child(1) { transform: translateY(-4px); }
+  nav.nav.has-menu .nav-toggle i:nth-child(2) { transform: translateY(4px); }
+  nav.nav.is-open .nav-toggle i:nth-child(1) { transform: rotate(45deg); }
+  nav.nav.is-open .nav-toggle i:nth-child(2) { transform: rotate(-45deg); }
+  nav.nav.is-night .nav-toggle { color: #FFFFFF; }
+
+  nav.nav.has-menu .nav-links {
+    position: fixed; top: var(--nav-h); left: 0; right: 0; height: calc(100dvh - var(--nav-h));
+    flex-direction: column; gap: 0; padding: 16px var(--nav-gutter) 40px; overflow-y: auto;
+    background: var(--nav-bg, #EEEEEC);
+    opacity: 0; visibility: hidden; pointer-events: none; transform: translateY(-8px);
+    transition: opacity 0.3s var(--nav-soft), transform 0.45s var(--nav-out), visibility 0s linear 0.3s;
+  }
+  nav.nav.is-open .nav-links { opacity: 1; visibility: visible; pointer-events: auto; transform: none; transition: opacity 0.3s var(--nav-soft), transform 0.45s var(--nav-out), visibility 0s; }
+  nav.nav.has-menu.has-menu .nav-links a {
+    padding: 20px 0; border-bottom: 1px solid var(--nav-line); color: var(--nav-ink);
+    font-family: 'Radio Canada Big', 'Helvetica Neue', Arial, sans-serif; font-size: 24px; font-weight: 600; line-height: 1.25; letter-spacing: -0.015em;   /* the --t-lead size (Deron, 2026-11-23) */
+  }
+  nav.nav.has-menu .nav-links a::after { content: none; }
+  nav.nav.has-menu.has-menu .nav-links a[aria-current] { color: var(--nav-accent); }
+  /* open: a solid bar in ink over any page, dark section or cover */
+  nav.nav.is-open.is-open { background: var(--nav-bg, #EEEEEC); -webkit-backdrop-filter: none; backdrop-filter: none; box-shadow: none; transform: none; }
+  nav.nav.is-open.is-open .nav-logo, nav.nav.is-open.is-open .nav-toggle { color: var(--nav-ink); }
 }
 @media (prefers-reduced-motion: reduce) {
   nav.nav, nav.nav * { transition: none !important; }

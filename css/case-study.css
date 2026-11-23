@@ -381,6 +381,7 @@ a:hover > .arrow.ext { transform: none; } a:hover > .arrow.ext .out { transform:
   .result-r { grid-template-columns: 72px 1fr auto; }
 }
 @media (max-width: 768px) {
+  .foot-cta { display: flex; justify-content: center; width: 100%; }   /* CTAs full width on phones (Deron, 2026-11-23) */
   :root { --gutter: 16px; --gap: 16px; --t-lead: 20px; --nav-h: 56px; --t-read: 16px; }
   body { font-size: 16px; }
   .cs-hero, .board-hero { padding-top: calc(var(--nav-h) + 48px); }

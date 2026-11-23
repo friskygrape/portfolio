@@ -22,12 +22,8 @@
   <link rel="stylesheet" href="css/case-study.css">
   <link rel="stylesheet" href="css/toc.css">
   <style>
-    /* this page only: the laptop render is 16:10, and the way back to AI x Design */
+    /* this page only: the laptop render is 16:10 */
     .media video.is-1610 { aspect-ratio: 16 / 10; }
-    .back { display: inline-flex; align-items: center; gap: 8px; color: var(--ink); font-size: var(--t-body); font-weight: 600; }
-    .back .arrow { width: 24px; height: 24px; color: var(--accent); transition: transform 0.3s var(--out); }
-    .back:hover .arrow { transform: translateX(-8px); }
-    .sec--end { padding-bottom: 24px; }
     .h2 + .film-h { margin-top: 48px; }
     .h3 + .p { margin-top: 16px; }
     .p + .fig { margin-top: 32px; }
@@ -36,6 +32,7 @@
     /* Tools: the same sticker row as AI x Design (css/tool-stickers.css + js/tool-stickers.js), on the
        four columns of the case-study meta grid. Flat marks at rest; each spins in as a 3D sticker on scroll
        and lifts as a die-cut sticker on hover. Their baked set: images/motion/tool-stickers/. */
+    main { padding-bottom: 140px; }   /* no footer or back link: the page ends with air (Deron, 2026-11-23), as AI x Design does */
     .tools { margin-top: 40px; }
     .cs-hero { overflow-x: clip; }   /* the sticker canvas bleeds 150px past its row (room for the fly-in): never let it widen the page */   /* straight under the summary: no rule, no label (Deron, 2026-11-23) */
     /* the AI x Design spacing: equal 104px columns on an 8px gap, logos centred over their names */
@@ -142,33 +139,12 @@
 
       <h3 class="h3 rv-t" id="mockups">Phone Promo and Laptop Loop</h3>
       <p class="p rv-t">I got tired of good-looking UI mockups being locked behind a paywall. That was the original reason I built the subagent and skills. I wanted these assets built exactly how I like them, without paying for a service or running out of credits. I started with motion for the UI alone, moved on to 3D renders of the mockups, then added prompts to control the camera. It makes my work more engaging than a static image I bought and can't change.</p>
-      <figure class="fig fig--wide rv"><div class="media"><div class="media-in"><video controls playsinline preload="none" poster="images/ai/motion/phone-promo-poster.jpg" aria-label="Phone promo, 5 seconds, with sound"><source src="images/ai/motion/phone-promo-1080.mp4" type="video/mp4"></video></div></div></figure>
+      <figure class="fig fig--wide rv"><div class="media"><div class="media-in"><video controls playsinline preload="none" poster="images/ai/motion/phone-promo-reflection-poster.jpg" aria-label="Phone promo, 5 seconds, with sound"><source src="images/ai/motion/phone-promo-reflection-1080.mp4" type="video/mp4"></video></div></div></figure>
       <figure class="fig fig--wide rv"><div class="media"><div class="media-in"><video controls playsinline preload="none" loop class="is-1610" poster="images/ai/motion/laptop-loop-poster.jpg" aria-label="Laptop loop, 10 seconds, no sound"><source src="images/ai/motion/laptop-loop-1440x900.mp4" type="video/mp4"></video></div></div></figure>
     </div>
   </section>
 
-  <section class="sec sec--end" data-read-end>
-    <div class="col">
-      <a class="back rv-t" href="ai-design.html#showcase"><svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg> Back to AI x Design</a>
-    </div>
-  </section>
-
 </main>
-
-<footer class="foot">
-  <div class="wrap">
-    <div class="grid foot-main">
-      <div class="foot-lead rv-t"><p class="foot-line">Let's Connect!</p><a class="foot-cta label" href="https://www.linkedin.com/in/deronli/" target="_blank" rel="noopener">LinkedIn <svg class="arrow ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13.5V18a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4.5"/><path class="out" d="M14.5 4H20v5.5M20 4l-9 9"/></svg></a></div>
-      <ul class="foot-links rv-t">
-        <li><a href="ai-design.html">AI x Design <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></li>
-        <li><a href="about.html">About <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></li>
-      </ul>
-    </div>
-    <div class="foot-base label">
-      <a class="foot-top" href="#summary">Back to top <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg></a>
-    </div>
-  </div>
-</footer>
 
 <script src="js/site-nav.js"></script>
 <script src="js/case-study.js"></script>

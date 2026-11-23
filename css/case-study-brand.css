@@ -37,4 +37,5 @@ nav.nav:not(.is-scrolled) .nav-links a,
 nav.nav:not(.is-scrolled) .nav-links a:hover,
 nav.nav:not(.is-scrolled) .nav-links a[aria-current] { color: #FFFFFF; }
 nav.nav:not(.is-scrolled) .nav-links a::after { background: #FFFFFF; }
+nav.nav.has-menu:not(.is-scrolled):not(.is-open) .nav-toggle { color: #FFFFFF; }   /* the hamburger, white over the cover until the menu opens */
 nav.nav:not(.is-scrolled) :focus-visible { outline-color: #FFFFFF; }
