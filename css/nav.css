@@ -1,0 +1,100 @@
+/* ════════════════════════════════════════════════════════
+   SITE NAV (redesign). One shared piece for every page.
+   Transparent over the top of the page, the page's own ground and a soft shadow once you scroll.
+   It slides away while you scroll down and comes back when you scroll up.
+   "Deron Li" left, Work / AI x Design / About right, no hamburger on phones.
+   The current page is marked with aria-current="page" on its link.
+   Selectors are prefixed with nav.nav so the old site.css rules for bare `nav`, `.logo`,
+   `.nav-links` and `.label` can't leak in on pages that still load site.css.
+   Page options (set on :root or body):
+     --nav-bg     the scrolled background, match it to the page ground (default #EEEEEC)
+   Markup:
+     <nav class="nav" aria-label="Main"><div class="wrap nav-in">
+       <a class="nav-logo" href="index.html">Deron Li</a>
+       <div class="nav-links"><a href="index.html#work">Work</a><a href="ai-design.html">AI x Design</a><a href="about.html">About</a></div>
+     </div></nav>
+   Behaviour: js/site-nav.js (adds .is-scrolled; fills .nav-progress if present).
+   Every page reserves the scrollbar's space (as site.css does), so the nav never shifts
+   sideways when you move between pages.
+   ════════════════════════════════════════════════════════ */
+html { scrollbar-gutter: stable; }
+@font-face { font-family: 'Radio Canada Big'; font-weight: 400 700; font-display: swap; src: url(../fonts/radio-canada-big-latin.woff2) format('woff2'); }
+@font-face { font-family: 'Radio Canada'; font-weight: 400 700; font-display: swap; src: url(../fonts/radio-canada-latin.woff2) format('woff2'); }
+
+/* Page changes: every page crossfades (the same rule site.css has), and the nav is its own layer,
+   so it holds still while the page under it changes. Without this on every page, Chrome logs
+   "ViewTransition opt-in disabled" when you go from a site.css page to a new-style page. */
+@view-transition { navigation: auto; }
+::view-transition-old(root), ::view-transition-new(root) { animation-duration: 0.35s; animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+nav.nav { view-transition-name: site-nav; }
+::view-transition-group(site-nav) { animation-duration: 0s; }
+
+nav.nav {
+  --nav-ink: #121212;
+  --nav-body: #55554F;
+  --nav-line: #D4D4D0;
+  --nav-accent: #4D00C0;
+  --nav-h: 64px;
+  --nav-gutter: 40px;
+  --nav-soft: cubic-bezier(0.4, 0, 0.2, 1);
+  --nav-out: cubic-bezier(0.16, 1, 0.3, 1);
+  position: fixed; inset: 0 0 auto 0; z-index: 100;
+  display: block; height: var(--nav-h); padding: 0; margin: 0;
+  background: transparent; border-bottom: 1px solid transparent;
+  -webkit-backdrop-filter: none; backdrop-filter: none; transform: none;
+  font-family: 'Radio Canada', 'Helvetica Neue', Arial, sans-serif;
+  --nav-shadow: 0 8px 24px rgba(18, 18, 18, 0.08);   /* asked for by Deron (2026-11-21): a shadow, not a hairline, once scrolled */
+  transition: background-color 0.35s var(--nav-soft), box-shadow 0.35s var(--nav-soft), transform 0.45s var(--nav-out);
+}
+/* scrolled: see-through, with the page blurred behind it (Deron 2026-11-21). A light tint of the page
+   ground keeps the links readable over any image. Browsers without backdrop blur get the solid ground. */
+nav.nav.is-scrolled { background: var(--nav-bg, #EEEEEC); box-shadow: var(--nav-shadow); }
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  nav.nav.is-scrolled {
+    background: color-mix(in srgb, var(--nav-bg, #EEEEEC) 55%, transparent);
+    -webkit-backdrop-filter: blur(20px) saturate(1.4); backdrop-filter: blur(20px) saturate(1.4);
+  }
+  nav.nav.is-night.is-scrolled, nav.nav.is-night { background: rgba(20, 20, 19, 0.55); -webkit-backdrop-filter: blur(20px) saturate(1.4); backdrop-filter: blur(20px) saturate(1.4); }
+}
+/* slides away while you scroll down, comes back as soon as you scroll up (or tab into it) */
+nav.nav.is-away { transform: translateY(-100%); box-shadow: none; }
+nav.nav.is-away:focus-within { transform: none; box-shadow: var(--nav-shadow); }
+nav.nav .nav-in { width: min(1360px, calc(100% - var(--nav-gutter) * 2)); height: 100%; margin: 0 auto; padding: 0; display: flex; align-items: center; justify-content: space-between; }
+nav.nav .nav-logo { color: var(--nav-ink); font-family: 'Radio Canada Big', 'Helvetica Neue', Arial, sans-serif; font-size: 18px; font-weight: 600; line-height: 1.5; letter-spacing: -0.01em; padding: 12px 0; text-decoration: none; transition: color 0.35s var(--nav-soft); }
+nav.nav .nav-links {
+  position: static; display: flex; flex-direction: row; gap: 32px; margin: 0; padding: 0;
+  background: none; border: 0; opacity: 1; transform: none; pointer-events: auto;
+  -webkit-backdrop-filter: none; backdrop-filter: none;
+}
+nav.nav .nav-links a {
+  position: relative; padding: 12px 0; border: 0;
+  color: var(--nav-ink); font-family: 'Radio Canada', 'Helvetica Neue', Arial, sans-serif; font-size: 16px; font-weight: 500; line-height: 1.5; letter-spacing: 0; text-transform: none; text-decoration: none;
+  transition: color 0.2s var(--nav-soft);
+}
+nav.nav.is-scrolled .nav-links a { color: var(--nav-ink); }   /* ink, not grey: the links sit over blurred images now */
+nav.nav .nav-links a::after { content: ''; position: absolute; left: 0; right: 0; bottom: 8px; height: 1.5px; background: var(--nav-ink); transform: scaleX(0); transform-origin: left; transition: transform 0.35s var(--nav-out); }
+nav.nav .nav-links a:hover, nav.nav .nav-links a[aria-current] { color: var(--nav-ink); }
+nav.nav .nav-links a:hover::after, nav.nav .nav-links a[aria-current]::after { transform: scaleX(1); }
+nav.nav :focus-visible { outline: 2px solid var(--nav-ink); outline-offset: 4px; border-radius: 4px; }
+nav.nav .nav-hamburger { display: none; }
+
+/* reading progress (case studies): the hairline fills with the accent as you read */
+nav.nav .nav-progress { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--nav-accent); transform: scaleX(var(--read, 0)); transform-origin: left; opacity: 0; transition: opacity 0.35s var(--nav-soft); }
+nav.nav.is-scrolled .nav-progress { opacity: 1; }
+
+/* over a dark section (homepage AI x Design) */
+nav.nav.is-night { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; background: #141413; --nav-shadow: 0 8px 24px rgba(0, 0, 0, 0.32); }
+nav.nav.is-night .nav-logo, nav.nav.is-night .nav-links a:hover, nav.nav.is-night .nav-links a[aria-current] { color: #FFFFFF; }
+nav.nav.is-night .nav-links a { color: #A3A39D; }
+nav.nav.is-night .nav-links a::after { background: #FFFFFF; }
+nav.nav.is-night :focus-visible { outline-color: #FFFFFF; }
+
+@media (max-width: 1024px) { nav.nav { --nav-gutter: 32px; } }
+@media (max-width: 768px) {
+  nav.nav { --nav-h: 56px; --nav-gutter: 16px; }
+  nav.nav .nav-links { gap: 20px; }
+  nav.nav .nav-links a { padding: 12px 0; border-bottom: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  nav.nav, nav.nav * { transition: none !important; }
+}

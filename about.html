@@ -4,7 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>About · Deron Li</title>
-  <link rel="stylesheet" href="css/site.css">
+  <link rel="preload" href="fonts/radio-canada-big-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/radio-canada-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/nav.css">
   <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
   <link rel="shortcut icon" href="images/favicon.ico">
@@ -16,78 +18,411 @@
     gtag('js', new Date());
     gtag('config', 'G-8R2R3N4KR2');
   </script>
+  <script>document.documentElement.classList.add('js');</script>
   <style>
-    .cs-page { min-height: 100vh; display: flex; align-items: center; }
-    .cs-body { width: 100%; padding-bottom: 0; }
-    .cs-toc { overflow: hidden; }
-    .about-photo { width: 100%; border-radius: 8px; display: block; object-fit: cover; }
-    .cs-hero { margin-bottom: 28px; }
-    .cs-section { margin-bottom: 28px; }
-    .cs-hero > .cs-title { animation: none; }
-    .cs-section h4 { margin-top: 0; margin-bottom: 8px; }
+    /* ════════════════════════════════════════════════════
+       ABOUT
+       One screen. His words on the left, a tidy grid of Polaroids on the right, his own print
+       the largest. Point at a print (or tap it) and it lifts off the page toward you.
+       His copy is plain body text. The wall is driven only by its own prints.
+       Tokens are the homepage's (index.html :root). New tokens are marked NEW.
+       Every print holds a real image. The five small ones are stand-ins he can swap.
+       ════════════════════════════════════════════════════ */
+    :root {
+      --font-marker: 'Caveat', 'Marker Felt', 'Comic Sans MS', cursive;   /* Polaroid captions only */
+      --ground: #EEEEEC;
+      --sheet: #FFFFFF;
+      --well: #E2E2DF;
+      --ink: #121212;
+      --body: #55554F;
+      --line: #D4D4D0;
+      --night-body: #A3A39D;
+      --accent: #4D00C0; --accent-night: #A27BFF;
+      --g1: #2E0091; --g2: #5B0FE0; --g3: #C24BEA; --g4: #F3D7F5;   /* the ribbon's four colours, light to deep (index.html) */
+
+      --font-display: 'Radio Canada Big', 'Helvetica Neue', Arial, sans-serif;
+      --font-text: 'Radio Canada', 'Helvetica Neue', Arial, sans-serif;
+      --t-label: 16px;
+      --t-body: 18px;
+      --t-lead: 24px;
+      --t-title: 32px;
+      --t-head: clamp(36px, 4.4vw, 64px);
+      --t-display: clamp(44px, 8.4vw, 120px);   /* the homepage display size */
+
+      /* NEW spacing (Deron, 2026-11-22: tighten About, and make the spacing reusable).
+         A base scale, then role tokens that say what each gap is for. Rules use the role tokens,
+         and screen sizes change the role tokens, not the rules. To move into the shared token file. */
+      --space-1: 4px;  --space-2: 8px;  --space-3: 12px; --space-4: 16px;
+      --space-5: 24px; --space-6: 32px; --space-7: 48px; --space-8: 64px;
+      --gap-label: var(--space-3);     /* a title to its meta line */
+      --gap-text: var(--space-4);      /* a title or meta to its first paragraph */
+      --gap-heading: var(--space-2);   /* an item title to its description */
+      --gap-item: var(--space-5);      /* between items in a group, and before the actions */
+      --gap-group: var(--space-6);     /* between groups inside a section */
+      --gap-section: var(--space-8);   /* between sections (stacked layouts: the copy and the photo wall) */
+
+      --max: 1360px;
+      --gutter: 40px;
+      --gap: 24px;
+      --nav-h: 64px;
+      --r: 8px;
+      --print: #FBFAF7;                         /* NEW: the Polaroid's paper, a clean, slightly warm white */
+      /* NEW: the prints' contact shading, asked for by Deron for the Polaroids (an exception to the
+         no-shadow rule). Two layers under each print, like the tool stickers on AI x Design:
+         a tight contact shadow where the paper meets the page, and a soft cast shadow that falls
+         further and spreads as the print lifts. */
+      --print-contact: rgb(18 18 18 / 0.30);
+      --print-cast: rgb(18 18 18 / 0.34);
+      --print-lift: 10px;                       /* NEW: how far a print rises toward the viewer when lifted */
+      --print-tilt: 12deg;                      /* NEW: the most a small print tips toward the pointer (7deg for his), set in the script */
+      --print-depth: 22px;                      /* NEW: a lifted small print's thickness (it is 0 flat on the page) */
+      --print-depth-main: 34px;                 /* NEW: the same for his larger print */
+      --print-edge-lit: #E2DFD6;                /* NEW: the print's edge facing the light (top and left) */
+      --print-edge-shade: #C2BEB3;              /* NEW: the edge turned away from it (bottom and right) */
+
+      --out: cubic-bezier(0.16, 1, 0.3, 1);
+      --soft: cubic-bezier(0.4, 0, 0.2, 1);
+      --drum: cubic-bezier(0.7, 0, 0.2, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { background: var(--ground); -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+    body { margin: 0; background: var(--ground); color: var(--body); font-family: var(--font-text); font-size: var(--t-body); line-height: 1.5; overflow-x: clip; }
+    h1, h2, p, ul, figure { margin: 0; padding: 0; }
+    h1, h2 { font-size: inherit; font-weight: inherit; }
+    ul { list-style: none; }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+    img, svg, video { display: block; }
+    .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+    :focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; border-radius: 4px; }
+
+    .wrap { width: min(var(--max), calc(100% - var(--gutter) * 2)); margin: 0 auto; }
+    .grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gap); }
+    .arrow { width: 20px; height: 20px; flex: none; transition: transform 0.4s var(--out); }
+
+    /* ════════ TEXT STYLES (role names, for the coming styleguide) ════════ */
+    .t-display { color: var(--ink); font-family: var(--font-display); font-size: var(--t-display); font-weight: 600; line-height: 1.04; letter-spacing: -0.04em; }
+    .t-head { color: var(--ink); font-family: var(--font-display); font-size: var(--t-head); font-weight: 600; line-height: 1.05; letter-spacing: -0.035em; text-wrap: balance; }
+    .t-sub { color: var(--ink); font-family: var(--font-display); font-size: var(--t-lead); font-weight: 600; line-height: 1.2; letter-spacing: -0.02em; }
+    .t-lead { font-size: var(--t-lead); line-height: 1.4; text-wrap: pretty; }
+    .t-body { font-size: var(--t-body); line-height: 1.5; text-wrap: pretty; }
+    .label { font-family: var(--font-text); font-size: var(--t-label); font-weight: 500; line-height: 1.5; }
+
+    /* ════════ REVEAL (the homepage's rv-t) ════════ */
+    .js .rv-t { opacity: 0; transform: translateY(20px); }
+    .js .rv-t.in { opacity: 1; transform: none; transition: opacity 1.1s var(--soft) var(--d, 0ms), transform 1.1s var(--out) var(--d, 0ms); }
+
+    /* ════════ THE PAGE: one screen ════════ */
+    .about { min-height: 100svh; padding: calc(var(--nav-h) + 40px) 0 48px; display: flex; align-items: center; }
+    .about-in { position: relative; z-index: 1; align-items: center; }
+
+    /* ════════ RIBBON: the homepage's silk scarves behind the page (js/ribbon.js) ════════
+       Fills the page behind the copy and the wall, and fades into the ground at the foot. */
+    .about { position: relative; }
+    .about-bg { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; pointer-events: none;
+      -webkit-mask-image: linear-gradient(to bottom, #000 70%, transparent); mask-image: linear-gradient(to bottom, #000 70%, transparent); }
+    /* stacked: a band behind the wall (placed by the script below), soft at its top and foot */
+    .about-bg.is-band { bottom: auto; -webkit-mask-image: linear-gradient(to bottom, transparent, #000 22%, #000 78%, transparent); mask-image: linear-gradient(to bottom, transparent, #000 22%, #000 78%, transparent); }
+    .words { grid-column: 1 / 8; padding-right: 72px; }   /* room between the copy and the wall */
+
+    /* the greeting rolls up from its baseline, as the homepage role line does */
+    .hello { overflow: hidden; padding-bottom: 0.12em; margin-bottom: -0.12em; }
+    .hello > span { display: block; }
+    /* when the title needs two lines it breaks as "Hey," over "I'm Deron!", never inside "I'm Deron!" */
+    .hello .ln { display: inline-block; white-space: nowrap; }
+    .js .hello > span { transform: translateY(116%); }
+    .js .hello.in > span { transform: none; transition: transform 0.9s var(--drum); }
+    .intro { margin-top: var(--gap-text); color: var(--ink); }
+
+    .pair { display: grid; grid-template-columns: 1fr; row-gap: var(--gap-item); margin-top: var(--gap-group); }   /* stacked: Beyond Design, then What's Next */
+    .pair h2 { margin-bottom: var(--gap-heading); }
+    .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: var(--gap-item); }
+    .btn { display: inline-flex; align-items: center; gap: 12px; height: 56px; padding: 0 24px; border-radius: var(--r); background: var(--ink); color: var(--sheet); font-weight: 600; transition: background-color 0.3s var(--soft); }
+    .btn .arrow { color: var(--accent-night); }
+    .btn:hover { background: var(--accent); }
+    .btn:hover .arrow { color: var(--sheet); transform: translate(4px, -4px); }
+    /* external link icon (opens another site): the box stays put and the arrow nudges out of it on hover */
+    .arrow.ext .out { transition: transform 0.3s var(--out); }
+    a:hover > .arrow.ext { transform: none; } a:hover > .arrow.ext .out { transform: translate(2px, -2px); }
+
+    /* ════════ THE WALL: six Polaroids on a tidy 3 x 3 grid ════════
+       Each print follows the real instant-film format: a square photo, a thin even border on
+       three sides (5.1% of the card's width) and a deep chin at the bottom that holds the
+       caption. The card is 88 by 118 (the real one is 88 by 107): the chin is deeper so a
+       caption can run to three lines in marker (the Sheridan IXD caption needs three). Near-sharp corners, no outline: the edge is the shadow.
+       His print is the same format, a 2 x 2 block. The prints sit straight on even gaps.
+       A print's cell never moves (it is the hit area). The paper inside it is what lifts.
+
+       Lift, like the AI x Design tool stickers: the script drives five springs per print and
+       writes them as variables. --h is the lift (0 resting on the page, 1 lifted), --rx and
+       --ry the tilt toward the pointer, --tx and --ty a small drift toward it. Only transform
+       and opacity change while a print moves. The size never changes. */
+    .side { grid-column: 8 / 13; justify-self: end; width: min(100%, calc((100svh - var(--nav-h) - 112px) * 0.752)); container-type: inline-size; }
+    .wall { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2.4cqw; }
+    .print { --h: 0; --rx: 0deg; --ry: 0deg; --tx: 0px; --ty: 0px; --depth: var(--print-depth);
+             grid-column: var(--c); grid-row: var(--r); position: relative; z-index: 1; isolation: isolate; display: block; aspect-ratio: 88 / 118; text-align: center; cursor: default; -webkit-tap-highlight-color: transparent;
+             perspective: 700px; }
+    .print.is-up { z-index: 10; }
+    /* the card: a solid print in real 3D. Its face is .print-in, and four side faces (added by the
+       script) fold back from its edges, so the thickness you see follows the tilt and the
+       perspective. The depth grows with the lift: flat on the page there is no edge at all. */
+    .card { position: relative; display: block; height: 100%; pointer-events: none; transform-style: preserve-3d;
+            transform: translate3d(var(--tx), calc(var(--ty) - var(--h) * 4px), calc(var(--h) * var(--print-lift))) rotateX(var(--rx)) rotateY(var(--ry)); }
+    .edge { position: absolute; display: block; pointer-events: none; }
+    .edge.is-l { left: 0; top: 0; bottom: 0; width: var(--depth); background: var(--print-edge-lit); transform-origin: 0 50%; transform: rotateY(90deg) scaleX(var(--h)); }
+    .edge.is-r { right: 0; top: 0; bottom: 0; width: var(--depth); background: var(--print-edge-shade); transform-origin: 100% 50%; transform: rotateY(-90deg) scaleX(var(--h)); }
+    .edge.is-t { left: 0; right: 0; top: 0; height: var(--depth); background: var(--print-edge-lit); transform-origin: 50% 0; transform: rotateX(-90deg) scaleY(var(--h)); }
+    .edge.is-b { left: 0; right: 0; bottom: 0; height: var(--depth); background: var(--print-edge-shade); transform-origin: 50% 100%; transform: rotateX(90deg) scaleY(var(--h)); }
+    .print-in { position: relative; display: flex; flex-direction: column; height: 100%; padding: 5.1% 5.1% 0; overflow: hidden; background: var(--print); border-radius: 1px; pointer-events: none; }
+    /* the shading under the paper: it stays on the page while the paper rises */
+    .print::before, .print::after { content: ''; position: absolute; z-index: -1; pointer-events: none; border-radius: 4px; }
+    .print::before { inset: 1px; background: var(--print-contact); filter: blur(2px); transform: translateY(1px); opacity: calc(1 - var(--h) * 0.75); }
+    .print::after { inset: 8% 6% 0; background: var(--print-cast); filter: blur(12px);
+                    transform: translate(calc(var(--tx) * -0.6), calc(10px + var(--h) * 16px)) scale(calc(1 - var(--h) * 0.04));
+                    opacity: calc(0.5 + var(--h) * 0.5); }
+    /* a satin sheen that slides across the print as it tips, as on the stickers */
+    .print-in::after { content: ''; position: absolute; inset: -20% -60%; pointer-events: none;
+                       background: linear-gradient(115deg, rgb(255 255 255 / 0) 40%, rgb(255 255 255 / 0.16) 50%, rgb(255 255 255 / 0) 60%);
+                       transform: translateX(calc(var(--ry) * -2.4)); opacity: var(--h); }
+    .shot { position: relative; display: block; flex: none; aspect-ratio: 1 / 1; overflow: hidden; background: var(--well); }
+    .shot img, .shot video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    /* captions are hand-written, as on a real Polaroid (Caveat, SIL Open Font Licence, self-hosted) */
+    @font-face { font-family: 'Caveat'; font-weight: 400 700; font-display: swap; src: url(fonts/caveat-latin.woff2) format('woff2'); }
+    .cap { display: flex; align-items: center; justify-content: center; flex: 1; margin: 0 -2%; padding: 0 0 2%; color: var(--ink); line-height: 1.1; text-align: center; text-wrap: balance; font-family: var(--font-marker); font-weight: 400; letter-spacing: 0; }
+    /* his print: the same format, the largest, in a 2 x 2 block */
+    .print.is-main { grid-column: 1 / 3; grid-row: 1 / 3; aspect-ratio: auto; }
+    .print.is-main { --depth: var(--print-depth-main); perspective: 1400px; }
+    .print.is-main .shot img { object-position: 50% 22%; }
+    /* his caption: three set lines (name, years, city), each kept whole */
+    .cap.is-id { flex-direction: column; } .cap.is-id > span { white-space: nowrap; }
+    /* Caveat draws small for its size, so captions run about 30% larger than the text around them */
+    .cap { font-size: 1.25em; font-weight: 600 !important; line-height: 0.95 !important; }
+    .print.is-main .cap { font-family: var(--font-marker); font-size: calc(var(--t-lead) * 1.3); font-weight: 600; letter-spacing: 0; }
+
+    /* keyboard focus: the print lifts (the script) and gets a ring. Colour is never touched. */
+    .print:focus-visible { outline: none; }
+    .print:focus-visible .print-in { outline: 2px solid var(--ink); outline-offset: -2px; }
+
+    /* arrival: the prints are laid down one by one, his first */
+    .js .wall:not(.in) .print { opacity: 0; transform: translateY(24px); }
+    .wall.in:not(.is-live) .print { transition: transform 0.9s var(--out) calc(var(--i) * 70ms + 200ms), opacity 0.4s var(--soft) calc(var(--i) * 70ms + 200ms); }
+
+    /* ════════ RESPONSIVE ════════ */
+    /* a laptop screen (940px tall or less): tighter space so the page still reads as one screen */
+    @media (min-width: 1025px) and (max-height: 940px) {
+      :root { --t-lead: 20px; --gap-text: var(--space-3); --gap-item: var(--space-4); --gap-group: var(--space-5); }
+      .about { padding: calc(var(--nav-h) + 12px) 0 12px; }
+      .side { width: min(100%, calc((100svh - var(--nav-h) - 80px) * 0.752)); }
+    }
+    @media (max-width: 1024px) {
+      :root { --gutter: 32px; --t-title: 24px; }
+      .about { display: block; min-height: 0; padding: calc(var(--nav-h) + 32px) 0 72px; }
+      .about-in { display: flex; flex-direction: column; align-items: stretch; }
+      .words { display: contents; }
+      .hello { order: 1; } .intro { order: 3; }
+      .side { order: 4; width: min(100%, 560px); margin: var(--gap-section) auto 0; }
+      .pair { order: 5; margin-top: var(--gap-section); }
+    }
+    @media (max-width: 768px) {
+      :root { --gutter: 16px; --gap: 16px; --t-lead: 20px; --nav-h: 56px; --gap-label: var(--space-2); --gap-section: var(--space-7); }
+      body { font-size: 16px; }
+      .t-body { font-size: 16px; }
+      .about { padding: calc(var(--nav-h) + 24px) 0 56px; }
+      .side { width: 100%; margin: var(--gap-section) 0 0; }
+      .wall { font-size: 12px; line-height: 1.25; gap: 2cqw; }
+      .print.is-main .cap { font-size: 21px; }
+      .cap { margin: 0; white-space: normal; text-align: center; line-height: 1.05; }   /* marker is wider than the text face: a long caption wraps to two lines in the small chin */
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+      .js .rv-t, .js .hello > span { opacity: 1; transform: none; }
+      /* no tilt and no travel: a lifted print only casts the longer shadow (the script sets --h, nothing else) */
+      .js .wall:not(.in) .print { opacity: 1; transform: none; }
+    }
   </style>
 </head>
-<body>
+<body id="top">
 
-<nav>
-  <a class="logo label" href="index.html">Deron Li</a>
-  <div class="nav-links">
-    <a href="index.html#work" class="label">Work</a>
-    <a href="ai-design.html" class="label">AI x Design</a>
-    <a href="about.html" class="label">About</a>
+<nav class="nav" aria-label="Main">
+  <div class="wrap nav-in">
+    <a class="nav-logo" href="index.html">Deron Li</a>
+    <div class="nav-links label"><a href="index.html#work">Work</a><a href="ai-design.html">AI x Design</a><a href="about.html" aria-current="page">About</a></div>
   </div>
-  <button class="nav-hamburger" aria-label="Toggle menu" aria-expanded="false">
-    <span></span><span></span><span></span>
-  </button>
 </nav>
 
-<div class="cs-page">
+<main class="about">
+  <canvas class="about-bg" aria-hidden="true"></canvas>
+  <div class="wrap grid about-in">
 
-  <div class="cs-body">
+    <div class="words">
+      <h1 class="hello t-display"><span><span class="ln">Hey,</span> <span class="ln">I'm Deron!</span></span></h1>
 
-    <div class="cs-layout">
+      <!-- Deron's copy, verbatim -->
+      <p class="intro t-lead rv-t" style="--d: 200ms">I believe good design starts with understanding the people you're designing for through empathy, research, and validation.</p>
 
-      <aside class="cs-toc">
-        <img class="about-photo" src="images/about/deron.avif" alt="Deron Li" />
-      </aside>
-
-      <div class="cs-sections">
-
-        <header class="cs-hero" id="summary">
-          <h1 class="cs-title h1">Hey, I'm Deron!</h1>
-          <p class="cs-summary body-lg">I'm a passionate product designer with 9 years of experience driven by curiosity! I believe good design starts with understanding the people you're designing for through empathy, research, and validation. I love stepping into unfamiliar territory and learning new things, whether it's a new industry or technology.</p>
-        </header>
-
-        <section class="cs-section" id="beyond">
-          <h4 class="h4">Beyond Design</h4>
-          <p class="body-lg">Outside of design, I've played tennis for 20 years and coached for 10. These days, you'll find me colour grading, crocheting, travelling, learning about aviation through flight simulators, or using Claude Code to build personal projects.</p>
+      <div class="pair">
+        <section class="rv-t" style="--d: 380ms" aria-labelledby="beyond-title">
+          <h2 class="t-sub" id="beyond-title">Beyond Design</h2>
+          <!-- Deron's copy, verbatim, plain body text -->
+          <p class="t-body">Outside of design, I've played tennis for 20 years and coached for 10. These days, you'll find me colour grading, crocheting, travelling, learning about aviation through flight simulators, or using Claude Code to build personal projects.</p>
         </section>
 
-        <section class="cs-section" id="next">
-          <h4 class="h4">What's Next</h4>
-          <p class="body-lg">I'm currently exploring roles where I can tackle problems, collaborate with thoughtful teams, and keep learning. If you're building something challenging and meaningful, let's talk!</p>
-          <a href="https://www.linkedin.com/in/deronli/" class="about-cta" target="_blank" rel="noopener">LinkedIn</a>
+        <section class="rv-t" style="--d: 460ms" aria-labelledby="next-title">
+          <h2 class="t-sub" id="next-title">What's Next</h2>
+          <!-- Deron's copy, verbatim -->
+          <p class="t-body">I'm currently exploring roles where I can tackle problems, collaborate with thoughtful teams, and keep learning. If you're building something challenging and meaningful, let's talk!</p>
+          <div class="actions label">
+            <a class="btn" href="https://www.linkedin.com/in/deronli/" target="_blank" rel="noopener">LinkedIn <svg class="arrow ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13.5V18a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4.5"/><path class="out" d="M14.5 4H20v5.5M20 4l-9 9"/></svg></a>
+          </div>
         </section>
-
       </div>
+    </div>
 
+    <!-- The wall: a 3 x 3 grid. --c and --r are a print's column and row, --i is its turn to arrive.
+         The five small prints are stand-ins from the repo, to swap for his own photos and clips. -->
+    <div class="side">
+      <div class="wall label" role="group" aria-label="Photo wall. Point at a print, tap it or tab to it to enlarge it.">
+        <figure class="print is-main" style="--i: 0">
+          <span class="print-in"><span class="shot"><img src="images/about/deron.avif" alt="Deron Li, smiling, in a denim shirt" /></span><span class="cap is-id"><span>Me,</span> <span>9 Years of Product Design</span> <span>Toronto, Canada</span></span></span>
+        </figure>
+
+        <button type="button" class="print" style="--c: 3; --r: 1; --i: 1" aria-label="Crocheted Coffee Cup Pig: a crocheted pig keychain sitting in a striped cup.">
+          <span class="print-in"><span class="shot"><img src="images/about/pigcrochet.png" alt="" /></span><span class="cap">Crocheted Coffee Cup Pig</span></span>
+        </button>
+        <button type="button" class="print" style="--c: 3; --r: 2; --i: 2" aria-label="My Telus App 1 Million MAU: the team celebrating under 1 Million balloons in the office.">
+          <span class="print-in"><span class="shot"><img src="images/about/my-telus-1-million.jpg" alt="" /></span><span class="cap">My TELUS App<br />1 Million MAU</span></span>
+        </button>
+        <button type="button" class="print" style="--c: 1; --r: 3; --i: 3" aria-label="IXD Association Cofounder: the Sheridan interaction design class in a group photo outside the campus building.">
+          <span class="print-in"><span class="shot"><img src="images/about/ixd-orientation.jpg" alt="" /></span><span class="cap">Co-founded the Sheridan IXD Association</span></span>
+        </button>
+        <button type="button" class="print" style="--c: 2; --r: 3; --i: 4" aria-label="Tennis Coach: two coaches leading a junior tennis class on a court.">
+          <span class="print-in"><span class="shot"><img src="images/about/tennis-coaching.jpg" alt="" /></span><span class="cap">10+ Years Coaching Tennis</span></span>
+        </button>
+        <button type="button" class="print" style="--c: 3; --r: 3; --i: 5" aria-label="Cisco People's Choice Award: four teammates holding certificates at the President's Innovation Challenge.">
+          <span class="print-in"><span class="shot"><img src="images/about/cisco-challenge.jpg" alt="" /></span><span class="cap">Cisco People’s Choice Award</span></span>
+        </button>
+      </div>
     </div>
 
   </div>
+</main>
 
-</div>
 
 <script>
-requestAnimationFrame(() => {
-  const els = document.querySelectorAll('.cs-hero > *, .cs-section > *');
-  els.forEach((el, i) => { el.style.transitionDelay = `${i * 0.1}s`; });
-  requestAnimationFrame(() => {
-    els.forEach(el => el.classList.add('is-visible'));
-  });
-});
-</script>
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 
-<script src="js/lightbox.js" defer></script>
-<script src="js/nav.js" defer></script>
+  /* ── Arrival: the greeting rolls up, the words follow, the prints land ── */
+  const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }));
+  $$('.rv-t, .hello').forEach((el) => io.observe(el));
+
+  /* ── The wall: prints that lift like the AI x Design tool stickers ──
+     Each print has five springs: h (the lift), rx and ry (the tilt), tx and ty (a small drift).
+     Pointer over a print: it lifts, and tips and drifts toward the cursor (the edge nearest the
+     cursor dips, as if pressed). Tap or keyboard focus: it lifts and holds a slight tip.
+     The loop runs only while a spring is moving: no frames when the wall is still. */
+  const wall = $('.wall'), all = $$('.print', wall);
+  /* build each print as a solid card: the face plus four side faces that fold back from its edges */
+  all.forEach((el) => {
+    const face = $('.print-in', el), card = document.createElement('span');
+    card.className = 'card';
+    el.insertBefore(card, face); card.append(face);
+    ['l', 'r', 't', 'b'].forEach((k) => { const e = document.createElement('span'); e.className = 'edge is-' + k; e.setAttribute('aria-hidden', 'true'); card.append(e); });
+  });
+  const SPR ={ h: [150, 15], rx: [140, 18], ry: [140, 18], tx: [140, 18], ty: [140, 18] };   /* stiffness, damping: the stickers' values */
+  const tiles = all.map((el) => {
+    const main = el.classList.contains('is-main');
+    const s = {}; for (const k in SPR) s[k] = { x: 0, v: 0, t: 0 };
+    return { el, main, s, tilt: main ? 7 : 12, drift: main ? 3 : 4, over: false };
+  });
+  let held = null, running = false, last = 0;
+  const frames = { n: 0, ms: 0 };
+  window.__wallStats = frames;                                 /* frame cost, read by the QA script */
+
+  const write = (t) => {
+    const s = t.s, st = t.el.style;
+    st.setProperty('--h', s.h.x.toFixed(3));
+    st.setProperty('--rx', s.rx.x.toFixed(2) + 'deg'); st.setProperty('--ry', s.ry.x.toFixed(2) + 'deg');
+    st.setProperty('--tx', s.tx.x.toFixed(2) + 'px'); st.setProperty('--ty', s.ty.x.toFixed(2) + 'px');
+    t.el.classList.toggle('is-up', s.h.x > 0.05);
+  };
+  const step = (now) => {
+    const t0 = performance.now();
+    const dt = Math.min(1 / 30, Math.max(0, (now - last) / 1000)); last = now;
+    let busy = false;
+    for (const t of tiles) {
+      let moved = false;
+      for (const k in SPR) {
+        const s = t.s[k], [K, C] = SPR[k];
+        s.v += (K * (s.t - s.x) - C * s.v) * dt; s.x += s.v * dt;
+        if (k === 'h' && s.x < 0) { s.x = 0; s.v = 0; }       /* paper can't sink into the page */
+        if (Math.abs(s.v) > 1e-3 || Math.abs(s.t - s.x) > 1e-3) { busy = moved = true; } else if (s.x !== s.t) { s.x = s.t; s.v = 0; moved = true; }
+      }
+      if (moved) write(t);
+    }
+    frames.ms += performance.now() - t0; frames.n++;
+    if (busy) requestAnimationFrame(step); else running = false;
+  };
+  const kick = () => { if (running) return; running = true; last = performance.now(); requestAnimationFrame(step); };
+  const aim = (t, lift, x = 0, y = 0) => {                     /* x, y: the cursor from the centre, -0.5 to 0.5 */
+    const s = t.s;
+    s.h.t = lift ? 1 : 0;
+    if (reduce) { for (const k in SPR) { s[k].t = k === 'h' ? s.h.t : 0; s[k].x = s[k].t; s[k].v = 0; } write(t); return; }
+    s.ry.t = x * 2 * t.tilt; s.rx.t = -y * 2 * t.tilt;            /* the edge nearest the cursor dips */
+    s.tx.t = x * 2 * t.drift; s.ty.t = y * 2 * t.drift;           /* and the print drifts a few px toward it */
+    kick();
+  };
+  const settle = () => {
+    for (const t of tiles) {
+      const keyed = t.el.matches(':focus-visible');
+      if (t.over) continue;                                        /* the pointer is driving this one */
+      if (held === t || keyed) aim(t, true, 0.18, -0.12); else aim(t, false);
+    }
+    $$('video', wall).forEach((v) => { const t = tiles.find((x) => x.el.contains(v)); (t.s.h.t > 0 && !reduce) ? v.play().catch(() => {}) : v.pause(); });
+  };
+  tiles.forEach((t) => {
+    if (fine) {
+      t.el.addEventListener('pointerenter', () => { t.over = true; });
+      t.el.addEventListener('pointermove', (e) => {
+        const r = t.el.getBoundingClientRect();
+        const x = Math.max(-0.5, Math.min(0.5, (e.clientX - r.left) / r.width - 0.5)), y = Math.max(-0.5, Math.min(0.5, (e.clientY - r.top) / r.height - 0.5));
+        t.over = true; aim(t, true, x, y);
+      });
+      t.el.addEventListener('pointerleave', () => { t.over = false; settle(); });
+    }
+    t.el.addEventListener('focus', settle); t.el.addEventListener('blur', settle);
+    /* touch (and a click from the keyboard): tap to lift, tap again or anywhere else to set it down */
+    t.el.addEventListener('click', (e) => { e.stopPropagation(); if (fine && e.detail) return; held = held === t ? null : t; settle(); t.el.setAttribute && t.el.tagName === 'BUTTON' && t.el.setAttribute('aria-pressed', held === t ? 'true' : 'false'); });
+  });
+  document.addEventListener('click', () => { if (held) { const was = held; held = null; settle(); was.el.tagName === 'BUTTON' && was.el.setAttribute('aria-pressed', 'false'); } });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { held = null; if (all.includes(document.activeElement)) document.activeElement.blur(); settle(); } });
+
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    wall.classList.add('in');
+    setTimeout(() => wall.classList.add('is-live'), reduce ? 0 : 2200);
+  }));
+})();
+</script>
+<script src="js/ribbon.js"></script>
+<script>
+/* The ribbon (js/ribbon.js). On a wide screen it fills the page behind the copy and the wall. Once the page stacks
+   (1024px and under) the copy runs full width, so the ribbon only fills the band behind the photo wall, bleeding
+   past it a little, and the words above and below stay on the plain ground. */
+(() => {
+  const about = document.querySelector('.about'), side = document.querySelector('.side'), cv = document.querySelector('.about-bg');
+  const place = () => {
+    if (innerWidth > 1024) { cv.style.top = cv.style.height = ''; cv.classList.remove('is-band'); return; }
+    const a = about.getBoundingClientRect(), r = side.getBoundingClientRect(), pad = Math.round(r.height * 0.1);
+    cv.style.top = Math.round(r.top - a.top - pad) + 'px'; cv.style.height = Math.round(r.height + pad * 2) + 'px'; cv.classList.add('is-band');
+  };
+  if (window.Ribbon) Ribbon.mount(cv, { host: about, phone: () => false, place });
+})();
+</script>
+<script src="js/site-nav.js"></script>
 </body>
 </html>

@@ -18,6 +18,14 @@ lottie/               — Lottie JSON animation files
 images/
 ```
 
+On the `redesign` branch (not on `main` yet), the new style adds: `css/nav.css` + `js/site-nav.js` (the shared nav on every page), `css/case-study.css` + `js/case-study.js` (now used by `motion-design.html` and the redesign style guide; the four case studies were reverted to their live `main` versions on 2026-11-22 and then reskinned with `css/brand.css` + `css/case-study-brand.css` (loaded after `site.css`: redesign typeface and colours only, live layout and text styles kept). `css/brand.css` is the shared brand layer for any page still on `site.css` (Radio Canada, the redesign palette, old palette names mapped onto it). AI x Design loads it too, and on 2026-11-22 its `--nv-*` tokens were pointed at the brand tokens, its text classes took the redesign weights, leading and tracking, and its buttons became the redesign button plus the shared nav, and the redesigned case studies plus the colourful Support pilot are archived in `../Portfolio-archive/case-study-v3-pilot-2026-11-22/`), and `fonts/` (Radio Canada Big and Radio Canada). `js/ribbon.js` is the homepage's silk ribbon background as a reusable WebGL piece (`Ribbon.mount(canvas, {...})`), used behind About (2026-11-22). The homepage still runs its own copy of the shader in `index.html`. `js/tool-stickers.js` + `css/tool-stickers.css` are the shared tool row (flat logos that spin in as 3D stickers on scroll and lift on hover), used by AI x Design and Motion Design (2026-11-23). Each row points at its own baked set with `data-stickers` (`images/ai/tools/sticker/`, `images/motion/tool-stickers/`), built with `Brand and Motion Design Agent/work/ai-page-tools-tiles/sticker/run-set.sh` (`STICKER_IDS` picks the logos, in row order). Its TOC is the case-study one (diamond marker), shared as `js/toc.js` + `css/toc.css`. The four case studies still run their own inline copy of that script. The new tokens live in those files and inline in `index.html`, not in `site.css`, until they're merged into one shared file and the styleguide is updated.
+
+**Redesign: build reusable styles (Deron, 2026-11-21).** A new or updated styleguide is coming for the redesign. It will list the colours and text styles in use and say how each is used, and the same styles will apply on every page (homepage Selected Work, About, the case studies, AI x Design). So while building:
+- Use the colour tokens (`--ink`, `--body`, `--line`, `--accent`, `--accent-night`, `--night-body`...) and the type tokens (`--t-label` to `--t-display`). Don't add one-off hex values or sizes. If a new value is needed, add it as a named token.
+- Reuse an existing text style before making a new one, and name any new one for its role so it can go in the styleguide.
+- Text colours so far: `--ink` `#121212` for headings and card titles (the whole Selected Work title is ink at one weight, no bold metrics: Deron, 2026-11-22. The final numbers still count up), `--body` `#55554F` for labels and body text. Where else the softer grey goes is decided case by case.
+- **Spacing must be reusable too (Deron, 2026-11-22).** About defines the spacing tokens, first: a base scale `--space-1` to `--space-8` (4, 8, 12, 16, 24, 32, 48, 64) and role tokens that rules use, `--gap-label` (title to meta, 12), `--gap-text` (title or meta to first paragraph, 16), `--gap-heading` (item title to its description, 8), `--gap-item` (between items, and before actions, 24), `--gap-group` (between groups in a section, 32), `--gap-section` (between sections, 64, 48 on phones). Screen sizes change the role tokens, not the rules. Use these for new spacing on other pages, move them into the shared token file with the colours and type, and list them in the new styleguide.
+
 Old AI page versions (`ai-fun.html`, v2, the v3 layout prototypes) are archived outside the repo in `../Portfolio-archive/ai-page-old/`. The AI page art generators live in `Brand and Motion Design Agent/work/ai-page-art-generators/`.
 
 ## Design system
@@ -50,15 +58,19 @@ When the user says "body" in a paragraph context, they mean `body-lg` (18px desk
 ## Copy rules
 
 - **Never change user-written text** (sentences, punctuation, structure) without explicit permission. If a layout change requires touching copy, flag it first: "To do X I'd need to adjust this text — is that OK?"
+- **Always review copy with the `copywriter` skill** before it goes on a page (Deron, 2026-11-21). It must be professional and grammatically correct. The old `ux-writer` skill is gone, its rules now live in `copywriter`.
 - Use **Canadian spelling**: colour, behaviour, prioritise, analyse, centre.
 - **No em dashes (—).** Rewrite the sentence.
 - No semicolons. Use a comma or conjunction instead.
 - No repetitive sentence structure across bullets.
 - Keep it natural and human. No filler or over-explaining.
+- **Titles and headings use Title Case** (Deron said "camel case", 2026-11-18): capitalise every major word, keep short articles, conjunctions and prepositions lowercase unless first (a, an, the, and, but, or, in, on, of, to, for, with, at, by). Examples: "I Ship in Code", "I Prototype with AI", "Selected Work". Applies to page titles, section headings, card and case-study titles, and the homepage role line. Body copy stays sentence case.
 
 ## Cross-page consistency
 
 If a change applies to a shared element (navigation, a CSS class used across pages, a layout pattern), propagate it to all pages where it's relevant — don't leave sibling pages out of sync.
+
+**Always keep links current (Deron, 2026-11-22).** Whenever a page is added, renamed, replaced or removed, update the nav and every link to it across the site in the same change: nav links, homepage tiles, More Projects cards, footer links, "back" links and in-page references. Then check that no internal link points at a missing or superseded page. Build new versions in the real page where possible, not in a separate `-v2` file (Deron: "don't make a new page... just correct the existing one").
 
 ## Git and workflow
 
@@ -89,6 +101,10 @@ Read and edit any portfolio file without asking. Confirm only two kinds of chang
 - After every edit, sync: `rsync -a --delete --exclude '.git' --exclude '_boards' --exclude '_qa' "/Users/deronli/Documents/Claude Code/Portfolio/" /tmp/portfolio-preview/`. Then load the page with a cache-busting query (`?fresh=<timestamp>`).
 - **QA:** the `site-qa` skill tests the live site (https://deronli.me by default, or the local preview before a merge) in Chromium and Safari at every screen size and serves its report at http://localhost:8080/_qa/report.html. Run it before merging to `main`.
 - Show work at http://localhost:8080/<page>. Don't open a new tab per revision (see `design-foundations/references/verification.md`).
+
+## Case study videos
+
+Videos on case studies autoplay, muted and looping, while they are in view (Deron, 2026-11-21: "the point of having videos is to have autoplay and autoloop to get people interested"). No click-to-play posters. Under reduced motion they show their finished-state poster and wait. The motion design page is the exception: its four films have sound and wait for the visitor to press play, as Deron asked for that page.
 
 ## Things to never touch without an explicit ask
 

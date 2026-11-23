@@ -1,0 +1,15 @@
+/* ════════ TOOL STICKERS (shared: AI x Design and Motion Design) ════════
+   The parts of a tool row that js/tool-stickers.js drives. Each page sets its own row layout (.tt-row).
+   At rest each tool is its flat official mark. With WebGL the script hides the mark and name until the
+   sticker has spun in and landed, then turns the hovered mark into a die-cut 3D sticker.
+   Reduced motion and no WebGL keep the flat marks. */
+.tt-stage { position: relative; }
+.tt-item { position: relative; min-width: 0; display: flex; flex-direction: column; align-items: center; }
+.tt-slot { position: relative; display: block; width: 52px; aspect-ratio: 1; }   /* stickers 43-50px on their longest side */
+/* the flat logo sits exactly where the sticker's printed mark does (left, top, size from the set's outlines.json) */
+.tt-mark { position: absolute; max-width: none; object-fit: contain; }
+.tt-live .tt-item:not(.is-in) .tt-mark { visibility: hidden; }
+.tt-name { margin-top: 12px; color: var(--body); white-space: nowrap; }
+.tt-live .tt-name { opacity: 0; }   /* the script fades each name in with its landing, in step with scroll */
+.tt-live .tt-item.is-in .tt-name { opacity: 1; }
+.tt-canvas { position: absolute; display: block; pointer-events: none; }

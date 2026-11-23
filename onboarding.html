@@ -5,6 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TELUS — App Retention · Deron Li</title>
   <link rel="stylesheet" href="css/site.css">
+  <link rel="preload" href="fonts/radio-canada-big-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/radio-canada-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/brand.css">
+  <link rel="stylesheet" href="css/case-study-brand.css">
+  <link rel="stylesheet" href="css/nav.css">
   <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
   <link rel="shortcut icon" href="images/favicon.ico">
@@ -19,14 +24,11 @@
 </head>
 <body>
 
-<nav>
-  <a class="logo label" href="index.html">Deron Li</a>
-  <div class="nav-links">
-    <a href="index.html#work" class="label">Work</a>
-    <a href="ai-design.html" class="label">AI x Design</a>
-    <a href="about.html" class="label">About</a>
+<nav class="nav" aria-label="Main">
+  <div class="wrap nav-in">
+    <a class="nav-logo" href="index.html">Deron Li</a>
+    <div class="nav-links label"><a href="index.html#work" aria-current="page">Work</a><a href="ai-design.html">AI x Design</a><a href="about.html">About</a></div>
   </div>
-  <button class="nav-hamburger" aria-label="Toggle menu" aria-expanded="false"><span></span><span></span><span></span></button>
 </nav>
 
 <div class="cs-page">
@@ -842,7 +844,7 @@
 })();
 </script>
 
-<script src="js/nav.js" defer></script>
+<script src="js/site-nav.js" defer></script>
 <script src="js/lightbox.js" defer></script>
 </body>
 </html>

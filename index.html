@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Deron Li — Product Designer</title>
-  <link rel="stylesheet" href="css/site.css">
   <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
   <link rel="shortcut icon" href="images/favicon.ico">
@@ -16,123 +15,1426 @@
     gtag('js', new Date());
     gtag('config', 'G-8R2R3N4KR2');
   </script>
+  <link rel="preload" href="fonts/radio-canada-big-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/radio-canada-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/nav.css">
+  <script>document.documentElement.classList.add('js'); if (new URLSearchParams(location.search).get('hero') === 'centre') document.documentElement.dataset.hero = 'centre';   /* review switch: the centred landing */</script>
+  <style>
+    /* ════════════════════════════════════════════════════
+       HOMEPAGE OPTION A2 — round 3
+       One idea: one real product screen, and the four things Deron does to it. The phone stays,
+       the tool beside it changes with the role line, and the screen responds.
+       Palette: studio grey ground, white, ink, one accent that also colours the drifting field
+       behind the landing, so the page has a single colour story.
+       Type: Radio Canada Big (display) + Radio Canada (text).
+       ════════════════════════════════════════════════════ */
+    @font-face { font-family: 'Radio Canada Big'; font-weight: 400 700; font-display: swap; src: url(fonts/radio-canada-big-latin.woff2) format('woff2'); }
+    @font-face { font-family: 'Radio Canada'; font-weight: 400 700; font-display: swap; src: url(fonts/radio-canada-latin.woff2) format('woff2'); }
+
+    :root {
+      --ground: #EEEEEC;
+      --sheet: #FFFFFF;
+      --well: #E2E2DF;
+      --ink: #121212;
+      --body: #55554F;
+      --line: #D4D4D0;
+      --night: #141413;
+      --night-body: #A3A39D;
+      --night-line: #32322F;
+
+      /* accent: the purple of the original portfolio (site.css --purple), its lift for the ink section,
+         and the four colours of the landing form, light to deep, built around it */
+      --accent: #4D00C0; --accent-head: #4D00C0; --accent-night: #A27BFF;
+      --g1: #2E0091; --g2: #5B0FE0; --g3: #C24BEA; --g4: #F3D7F5;
+      /* the same four on the ink of the AI x Design section, as texture: --n4 sits just off the ground, --n1 is the furthest from it */
+      --n1: #34187C; --n2: #2A1960; --n3: #221A3A; --n4: #1A1820;
+
+      --font-display: 'Radio Canada Big', 'Helvetica Neue', Arial, sans-serif;
+      --font-text: 'Radio Canada', 'Helvetica Neue', Arial, sans-serif;
+      --font-code: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+      --t-label: 16px;
+      --t-body: 18px;
+      --t-lead: 24px;
+      --t-title: 32px;
+      --t-head: clamp(36px, 4.4vw, 64px);
+      --t-display: clamp(44px, 8.4vw, 120px);   /* the display style: the landing role line only */
+
+      --max: 1360px;
+      --gutter: 40px;
+      --gap: 24px;
+      --nav-h: 64px;
+      --r: 8px;
+
+      --out: cubic-bezier(0.16, 1, 0.3, 1);
+      --inout: cubic-bezier(0.65, 0, 0.35, 1);
+      --soft: cubic-bezier(0.4, 0, 0.2, 1);
+      --drum: cubic-bezier(0.7, 0, 0.2, 1);
+      --spring: cubic-bezier(0.3, 1.25, 0.5, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { background: var(--ground); -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+    body { margin: 0; background: var(--ground); color: var(--body); font-family: var(--font-text); font-size: var(--t-body); line-height: 1.5; }   /* default smoothing: fuller text on the light ground (Deron, 2026-11-23) */
+    h1, h2, h3, p, ul, pre { margin: 0; padding: 0; }
+    h1, h2, h3 { font-size: inherit; font-weight: inherit; }
+    ul { list-style: none; }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+    img, video, svg, canvas { display: block; }
+    b, strong { font-weight: inherit; }
+    i, em { font-style: normal; }
+    .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+    :focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; border-radius: 4px; }
+
+    .wrap { width: min(var(--max), calc(100% - var(--gutter) * 2)); margin: 0 auto; }
+    .grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gap); }
+    .label { font-family: var(--font-text); font-size: var(--t-label); font-weight: 500; line-height: 1.5; }
+    .arrow { width: 20px; height: 20px; flex: none; transition: transform 0.4s var(--out); }
+
+    /* ════════ NAV: shared, in css/nav.css (behaviour in js/site-nav.js). The night state over the AI section is set by the script below. ════════ */
+
+    /* ════════ HERO ════════ */
+    .hero { position: relative; overflow-x: clip; min-height: 100svh; padding-top: var(--nav-h); display: flex; flex-direction: column; }
+    /* The field: two pale tints of the accent sway slowly across the ground. Drawn on a canvas,
+       quiet behind the copy, and it falls back to the plain ground at the foot of the landing. */
+    .hero-bg { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; pointer-events: none; }
+    .hero-in { position: relative; z-index: 1; flex: 1; align-items: center; padding: 40px 0 72px; }
+    .hero-copy { grid-column: 1 / 12; }
+    .hero-title { color: var(--ink); font-family: var(--font-display); }
+    .hero-hello { display: flex; align-items: center; gap: 16px; font-size: var(--t-title); font-weight: 500; line-height: 1.15; letter-spacing: -0.02em; }
+    .role { display: grid; overflow: hidden; margin-top: 20px; padding-bottom: 0.16em; margin-bottom: -0.16em; font-size: var(--t-display); font-weight: 600; line-height: 1.04; letter-spacing: -0.04em; }
+    .role-phrase { grid-area: 1 / 1; white-space: nowrap; }
+    .role-phrase:not(.is-on):not(.is-off) { visibility: hidden; }
+    .ch { display: inline-block; white-space: pre; }
+    .role-phrase em, .ch:not(.is-fix) { color: var(--accent-head); }   /* the "I" stays ink, the skill takes the accent */
+    .role-phrase.is-in .ch:not(.is-fix) { animation: ch-in 0.72s var(--drum) backwards; animation-delay: calc(var(--i) * 24ms); }
+    .role-phrase.is-off .ch:not(.is-fix) { animation: ch-out 0.72s var(--drum) forwards; animation-delay: calc(var(--i) * 24ms); }
+    .role-phrase.is-off .ch.is-fix { visibility: hidden; }
+    @keyframes ch-in { from { transform: translateY(116%); } to { transform: none; } }
+    @keyframes ch-out { from { transform: translateX(var(--open, 0px)); } to { transform: translate(var(--open, 0px), -116%); } }
+    /* ── End-of-phrase flourishes (round 14). When a role has rolled in, a short beat at the end of the
+       line signals the skill, then clears just before the next role rolls in. They live in a layer over
+       the role line (outside its clip), placed from the real letters: --x0 the last word's left edge,
+       --x1 the line's right edge, --bl the baseline, --cap the cap height. Sizes are in em of the headline. ── */
+    .hero-title { position: relative; }
+    .flo-layer { position: absolute; inset: 0; pointer-events: none; font-size: var(--t-display); font-weight: 600; line-height: 1; transition: opacity 0.24s var(--soft), transform 0.24s var(--soft); }
+    .flo-layer.is-clear { opacity: 0; transform: translateY(-0.08em); }
+    .flo-layer.is-reset { transition: none; }
+    .flo { position: absolute; display: block; color: var(--accent); }
+    .flo i, .flo b { display: block; position: absolute; }
+    .bl-probe { display: inline-block; width: 0; height: 0; }
+    /* the pixel character: the Claude Code mascot's spirit, drawn here as a 10 x 7 pixel sprite */
+    :root { --mascot: #D97757; --mascot-eye: #121212; }
+    [data-mascot="violet"] { --mascot: #4D00C0; --mascot-eye: #FFFFFF; }
+    .mascot { display: block; width: 100%; height: 100%; shape-rendering: crispEdges; overflow: visible; }
+    .mascot .bd { fill: var(--mascot); } .mascot .ey { fill: var(--mascot-eye); }
+    .mascot .up { opacity: 0; } .mascot .dn { opacity: 1; }
+    .is-wave .mascot .up { animation: wave-up 0.56s steps(1, end) 0.42s 2 both; }
+    .is-wave .mascot .dn { animation: wave-dn 0.56s steps(1, end) 0.42s 2 both; }
+    @keyframes wave-up { 0%, 50% { opacity: 1; } 50.01%, 100% { opacity: 0; } }
+    @keyframes wave-dn { 0%, 50% { opacity: 0; } 50.01%, 100% { opacity: 1; } }
+
+    /* Set 1, tools: what each skill looks like in its own software */
+    .f1-sel { left: calc(var(--x0) - 0.07em); top: calc(var(--bl) - var(--cap) - 0.08em); width: calc(var(--x1) - var(--x0) + 0.14em); height: calc(var(--cap) + 0.16em); border: 2px solid var(--accent); animation: sel-in 0.24s var(--out) both; }
+    .f1-sel i { width: 0.1em; height: 0.1em; margin: -0.05em 0 0 -0.05em; background: #FFFFFF; border: 2px solid var(--accent); animation: pop 0.32s var(--spring) both; }
+    .f1-sel i:nth-child(1) { left: 0; top: 0; animation-delay: 0.1s; } .f1-sel i:nth-child(2) { left: 100%; top: 0; animation-delay: 0.13s; }
+    .f1-sel i:nth-child(3) { left: 0; top: 100%; animation-delay: 0.16s; } .f1-sel i:nth-child(4) { left: 100%; top: 100%; animation-delay: 0.19s; }
+    .f1-sel b { left: 50%; top: calc(100% + 8px); transform: translateX(-50%); padding: 2px 8px; border-radius: 4px; background: var(--accent); color: #FFFFFF; font-family: var(--font-text); font-size: var(--t-label); font-weight: 500; line-height: 1.5; letter-spacing: 0.01em; white-space: nowrap; font-variant-numeric: tabular-nums; animation: rise 0.36s var(--out) 0.26s both; }
+    @keyframes sel-in { from { opacity: 0; transform: scale(1.05); } }
+    @keyframes pop { from { transform: scale(0); } }
+    .f-pop { left: calc((var(--x0) + var(--x1)) / 2 - 0.3em); top: calc(var(--bl) - var(--cap) - 0.43em); width: 0.6em; height: 0.43em; overflow: hidden; }   /* clipped at the cap line: it rises from behind the word */
+    .f-pop .mascot { animation: peek 0.4s var(--spring) both; }
+    @keyframes peek { from { transform: translateY(105%); } }
+    .f1-code { left: calc(var(--x1) + 0.1em); top: calc(var(--bl) - var(--cap) - 0.04em); height: calc(var(--cap) + 0.08em); display: flex; align-items: center; }
+    .f1-code .typed { overflow: hidden; width: 0; font-family: var(--font-code); font-size: 0.56em; font-weight: 700; letter-spacing: 0; white-space: nowrap; animation: type 0.3s steps(3, end) 0.66s forwards; }
+    .f1-code .caret { position: static; width: 0.05em; height: 100%; margin-left: 0.04em; background: var(--accent); animation: blink2 0.66s steps(1, end) both; }
+    @keyframes type { to { width: 3ch; } }
+    @keyframes blink2 { 0%, 25% { opacity: 1; } 25.01%, 50% { opacity: 0; } 50.01%, 75% { opacity: 1; } 75.01%, 99.99% { opacity: 0; } 100% { opacity: 1; } }
+    .f1-ease { left: calc(var(--x1) + 0.16em); top: calc(var(--bl) - 0.56em); width: 0.56em; height: 0.56em; }
+    .f1-ease svg { display: block; width: 100%; height: 100%; overflow: visible; fill: none; }
+    .f1-ease .ax { stroke: var(--line); stroke-width: 3; }
+    .f1-ease .cv { stroke: var(--accent); stroke-width: 7; stroke-linecap: round; }
+    .f1-ease svg { clip-path: inset(-80% 100% -20% -20%); animation: reveal 0.7s linear 0.08s forwards; }   /* the curve is revealed at the dot's own pace */
+    @keyframes reveal { to { clip-path: inset(-80% -20% -20% -20%); } }
+    /* the dot draws the curve: it moves across at a steady rate (the time axis) and up with the curve's own easing */
+    .f1-ease .dx { left: 0; bottom: 0; width: 0; height: 0; animation: ease-x 0.7s linear 0.08s both; }
+    .f1-ease .dy { left: -0.055em; top: -0.055em; width: 0.11em; height: 0.11em; border-radius: 50%; background: var(--accent); animation: ease-y 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 0.08s both; }
+    @keyframes draw { to { stroke-dashoffset: 0; } }
+    @keyframes ease-x { from { transform: translateX(0); } to { transform: translateX(0.56em); } }
+    @keyframes ease-y { from { transform: translateY(0); } to { transform: translateY(-0.56em); } }
+
+    /* Set 2, stickers: each skill as a sticker slapped onto the end of the line */
+    .f2-stk { left: min(calc(var(--x1) - 0.16em), calc(100% - 0.84em));   /* never past the copy column */ top: calc(var(--bl) - var(--cap) - 0.6em); width: 0.82em; height: 0.66em; animation: slap 0.42s var(--spring) both; }
+    .f2-stk .stk { position: absolute; inset: 0; display: grid; place-items: center; border-radius: 0.1em; background: #FFFFFF; border: 0.035em solid var(--accent); transform: rotate(-8deg); }
+    .f2-stk svg { width: 72%; height: 72%; overflow: visible; }
+    .f2-stk .nib { fill: none; stroke: var(--accent); stroke-width: 2.4; stroke-linejoin: round; stroke-linecap: round; transform-origin: 12px 21px; animation: nod 0.5s var(--inout) 0.42s both; }
+    .f2-stk .mono { font-family: var(--font-code); font-size: 0.3em; font-weight: 700; letter-spacing: 0; color: var(--accent); }
+    .f2-stk .mascot-w { width: 74%; height: 52%; } .f2-stk .mascot-w svg { width: 100%; height: 100%; }
+    .f2-stk .floor { left: 18%; right: 18%; bottom: 20%; height: 0.02em; background: var(--line); }
+    .f2-stk .ball { left: calc(50% - 0.08em); bottom: 20%; width: 0.16em; height: 0.16em; border-radius: 50%; background: var(--accent); transform-origin: 50% 100%; animation: hop 0.9s 0.4s both; }
+    @keyframes slap { from { opacity: 0; transform: scale(1.7) rotate(-14deg); } 40% { opacity: 1; } }
+    @keyframes nod { 50% { transform: rotate(-14deg); } }
+    @keyframes hop {
+      0% { transform: translateY(0) scale(1.25, 0.75); animation-timing-function: cubic-bezier(0.2, 0.7, 0.4, 1); }
+      40% { transform: translateY(-0.24em) scale(0.9, 1.1); animation-timing-function: cubic-bezier(0.6, 0, 0.8, 0.3); }
+      78% { transform: translateY(0) scale(1.2, 0.8); animation-timing-function: var(--out); }
+      100% { transform: translateY(0) scale(1); }
+    }
+
+    /* Set 3, type: punctuation-sized marks at the end of the line, only the violet */
+    .f3-anchor { left: calc(var(--x1) + 0.07em); top: calc(var(--bl) - 0.12em); width: 0.12em; height: 0.12em; }
+    .f3-anchor .sq { inset: 0; background: #FFFFFF; border: 0.025em solid var(--accent); animation: pop 0.3s var(--spring) both; }
+    .f3-anchor .hl { left: 50%; top: 50%; width: 0.6em; height: 0.02em; margin: -0.01em 0 0 -0.3em; background: var(--accent); transform-origin: 50% 50%; animation: handles 0.9s var(--inout) 0.12s both; }
+    .f3-anchor .hl::before, .f3-anchor .hl::after { content: ''; position: absolute; top: -0.035em; width: 0.09em; height: 0.09em; border-radius: 50%; background: var(--accent); }
+    .f3-anchor .hl::before { left: -0.045em; } .f3-anchor .hl::after { right: -0.045em; }
+    @keyframes handles { 0% { transform: rotate(-20deg) scaleX(0); } 35% { transform: rotate(-20deg) scaleX(1); } 70% { transform: rotate(8deg) scaleX(1); } 100% { transform: rotate(0deg) scaleX(0); } }
+    .f3-spark { left: min(calc(var(--x1) - 0.02em), calc(100% - 0.44em)); top: calc(var(--bl) - var(--cap) - 0.2em); width: 0.3em; height: 0.3em; }
+    .f3-spark svg { position: absolute; fill: var(--accent); animation: twinkle 0.5s var(--spring) both; }
+    .f3-spark svg:nth-child(1) { inset: 0; width: 100%; height: 100%; }
+    .f3-spark svg:nth-child(2) { left: 90%; top: 70%; width: 46%; height: 46%; animation-delay: 0.16s; }
+    @keyframes twinkle { from { transform: scale(0) rotate(-90deg); } }
+    .f3-us { left: calc(var(--x1) + 0.06em); top: calc(var(--bl) - 0.06em); width: 0.4em; height: 0.07em; background: var(--accent); animation: blink2 0.8s steps(1, end) both; }
+    .f3-dot { left: calc(var(--x1) + 0.04em); top: calc(var(--bl) - 0.13em); width: 0.13em; height: 0.13em; }
+    .f3-dot i { inset: 0; border-radius: 50%; background: var(--accent); transform-origin: 50% 100%; animation: drop 1.05s both; }
+    @keyframes drop {
+      0% { opacity: 0; transform: translateY(-0.7em); animation-timing-function: cubic-bezier(0.5, 0, 0.9, 0.4); }
+      8% { opacity: 1; }
+      38% { transform: translateY(0) scale(1.3, 0.7); animation-timing-function: cubic-bezier(0.2, 0.6, 0.4, 1); }
+      58% { transform: translateY(-0.22em) scale(0.95, 1.05); animation-timing-function: cubic-bezier(0.6, 0, 0.8, 0.4); }
+      76% { transform: translateY(0) scale(1.15, 0.85); animation-timing-function: cubic-bezier(0.2, 0.6, 0.4, 1); }
+      88% { transform: translateY(-0.06em); animation-timing-function: cubic-bezier(0.6, 0, 0.8, 0.4); }
+      100% { transform: translateY(0); }
+    }
+    /* ── Round 15: two bigger sets, made from the type itself at its own weight, in the violet ──
+       Set 4, the letters perform: the last word is reworked in front of you.
+       Set 5, the pen: strokes at the type's weight, drawn by hand around the word. */
+    .flo-svg { position: absolute; left: 0; top: 0; width: 100%; height: 100%; overflow: visible; }
+    .flo-svg text { font-family: var(--font-display); font-weight: 600; letter-spacing: -0.04em; fill: var(--accent); }
+    .flo-svg .pen { fill: none; stroke: var(--accent); stroke-linecap: round; stroke-linejoin: round; }
+    .meas { position: absolute; visibility: hidden; white-space: pre; font-family: var(--font-display); font-weight: 600; letter-spacing: -0.04em; }
+    :root { --sp: 0.075em; }
+
+    /* 4 · Design: the word is kerned and weighted in front of you. It loosens and lightens, then snaps tight
+       and heavy, overshoots on the weight axis, and settles at its true weight */
+    .fx-kern .lw { animation: kern 1.2s both; }
+    @keyframes kern {
+      0% { transform: none; font-weight: 600; animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
+      40% { transform: translateX(calc(var(--k) * var(--sp))); font-weight: 400; animation-timing-function: cubic-bezier(0.8, 0, 0.2, 1); }
+      62% { transform: translateX(calc(var(--k) * var(--sp) * -0.2)); font-weight: 700; animation-timing-function: cubic-bezier(0.2, 0.7, 0.3, 1); }
+      100% { transform: none; font-weight: 600; }
+    }
+    /* 4 · Code: the word opens and becomes a component, <Code /> */
+    .role-phrase .lw { transition: transform 0.5s var(--spring); }
+    .fx-open .lw { transform: translateX(var(--open)); }
+    .flo-svg .lt, .flo-svg .gt { transform-box: fill-box; opacity: 0; }
+    .flo-svg .lt { transform-origin: 100% 100%; animation: swing-l 0.55s var(--spring) 0.1s both; }
+    .flo-svg .gt { transform-origin: 0% 100%; animation: swing-r 0.55s var(--spring) 0.24s both; }
+    @keyframes swing-l { from { opacity: 0; transform: translateX(-0.3em) rotate(-40deg); } to { opacity: 1; transform: none; } }
+    @keyframes swing-r { from { opacity: 0; transform: translateX(0.3em) rotate(40deg); } to { opacity: 1; transform: none; } }
+    .flo-svg .crt { fill: var(--accent); opacity: 0; animation: blink2 0.66s steps(1, end) 0.7s forwards; }   /* hidden until its beat */
+    /* 4 · Prototype with AI: the word splits into three loose drafts that drift apart, then resolve into one */
+    .fx-latent .lw { animation: latent 1.3s both; }
+    @keyframes latent { 0% { opacity: 1; } 16% { opacity: 0.14; } 70% { opacity: 0.14; } 86%, 100% { opacity: 1; } }
+    .flo-svg .gh { transform-box: fill-box; transform-origin: 50% 70%; opacity: 0; }
+    .flo-svg .g1 { animation: g1 1.3s both; } .flo-svg .g2 { animation: g2 1.3s both; } .flo-svg .g3 { animation: g3 1.3s both; }
+    @keyframes g1 { 0% { opacity: 0; transform: none; filter: blur(0); animation-timing-function: var(--out); } 22% { opacity: 0.55; transform: translate(-0.26em, -0.12em) rotate(-9deg); filter: blur(1px); } 58% { opacity: 0.5; transform: translate(-0.2em, 0.02em) rotate(-5deg); filter: blur(3px); animation-timing-function: cubic-bezier(0.6, 0, 0.2, 1); } 84% { opacity: 0.9; transform: none; filter: blur(0); } 100% { opacity: 0; transform: none; } }
+    @keyframes g2 { 0% { opacity: 0; transform: none; filter: blur(0); animation-timing-function: var(--out); } 22% { opacity: 0.5; transform: translate(0.28em, -0.2em) rotate(8deg); filter: blur(2px); } 58% { opacity: 0.45; transform: translate(0.22em, -0.1em) rotate(5deg); filter: blur(4px); animation-timing-function: cubic-bezier(0.6, 0, 0.2, 1); } 84% { opacity: 0.9; transform: none; filter: blur(0); } 100% { opacity: 0; transform: none; } }
+    @keyframes g3 { 0% { opacity: 0; transform: none; filter: blur(0); animation-timing-function: var(--out); } 22% { opacity: 0.4; transform: translateY(0.14em) scale(1.22); filter: blur(4px); } 58% { opacity: 0.4; transform: translateY(0.08em) scale(1.14); filter: blur(6px); animation-timing-function: cubic-bezier(0.6, 0, 0.2, 1); } 84% { opacity: 0.9; transform: none; filter: blur(0); } 100% { opacity: 0; transform: none; } }
+    /* 4 · Build with AI: the word goes hollow, fills solid from the baseline up like a pour, and settles with weight */
+    .fx-build .lw { -webkit-text-stroke: 0 var(--accent); background-image: linear-gradient(to top, var(--accent) 50%, transparent 50%); background-size: 100% 200%; background-position: 0 0%; -webkit-background-clip: text; background-clip: text; transform-origin: 50% 100%; animation: build 1.3s both; animation-delay: calc(var(--k) * 70ms); }
+    @keyframes build {
+      0% { color: var(--accent); -webkit-text-stroke-width: 0; background-position: 0 0%; transform: none; }
+      12% { color: transparent; -webkit-text-stroke-width: 0.03em; background-position: 0 0%; animation-timing-function: cubic-bezier(0.55, 0, 0.35, 1); }
+      70% { color: transparent; -webkit-text-stroke-width: 0.03em; background-position: 0 100%; transform: none; animation-timing-function: cubic-bezier(0.5, 0, 0.9, 0.5); }
+      80% { color: var(--accent); -webkit-text-stroke-width: 0; background-position: 0 100%; transform: translateY(0.035em) scale(1.04, 0.95); animation-timing-function: var(--out); }
+      100% { color: var(--accent); -webkit-text-stroke-width: 0; background-position: 0 100%; transform: none; }
+    }
+    /* 4 · Motion: a wave of squash and stretch runs through the word, and a full stop drops in, lands hard, bounces and settles */
+    .fx-hop .lw { transform-origin: 50% 100%; animation: hop2 0.66s calc(var(--k) * 55ms) both; }
+    @keyframes hop2 {
+      0% { transform: none; animation-timing-function: var(--out); }
+      16% { transform: scale(1.05, 0.88); animation-timing-function: cubic-bezier(0.2, 0.6, 0.4, 1); }
+      46% { transform: translateY(-0.22em) scale(0.95, 1.07); animation-timing-function: cubic-bezier(0.6, 0, 0.8, 0.4); }
+      74% { transform: scale(1.08, 0.9); animation-timing-function: var(--out); }
+      100% { transform: none; }
+    }
+    .f4-dot { left: calc(var(--x1) + 0.05em); top: calc(var(--bl) - 0.2em); width: 0.2em; height: 0.2em; }
+    .f4-dot i { inset: 0; border-radius: 50%; background: var(--accent); transform-origin: 50% 100%; animation: drop4 0.9s var(--d, 0.5s) both; }
+    @keyframes drop4 {
+      0% { opacity: 0; transform: translateY(-1.3em) scale(0.8, 1.25); animation-timing-function: cubic-bezier(0.5, 0, 0.9, 0.4); }
+      6% { opacity: 1; }
+      40% { transform: translateY(0) scale(1.75, 0.42); animation-timing-function: cubic-bezier(0.2, 0.6, 0.4, 1); }
+      62% { transform: translateY(-0.42em) scale(0.9, 1.12); animation-timing-function: cubic-bezier(0.6, 0, 0.8, 0.4); }
+      78% { transform: translateY(0) scale(1.3, 0.72); animation-timing-function: cubic-bezier(0.2, 0.6, 0.4, 1); }
+      89% { transform: translateY(-0.07em) scale(1); animation-timing-function: cubic-bezier(0.6, 0, 0.8, 0.4); }
+      100% { transform: none; }
+    }
+
+    /* 5 · the pen: every stroke draws itself, at the weight of the type */
+    .flo-svg .draw { stroke-dasharray: 1; stroke-dashoffset: 1; animation: pen 0.75s cubic-bezier(0.6, 0, 0.2, 1) var(--d, 0s) forwards; }
+    @keyframes pen { to { stroke-dashoffset: 0; } }
+    .flo-svg .quick { animation-duration: 0.22s; animation-timing-function: var(--out); }
+    .flo-svg .sketch { animation-duration: 0.62s; animation-timing-function: cubic-bezier(0.45, 0, 0.3, 1); }
+    .flo-svg .guide { animation-duration: 0.36s; animation-timing-function: cubic-bezier(0.6, 0, 0.2, 1); }
+    .flo-svg .guides { animation: guides-out 1.4s both; }
+    @keyframes guides-out { 0%, 70% { opacity: 1; } 100% { opacity: 0; } }
+    .flo-svg .comet { stroke-dasharray: 0.34 2; stroke-dashoffset: 0.34; animation: comet 0.5s cubic-bezier(0.55, 0, 0.9, 0.5) forwards; }
+    @keyframes comet { to { stroke-dashoffset: -1; } }
+    .fx-stamp .lw { transform-origin: 50% 100%; animation: stamp 0.62s calc(0.42s + var(--k) * 80ms) both; }
+    @keyframes stamp {
+      0% { transform: none; animation-timing-function: var(--out); }
+      34% { transform: translateY(-0.2em) scale(0.96, 1.06); animation-timing-function: cubic-bezier(0.7, 0, 0.9, 0.3); }
+      60% { transform: translateY(0.02em) scale(1.08, 0.9); animation-timing-function: var(--out); }
+      100% { transform: none; }
+    }
+    .f5-dot { left: var(--lx); top: calc(var(--bl) - 0.17em); width: 0.17em; height: 0.17em; }
+    .f5-dot i { inset: 0; border-radius: 50%; background: var(--accent); transform-origin: 50% 100%; animation: land5 0.62s 0.46s both; }
+    @keyframes land5 {
+      0% { opacity: 0; transform: scale(1.75, 0.42); }
+      1% { opacity: 1; animation-timing-function: cubic-bezier(0.2, 0.6, 0.4, 1); }
+      38% { transform: translateY(-0.36em) scale(0.9, 1.12); animation-timing-function: cubic-bezier(0.6, 0, 0.8, 0.4); }
+      66% { transform: translateY(0) scale(1.28, 0.74); animation-timing-function: cubic-bezier(0.2, 0.6, 0.4, 1); }
+      82% { transform: translateY(-0.06em) scale(1); animation-timing-function: cubic-bezier(0.6, 0, 0.8, 0.4); }
+      100% { transform: none; opacity: 1; }
+    }
+    /* ── Round 19 · Set 6, made and unmade. Each role's own tool arrives once the letters have landed,
+       and the same tool takes the line away, so the exit of one role hands straight to the next.
+       Design: "Products" becomes a button, and one touch presses it: that press turns the line (round 20).
+       Build with AI: a spark sweeps the line (the letters shimmer under it), then sweeps back and erases it.
+       Code: the word opens into <Code />, then the caret backspaces the line.
+       Motion: the full stop drops in (set 3's), then bounces along the words and each hit knocks the letters out one by one.
+       Tokens: --f6-btn-x / --f6-btn-y button padding, --f6-btn-r its radius, --f6-btn-down its pressed colour, --f6-press how far it sinks, --f6-go when the press is released, --f6-roll that wait plus the 0.72 s roll,
+       --f6-soft the soft edge of the erase, --f6-tint the shimmer (padding and soft edge are mirrored in the script). ── */
+    :root { --f6-btn-x: 0.16em; --f6-btn-y: 0.16em; --f6-btn-r: 0.14em; --f6-btn-down: var(--g1); --f6-press: 0.96; --f6-go: 0.3s; --f6-roll: 1.02s; --f6-soft: 0.2em; --f6-tint: var(--g3); --f6-sweep: 1.1s; --f6-sweep-out: 0.8s; }
+    .role-phrase.is-off.is-x6 .ch:not(.is-fix) { animation: none; }   /* the role's own exit has already taken the letters */
+    /* 6 · Design: the product. "Products" moves over a touch and a button grows behind it (the role line sits above
+       the layer for this beat) while the word turns to the sheet colour. Then it rests as a button until its one press */
+    .hero-title.is-under .role { position: relative; z-index: 1; transform: translateZ(0); }   /* its own layer: Safari otherwise paints the pressed button over the word */
+    .fx-btn .lw { transform: translateX(var(--open)); transform-origin: var(--ox, 50%) var(--oy, 50%); transition: transform 0.3s var(--out); animation: f6-ink 0.07s var(--soft) var(--bd, 0ms) both; }   /* --bd: when the fill's edge reaches this letter. --ox, --oy: the button's centre, so the word scales with the button as one object */
+    @keyframes f6-ink { from { color: var(--accent-head); } to { color: var(--sheet); } }
+    .f6-btn, .f6-tap { --bx: calc(var(--x0) + var(--bo) - var(--f6-btn-x)); --bw: calc(var(--x1) - var(--x0) + var(--f6-btn-x) * 2); --by: calc(var(--bl) - var(--cap) - var(--f6-btn-y)); --bh: calc(var(--cap) + var(--f6-btn-y) * 2); }
+    .f6-btn { left: var(--bx); top: var(--by); width: var(--bw); height: var(--bh); animation: f6-btn-in 0.4s var(--inout) 0.12s both; }   /* the box: it is filled in, and it rolls. Its face (b) is what is pressed */
+    .f6-btn b { inset: 0; border-radius: var(--f6-btn-r); background: var(--accent); overflow: hidden; }
+    .f6-btn i { left: 70%; top: 56%; width: 150%; aspect-ratio: 1; border-radius: 50%; background: var(--f6-btn-down); transform: translate(-50%, -50%) scale(0); }   /* the pressed colour, which spreads from the touch */
+    .f6-tap { left: calc(var(--bx) + var(--bw) * 0.7 - 0.17em); top: calc(var(--by) + var(--bh) * 0.56 - 0.17em); width: 0.34em; height: 0.34em; border-radius: 50%; background: var(--sheet); opacity: 0; }
+    @keyframes f6-btn-in { from { clip-path: inset(0 100% 0 0 round var(--f6-btn-r)); } to { clip-path: inset(0 0 0 0 round var(--f6-btn-r)); } }
+    /* out (round 20): one press in the whole turn, and it is the press that turns the line. A touch lands (0 to 0.1 s), the button and
+       its word sink together as one object while the pressed colour spreads from the touch (0.1 to 0.22 s), it holds a beat, and on
+       release (--f6-go, 0.3 s, the moment the turn ends) the button springs back as the whole line, button included, rolls up on the
+       usual drum curve. The roll, the spring back and the touch lifting all start on --f6-go */
+    .flo-layer.is-ship { clip-path: inset(var(--slot-t) -3em -3em -3em); }
+    .flo-layer.is-out .f6-tap { animation: f6-tap-go 0.46s var(--soft) both; }
+    .flo-layer.is-out .f6-btn { animation: f6-roll-btn var(--f6-roll) forwards; }   /* the box rolls on margin-top, not a transform, on purpose: Chromium leaves a transform-animated button painted in place here once the roll runs past the end of the turn (measured, round 20). One small absolute box, so the layout cost is nil */
+    .flo-layer.is-out .f6-btn b { animation: f6-press-go 0.46s 0.1s both; }
+    .flo-layer.is-out .f6-btn i { animation: f6-ripple 0.46s var(--soft) 0.1s both; }
+    .role .role-phrase.x6-ship .ch:not(.is-fix), .role .role-phrase.is-off.x6-ship .ch:not(.is-fix) { animation: f6-roll var(--f6-roll) forwards; }
+    .role .role-phrase.x6-ship .ch.lw, .role .role-phrase.is-off.x6-ship .ch.lw:not(.is-fix) { color: var(--sheet); animation: f6-press-w 0.46s 0.1s both, f6-roll var(--f6-roll) forwards; }
+    @keyframes f6-tap-go { 0% { opacity: 0; transform: scale(1.5); } 24% { opacity: 0.4; transform: scale(1); } 48%, 65% { opacity: 0.4; transform: scale(0.82); } 100% { opacity: 0; transform: scale(1.35); } }
+    /* the same keyframes for the button and for each letter (which pivots on the button's centre), so they stay one object. The spring is the release */
+    @keyframes f6-press-go { 0% { transform: scale(1); animation-timing-function: var(--soft); } 26%, 43.5% { transform: scale(var(--f6-press)); animation-timing-function: var(--spring); } 100% { transform: scale(1); } }
+    @keyframes f6-press-w { 0% { transform: translateX(var(--open)) scale(1); animation-timing-function: var(--soft); } 26%, 43.5% { transform: translateX(var(--open)) scale(var(--f6-press)); animation-timing-function: var(--spring); } 100% { transform: translateX(var(--open)) scale(1); } }
+    @keyframes f6-ripple { 0% { opacity: 1; transform: translate(-50%, -50%) scale(0); } 43.5% { opacity: 1; transform: translate(-50%, -50%) scale(1); } 100% { opacity: 0; transform: translate(-50%, -50%) scale(1); } }
+    /* 29.41%: --f6-go of --f6-roll (0.3 s of 1.02 s). The line waits for the release, then rolls for 0.72 s on the drum curve */
+    @keyframes f6-roll { 0%, 29.41% { translate: 0 0; animation-timing-function: var(--drum); } 100% { translate: 0 calc(var(--ship) * -1); } }
+    @keyframes f6-roll-btn { 0%, 29.41% { margin-top: 0; animation-timing-function: var(--drum); } 100% { margin-top: calc(var(--ship) * -1); } }
+    /* 6 · Build with AI: the spark */
+    .f6-star, .f6-star2 { top: calc(var(--bl) - var(--cap) - 0.2em); width: 0.3em; height: 0.3em; }
+    .f6-star { left: var(--sx); animation: f6-fly var(--f6-sweep) var(--inout) both; }   /* --f6-sweep: the spark's travel, in and out, eased at both ends */
+    .f6-star2 { left: calc(var(--sx) + 0.27em); top: calc(var(--bl) - var(--cap) + 0.01em); width: 0.14em; height: 0.14em; }
+    .f6-star svg, .f6-star2 svg { position: absolute; inset: 0; width: 100%; height: 100%; fill: var(--accent); }
+    .f6-star svg { animation: f6-spin var(--f6-sweep) var(--inout) both; }
+    .f6-star2 svg { animation: twinkle 0.5s var(--spring) 1s both; }
+    @keyframes f6-fly { from { transform: translateX(calc(var(--fly-in) * -1)); } }
+    @keyframes f6-spin { 0% { transform: rotate(-180deg) scale(0); animation-timing-function: var(--out); } 22% { transform: rotate(-172deg) scale(1); animation-timing-function: var(--inout); } 100% { transform: rotate(0deg) scale(1); } }   /* half a turn over the whole sweep, settling as it docks */
+    .fx-shim .ch:not(.is-fix) { animation: f6-shim 0.46s var(--soft) var(--sd, 0ms) both; }
+    @keyframes f6-shim { 40% { color: var(--f6-tint); transform: translateY(-0.05em); } }
+    /* out: the spark sweeps back and erases the line behind a soft edge, then spins itself out as the next line rolls in */
+    .flo-layer.is-out .f6-star { animation: f6-back var(--f6-sweep-out) var(--inout) forwards; }
+    .flo-layer.is-out .f6-star svg { animation: f6-regen var(--f6-sweep-out) var(--inout) both, f6-spin-out 0.6s cubic-bezier(0.5, 0, 0.9, 0.5) var(--f6-sweep-out) forwards; }
+    .flo-layer.is-out .f6-star2 svg { animation: f6-blip 0.16s var(--soft) forwards; }
+    .role-phrase.x6-wipe { -webkit-mask: linear-gradient(to right, #000 calc(100% - var(--f6-soft)), transparent) 0 50% / var(--m1) 140% no-repeat; mask: linear-gradient(to right, #000 calc(100% - var(--f6-soft)), transparent) 0 50% / var(--m1) 140% no-repeat; animation: f6-wipe var(--f6-sweep-out) var(--inout) forwards; }
+    .role-phrase.is-off.x6-wipe { visibility: hidden; }
+    @keyframes f6-back { to { transform: translateX(calc(var(--fly-out) * -1)); } }
+    @keyframes f6-regen { from { transform: rotate(0deg) scale(1); } to { transform: rotate(-180deg) scale(1); } }
+    @keyframes f6-spin-out { from { transform: rotate(-180deg) scale(1); } to { transform: rotate(-360deg) scale(0); } }
+    @keyframes f6-blip { to { transform: scale(0); } }
+    @keyframes f6-wipe { to { -webkit-mask-size: var(--m0) 140%; mask-size: var(--m0) 140%; } }
+    /* 6 · Code: <Code /> as in set 4 (fx-open, .crt), the brackets pivot on their inner foot. Out: the caret stops blinking and backspaces the line */
+    .flo-svg .lt6 { animation: f6-swing-l 0.5s var(--spring) both; }   /* same 0.5 s and curve as the word opening (.lw), so they settle together */
+    .flo-svg .gt6 { animation: swing-r 0.5s var(--spring) 0.04s both; }
+    .flo-svg .gt6 ~ .crt { animation-delay: 0.56s; }
+    @keyframes f6-swing-l { from { opacity: 0; transform: translateX(-0.1em) rotate(-40deg); } to { opacity: 1; transform: none; } }   /* starts inside the word space, clear of "in" */
+    .ch.is-del { visibility: hidden; }
+    .flo-layer.is-out .flo-svg .crt { animation: none; opacity: 1; }
+    .flo-layer.is-out .flo-svg .crt.is-done { opacity: 0; }
+    /* 6 · Motion: the full stop is set 3's. Out (scripted): it bounces along the words, each landing knocks that word's letters
+       down through the line's own slot one by one, outward from the hit, and it rides the last struck letter out. The layer is clipped at the slot while it leaves */
+    .flo-layer.is-slot { clip-path: inset(-3em -3em var(--slot) -3em); }
+    @media (max-width: 768px) { :root { --sp: 0.05em; } }
+    .hero-intro { margin-top: 32px; max-width: 42ch; font-size: var(--t-lead); line-height: 1.4; color: var(--body); text-wrap: pretty; }
+    /* ── Review version, ?hero=centre: the copy sits in the middle and the field stands in two corners (top right, bottom left).
+       The role line keeps its left-set phrases, and the line and its flourish layer slide together by --cx so the phrase on
+       show is centred. The slide runs with the roll, so the fixed "I" glides to its new place instead of jumping. ── */
+    [data-hero="centre"] .hero-copy { grid-column: 1 / -1; text-align: center; }
+    [data-hero="centre"] .hero-hello { justify-content: center; }
+    [data-hero="centre"] .hero-intro { margin-left: auto; margin-right: auto; }
+    [data-hero="centre"] .role { text-align: left; }
+    [data-hero="centre"] .role-phrase { transform: translateX(var(--cx, 0px)); transition: transform 0.72s var(--drum); }
+    [data-hero="centre"] .flo-layer { transform: translateX(var(--cx, 0px)); transition: opacity 0.24s var(--soft), transform 0.72s var(--drum); text-align: left; }
+    [data-hero="centre"] .flo-layer.is-clear { transform: translate(var(--cx, 0px), -0.08em); }
+    [data-hero="centre"] .flo-layer.is-reset, [data-hero="centre"] .hero-title.is-cx-set .role-phrase, [data-hero="centre"] .hero-title.is-cx-set .flo-layer { transition: none; }
+    [data-hero="centre"] .hero-title > .flo-layer { animation: none; }   /* the layer must hold --cx from the first frame, so it skips the build-in rise */
+    @media (max-width: 768px) { [data-hero="centre"] .hero-in { display: flex; align-items: center; padding: 32px 0 40px; } [data-hero="centre"] .hero-copy { width: 100%; } }
+
+    /* The right side of the landing is the canvas itself: one surface that goes from folded to calm. */
+
+    /* Hero build: the copy rises in, the form is already there */
+    .js .hero-copy > .hero-intro, .js .hero-title > * { animation: rise 1.1s var(--out) backwards; }
+    .js .hero-title > .role { animation-delay: 0.06s; }
+    .js .hero-copy > .hero-intro { animation-delay: 0.14s; }
+    @keyframes rise { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+    @keyframes pop { from { opacity: 0; transform: scale(0.95); } }
+
+    /* ════════ WORK ════════
+       Two rows on a 12-column grid, 7 + 5 then 5 + 7. Tiles in a row share every edge.
+       The frame takes an <img> today and a looping <video class="media-asset"> later. */
+    .work { padding: 96px 0 136px; scroll-margin-top: var(--nav-h); }
+    .work-head { padding-bottom: 16px; border-bottom: 1px solid var(--line); }
+    .h-section { color: var(--ink); font-family: var(--font-display); font-size: var(--t-title); font-weight: 600; line-height: 1.15; letter-spacing: -0.025em; }
+    .work-grid { row-gap: 72px; margin-top: 40px; }
+    .work-grid > li { min-width: 0; grid-column: span 5; }
+    .work-grid > li.is-wide { grid-column: span 7; }
+
+    .tile { display: flex; flex-direction: column; height: 100%; }
+    .media { position: relative; height: clamp(320px, 36vw, 520px); border-radius: var(--r); overflow: hidden; background: var(--well); }
+    .media-pan { position: absolute; inset: -7% -3%; transform: translate3d(0, calc(var(--sy, 0) * 1%), 0); will-change: transform; }
+    /* Hover (round 20): no zoom and nothing follows the pointer. The picture only ever travels up and down inside its window:
+       slowly with the page scroll, and on hover it glides up by --hov-shift, as if the page inside were scrolled a little further.
+       The shift is 2.5% of the picture (2.85% of the window), inside the 7% the picture overhangs, less the 5.7% the scroll travel
+       can use only when the tile is off screen. Pointer devices only, so a tap on a phone leaves nothing stuck */
+    :root { --hov-shift: -2.5%; --hov-t: 0.9s; }
+    .media-asset { width: 100%; height: 100%; object-fit: cover; object-position: var(--pos, 50% 50%); transition: transform var(--hov-t) var(--out); }
+    @media (hover: hover) and (pointer: fine) { .tile:hover .media-asset { transform: translateY(var(--hov-shift)); } }
+    .tile:focus-visible .media-asset { transform: translateY(var(--hov-shift)); }
+
+    .cap { flex: 1; display: flex; flex-direction: column; align-items: flex-start; margin-top: 20px; }   /* both captions in a row end on the same line */
+    .co { color: var(--body); }
+    /* the whole title is ink, and the outcome steps forward by weight alone */
+    .title { margin-top: 4px; color: var(--ink); font-family: var(--font-display); font-size: var(--t-title); font-weight: 500; line-height: 1.15; letter-spacing: -0.025em; text-wrap: pretty; }
+    /* round 18: while a number counts, its box is exactly as wide as its final value (laid out invisibly),
+       and the counting value sits on top of it, so the title can never re-wrap */
+    .num.is-counting { position: relative; display: inline-block; }
+    .num-f { visibility: hidden; }
+    .num-c { position: absolute; left: 0; top: 0; white-space: nowrap; }
+    .go { display: inline-flex; align-items: center; gap: 8px; margin-top: auto; padding-top: 16px; color: var(--ink); font-size: var(--t-body); font-weight: 600; }
+    .go .arrow { color: var(--accent); width: 24px; height: 24px; }
+    .tile:hover .go .arrow { transform: translateX(8px); }
+
+    /* Entrance (round 17), three to compare with ?enter=1|2|3. One motion for the frame, one for the caption,
+       and the metric counts up so it lands as the picture settles. The second tile in a row follows 140 ms later.
+       1 The gate: the frame opens from a thin slit, like a projector gate, while the picture settles from a push-in.
+       2 Focus pull: the frame is there at once in its own colour, out of focus, and racks into focus.
+       3 Rises with you: the frame is revealed from the bottom up as you scroll, so there is nothing to wait for. */
+    :root { --gate: cubic-bezier(0.76, 0, 0.24, 1); }
+    .js[data-enter="1"] .rv .media { clip-path: inset(49% 0 49% 0 round var(--r)); }
+    .js[data-enter="1"] .rv.in .media { clip-path: inset(0 0 0 0 round var(--r)); transition: clip-path 0.65s var(--gate) var(--d, 0ms); }
+    .js[data-enter="1"] .rv .media-asset { scale: 1.14; }
+    .js[data-enter="1"] .rv.in .media-asset { scale: 1; transition: scale 1s var(--out) var(--d, 0ms), transform var(--hov-t) var(--out); }
+    .js[data-enter="2"] .rv .media-asset { scale: 1.08; filter: blur(22px) saturate(0.7); }
+    .js[data-enter="2"] .rv.in .media-asset { scale: 1; filter: blur(0) saturate(1); transition: filter 0.95s var(--out) var(--d, 0ms), scale 1.3s var(--out) var(--d, 0ms), transform var(--hov-t) var(--out); }
+    .js[data-enter="3"] .rv .media { clip-path: inset(calc((1 - var(--p, 0)) * 100%) 0 0 0 round var(--r)); }
+    .js[data-enter="3"] .rv .media-asset { scale: calc(1 + (1 - var(--p, 0)) * 0.1); }
+    /* the caption: the label and title rise, the CTA slides in last */
+    .js .rv .cap > * { opacity: 0; transform: translateY(14px); }
+    .js .rv .cap > .go { transform: translateX(-14px); }
+    .js .rv.in .cap > * { opacity: 1; transform: none; transition: opacity 0.55s var(--soft), transform 0.65s var(--out); transition-delay: calc(var(--d, 0ms) + var(--cd, 0.22s)); }
+    .js .rv.in .cap > .title { transition-delay: calc(var(--d, 0ms) + var(--cd, 0.22s) + 0.05s); }
+    .js .rv.in .cap > .go { transition-delay: calc(var(--d, 0ms) + var(--cd, 0.22s) + 0.14s); }
+    .js[data-enter="2"] .rv { --cd: 0.24s; }
+    .js[data-enter="3"] .rv { --cd: 0.12s; }
+    .js .rv-t { opacity: 0; transform: translateY(20px); }
+    .js .rv-t.in { opacity: 1; transform: none; transition: opacity 1.1s var(--soft) var(--d, 0ms), transform 1.1s var(--out) var(--d, 0ms); }
+
+    /* ════════ AI x DESIGN ════════
+       A marketing section on ink: the message and one action on the left, one stage on the
+       right that plays a few seconds of each project. Nothing else. */
+    /* the ground without the script (no WebGL, or before the canvas is made): two still pools of the night palette where the scarves stand */
+    .ai { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }   /* light text on night: thinner smoothing keeps it crisp */
+    .ai { position: relative; overflow: hidden; background: radial-gradient(ellipse 34% 80% at 30% 38%, var(--n2), transparent 72%), radial-gradient(ellipse 42% 46% at 76% 100%, var(--n2), transparent 72%), var(--night); color: var(--night-body); padding: 136px 0; }
+    /* the ground texture: the landing's scarves in the night palette, drawn by the script into .ai-bg once the section is near */
+    .ai-bg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; visibility: hidden; }
+    .ai-bg.is-live { visibility: visible; }
+    .ai-in { position: relative; z-index: 1; }
+    .ai :focus-visible { outline-color: #FFFFFF; }
+    .ai-in { align-items: center; }
+    .ai-copy { grid-column: 1 / 6; }
+    .ai-over { color: #FFFFFF; }
+    .ai-x { color: var(--accent-night); }
+    .ai-h { margin-top: 16px; color: #FFFFFF; font-family: var(--font-display); font-size: var(--t-head); font-weight: 600; line-height: 1.05; letter-spacing: -0.035em; text-wrap: balance; }
+    .ai-sub { margin-top: 24px; max-width: 26em; color: var(--night-body); font-size: var(--t-lead); line-height: 1.4; text-wrap: pretty; }
+    .btn { display: inline-flex; align-items: center; gap: 12px; height: 56px; margin-top: 32px; padding: 0 24px; border-radius: var(--r); background: #FFFFFF; color: var(--ink); font-weight: 600; transition: background-color 0.3s var(--soft), color 0.3s var(--soft); }
+    .btn:hover { background: var(--accent); color: #FFFFFF; }   /* hover: brand purple with white text, like the footer and About buttons */
+    .btn .arrow { color: var(--accent); }
+    .btn:hover .arrow { color: #FFFFFF; transform: translateX(4px); }
+    .stage { grid-column: 6 / 13; position: relative; display: block; aspect-ratio: 16 / 10; border-radius: var(--r); overflow: hidden; background: #E9E9E7; }
+    .stage video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.6s var(--soft); }
+    .stage video.is-on { opacity: 1; }
+    .js .rv-pop { opacity: 0; transform: translateY(24px) scale(0.97); }
+    .js .rv-pop.in { opacity: 1; transform: none; transition: opacity 0.5s var(--soft) var(--d, 0ms), transform 1s var(--out) var(--d, 0ms); }
+
+    /* ════════ CLOSE ════════ */
+    .foot { padding: 136px 0 32px; }
+    .foot-main { align-items: end; }
+    .foot-lead { grid-column: 1 / 8; }
+    .foot-line { color: var(--ink); font-family: var(--font-display); font-size: var(--t-head); font-weight: 600; line-height: 1.05; letter-spacing: -0.035em; text-wrap: balance; }
+    .foot-cta { display: inline-flex; align-items: center; gap: 12px; height: 56px; margin-top: 32px; padding: 0 24px; border-radius: var(--r); background: var(--ink); color: #FFFFFF; font-weight: 600; transition: background-color 0.3s var(--soft); }
+    .foot-cta .arrow { width: 24px; height: 24px; color: var(--accent-night, #A27BFF); transition: transform 0.3s var(--out); }
+    .foot-cta:hover { background: var(--accent); }
+    .foot-cta:hover .arrow { color: #FFFFFF; transform: translate(4px, -4px); }
+    /* external link icon (opens another site): the box stays put and the arrow nudges out of it on hover */
+    .arrow.ext .out { transition: transform 0.3s var(--out); }
+    a:hover > .arrow.ext { transform: none; } a:hover > .arrow.ext .out { transform: translate(2px, -2px); }
+    .foot-links { grid-column: 9 / 13; }
+    .foot-links a { display: flex; align-items: center; justify-content: space-between; height: 72px; border-top: 1px solid var(--line); color: var(--ink); font-family: var(--font-display); font-size: var(--t-lead); font-weight: 600; letter-spacing: -0.02em; }
+    .foot-links li:last-child a { border-bottom: 1px solid var(--line); }
+    .foot-links .arrow { color: var(--accent); width: 24px; height: 24px; }
+    .foot-links a:hover .arrow { transform: translateX(8px); }
+    .foot-links a[target]:hover .arrow { transform: translate(4px, -4px); }
+    .foot-base { display: flex; align-items: center; justify-content: flex-end; margin-top: 96px; color: var(--body); }
+    .foot-top { display: inline-flex; align-items: center; gap: 8px; padding: 12px 0; color: var(--ink); }
+    .foot-top:hover .arrow { transform: translateY(-4px); }
+
+    /* ════════ REVIEW ONLY: option switcher ════════ */
+    .acc { position: fixed; left: 16px; bottom: 16px; z-index: 30; display: none; align-items: center; gap: 4px; padding: 4px; border-radius: 12px; background: var(--ink); color: var(--night-body); border: 1px solid var(--night-line); }
+    .acc.is-live { display: flex; }
+    .acc button { height: 44px; padding: 0 16px; border-radius: 8px; color: #FFFFFF; }
+    .acc button[aria-pressed="true"] { background: #FFFFFF; color: var(--ink); }
+    .acc .acc-sep { width: 1px; height: 28px; margin: 0 8px; background: var(--night-line); }
+    [data-opt] .acc .is-flo-sep { display: block; }
+    [data-opt="2"] .acc .is-tex, [data-opt="2"] .acc .acc-sep:not(.is-flo-sep), [data-opt="3"] .acc .is-tex, [data-opt="3"] .acc .acc-sep:not(.is-flo-sep), [data-opt="4"] .acc .is-tex, [data-opt="4"] .acc .acc-sep:not(.is-flo-sep) { display: none; }
+
+    /* ════════ RESPONSIVE ════════ */
+    @media (max-width: 1279px) {
+    }
+    @media (max-width: 1024px) {
+      :root { --gutter: 32px; --t-title: 24px; }
+      .ai-copy { grid-column: 1 / 6; }
+      .ai-sub { font-size: var(--t-body); }
+      .foot-lead { grid-column: 1 / 7; }
+      .foot-links { grid-column: 8 / 13; }
+    }
+    @media (max-width: 768px) {
+      :root { --gutter: 16px; --gap: 16px; --t-lead: 20px; --nav-h: 56px; }
+      body { font-size: 16px; }
+      .hero-in { display: block; padding: 32px 0 40px; }   /* copy at the top, the form stands in the lower half */
+      .role { margin-top: 12px; }
+      .f1-sel b { font-size: 13px; }
+      .hero-intro { margin-top: 20px; }
+      .work { padding: 64px 0 88px; }
+      .work-grid { display: block; margin-top: 24px; }
+      .work-grid > li + li { margin-top: 56px; }
+      .media { height: auto; aspect-ratio: 4 / 3; }
+      .cap { margin-top: 16px; }
+      .ai { padding: 88px 0; }
+      .ai-in { display: block; }
+      .ai-sub { font-size: var(--t-lead); }
+      .stage { margin-top: 48px; aspect-ratio: 4 / 3; }
+      .foot { padding: 88px 0 24px; }
+      .foot-main { display: block; }
+      .foot-links { margin-top: 40px; }
+      .foot-base { margin-top: 56px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+      .js .rv-t, .js .rv-pop, .js .rv .cap > *, .js .rv .cap > .go { opacity: 1; transform: none; }
+      .js .rv .media-asset { scale: 1; }
+      .js .rv .media { clip-path: none !important; }
+      .js .rv .media-asset { filter: none !important; }
+      .media-pan, .tile:hover .media-asset, .tile:focus-visible .media-asset { transform: none; }
+    }
+  </style>
 </head>
-<body class="home">
+<body>
 
-<div id="splash">
-  <span id="spl-hi" class="display">Hi</span>
-  <span id="spl-name" class="display">I'm Deron.</span>
-</div>
-
-<nav>
-  <a class="logo label" href="index.html">Deron Li</a>
-  <div class="nav-links"><a href="#work" class="label">Work</a><a href="ai-design.html" class="label">AI x Design</a><a href="about.html" class="label">About</a></div>
-  <button class="nav-hamburger" aria-label="Toggle menu" aria-expanded="false">
-    <span></span><span></span><span></span>
-  </button>
+<nav class="nav" aria-label="Main">
+  <div class="wrap nav-in">
+    <a class="nav-logo" href="index.html">Deron Li</a>
+    <div class="nav-links label"><a href="#work">Work</a><a href="ai-design.html">AI x Design</a><a href="about.html">About</a></div>
+  </div>
 </nav>
 
-<main class="hero">
-  <canvas id="dot-grid" aria-hidden="true"></canvas>
-  <div class="hero-inner">
+<main>
 
-    <!-- Avatar -->
-    <div class="hero-avatar" id="hero-avatar">
-      <div class="hero-avatar-img">
-        <img src="images/homepage/DeronImage.png" alt="Deron Li" />
-      </div>
-      <span class="hero-avatar-layer hero-avatar-layer--1"></span>
-      <span class="hero-avatar-layer hero-avatar-layer--2"></span>
-      <span class="hero-avatar-layer hero-avatar-layer--3"></span>
-    </div>
-
-    <!-- Left -->
-    <div class="left-col">
-      <h1 id="hero-h1" class="display"><span class="h1-hi">Hi</span> <span class="h1-name">I'm Deron.</span></h1>
-      <p class="bio lead">
-        <span class="hl">Passionate Product Designer</span> with <span class="hl" style="white-space: nowrap">9 years of experience</span> in <span class="hl" style="white-space: nowrap">B2B and B2C</span>. I specialize in simplifying complexity by leveraging <span class="hl" style="white-space: nowrap">AI tools</span> to ship products that balance business goals with a deep obsession for the user.
-      </p>
-    </div>
-
-    <!-- Right -->
-    <div class="right-col">
-      <div class="stack">
-        <div class="card-wrap" id="card-0" data-slot="spawn"><div class="card"><div class="illus" id="illus-0"></div></div></div>
-        <div class="card-wrap" id="card-1" data-slot="spawn"><div class="card"><div class="illus" id="illus-1"></div></div></div>
-        <div class="card-wrap" id="card-2" data-slot="spawn"><div class="card"><div class="illus" id="illus-2"></div></div></div>
-        <div class="card-wrap" id="card-3" data-slot="spawn"><div class="card"><div class="illus" id="illus-3"></div></div></div>
-        <div id="prog-track"><div id="prog-fill"></div></div>
+  <!-- ════════ Landing ════════ -->
+  <header class="hero" id="top">
+    <canvas class="hero-bg" aria-hidden="true"></canvas>
+    <div class="wrap grid hero-in">
+      <div class="hero-copy">
+        <h1 class="hero-title">
+          <span class="hero-hello">Hi, I&rsquo;m Deron.</span>
+          <span class="role" aria-hidden="true">
+            <span class="role-phrase is-on" data-k="design">I <em>Design Products</em></span>
+            <span class="role-phrase" data-k="build">I <em>Build with AI</em></span>
+            <span class="role-phrase" data-k="code">I <em>Ship in Code</em></span>
+            <span class="role-phrase" data-k="motion">I <em>Craft Motion</em></span>
+          </span>
+          <span class="flo-layer" aria-hidden="true"></span>
+          <span class="sr-only">I Design Products, Build with AI, Ship in Code and Craft Motion.</span>
+        </h1>
+        <p class="hero-intro">9+ years of experience in B2B and B2C. I specialize in simplifying complexity by leveraging AI to ship products that balance business goals with a deep obsession for the user.</p>
       </div>
 
     </div>
+  </header>
 
-  </div>
+  <!-- ════════ Work ════════ -->
+  <section class="work" id="work" aria-labelledby="work-title">
+    <div class="wrap">
+      <div class="work-head rv-t"><h2 class="h-section" id="work-title">Selected Work</h2></div>
+      <ul class="grid work-grid">
+        <li class="is-wide"><a class="tile rv" href="support.html">
+          <div class="media" style="--pos: 50% 46%"><div class="media-pan"><img class="media-asset" src="images/homepage/support.png" alt="TouchBistro Call Times" decoding="async" /></div></div>
+          <div class="cap">
+            <p class="co label">TouchBistro</p>
+            <h3 class="title">Reducing Customer Call Times by 33% from 18 to <span class="num" data-from="18" data-to="12">12</span> Minutes</h3>
+            <p class="go">View case study <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></p>
+          </div>
+        </a></li>
+        <li><a class="tile rv" href="discounts.html" style="--d: 100ms">
+          <div class="media" style="--pos: 50% 52%"><div class="media-pan"><img class="media-asset" src="images/homepage/discounts.png" alt="TouchBistro Advanced Discounts" decoding="async" /></div></div>
+          <div class="cap">
+            <p class="co label">TouchBistro</p>
+            <h3 class="title">Securing a Restaurant with 12 Locations through Advanced Discounts</h3>
+            <p class="go">View case study <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></p>
+          </div>
+        </a></li>
+        <li><a class="tile rv" href="optik.html">
+          <div class="media" style="--pos: 50% 50%"><div class="media-pan"><img class="media-asset" src="images/homepage/optik.png" alt="TELUS Optik TV" decoding="async" /></div></div>
+          <div class="cap">
+            <p class="co label">TELUS</p>
+            <h3 class="title">Growing Optik TV Daily Orders from 200 to <span class="num" data-from="200" data-to="2500" data-suffix="+">2,500+</span></h3>
+            <p class="go">View case study <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></p>
+          </div>
+        </a></li>
+        <li class="is-wide"><a class="tile rv" href="onboarding.html" style="--d: 100ms">
+          <div class="media" style="--pos: 50% 50%"><div class="media-pan"><img class="media-asset" src="images/homepage/onboarding.png" alt="TELUS Retention" decoding="async" /></div></div>
+          <div class="cap">
+            <p class="co label">TELUS</p>
+            <h3 class="title">Increasing My TELUS App Retention from 40.6% to <span class="num" data-from="40.6" data-to="62.6" data-dec="1" data-suffix="%">62.6%</span></h3>
+            <p class="go">View case study <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></p>
+          </div>
+        </a></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ════════ AI x Design ════════ -->
+  <section class="ai" id="ai" aria-labelledby="ai-title">
+    <canvas class="ai-bg" aria-hidden="true"></canvas>
+    <div class="wrap grid ai-in">
+      <div class="ai-copy">
+        <p class="ai-over label rv-t">AI <span class="ai-x">x</span> Design</p>
+        <h2 class="ai-h rv-t" id="ai-title" style="--d: 60ms">AI Is Part of How I Design Now</h2>
+        <p class="ai-sub rv-t" style="--d: 140ms">Side projects I built with AI, and the workflow I use from research to prototype.</p>
+        <a class="btn label rv-t" style="--d: 220ms" href="ai-design.html">Visit AI x Design <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+      <a class="stage rv-pop" href="ai-design.html" aria-label="Visit AI x Design">
+        <video class="is-on" muted playsinline preload="none" poster="images/ai/kept-promo-poster.webp" aria-label="A promo for Kept, a fictional finance app: a 3D phone, rendered in Blender by the Brand and Motion Design Agent, focuses on its net worth, cash flow and savings goal tiles"><source src="images/ai/kept-promo.webm" type="video/webm"><source src="images/ai/kept-promo.mp4" type="video/mp4"></video>
+        <video muted playsinline preload="none" poster="images/ai/my-little-assistant-poster.jpg" aria-label="My Little Assistant, a 3D film made in Blender: the small orange Claude Code mascot hops between the screens of a plant care app, connects them into a flow, draws a leaf icon and lands on a board of passing pre-launch checks"><source src="images/ai/my-little-assistant.webm" type="video/webm"><source src="images/ai/my-little-assistant.mp4" type="video/mp4"></video>
+        <video muted playsinline preload="none" poster="images/ai/process/prototyping-poster.webp" aria-label="Prototyping with Claude"><source src="images/ai/process/prototyping.webm" type="video/webm"><source src="images/ai/process/prototyping.mp4" type="video/mp4"></video>
+      </a>
+    </div>
+  </section>
+
 </main>
 
-<section class="featured-work" id="work">
-  <div class="fw-inner">
-    <h2 class="fw-heading h1"><span class="fw-diamond"><span class="fw-diamond-layer fw-diamond-layer--1"></span><span class="fw-diamond-layer fw-diamond-layer--2"></span><span class="fw-diamond-layer fw-diamond-layer--3"></span></span> Featured Work</h2>
-    <div class="fw-grid">
-
-      <a class="fw-card" href="support.html">
-        <p class="fw-company h5">TouchBistro</p>
-        <h3 class="fw-title h3">Reducing Customer Call Times by 33% from 18 to 12 Minutes</h3>
-        <div class="fw-tags">
-          <span class="fw-tag tag">Support</span>
-          <span class="fw-tag tag">Call Time Reduction</span>
-          <span class="fw-tag tag">IA</span>
-        </div>
-        <div class="fw-image">
-          <img src="images/homepage/support.png" alt="TouchBistro Call Times" />
-        </div>
-      </a>
-
-      <a class="fw-card" href="discounts.html">
-        <p class="fw-company h5">TouchBistro</p>
-        <h3 class="fw-title h3">Securing a Restaurant with 12 Locations through Advanced Discounts</h3>
-        <div class="fw-tags">
-          <span class="fw-tag tag">Restaurant</span>
-          <span class="fw-tag tag">POS</span>
-          <span class="fw-tag tag">Discounts</span>
-        </div>
-        <div class="fw-image">
-          <img src="images/homepage/discounts.png" alt="TouchBistro Advanced Discounts" />
-        </div>
-      </a>
-
-      <a class="fw-card" href="optik.html">
-        <p class="fw-company h5">TELUS</p>
-        <h3 class="fw-title h3">Growing Optik TV Daily Orders from 200 to 2,500+</h3>
-        <div class="fw-tags">
-          <span class="fw-tag tag">TV Subscription</span>
-          <span class="fw-tag tag">Mobile</span>
-          <span class="fw-tag tag">Self-Service</span>
-        </div>
-        <div class="fw-image">
-          <img src="images/homepage/optik.png" alt="TELUS Optik TV" />
-        </div>
-      </a>
-
-      <a class="fw-card" href="onboarding.html">
-        <p class="fw-company h5">TELUS</p>
-        <h3 class="fw-title h3">Increasing My TELUS App Retention from 40.6% to 62.6%</h3>
-        <div class="fw-tags">
-          <span class="fw-tag tag">Onboarding</span>
-          <span class="fw-tag tag">Retention</span>
-          <span class="fw-tag tag">Self-Service</span>
-        </div>
-        <div class="fw-image">
-          <img src="images/homepage/onboarding.png" alt="TELUS Retention" />
-        </div>
-      </a>
-
+<footer class="foot">
+  <div class="wrap">
+    <div class="grid foot-main">
+      <div class="foot-lead rv-t"><p class="foot-line">Let's Connect!</p><a class="foot-cta label" href="https://www.linkedin.com/in/deronli/" target="_blank" rel="noopener">LinkedIn <svg class="arrow ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13.5V18a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4.5"/><path class="out" d="M14.5 4H20v5.5M20 4l-9 9"/></svg></a></div>
+      <ul class="foot-links rv-t" style="--d: 120ms">
+        <li><a href="ai-design.html">AI x Design <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></li>
+        <li><a href="about.html">About <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></li>
+      </ul>
+    </div>
+    <div class="foot-base label">
+      <a class="foot-top" href="#top">Back to top <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg></a>
     </div>
   </div>
-</section>
+</footer>
 
-<script src="js/script.js" defer></script>
-<script src="js/dot-grid.js" defer></script>
-<script src="js/avatar-physics.js" defer></script>
-<script src="js/nav.js" defer></script>
+
+<!-- Review only: compare the two landing options. Not part of the design. -->
+<div class="acc label" role="group" aria-label="Landing option (review only)"></div>
+
+<script>
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+
+  /* ── Nav ── */
+  const nav = $('.nav');   /* scrolled state: js/site-nav.js; the dark AI section sets the night state here */
+  new IntersectionObserver(([e]) => nav.classList.toggle('is-night', e.isIntersecting), { rootMargin: '0px 0px -100% 0px' }).observe($('.ai'));
+
+  /* ── Numbers that count to their value ── */
+  const fmt = (v, dec) => v.toLocaleString('en-CA', { minimumFractionDigits: dec, maximumFractionDigits: dec });
+  const count = (el, delay, D = 1200, ease = (p) => 1 - Math.pow(1 - p, 4)) => {
+    const from = +el.dataset.from, to = +el.dataset.to, dec = +(el.dataset.dec || 0), suf = el.dataset.suffix || '';
+    const final = el.dataset.final || (el.dataset.final = el.textContent);
+    const run = (el._run = (el._run || 0) + 1);
+    /* round 18: the number's box is always as wide as its final value (laid out invisibly underneath),
+       so the title never re-wraps while it counts */
+    if (!el._cur) {
+      el.textContent = ''; el.classList.add('is-counting');
+      const f = document.createElement('span'); f.className = 'num-f'; f.textContent = final; f.setAttribute('aria-hidden', 'true');
+      const c = document.createElement('span'); c.className = 'num-c'; el.append(f, c); el._cur = c;
+    }
+    const out = el._cur;
+    out.textContent = fmt(from, dec) + suf;
+    setTimeout(() => {
+      const t0 = performance.now();
+      const step = (now) => {
+        if (el._run !== run) return;
+        const p = Math.min(1, (now - t0) / D);
+        out.textContent = p < 1 ? fmt(from + (to - from) * ease(p), dec) + suf : final;
+        if (p < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    }, delay);
+  };
+  const inout = (p) => p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+
+  /* ── Hero: the role line turns every 3.2s, letter by letter ── */
+  (() => {
+    const phrases = $$('.role-phrase'), hero = $('.hero');
+    const ROLE_MS = 3600;                                  /* round 14: 3.2 s plus 0.4 s for the flourish */
+    let cur = 0, timer = 0, visible = true;
+    if (!reduce) phrases.forEach((p) => {
+      const txt = p.textContent; p.textContent = ''; let i = 0;
+      [...txt].forEach((c, k) => {
+        const s = document.createElement('span'); s.className = 'ch'; s.textContent = c;
+        if (k < 2) s.classList.add('is-fix'); else s.style.setProperty('--i', i++);   /* the split drops the <em>, the colour moves to the letters */
+        p.appendChild(s);
+      });
+      const pr = document.createElement('span'); pr.className = 'bl-probe'; p.appendChild(pr);   /* marks the baseline */
+    });
+    /* ── the flourishes: three sets of four, chosen with ?flourish=1|2|3 (review switcher) ── */
+    const layer = $('.flo-layer'), title = $('.hero-title');
+    const MASCOT = '<svg class="mascot" viewBox="0 0 10 7" aria-hidden="true"><rect class="bd" x="1" y="1" width="8" height="5"/><rect class="ey" x="3" y="2" width="1" height="2"/><rect class="ey" x="6" y="2" width="1" height="2"/><rect class="bd" x="0" y="3" width="1" height="1"/><rect class="bd dn" x="9" y="3" width="1" height="1"/><rect class="bd up" x="9" y="1" width="1" height="2"/><rect class="bd" x="2" y="6" width="1" height="1"/><rect class="bd" x="4" y="6" width="1" height="1"/><rect class="bd" x="5" y="6" width="1" height="1"/><rect class="bd" x="7" y="6" width="1" height="1"/></svg>';
+    const STAR = '<svg viewBox="0 0 24 24"><path d="M12 0C13 7 17 11 24 12C17 13 13 17 12 24C11 17 7 13 0 12C7 11 11 7 12 0Z"/></svg>';
+    const SET_OLD = {
+      1: [(m) => `<span class="flo f1-sel"><i></i><i></i><i></i><i></i><b>${m.w} × ${m.h}</b></span>`,
+          () => `<span class="flo f-pop is-wave">${MASCOT}</span>`,
+          () => '<span class="flo f1-code"><span class="typed">&lt;/&gt;</span><i class="caret"></i></span>',
+          () => '<span class="flo f1-ease"><svg viewBox="0 0 100 100"><path class="ax" d="M0 0V100H100"/><path class="cv" d="M0 100C34 -56 64 0 100 0"/></svg><i class="dx"><i class="dy"></i></i></span>'],
+      2: [() => '<span class="flo f2-stk"><span class="stk"><svg viewBox="0 0 24 24"><path class="nib" d="M12 21L6 11L12 3L18 11Z M12 21V12"/></svg></span></span>',
+          () => `<span class="flo f2-stk is-wave"><span class="stk"><span class="mascot-w">${MASCOT}</span></span></span>`,
+          () => '<span class="flo f2-stk"><span class="stk"><span class="mono">&lt;/&gt;</span></span></span>',
+          () => '<span class="flo f2-stk"><span class="stk"><i class="floor"></i><i class="ball"></i></span></span>'],
+      3: [() => '<span class="flo f3-anchor"><i class="hl"></i><i class="sq"></i></span>',
+          () => `<span class="flo f3-spark">${STAR}${STAR}</span>`,
+          () => '<span class="flo f3-us"></span>',
+          () => '<span class="flo f3-dot"><i></i></span>']
+    };
+    /* round 15: flourishes are keyed by role; sets 1 to 3 keep their beats (Build borrows Prototype's) */
+    const keyed = (a) => ({ design: a[0], proto: a[1], build: a[1], code: a[2], motion: a[3] });
+    const svg = (inner) => `<svg class="flo-svg" aria-hidden="true">${inner}</svg>`;
+    const f = (n) => n.toFixed(1);
+    const cls = (m, c) => { m.p.classList.add(c); m.fx.push(c); };
+    const SETS = {
+      1: keyed(SET_OLD[1]), 2: keyed(SET_OLD[2]), 3: keyed(SET_OLD[3]),
+      4: {
+        design: { on: (m) => cls(m, 'fx-kern') },
+        code: {
+          on: (m) => { const o = m.tw('<') + 0.08 * m.fs; m.lw.forEach((c) => c.style.setProperty('--open', o + 'px')); m.open = o; cls(m, 'fx-open'); },
+          html: (m) => { const gx = m.x1 + m.open + 0.16 * m.fs, cx = gx + m.tw('/>') + 0.1 * m.fs;
+            return svg(`<text class="lt" x="${f(m.x0)}" y="${f(m.bl)}" style="font-size:${m.fs}px">&lt;</text><text class="gt" x="${f(gx)}" y="${f(m.bl)}" style="font-size:${m.fs}px">/&gt;</text><rect class="crt" x="${f(cx)}" y="${f(m.bl - m.cap - 0.04 * m.fs)}" width="${f(0.085 * m.fs)}" height="${f(m.cap + 0.08 * m.fs)}"/>`); }
+        },
+        proto: {
+          on: (m) => cls(m, 'fx-latent'),
+          html: (m) => svg(['g1', 'g2', 'g3'].map((g) => `<text class="gh ${g}" x="${f(m.x0)}" y="${f(m.bl)}" style="font-size:${m.fs}px">${m.word}</text>`).join(''))
+        },
+        build: { on: (m) => cls(m, 'fx-build') },
+        motion: {
+          on: (m) => cls(m, 'fx-hop'),
+          html: (m) => `<span class="flo f4-dot" style="--d:${m.lw.length * 55 + 220}ms"><i></i></span>`
+        }
+      },
+      5: {
+        design: { html: (m) => { const u = m.fs, L = m.x1 - m.x0, b = m.bl, a = m.x0, z = m.x1;
+          return svg(`<path class="pen draw" pathLength="1" style="stroke-width:${f(0.075 * u)}px" d="M${f(z - 0.04 * u)} ${f(b - 0.03 * u)}C${f(z + 0.22 * u)} ${f(b + 0.02 * u)} ${f(z + 0.12 * u)} ${f(b + 0.22 * u)} ${f(z - 0.3 * u)} ${f(b + 0.2 * u)}C${f(z - 0.3 * u - L * 0.35)} ${f(b + 0.19 * u)} ${f(a + 0.35 * u)} ${f(b + 0.29 * u)} ${f(a + 0.05 * u)} ${f(b + 0.21 * u)}C${f(a - 0.2 * u)} ${f(b + 0.15 * u)} ${f(a - 0.15 * u)} ${f(b - 0.12 * u)} ${f(a + 0.06 * u)} ${f(b - 0.06 * u)}"/>`); } },
+        code: { html: (m) => { const u = m.fs, h = m.cap, a = m.x1 + 0.16 * u, t = m.bl - h, b = m.bl, mid = (t + b) / 2, w = 0.085 * u;
+          return svg(`<path class="pen draw quick" pathLength="1" style="stroke-width:${f(w)}px" d="M${f(a + 0.36 * h)} ${f(t + 0.06 * h)}L${f(a)} ${f(mid)}L${f(a + 0.36 * h)} ${f(b - 0.06 * h)}"/><path class="pen draw quick" pathLength="1" style="stroke-width:${f(w)}px;--d:0.16s" d="M${f(a + 0.5 * h)} ${f(b + 0.03 * h)}L${f(a + 0.84 * h)} ${f(t - 0.03 * h)}"/><path class="pen draw quick" pathLength="1" style="stroke-width:${f(w)}px;--d:0.32s" d="M${f(a + 0.98 * h)} ${f(t + 0.06 * h)}L${f(a + 1.34 * h)} ${f(mid)}L${f(a + 0.98 * h)} ${f(b - 0.06 * h)}"/><rect class="crt" x="${f(a + 1.34 * h + 0.16 * u)}" y="${f(t - 0.04 * u)}" width="${f(w)}" height="${f(h + 0.08 * u)}"/>`); } },
+        proto: { html: (m) => { const u = m.fs, cx = (m.x0 + m.x1) / 2, cy = m.bl - m.cap / 2, rx = (m.x1 - m.x0) / 2 + 0.2 * u, ry = m.cap / 2 + 0.22 * u; let d = '';
+          for (let k = 0; k <= 72; k++) { const t = -2.5 + (k / 72) * Math.PI * 2.45, r = 1 + 0.05 * Math.sin(t * 3 + 1) + 0.03 * Math.sin(t * 7), x = cx + rx * r * Math.cos(t) + k * 0.06 * u / 72 * 4, y = cy + ry * r * Math.sin(t) - k * 0.05 * u / 72 * 2; d += (k ? 'L' : 'M') + f(x) + ' ' + f(y); }
+          return svg(`<path class="pen draw sketch" pathLength="1" style="stroke-width:${f(0.04 * u)}px" d="${d}"/>`); } },
+        build: { on: (m) => cls(m, 'fx-stamp'),
+          /* construction guides: baseline and cap height run out past the word, each letter's sides rise between them */
+          html: (m) => { const u = m.fs, t = m.bl - m.cap, w = f(0.02 * u), tr = m.p.parentNode.parentNode.getBoundingClientRect();
+            const vs = []; m.lw.forEach((c) => { const r = c.getBoundingClientRect(); vs.push(r.left - tr.left + 0.02 * u, r.right - tr.left - 0.02 * u); });
+            let g = `<path class="pen draw guide" pathLength="1" style="stroke-width:${w}px" d="M${f(m.x0 - 0.42 * u)} ${f(m.bl)}H${f(m.x1 + 0.42 * u)}"/><path class="pen draw guide" pathLength="1" style="stroke-width:${w}px;--d:0.06s" d="M${f(m.x1 + 0.42 * u)} ${f(t)}H${f(m.x0 - 0.42 * u)}"/>`;
+            vs.forEach((x, n) => { g += `<path class="pen draw guide" pathLength="1" style="stroke-width:${w}px;--d:${f(0.12 + n * 0.04)}s" d="M${f(x)} ${f(m.bl + 0.22 * u)}V${f(t - 0.22 * u)}"/>`; });
+            return svg(`<g class="guides">${g}</g>`); } },
+        motion: { html: (m) => { const u = m.fs, z = m.x1, b = m.bl, lx = z + 0.08 * u;
+          return svg(`<path class="pen comet" pathLength="1" style="stroke-width:${f(0.085 * u)}px" d="M${f(z + 1.0 * u)} ${f(b - 1.15 * u)}C${f(z + 0.75 * u)} ${f(b - 1.35 * u)} ${f(z + 0.2 * u)} ${f(b - 0.95 * u)} ${f(lx + 0.085 * u)} ${f(b - 0.085 * u)}"/>`) + `<span class="flo f5-dot" style="--lx:${f(lx)}px"><i></i></span>`; } }
+      },
+      /* Set 6 (round 19), made and unmade: each role has an entrance beat and its own exit.
+         lead: ms after the last letter lands that the beat starts. pre: ms before the role's turn ends that its exit starts
+         (the next role rolls in over the end of it). more: extra ms in this role's slot. free: false keeps the roll-in running. */
+      6: {
+        design: { pre: 300, more: -600,   /* more -600: a 3.0 s turn, as it held still in the middle (Deron, 2026-11-22). 300: --f6-go, so the press is released exactly as the turn ends and the next role rolls in behind the line */
+          on: (m) => { const o = 0.1 * m.fs, bx = 0.16 * m.fs, W = m.x1 - m.x0 + bx * 2;   /* 0.16: --f6-btn-x */
+            /* when the fill's edge (0.4 s on --inout, after 0.12 s) reaches each letter's middle: solve the curve for time */
+            const B = (t, a, b) => 3 * (1 - t) * (1 - t) * t * a + 3 * (1 - t) * t * t * b + t * t * t, when = (p) => { let lo = 0, hi = 1; for (let n = 0; n < 24; n++) { const t = (lo + hi) / 2; if (B(t, 0, 1) < p) lo = t; else hi = t; } return B(lo, 0.65, 0.35); };
+            const ty = title.getBoundingClientRect().top + m.bl - m.cap / 2, cxm = m.tl + (m.x0 + m.x1) / 2;   /* the button's centre, less the slide: every letter pivots there */
+            m.lw.forEach((c) => { const r = c.getBoundingClientRect(); c.style.setProperty('--open', f(o) + 'px'); c.style.setProperty('--ox', f(cxm - r.left) + 'px'); c.style.setProperty('--oy', f(ty - r.top) + 'px'); c.style.setProperty('--bd', Math.round(120 + 400 * when((r.left + r.width / 2 - m.tl - m.x0 + bx) / W) - 30) + 'ms'); });
+            layer.style.setProperty('--bo', f(o) + 'px'); title.classList.add('is-under'); cls(m, 'fx-btn'); },
+          html: () => '<span class="flo f6-btn"><b><i></i></b></span><span class="flo f6-tap"></span>',
+          exit: (m) => { const tr = title.getBoundingClientRect(), ship = m.p.getBoundingClientRect().height * 1.16;
+            layer.style.setProperty('--ship', f(ship) + 'px'); m.all.forEach((c) => c.style.setProperty('--ship', f(ship) + 'px'));   /* the whole line leaves as one */
+            layer.style.setProperty('--slot-t', f(Math.min($('.role', title).getBoundingClientRect().top - tr.top, m.bl - m.cap - 0.16 * m.fs)) + 'px'); layer.classList.add('is-ship');   /* 0.16: --f6-btn-y */
+            cls(m, 'x6-ship'); } },
+        build: { pre: 520, more: 300,
+          on: (m) => { const sx = Math.min(m.x1 - 0.02 * m.fs, m.lw0 - 0.44 * m.fs), c1 = sx + 0.15 * m.fs, from = m.xa + 0.1 * m.fs;
+            m.sx = sx; m.c1 = c1;
+            m.all.forEach((c) => { const r = c.getBoundingClientRect(), fr = Math.max(0, Math.min(1, (r.left + r.width / 2 - m.tl - from) / (c1 - from))); c.style.setProperty('--sd', Math.round(95 + fr * 690) + 'ms'); });   /* in step with --f6-sweep (1.1 s) */
+            cls(m, 'fx-shim'); },
+          html: (m) => `<span class="flo f6-star" style="--sx:${f(m.sx)}px;--fly-in:${f(m.sx - m.xa + 0.05 * m.fs)}px;--fly-out:${f(m.c1 - m.xa + 0.12 * m.fs)}px">${STAR}</span><span class="flo f6-star2" style="--sx:${f(m.sx)}px">${STAR}</span>`,
+          exit: (m) => { const soft = 0.2 * m.fs;   /* --f6-soft: the erase edge sits under the spark's centre */
+            m.p.style.setProperty('--m1', f(Math.max(m.c1 - m.px + soft / 2, m.x1 - m.px + soft)) + 'px'); m.p.style.setProperty('--m0', f(m.xa - m.px - 0.02 * m.fs) + 'px');
+            m.p.classList.remove('fx-shim'); cls(m, 'x6-wipe'); } },
+        code: { pre: 470,
+          on: (m) => { const o = m.tw('<') + 0.08 * m.fs; m.lw.forEach((c) => c.style.setProperty('--open', o + 'px')); m.open = o; cls(m, 'fx-open'); },
+          /* set 4's brackets, with the pivots given in px: Safari does not pivot SVG text on its own box */
+          html: (m) => { const gx = m.x1 + m.open + 0.16 * m.fs, cx = gx + m.tw('/>') + 0.1 * m.fs;
+            return svg(`<text class="lt6" x="${f(m.x0)}" y="${f(m.bl)}" style="font-size:${m.fs}px;transform-origin:${f(m.x0 + m.tw('<'))}px ${f(m.bl)}px">&lt;</text><text class="gt6" x="${f(gx)}" y="${f(m.bl)}" style="font-size:${m.fs}px;transform-origin:${f(gx)}px ${f(m.bl)}px">/&gt;</text><rect class="crt" x="${f(cx)}" y="${f(m.bl - m.cap - 0.04 * m.fs)}" width="${f(0.085 * m.fs)}" height="${f(m.cap + 0.08 * m.fs)}"/>`); },
+          exit: (m) => { const crt = $('.crt', layer), lt = $('.lt6', layer), gt = $('.gt6', layer), gap = 0.03 * m.fs;
+            if (!crt) return;
+            const steps = [() => { gt.style.visibility = 'hidden'; return m.x1 + m.open; }];
+            [...m.all].reverse().forEach((c) => {
+              steps.push(() => { const x = c.getBoundingClientRect().left - ox(); c.classList.add('is-del'); return x; });
+              if (c === m.lw[0]) steps.push(() => { lt.style.visibility = 'hidden'; return m.x0; });
+            });
+            steps.forEach((s, n) => xT.push(setTimeout(() => crt.setAttribute('x', f(s() + gap)), n ? 80 + (n - 1) * 32 : 0)));
+            xT.push(setTimeout(() => crt.classList.add('is-done'), 80 + (steps.length - 1) * 32 + 250)); } },
+        motion: { pre: 860, more: 400, lead: -60, free: false,
+          html: () => '<span class="flo f3-dot"><i></i></span>',
+          /* the full stop as a ball: gravity is 22 em/s², so every arc is a true parabola at any type size */
+          exit: (m) => { const w = $('.f3-dot', layer), d = w && $('i', w); if (!d) return;
+            const u = m.fs, G = 22 * u / 1e6, craft = m.all.filter((c) => !m.lw.includes(c));
+            const tall = (cs, chr) => cs.find((c) => c.textContent === chr) || cs[cs.length >> 1];
+            const t1 = tall(m.lw, 't'), t2 = tall(craft, 'f'), r0 = w.getBoundingClientRect(), cx = (c) => { const r = c.getBoundingClientRect(); return r.left + r.width / 2 - (r0.left + r0.width / 2); };
+            const h1 = m.asc(t1.textContent), h2 = m.asc(t2.textContent), k1 = 0.18 * u, p2 = Math.max(h1, h2) + 0.13 * u, T = (h) => Math.sqrt(2 * h / G);
+            const A = 90, a = A + T(h1 + k1), L1 = a + T(k1), b = L1 + T(p2 - h1), L2 = b + T(p2 - h2), R = 300, sink = m.p.getBoundingClientRect().height * 1.16;
+            /* follow-through: off the "f" the dot keeps some leftward speed, a low rebound (k3) and then a free fall through the slot, 0.8 em further left */
+            const k3 = 0.1 * u, c3 = L2 + T(k3), E = c3 + T(k3 + sink), drift = 0.8 * u;
+            const up = 'cubic-bezier(0.33, 0.67, 0.67, 1)', dn = 'cubic-bezier(0.33, 0, 0.67, 0.33)', hit = 'cubic-bezier(0.4, 0, 0.9, 0.5)', y = (v, sx, sy) => `translateY(${f(v)}px) scale(${sx}, ${sy})`;
+            layer.style.setProperty('--slot', f(title.getBoundingClientRect().bottom - $('.role', title).getBoundingClientRect().bottom) + 'px'); layer.classList.add('is-slot');
+            w.animate([{ transform: 'translateX(0px)', offset: 0 }, { transform: 'translateX(0px)', offset: A / E }, { transform: `translateX(${f(cx(t1))}px)`, offset: L1 / E }, { transform: `translateX(${f(cx(t2))}px)`, offset: L2 / E }, { transform: `translateX(${f(cx(t2) - drift)}px)`, offset: 1 }], { duration: E, fill: 'forwards' });
+            d.animate([
+              { transform: y(0, 1, 1), offset: 0, easing: 'cubic-bezier(0.4, 0, 0.2, 1)' },
+              { transform: y(0, 1.3, 0.7), offset: A / E, easing: up },
+              { transform: y(-h1 - k1, 0.94, 1.06), offset: a / E, easing: dn },
+              { transform: y(-h1, 1.25, 0.75), offset: L1 / E, easing: up },
+              { transform: y(-p2, 0.94, 1.06), offset: b / E, easing: dn },
+              { transform: y(-h2, 1.25, 0.75), offset: L2 / E, easing: up },
+              { transform: y(-h2 - k3, 0.96, 1.04), offset: c3 / E, easing: dn },
+              { transform: y(-h2 + sink, 1, 1), offset: 1 }], { duration: E, fill: 'forwards' });
+            /* a hit knocks the word out letter by letter: the struck letter drops with the dot, its neighbours follow 28 ms apart, each with a small recoil and a lean away from the hit */
+            const press = (cs, hitEl, at) => { const h = cs.indexOf(hitEl); cs.forEach((c, n) => { const d = Math.abs(n - h), lean = d ? Math.sign(n - h) * (4 + 2 * d) : 0;
+              m.an.push(c.animate(d ? [{ transform: 'translateY(0px) rotate(0deg)', easing: 'cubic-bezier(0.2, 0.6, 0.4, 1)' }, { transform: `translateY(${f(-0.045 * u)}px) rotate(${f(lean / 3)}deg)`, offset: 0.22, easing: hit }, { transform: `translateY(${f(sink)}px) rotate(${lean}deg)` }]
+                : [{ transform: 'translateY(0px) rotate(0deg)', easing: hit }, { transform: `translateY(${f(sink)}px) rotate(0deg)` }], { duration: d ? R + 60 : R, delay: at + d * 28, fill: 'forwards' })); }); };
+            press(m.lw, t1, L1); press(craft, t2, L2); } }
+      }
+    };
+    let floSet = 1, floT = [], xT = [], exitT = 0;
+    const ink = (chr) => { const c = document.createElement('canvas').getContext('2d'), cs = getComputedStyle(phrases[0]); c.font = `${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`; return c.measureText(chr); };
+    const asc = (chr) => ink(chr).actualBoundingBoxAscent;
+    const cap = () => asc('H');
+    const spec6 = (i) => (floSet === 6 ? SETS[6][phrases[i].dataset.k] : null);   /* set 6 only: the role's entrance and exit spec */
+    /* ?hero=centre: --cx slides the line so the phrase on show is centred. <Code /> is centred on its width with the brackets */
+    const centred = document.documentElement.dataset.hero === 'centre';
+    const ox = () => (centred ? layer : title).getBoundingClientRect().left;
+    const centreOn = (i, jump) => {
+      if (!centred) return;
+      const p = phrases[i], ch = $$('.ch', p), fs = parseFloat(getComputedStyle(p).fontSize); let w;
+      if (ch.length) w = ch[ch.length - 1].getBoundingClientRect().right - ch[0].getBoundingClientRect().left;
+      else { const r = document.createRange(); r.selectNodeContents(p); w = r.getBoundingClientRect().width; }
+      if (!reduce && floSet === 6 && p.dataset.k === 'code') w += 1.75 * fs;
+      if (jump) title.classList.add('is-cx-set');
+      title.style.setProperty('--cx', ((title.getBoundingClientRect().width - w) / 2).toFixed(1) + 'px');
+      if (jump) { void title.offsetWidth; title.classList.remove('is-cx-set'); }
+    };
+    const play = (i) => {
+      if (reduce) return;
+      const p = phrases[i], ch = $$('.ch', p), t0 = title.getBoundingClientRect(), tr = { left: ox(), top: t0.top, width: t0.width, bottom: t0.bottom };   /* x is measured from the layer, which slides in the centred version */
+      const sp = ch.map((c) => c.textContent).lastIndexOf(' ');
+      const a = ch[sp + 1].getBoundingClientRect(), z = ch[ch.length - 1].getBoundingClientRect(), bl = $('.bl-probe', p).getBoundingClientRect().top - tr.top, k = cap();
+      layer.classList.add('is-reset'); layer.classList.remove('is-clear', 'is-out', 'is-slot', 'is-ship'); title.classList.remove('is-under'); void layer.offsetWidth; layer.classList.remove('is-reset');
+      layer.style.cssText = `--x0:${a.left - tr.left}px;--x1:${z.right - tr.left}px;--bl:${bl}px;--cap:${k}px`;
+      const spec = SETS[floSet][p.dataset.k], sx = typeof spec === 'function' ? { html: spec } : spec;
+      const fs = parseFloat(getComputedStyle(p).fontSize), lw = ch.slice(sp + 1), pr = p.getBoundingClientRect();
+      const meas = document.createElement('span'); meas.className = 'meas'; meas.style.fontSize = fs + 'px'; layer.appendChild(meas);
+      const m = { p, lw, fx: [], an: [], set: floSet, fs, x0: a.left - tr.left, x1: z.right - tr.left, bl, cap: k, w: Math.round(z.right - a.left), h: Math.round(k), word: lw.map((c) => c.textContent).join(''),
+        all: ch.filter((c) => !c.classList.contains('is-fix')), xa: ch[2].getBoundingClientRect().left - tr.left, px: pr.left - tr.left, pw: pr.width, tl: tr.left, lw0: tr.width, asc,
+        tw: (t) => { meas.textContent = t; return meas.getBoundingClientRect().width; } };
+      if (floSet >= 4 && sx.free !== false) p.classList.remove('is-in');   /* sets 4 to 6 start after every letter has landed: free them for the flourish */
+      lw.forEach((c, n) => { c.classList.add('lw'); c.style.setProperty('--k', n); });
+      if (sx.on) sx.on(m);
+      layer.innerHTML = sx.html ? sx.html(m) : '';
+      p._fx = m.fx; p._m = m;
+      layer.dataset.late = floSet !== 6 && sx.on && m.fx.includes('fx-open') ? '1' : '';   /* <Code /> leaves with the roll, so the word never sits apart from its brackets */
+    };
+    const clearFlo = () => { if (layer.dataset.late) setTimeout(() => layer.classList.add('is-clear'), 360); else layer.classList.add('is-clear'); };
+    /* set 6: a role's own exit. It starts `pre` ms before the turn ends, so the next role rolls in over its last beat */
+    const leave = (i) => {
+      const p = phrases[i], m = p._m, s = spec6(i);
+      if (reduce || !s || !s.exit || !m || m.set !== 6 || i !== cur || !visible || document.hidden) return;
+      xT.forEach(clearTimeout); xT = [];
+      p.classList.remove('is-in'); p._x6 = true; p._roll = !!s.roll; layer.classList.add('is-out'); s.exit(m);
+    };
+    /* after a role has rolled out, undo whatever its flourish did to its letters (invisible by then) */
+    const undo = (p) => { (p._fx || []).forEach((c) => p.classList.remove(c)); p._fx = []; $$('.lw', p).forEach((c) => { c.classList.remove('lw'); ['--open', '--ox', '--oy'].forEach((v) => c.style.removeProperty(v)); }); $$('.ch', p).forEach((c) => c.style.removeProperty('--ship'));
+      p.classList.remove('is-x6'); p._x6 = false; p._roll = false; ((p._m || {}).an || []).forEach((x) => x.cancel()); p._m = null; $$('.is-del', p).forEach((c) => c.classList.remove('is-del')); };
+    /* a flourish starts as the last letter of its role lands, and clears 0.3 s before the next role rolls in */
+    const landMs = (i) => { const s = spec6(i); return 720 + 24 * ($$('.ch', phrases[i]).length - 3) + (s ? (s.lead == null ? 60 : s.lead) : floSet >= 4 ? 90 : -60); };   /* the newer sets wait until every letter has landed */
+    const roleMs = (i) => ROLE_MS + ((spec6(i) || {}).more || 0);
+    const schedule = (i, lead) => { floT.forEach(clearTimeout); floT = [setTimeout(() => play(i), lead)]; if (floSet !== 6) floT.push(setTimeout(clearFlo, ROLE_MS - 300)); };
+    window.__flourish = (n) => { floSet = SETS[n] ? +n : 4; document.documentElement.dataset.flo = floSet; };
+    window.__flourish(new URLSearchParams(location.search).get('flourish') || '6');   /* round 19: set 6, made and unmade (round 18's choice was set 3) */
+    if (new URLSearchParams(location.search).get('mascot') === 'violet') document.documentElement.dataset.mascot = 'violet';
+    const set = (i) => {
+      if (i === cur) return;
+      const prev = phrases[cur]; cur = i; const next = phrases[cur];
+      phrases.forEach((p) => { if (p !== prev) p.classList.remove('is-off'); });
+      prev.classList.remove('is-on', 'is-in'); prev.classList.add('is-off');
+      prev.classList.toggle('is-x6', !!prev._x6 && !prev._roll);                    /* set 6: its own exit has the letters, so no roll-out */
+      if (floSet === 6 && !prev._x6) clearFlo();                     /* jumped before its exit could play: the plain roll-out and fade */
+      next.classList.remove('is-off'); next.classList.add('is-on', 'is-in');
+      centreOn(cur);
+      schedule(cur, landMs(cur));
+      setTimeout(() => { if (prev !== phrases[cur]) { prev.classList.remove('is-off'); undo(prev); } }, 1300);
+    };
+    const arm = () => {
+      clearTimeout(timer); clearTimeout(exitT);
+      if (reduce || !visible || document.hidden) return;
+      if (phrases[cur]._x6) { set((cur + 1) % phrases.length); return arm(); }   /* came back mid-exit: go straight to the next role */
+      const ms = roleMs(cur), s = spec6(cur), i = cur;
+      if (s && s.exit) exitT = setTimeout(() => leave(i), ms - s.pre);
+      timer = setTimeout(() => { set((cur + 1) % phrases.length); arm(); }, ms);
+    };
+    new IntersectionObserver(([e]) => { visible = e.isIntersecting; arm(); }, { threshold: 0.3 }).observe(hero);
+    if (!reduce) (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => { schedule(0, 1000); arm(); });   /* the first role plays once the landing has built, and its turn is counted from here */
+    document.addEventListener('visibilitychange', arm);
+    if (centred) { centreOn(0, true); addEventListener('resize', () => centreOn(cur, true)); if (document.fonts) document.fonts.ready.then(() => centreOn(cur, true)); }
+    window.__setRole = (i) => { set(i); arm(); };          /* used by the capture scripts */
+  })();
+
+  /* ── Landing form, two options to compare (review switcher) ──
+     Option 1: one flowing band of four overlapping layers on the right, wide where it enters,
+     narrower through the middle, wide again below. Round 10: it has no ends. It runs off the
+     bottom of the landing (a straight crop) and up behind the nav, where it turns to its lit,
+     lighter colours so the links stay readable. The layers are open: wide flat faces that cross
+     in long sweeps and slowly part and settle, with light falling across them where they lift.
+     The texture follows the cloth, three versions for review (?tex=1|2|3).
+     Option 2 (round 11): Option 1 with Texture A itself, the same form, path, layers and motion,
+     seen out of focus in the background. Round 12: because the blur hides 1A's fine motion, it moves
+     at the scale of the whole form: it sways out to the right of 1A's line (~21 s), its layers part
+     and close (~22 s), colour travels down the layers (~15 s), and it breathes between 0.52 and 0.92
+     opacity every ~17 s.
+     Option 3 (round 13): Option 2's scarf exactly, with a second, separate scarf behind it, mirrored
+     so it leans the other way, 86% of the size, more out of focus, paler and slightly greyer, on a
+     slower clock (0.8x, offset). Round 14: the two breathe in counter-phase (same ~17 s, half a cycle
+     apart) and a band of full colour travels down each scarf, so the field never goes pale all at once.
+     Option 4 (round 14): Option 3's scarves trade depth every 36 s (18 s each way); the draw order
+     cross-fades only while both sit at the same depth.
+     Round 14, all options: the middle of the band breathes open (a softer waist, layers that part
+     about every 21 s) and only ever opens outward, away from the copy.
+     Round 15: four roles (Design Products, Build with AI, Ship in Code, Craft Motion) and two bigger
+     flourish sets made from the type itself, ?flourish=4 (the letters perform, default) and 5 (the pen).
+     Round 16, all options: no hard corners. A smooth max and soft clamps replace max and clamp in the
+     geometry, edges soften across the band (not along the row), and a scarf's layers join in a soft union.
+     Round 17: the Selected Work entrance has no block wipe; three entrances to compare with ?enter=1|2|3.
+     Round 18: loads with Option 4 and flourish set 3 by default (Deron's choice); the others stay reachable by URL.
+     One fragment shader, written for this page. It stops when the landing is off screen or the
+     tab is hidden, draws one still frame for reduced motion, and runs a smaller buffer on phones. */
+  const field = (() => {
+    const cv = $('.hero-bg'), hero = $('.hero');
+    const gl = cv.getContext('webgl', { antialias: false, alpha: false, powerPreference: 'low-power' });
+    if (!gl) { return { recolour() {}, setOpt() {}, setTex() {} }; }
+    const vs = 'attribute vec2 p; void main(){ gl_Position = vec4(p, 0., 1.); }';
+    const fs = `precision highp float;
+      uniform vec2 r; uniform float t, mob, nv, opt, tex, dbg, ctr, nbl; uniform vec3 g, c1, c2, c3, c4; uniform vec4 na, nb;
+      float n2(vec2 p){ return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453); }
+      float hash(float p){ p = fract(p * 0.1031); p *= p + 33.33; p *= p + p; return fract(p); }   /* no sin: cheap on any GPU */
+      float vn(vec2 p){                                                    /* smooth value noise */
+        vec2 i = floor(p), f = fract(p); f = f * f * (3.0 - 2.0 * f);
+        float a = hash(i.x + i.y * 57.0), b = hash(i.x + 1.0 + i.y * 57.0), c = hash(i.x + (i.y + 1.0) * 57.0), d = hash(i.x + 1.0 + (i.y + 1.0) * 57.0);
+        return mix(mix(a, b, f.x), mix(c, d, f.x), f.y);
+      }
+      vec3 pal(float x){                                                   /* light, orchid, violet, deep */
+        x = clamp(x, 0.0, 1.0) * 3.0;
+        vec3 c = mix(c4, c3, smoothstep(0.0, 1.0, x));
+        c = mix(c, c2, smoothstep(1.0, 2.0, x));
+        return mix(c, c1, smoothstep(2.0, 3.0, x));
+      }
+      /* the band is wide where it enters, narrower through the middle, wide again at its foot,
+         and never the same width twice */
+      float gMir = 0.0;
+      /* Options 3 and 4: a band of full colour travels slowly down each scarf, so part of it is always rich.
+         gBand switches it on for a call, gBandOut hands back how much of the band covers this pixel */
+      float gBand = 0.0, gBandOut = 0.0, gCov = 0.0, gCov2 = 0.0;                     /* gCov: the silhouette, for the corner check (debug view) */                                                    /* 1 while drawing a mirrored scarf on desktop: its copy side is its right side */
+      /* round 16: no hard corners anywhere in the geometry. A soft clamp (it eases into its limits instead of
+         stopping dead) and a smooth max (it never switches on with a kink) replace clamp and max */
+      float sclamp(float s){ return clamp(s - 0.12 * log(1.0 + exp((s - 1.0) / 0.12)) + 0.12 * log(1.0 + exp(-s / 0.12)), 0.0001, 1.0); }
+      float smax0(float d){ return 0.5 * (d + sqrt(d * d + 0.0025)); }
+      float wid0(float s){ float k = sclamp(s); return mix(1.0, 0.86, k) * (1.0 - 0.52 * pow(sin(3.14159 * pow(k, 0.85)), 1.3)); }   /* up to round 13: a tight waist */
+      /* round 14: the waist only narrows a little, so the middle reads as a scarf lifting, not a cinch */
+      float wid(float s){ float k = sclamp(s); return mix(1.0, 0.86, k) * (1.0 - 0.22 * pow(sin(3.14159 * pow(k, 0.85)), 1.3)); }
+
+      /* ── Option 1: one textured form on the right ── */
+      vec3 formOne(vec2 uv, float yd, float bl, float tt, out float cov){   /* bl: edge softness (0 for Option 1), tt: its own clock, cov: how much it covers */
+        float s = mix(yd, (yd - 0.34) / 0.66, mob);                       /* round 10, phones: starts below the intro */
+        /* the centre of the path, sweeping inward. Round 10: the wider, more open layers need a little
+           more room from the copy on narrower desktops and on phones */
+        float xc = mix(0.95 - 0.5 * s + 0.19 * s * s + 0.07 * smoothstep(1.6, 1.3, r.x / r.y), 1.56 - 1.6 * s + 0.75 * s * s, mob);
+        /* round 12, Option 2 only (k = 1): the blur hides 1A's fine motion, so the soft form moves at the
+           scale of the whole form. It sways as one, a slow wave running down its length, and only ever
+           out to the right of 1A's line, so it never comes closer to the copy */
+        float k = step(0.5, opt);                                        /* Options 2 and 3: the soft field's larger motion */
+        xc += k * mix(0.032, 0.05, mob) * (0.5 + 0.5 * sin(tt * 0.3 - s * 2.2));   /* ~21 s per sway */
+        float W = mix(0.2, 0.34, mob), hw = wid(s) * W;
+        /* the four layers cross where the band enters, lie closer through the middle, and part again at the foot */
+        float m0 = smoothstep(0.12, 0.5, s) * (1.0 - 0.7 * smoothstep(0.62, 0.95, s));
+        /* round 14: the middle breathes. How closely the layers lie together eases between 0.7 and 0.2
+           about every 21 s, a wave travelling down the band, so the middle opens and closes too */
+        float breath = 0.5 + 0.5 * sin(tt * 0.3 + s * 1.4);
+        float merge = m0 * mix(0.7, 0.2, breath);
+        /* round 10: the layers open. They spread wider apart, cross in long, gentle sweeps instead of
+           tight weaves, and slowly part and settle again, like a scarf lifting in the wind */
+        float open = 0.5 + 0.5 * sin(tt * mix(0.07, 0.29, k) + s * 1.4);   /* Option 2: the layers part and close every ~22 s */
+        /* the middle is the part nearest the copy, so it may only open outward: wherever the layers now reach
+           further left than round 13's widest moment did, the whole band moves right by exactly that much */
+        float amp = mix(0.2, 0.28, k), spMax = mix(1.15, 1.3, k * (1.0 - mob));
+        float sp = mix(mix(0.85, 0.75, k * (1.0 - mob)), spMax, open);
+        float left0 = wid0(s) * W * ((1.0 - 0.8 * m0) * spMax * (0.5 + amp) + 0.78 + 0.22 * m0);
+        float left1 = hw * ((1.0 - 0.8 * merge) * sp * (0.5 + amp) + 0.78 + 0.22 * merge);
+        float right0 = wid0(s) * W * ((1.0 - 0.8 * m0) * spMax * (0.49 + amp) + 0.78 + 0.22 * m0);
+        float right1 = hw * ((1.0 - 0.8 * merge) * sp * (0.49 + amp) + 0.78 + 0.22 * merge);
+        /* plus a small margin through the middle, because the copy's nearest point is diagonal to the band, not level with it */
+        xc += mix(smax0(left1 - left0), -smax0(right1 - right0), gMir) + mix(1.0, -1.0, gMir) * 0.008 * m0 + 0.04 * mob;   /* phones: the copy sits above the band's entry, so the whole band steps right a little */
+        /* where the band runs up behind the nav, its colours climb toward the light end of the range,
+           so the links stay readable without a pale patch: the top of the scarf is simply the lit part */
+        float crown = smoothstep(nv * 3.4, nv * 0.4, yd) * (1.0 - mob);
+        /* the edge softness is measured across the band, not along the row, so a slanted edge blurs as much as an upright one */
+        float tn = mix(-0.5 + 0.38 * s, (-1.6 + 1.5 * s) / 0.66, mob) * r.x / r.y, perp = inversesqrt(1.0 + tn * tn);
+        float px = max(1.5 / r.x, bl), focus = 1.0 - smoothstep(0.002, 0.02, bl);   /* out of focus, fine detail goes first */
+        /* the band's centre runs from above the top to below the foot about every 31 s; it wraps while off screen */
+        float bc = mod(tt * 0.07, 2.2) - 0.7, bnd = gBand * exp(-(s - bc) * (s - bc) / 0.05);
+        vec3 col = g; float cover = 0.0, tv = 0.0, tf = 0.0, tl = 0.5;
+        for (int i = 0; i < 4; i++) {
+          float fi = float(i), dir = mod(fi, 2.0) < 0.5 ? 1.0 : -1.0;
+          float c = xc + hw * (1.0 - 0.8 * merge) * sp * (-0.5 + fi * 0.33 + amp * sin(s * (2.2 + fi * 0.5) + fi * 2.1 + tt * mix(0.11, 0.24, k) * dir));
+          float h = max(hw * (0.78 + 0.22 * merge), 0.0001);                /* wide, flat faces */
+          float v = (uv.x - c) / h, edge = (1.0 - abs(v)) * h, vv = clamp(v, -1.0, 1.0);
+          /* no hem and no top edge: the band runs on past the bottom of the landing, and on phones it
+             comes in from beyond the right edge instead of starting at a line */
+          float a = smoothstep(-px, px, edge * perp);
+          col = mix(col, col * c2, 0.3 * (1.0 - 0.7 * crown) * smoothstep(-0.03, 0.0, edge) * (1.0 - a) * cover);   /* a layer shades the layer beneath it, never the ground */
+          {
+            /* light falls across the face where the cloth lifts toward it, in bands that run across the width
+               and travel slowly down the layer (a round tube would carry its highlight along its length instead) */
+            float lift = sin(s * (3.0 + fi * 0.7) + fi * 1.3 - tt * mix(0.09, 0.42, k) * dir);   /* Option 2: colour travels down each layer, ~15 s per band */
+            float x = mix(0.12 + 0.2 * fi + 0.14 * (v * 0.5 + 0.5) + 0.14 * sin(s * 3.0 + fi * 1.7 + tt * mix(0.07, 0.3, k)),
+                          0.2 + 0.4 * (v * 0.5 + 0.5) + 0.1 * sin(s * 2.4 + tt * mix(0.06, 0.26, k)), merge) - mix(0.1, 0.17, k) * lift;
+            x = mix(x, max(x, 0.45 + 0.35 * (v * 0.5 + 0.5)), bnd);           /* in the band: orchid to deep violet across the width */
+            x = mix(max(x, 0.14), 0.03 + 0.2 * x, crown);                  /* never paler than round 8's lightest, except where it is lit behind the nav */
+            vec3 lc = pal(x);
+            lc *= 0.95 + 0.07 * smoothstep(1.0, 0.6, abs(vv));             /* flat across, turning only at the very edge */
+            col = mix(col, clamp(lc, 0.0, 1.0), a); cover = 1.0 - (1.0 - cover) * (1.0 - a);   /* a soft union: where layers cross, the outline rounds instead of creasing */
+            float top = step(0.5, a); tv = mix(tv, v, top); tf = mix(tf, fi, top); tl = mix(tl, 0.5 + 0.5 * lift, top);   /* the layer on top, for the texture */
+          }
+        }
+        if (cover > 0.002) {
+          /* texture, once, on the layer on top. It follows the cloth: strands drift and bend along the length,
+             gather and thin out, and show most where the surface turns toward the light, least in shadow */
+          float bend = (vn(vec2(tv * 1.6 + tf * 3.1, s * 2.0)) - 0.5) * 2.4;
+          float q = tv * 24.0 + bend * 3.0 + tf * 13.0;                   /* across the strands */
+          float lit = mix(0.35, 1.15, tl) * (1.0 - 0.5 * crown);
+          float k;
+          if (tex < 1.5 || opt > 0.5) {                                   /* Option 2 is always Texture A, seen soft */
+            /* A, silk fibres: long strands that bend with the fabric, gathered in places and sparse in others */
+            float gather = vn(vec2(tv * 4.0 + tf * 9.0, s * 3.2));
+            float fib = vn(vec2(q, s * 2.6 + tf * 5.0)) - 0.5, fine = vn(vec2(q * 4.3 + 11.0, s * 12.0)) - 0.5;
+            k = (fib * (0.16 + 0.2 * gather) + fine * 0.13) * lit;
+            col += (c4 - col) * max(fine, 0.0) * 0.3 * tl * tl * cover * focus;    /* single fibres catch the light */
+          } else if (tex < 2.5) {
+            /* B, raw silk: an uneven yarn, finer strands with short thicker slubs scattered through it */
+            float fib = vn(vec2(q * 2.6, s * 5.0 + tf * 5.0)) - 0.5;
+            float sl = vn(vec2(q * 0.7 + 3.0, s * 9.0 + tf * 2.0));
+            float slub = smoothstep(0.6, 0.9, sl);
+            k = (fib * 0.24 + slub * 0.5 * (tl - 0.35)) * lit;                /* slubs stand proud: bright in light, dark in shade */
+          } else {
+            /* C, crushed silk: no strands, soft creases pressed into the cloth, stretched along the flow, catching light on their ridges */
+            float cr = 1.0 - abs(vn(vec2(tv * 5.5 + bend * 1.6 + tf * 7.0, s * 4.5)) * 2.0 - 1.0);
+            float cr2 = 1.0 - abs(vn(vec2(tv * 13.0 + bend * 2.2, s * 9.0 + tf * 3.0)) * 2.0 - 1.0);
+            k = ((cr * cr * cr - 0.3) * 0.36 + (cr2 * cr2 - 0.45) * 0.14) * lit;
+          }
+          col *= 1.0 + k * cover * mix(0.2, 1.0, focus);                 /* blurred, only the broadest strands survive, faintly */
+        }
+        cov = cover; gBandOut = bnd * cover;
+        return col;
+      }
+
+      /* ── Option 2 (round 11): Option 1A itself, the same form, path, layers and motion, seen out of
+         focus in the background. Its edges soften, the fine fibres go, and its opacity drifts slowly
+         but never below a floor, so it never disappears ── */
+      vec3 field(vec2 uv, float yd){
+        float op = 0.72 + 0.2 * sin(t * 0.36 + 1.7), cv;                  /* 0.52 to 0.92, about 17 s per breath */
+        vec3 c = formOne(uv, yd, mix(0.022, 0.05, mob), t, cv); gCov = cv;
+        return mix(g, c, op);
+      }
+
+      /* ── Option 3 (round 13): Option 2's scarf, exactly, with a second, separate scarf behind it.
+         The back one is the same cloth further away: Option 2's form mirrored so it leans the other
+         way, a little smaller, more out of focus, paler and greyer (air between us and it), on a
+         slower clock that never lines up with the front one. The front one is laid over it. ── */
+      vec3 pair(vec2 uv, float yd){
+        float asp = r.x / r.y, sh = 0.07 * smoothstep(1.6, 1.3, asp) * (1.0 - mob);
+        /* where the back scarf sits: desktop, mirrored about a line just right of the front scarf's
+           waist, so it leans right where the front leans left and the two cross high on the right.
+           Phones: not mirrored (a mirror would swing it across the copy), set further right and lower */
+        float cen = 0.86 + sh;
+        vec2 q = vec2(mix(2.0 * cen - uv.x, uv.x - 0.05, mob), yd);
+        q = (q - vec2(cen, 0.5)) / 0.86 + vec2(cen, 0.5);                 /* 86% of the front scarf's size */
+        q.y += mob * 0.03;
+        float cb, cf;
+        gMir = 1.0 - mob; gBand = 1.0;
+        vec3 b = formOne(vec2(q.x, 1.0 - q.y), q.y, mix(0.04, 0.075, mob), t * 0.8 + 47.0, cb);   /* slower, offset clock */
+        float bb = gBandOut;
+        gMir = 0.0;
+        /* air: paler, toward blush and lilac, and a little greyer, except in its band of full colour */
+        b = mix(b, mix(b, c4, 0.5 * (1.0 - 0.7 * bb)), cb);
+        b = mix(b, vec3(dot(b, vec3(0.299, 0.587, 0.114))), 0.09 * cb * (1.0 - bb));
+        /* round 14: the two breathe in counter-phase, same 17 s period, half a cycle apart, so one is always
+           coming up as the other fades. In its band each holds near full strength whatever its breath */
+        float ob = mix(0.6 + 0.14 * sin(t * 0.36 + 1.7 + 3.1416), 0.86, bb);
+        vec3 scene = mix(g, b, ob);
+        /* the front scarf, Option 2's, laid over the back one */
+        vec3 f = formOne(uv, yd, mix(0.022, 0.05, mob), t, cf);
+        float bf = gBandOut; gBand = 0.0;
+        float of = mix(0.72 + 0.2 * sin(t * 0.36 + 1.7), 0.95, bf);
+        gCov = cf; gCov2 = cb;
+        return scene * (1.0 - cf * of) + (f - g * (1.0 - cf)) * of;
+      }
+
+      /* ── Option 4 (round 14): Option 3's two scarves trade places. Each has a "farness" from 0 (front)
+         to 1 (back) that sets its size, blur, tint and opacity exactly as Option 3 sets the front and
+         back scarves, so at either end of the cycle it is Option 3, the second time with the roles swapped ── */
+      vec3 scarf(vec2 uv, float yd, float far, float mirr, float tt, out float cov){
+        float asp = r.x / r.y, sh = 0.07 * smoothstep(1.6, 1.3, asp) * (1.0 - mob), cen = 0.86 + sh;
+        vec2 q = vec2(uv.x, yd);
+        if (mirr > 0.5) q.x = mix(2.0 * cen - uv.x, uv.x - 0.05, mob);   /* the second scarf, as in Option 3 */
+        q = (q - vec2(cen, 0.5)) / mix(1.0, 0.86, far) + vec2(cen, 0.5);   /* further is a little smaller */
+        q.y += mob * 0.03 * mirr;
+        float c;
+        gMir = mirr * (1.0 - mob); gBand = 1.0;
+        vec3 col = formOne(vec2(q.x, 1.0 - q.y), q.y, mix(mix(0.022, 0.05, mob), mix(0.04, 0.075, mob), far), tt, c);
+        float bb = gBandOut;
+        gMir = 0.0; gBand = 0.0;
+        col = mix(col, mix(col, c4, 0.5 * far * (1.0 - 0.7 * bb)), c);     /* and paler, toward blush and lilac, except in its band */
+        col = mix(col, vec3(dot(col, vec3(0.299, 0.587, 0.114))), 0.09 * far * c * (1.0 - bb));
+        gBandOut = bb;
+        cov = c; return col;
+      }
+      vec3 depth(vec2 uv, float yd){
+        /* one full exchange there and back every 36 s: 18 s for a scarf to come forward, 18 s to go back */
+        float w = 6.2832 / 36.0, d = 0.5 - 0.5 * cos(t * w);              /* 0: the first scarf in front, 1: the second */
+        float fa = d, fb = 1.0 - d, ca, cb;
+        /* further things move slower: each clock runs at 1.0x in front and 0.8x at the back, integrated so it never jumps */
+        float ta = 0.9 * t + 0.1 * sin(t * w) / w, tb = 0.9 * t - 0.1 * sin(t * w) / w + 47.0;
+        vec3 A = scarf(uv, yd, fa, 0.0, ta, ca); float ba = gBandOut;
+        vec3 B = scarf(uv, yd, fb, 1.0, tb, cb); float bbb = gBandOut;
+        /* round 14: counter-phase breaths, as in Option 3, and each scarf holds near full strength in its band */
+        float oFront = 0.72 + 0.2 * sin(t * 0.36 + 1.7), oBack = 0.6 + 0.14 * sin(t * 0.36 + 1.7 + 3.1416);
+        float oa = mix(mix(oFront, oBack, fa), mix(0.95, 0.86, fa), ba), ob = mix(mix(oFront, oBack, fb), mix(0.95, 0.86, fb), bbb);
+        vec3 LA = (A - g * (1.0 - ca)) * oa, LB = (B - g * (1.0 - cb)) * ob;
+        float aa = ca * oa, ab = cb * ob;
+        vec3 aOverB = (g * (1.0 - ab) + LB) * (1.0 - aa) + LA;
+        vec3 bOverA = (g * (1.0 - aa) + LA) * (1.0 - ab) + LB;
+        /* the draw order cross-fades only while the two sit at nearly the same depth (same blur, size and tint),
+           over about 5 s, so the order change cannot be seen as a jump */
+        gCov = ca; gCov2 = cb;
+        return mix(aOverB, bOverA, smoothstep(0.3, 0.7, d));
+      }
+
+      /* ── Review version, ?hero=centre: the same soft scarf (Option 2's form, Option 3's air and breath) stood in two
+         corners. p is the page in units of its height. Each scarf is the form turned so it runs across its corner,
+         top edge to side edge, with its open side toward the middle. The second is the first turned half a circle
+         about the middle of the page, a little further away (paler, softer) and on the slower, offset clock. ── */
+      vec3 cornerScarf(vec2 p, vec2 c, float sc, float far, float tt, out float cov){
+        vec2 d = (p - c) / sc; const float ca = 0.355, sa = -0.935;         /* turned about 69 degrees */
+        vec2 qa = vec2(ca * d.x + sa * d.y, -sa * d.x + ca * d.y) + vec2(1.2, 0.5);
+        float q = qa.x / 1.6, cv;
+        gBand = 1.0;
+        vec3 col = formOne(vec2(q, 1.0 - qa.y), qa.y, mix(0.022, 0.04, far), tt, cv);
+        float bb = gBandOut; gBand = 0.0;
+        col = mix(col, mix(col, c4, 0.5 * far * (1.0 - 0.7 * bb)), cv);
+        col = mix(col, vec3(dot(col, vec3(0.299, 0.587, 0.114))), 0.09 * far * cv * (1.0 - bb));
+        gBandOut = bb; cov = cv; return col;
+      }
+      vec3 corners(vec2 uv, float yd){
+        float asp = r.x / r.y, sc = mix(0.5, 0.86, smoothstep(0.5, 1.5, asp)), ca, cb;
+        vec2 p = vec2(uv.x * asp, yd), c = vec2(asp, 0.0) + vec2(-0.27, 0.17) * sc;   /* how far the scarf stands in from its corner */
+        vec3 A = cornerScarf(p, c, sc, 0.0, t, ca); float ba = gBandOut;
+        A = mix(A, mix(A, c4, 0.6), ca * smoothstep(nv * 3.0, nv * 0.6, yd));   /* behind the nav it goes pale, so the links stay readable */
+        vec3 B = cornerScarf(vec2(asp, 1.0) - p, c, sc, 0.5, t * 0.8 + 47.0, cb); float bbb = gBandOut;
+        float oa = mix(0.72 + 0.2 * sin(t * 0.36 + 1.7), 0.95, ba), ob = mix(0.66 + 0.17 * sin(t * 0.36 + 1.7 + 3.1416), 0.9, bbb);
+        gCov = ca; gCov2 = cb;
+        vec3 scene = mix(g, B, ob);
+        return scene * (1.0 - ca * oa) + (A - g * (1.0 - ca)) * oa;
+      }
+
+      /* ── Night ground (round 20, ctr = 2): the same two scarves as a quiet texture on the ink of the AI x Design section.
+         It runs in that section's own canvas with the night palette, where c4 is the colour nearest the ground and c1 the
+         furthest from it, so everything above that fades "toward the ground" still does. p is the section in units of its
+         height. Each scarf is the form turned and scaled into place: na and nb hold its centre (x in section widths, y in
+         heights), its scale and its turn in radians, and nbl how far out of focus it is. The script sets them per screen size ── */
+      vec3 nScarf(vec2 p, vec4 q, float asp, float far, float tt, out float cov){
+        vec2 d = (p - vec2(q.x * asp, q.y)) / q.z; float ca = cos(q.w), sa = sin(q.w), cv;
+        vec2 qa = vec2(ca * d.x + sa * d.y, -sa * d.x + ca * d.y) + vec2(1.2, 0.5);
+        gBand = 1.0;
+        vec3 col = formOne(vec2(qa.x / 1.6, 1.0 - qa.y), qa.y, nbl * mix(1.0, 1.5, far), tt, cv);
+        float bb = gBandOut; gBand = 0.0;
+        col = mix(col, mix(col, c4, 0.5 * far * (1.0 - 0.7 * bb)), cv);   /* the further one sits closer to the ground colour */
+        gBandOut = bb; cov = cv; return col;
+      }
+      vec3 night(vec2 uv, float yd){
+        float asp = r.x / r.y, ca, cb;
+        vec2 p = vec2(uv.x * asp, yd);
+        vec3 A = nScarf(p, na, asp, 0.0, t, ca); float ba = gBandOut;
+        vec3 B = nScarf(p, nb, asp, 0.6, t * 0.8 + 47.0, cb); float bbb = gBandOut;
+        float oa = mix(0.72 + 0.2 * sin(t * 0.36 + 1.7), 0.95, ba), ob = mix(0.66 + 0.17 * sin(t * 0.36 + 1.7 + 3.1416), 0.9, bbb);   /* the landing's counter-phase breath */
+        gCov = ca; gCov2 = cb;
+        vec3 scene = mix(g, B, ob);
+        return scene * (1.0 - ca * oa) + (A - g * (1.0 - ca)) * oa;
+      }
+
+      void main(){
+        vec2 uv = gl_FragCoord.xy / r; float yd = 1.0 - uv.y;
+        vec3 c;                                                            /* a real branch: a ?: would run both options for every pixel */
+        float cv;
+        if (ctr > 1.5) c = night(uv, yd); else if (ctr > 0.5) c = corners(uv, yd); else if (opt < 0.5) { c = formOne(uv, yd, 0.0, t, cv); gCov = cv; } else if (opt < 1.5) c = field(uv, yd); else if (opt < 2.5) c = pair(uv, yd); else c = depth(uv, yd);
+        c += (n2(gl_FragCoord.xy) - 0.5) / 255.0 * mix(5.0, 2.0, step(1.5, ctr));   /* the grain that hides banding: finer on the ink, where 5 levels would show as mottling */
+        if (dbg > 0.5) c = vec3(1.0 - gCov, 1.0 - gCov2, 1.0);            /* debug: each scarf's silhouette, red and green channels */
+        gl_FragColor = vec4(c, 1.0);
+      }`;
+    const sh = (type, src) => { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); return s; };
+    const pr = gl.createProgram(); gl.attachShader(pr, sh(gl.VERTEX_SHADER, vs)); gl.attachShader(pr, sh(gl.FRAGMENT_SHADER, fs)); gl.linkProgram(pr);
+    if (!gl.getProgramParameter(pr, gl.LINK_STATUS)) return { recolour() {}, setOpt() {}, setTex() {} };
+    gl.useProgram(pr);
+    gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer()); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+    const loc = gl.getAttribLocation(pr, 'p'); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+    const U = (n) => gl.getUniformLocation(pr, n);
+    const rgb = (v) => { const h = getComputedStyle(document.documentElement).getPropertyValue(v).trim().slice(1); return [0, 2, 4].map((i) => parseInt(h.slice(i, i + 2), 16) / 255); };
+    let opt = 0; const corner = document.documentElement.dataset.hero === 'centre';
+    const recolour = () => { gl.uniform3fv(U('g'), rgb('--ground')); ['c1', 'c2', 'c3', 'c4'].forEach((u, i) => gl.uniform3fv(U(u), rgb('--g' + (i + 1)))); draw(); };
+    const size = () => {
+      const phone = innerWidth <= 768, cw = cv.clientWidth, ch = cv.clientHeight;
+      const k = Math.min(Math.min(devicePixelRatio || 1, 2), Math.sqrt((opt ? (phone ? 0.25e6 : 0.45e6) : (phone ? 0.5e6 : 0.75e6)) / Math.max(1, cw * ch)));   /* cap the buffer by pixel count */
+      const w = Math.max(2, Math.round(cw * k)), h = Math.max(2, Math.round(ch * k));
+      if (cv.width !== w || cv.height !== h) { cv.width = w; cv.height = h; gl.viewport(0, 0, w, h); }
+      gl.uniform2f(U('r'), w, h); gl.uniform1f(U('mob'), phone && !corner ? 1 : 0); gl.uniform1f(U('ctr'), corner ? 1 : 0);   /* ?hero=centre places the scarves itself, so it uses the desktop form at every width */
+      gl.uniform1f(U('nv'), nav.offsetHeight / Math.max(1, ch));
+    };
+    let t = +(new URLSearchParams(location.search).get('t') || 0) + 20, last = 0, raf = 0, on = false;
+    let tex = 1;
+    const draw = () => { gl.uniform1f(U('t'), t); gl.uniform1f(U('opt'), opt); gl.uniform1f(U('tex'), tex); gl.drawArrays(gl.TRIANGLES, 0, 3); };
+    const loop = (now) => { raf = requestAnimationFrame(loop); t += Math.min(0.05, (now - last) / 1000); last = now; draw(); };
+    const run = () => { cancelAnimationFrame(raf); raf = 0; if (on && !document.hidden && !reduce) { last = performance.now(); raf = requestAnimationFrame(loop); } };
+    size(); recolour();
+    addEventListener('resize', () => { size(); draw(); });
+    new IntersectionObserver(([e]) => { on = e.isIntersecting; run(); }, { threshold: 0.02 }).observe(hero);
+    document.addEventListener('visibilitychange', run);
+    window.__bgT = (x) => { t = x + 20; draw(); };       /* used by the capture scripts */
+    window.__bgDebug = (on) => { gl.uniform1f(U('dbg'), on ? 1 : 0); draw(); };   /* silhouette view for the corner check */
+    return { recolour, setOpt(i) { opt = i; size(); draw(); }, setTex(i) { tex = i; draw(); }, vs, fs };
+  })();
+
+  /* ── AI x Design ground (round 20): the landing's scarves again, as a quiet texture on the ink ──
+     The same shader in a second, small canvas of its own (a WebGL context cannot draw into two canvases), in its night
+     composition and the night palette (--n1 to --n4). Built for cost: it is created only when the section is one screen
+     away, drawn only while the section is on screen and the tab is visible, at 30 frames a second (the motion is slow
+     enough that 60 shows nothing more) into a buffer capped at 0.2 megapixels (it is out of focus, so the browser can
+     scale it up). Reduced motion gets one still frame. No WebGL, or a lost context: the section keeps its CSS ground,
+     two soft pools of the same colours (.ai). */
+  (() => {
+    const sec = $('.ai'), cv = $('.ai-bg');
+    if (!cv || !field.fs) return;
+    let gl = null, pr = null, t = 31, last = 0, raf = 0, on = false, made = false;
+    const U = (n) => gl.getUniformLocation(pr, n);
+    const rgb = (v) => { const h = getComputedStyle(document.documentElement).getPropertyValue(v).trim().slice(1); return [0, 2, 4].map((i) => parseInt(h.slice(i, i + 2), 16) / 255); };
+    const size = () => {
+      const cw = cv.clientWidth, ch = cv.clientHeight, phone = innerWidth <= 768;
+      const k = Math.min(1, Math.sqrt(0.2e6 / Math.max(1, cw * ch)));
+      const w = Math.max(2, Math.round(cw * k)), h = Math.max(2, Math.round(ch * k));
+      if (cv.width !== w || cv.height !== h) { cv.width = w; cv.height = h; gl.viewport(0, 0, w, h); }
+      gl.uniform2f(U('r'), w, h);
+      /* where the two scarves stand: wide screens, then phones (the section is tall there, copy above the stage) */
+      gl.uniform4fv(U('na'), phone ? [0.2, 0.2, 0.5, -0.9] : [0.26, 0.3, 1.0, -0.9]);
+      gl.uniform4fv(U('nb'), phone ? [0.8, 0.8, 0.5, 2.2] : [0.8, 0.7, 1.0, 2.2]);
+      gl.uniform1f(U('nbl'), 0.05);
+    };
+    const draw = () => { gl.uniform1f(U('t'), t); gl.drawArrays(gl.TRIANGLES, 0, 3); };
+    const loop = (now) => { raf = requestAnimationFrame(loop); if (now - last < 30) return; t += Math.min(0.05, (now - last) / 1000); last = now; draw(); };   /* every other frame on a 60 Hz screen */
+    const run = () => { cancelAnimationFrame(raf); raf = 0; if (gl && on && !document.hidden && !reduce) { last = performance.now(); raf = requestAnimationFrame(loop); } };
+    const make = () => {
+      if (made) return; made = true;
+      gl = cv.getContext('webgl', { antialias: false, alpha: false, powerPreference: 'low-power' });
+      if (!gl) return;
+      const sh = (type, src) => { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); return s; };
+      pr = gl.createProgram(); gl.attachShader(pr, sh(gl.VERTEX_SHADER, field.vs)); gl.attachShader(pr, sh(gl.FRAGMENT_SHADER, field.fs)); gl.linkProgram(pr);
+      if (!gl.getProgramParameter(pr, gl.LINK_STATUS)) { gl = null; return; }
+      gl.useProgram(pr);
+      gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer()); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+      const loc = gl.getAttribLocation(pr, 'p'); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+      gl.uniform3fv(U('g'), rgb('--night')); ['c1', 'c2', 'c3', 'c4'].forEach((u, i) => gl.uniform3fv(U(u), rgb('--n' + (i + 1))));
+      gl.uniform1f(U('ctr'), 2); gl.uniform1f(U('opt'), 3); gl.uniform1f(U('tex'), 1); gl.uniform1f(U('mob'), 0); gl.uniform1f(U('nv'), 0.0001); gl.uniform1f(U('dbg'), 0);
+      size(); draw(); cv.classList.add('is-live');
+      addEventListener('resize', () => { if (gl) { size(); draw(); } });
+      cv.addEventListener('webglcontextlost', (e) => { e.preventDefault(); cancelAnimationFrame(raf); raf = 0; gl = null; cv.classList.remove('is-live'); });   /* back to the CSS ground */
+      window.__nightT = (x) => { if (gl) { t = x + 31; draw(); } };   /* used by the capture scripts */
+      window.__nightStat = () => ({ w: cv.width, h: cv.height, running: !!raf });
+      run();
+    };
+    new IntersectionObserver(([e], io) => { if (e.isIntersecting) { io.disconnect(); make(); } }, { rootMargin: '100% 0px' }).observe(sec);
+    new IntersectionObserver(([e]) => { on = e.isIntersecting; run(); }).observe(sec);
+    document.addEventListener('visibilitychange', run);
+  })();
+
+  /* ── Work entrance (round 17): ?enter=1|2|3, set before the first paint of the tiles ── */
+  const ENTER = ['1', '2', '3'].includes(new URLSearchParams(location.search).get('enter')) ? new URLSearchParams(location.search).get('enter') : '1';
+  document.documentElement.dataset.enter = ENTER;
+  if (!reduce) {
+    /* the count runs so the number lands as the picture settles: gate 0.65 s, focus 0.95 s, scroll at once */
+    const COUNT = { 1: [260, 740], 2: [300, 1000], 3: [200, 900] }[ENTER];
+    if (ENTER === '3') {
+      /* 3: the reveal follows the scroll. From the frame's top entering the bottom of the window to 40% of
+         the window further on, eased so it opens quickly and settles */
+      const tiles = $$('.rv');
+      let queued = false;
+      const place = () => {
+        queued = false;
+        const vh = innerHeight;
+        tiles.forEach((t) => {
+          const r = $('.media', t).getBoundingClientRect();
+          const raw = Math.max(0, Math.min(1, (vh - r.top) / (vh * 0.4)));
+          t.style.setProperty('--p', (1 - Math.pow(1 - raw, 3)).toFixed(4));
+        });
+      };
+      const ask = () => { if (!queued) { queued = true; requestAnimationFrame(place); } };
+      addEventListener('scroll', ask, { passive: true }); addEventListener('resize', ask); place();
+    }
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (!e.isIntersecting) return;
+        io.unobserve(e.target);
+        const el = e.target, img = $('img', el), m = $('.media', el);
+        const go = () => {
+          el.classList.add('in');
+          const d = parseFloat(getComputedStyle(el).getPropertyValue('--d')) || 0;
+          $$('.num', el).forEach((n) => count(n, d + COUNT[0], COUNT[1]));
+        };
+        if (img && !img.complete) (img.decode ? img.decode() : Promise.resolve()).then(go, go); else go();
+      });
+    }, { threshold: 0.18, rootMargin: '0px 0px -6% 0px' });
+    $$('.rv, .rv-t, .rv-pop').forEach((el) => io.observe(el));
+  }
+
+  /* ── Media windows: the asset travels with scroll (the hover glide is CSS only, round 20) ── */
+  if (!reduce) {
+    const medias = $$('.media').map((m) => ({ m, pan: $('.media-pan', m), on: false }));
+    const vis = new IntersectionObserver((es) => es.forEach((e) => { medias.find((x) => x.m === e.target).on = e.isIntersecting; }), { rootMargin: '10% 0px' });
+    medias.forEach((x) => vis.observe(x.m));
+    let queued = false;
+    const place = () => {
+      queued = false;
+      const vh = innerHeight;
+      medias.forEach((x) => {
+        if (!x.on) return;
+        const r = x.m.getBoundingClientRect();
+        const p = Math.max(-1, Math.min(1, ((r.top + r.height / 2) - vh / 2) / (vh / 2 + r.height / 2)));
+        x.pan.style.setProperty('--sy', (p * -5).toFixed(3));
+      });
+    };
+    const ask = () => { if (!queued) { queued = true; requestAnimationFrame(place); } };
+    addEventListener('scroll', ask, { passive: true }); addEventListener('resize', ask); ask();
+  }
+
+  /* ── AI stage: a few seconds of each project, one at a time, only while in view ── */
+  (() => {
+    const stage = $('.stage'), vids = $$('.stage video');
+    const SNIP = 7;                                      /* seconds of each project */
+    let cur = 0, inView = false, timer = 0;
+    const play = () => {
+      clearTimeout(timer); vids.forEach((v, k) => { if (k !== cur) v.pause(); });
+      if (reduce || !inView || document.hidden) { vids[cur].pause(); return; }
+      const v = vids[cur]; v.preload = 'auto'; v.loop = true;
+      v.play().catch(() => {});
+      const nx = vids[(cur + 1) % vids.length]; nx.preload = 'auto';          /* warm the next one */
+      timer = setTimeout(next, Math.min(SNIP, (v.duration || SNIP) - 0.1) * 1000);   /* a clip shorter than the snip hands over at its end, before it loops */
+    };
+    const next = () => {
+      const prev = vids[cur]; cur = (cur + 1) % vids.length; const v = vids[cur];
+      try { v.currentTime = 0; } catch (e) {}
+      v.classList.add('is-on'); prev.classList.remove('is-on');
+      setTimeout(() => prev.pause(), 650);
+      play();
+    };
+    new IntersectionObserver(([e]) => { inView = e.isIntersecting; play(); }, { threshold: 0.3 }).observe(stage);
+    document.addEventListener('visibilitychange', play);
+  })();
+
+  /* ── Review only: the two landing options ── */
+  (() => {
+    const OPTS = [['1', 'Option 1: textured form'], ['2', 'Option 2: soft field'], ['3', 'Option 3: two soft scarves'], ['4', 'Option 4: alternating depth']];
+    const bar = $('.acc'), q = new URLSearchParams(location.search);
+    let saved = null, savedTex = null; try { saved = localStorage.getItem('a2-opt'); savedTex = localStorage.getItem('a2-tex'); } catch (e) {}
+    /* Option 1 only: three textures for the same form, the recommended one first */
+    const TEX = [['1', 'Texture A'], ['2', 'Texture B'], ['3', 'Texture C']];
+    const FLO = [['6', 'Flourish 6'], ['4', 'Flourish 4'], ['5', 'Flourish 5'], ['1', 'Flourish 1'], ['2', 'Flourish 2'], ['3', 'Flourish 3']];
+    const applyTex = (id) => {
+      const k = ['1', '2', '3'].includes(id) ? id : '1';
+      field.setTex(+k); try { localStorage.setItem('a2-tex', k); } catch (e) {}
+      $$('button.is-tex', bar).forEach((b) => b.setAttribute('aria-pressed', b.dataset.tex === k));
+    };
+    const apply = (id) => {
+      const i = Math.max(0, OPTS.findIndex((o) => o[0] === id));
+      field.setOpt(i); document.documentElement.dataset.opt = OPTS[i][0]; try { localStorage.setItem('a2-opt', OPTS[i][0]); } catch (e) {}
+      $$('button:not(.is-tex)', bar).forEach((b) => b.setAttribute('aria-pressed', b.dataset.id === OPTS[i][0]));
+    };
+    if (false) {   /* review switcher off on the real page */
+      OPTS.forEach(([id, name]) => { const b = document.createElement('button'); b.type = 'button'; b.dataset.id = id; b.textContent = name; b.addEventListener('click', () => apply(id)); bar.appendChild(b); });
+      const sep = document.createElement('span'); sep.className = 'acc-sep'; bar.appendChild(sep);
+      TEX.forEach(([id, name]) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'is-tex'; b.dataset.tex = id; b.textContent = name; b.addEventListener('click', () => applyTex(id)); bar.appendChild(b); });
+      const sep2 = document.createElement('span'); sep2.className = 'acc-sep is-flo-sep'; bar.appendChild(sep2);
+      FLO.forEach(([id, name]) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'is-flo'; b.dataset.flo = id; b.textContent = name; b.addEventListener('click', () => { window.__flourish(id); $$('button.is-flo', bar).forEach((x) => x.setAttribute('aria-pressed', x.dataset.flo === id)); }); bar.appendChild(b); });
+      $$('button.is-flo', bar).forEach((x) => x.setAttribute('aria-pressed', x.dataset.flo === (q.get('flourish') || '6')));
+      const sep3 = document.createElement('span'); sep3.className = 'acc-sep is-flo-sep'; bar.appendChild(sep3);
+      [['1', 'Entrance 1'], ['2', 'Entrance 2'], ['3', 'Entrance 3']].forEach(([id, name]) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'is-enter'; b.textContent = name; b.setAttribute('aria-pressed', (['1', '2', '3'].includes(q.get('enter')) ? q.get('enter') : '1') === id); b.addEventListener('click', () => { const u = new URL(location.href); u.searchParams.set('enter', id); location.href = u.toString(); }); bar.appendChild(b); });
+      bar.classList.add('is-live');
+    }
+    /* Option 1, Texture A on load unless the link asks for another: localStorage is shared by every board on this origin */
+    apply(q.get('opt') || '4');                                     /* round 18: Deron's choice, Option 4 */
+    applyTex(q.get('tex') || '1');
+  })();
+
+})();
+</script>
+<script src="js/site-nav.js"></script>
 </body>
 </html>
+

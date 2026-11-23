@@ -1,0 +1,40 @@
+/* ════════════════════════════════════════════════════════
+   CASE STUDY BRAND LAYER (redesign branch, 2026-11-22)
+   The four case studies keep their live layout and text styles from css/site.css
+   (sizes, weights, leading, tracking, hierarchy). css/brand.css swaps the typeface and
+   the colours. Load site.css, then brand.css, then this file.
+   ════════════════════════════════════════════════════════ */
+
+/* The typeface, the palette and the page ground come from css/brand.css (load it first).
+   This file holds what's only for the case studies. */
+
+/* stat cards: white on the off-white ground, edged by a hairline instead of a lilac fill */
+.cs-stat { background: var(--sheet); box-shadow: inset 0 0 0 1px var(--line); }
+
+/* More Projects: the redesign's night */
+.cs-more { background: var(--night); -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }   /* light text on night */
+.cs-more-img { background: #201F24; }
+/* on night the grey labels use the night text colour, so they keep their contrast */
+.cs-more-heading, .cs-more-company { color: var(--night-body); }
+
+/* lines that were black at a low alpha now use the brand line colour */
+.about-hero { border-bottom-color: var(--line); }
+
+/* the cover runs up under the nav, so the nav has no background when the page loads
+   (it takes the blurred ground once you scroll, from css/nav.css) */
+.cs-page { padding-top: 0; }
+
+/* Over the cover photo the nav has no background, and the covers range from light to dark
+   (the Onboarding leaves, the Optik keyboard). So the top of every cover gets a soft dark
+   fade, and the nav is white while it sits there. Once you scroll it takes the blurred
+   ground and its normal ink colours from css/nav.css. */
+.cs-cover { position: relative; }
+.cs-cover::before { content: ''; position: absolute; inset: 0 0 auto 0; z-index: 1; height: 180px; pointer-events: none;
+  background: linear-gradient(to bottom, rgba(18, 18, 18, 0.55), rgba(18, 18, 18, 0)); }
+nav.nav:not(.is-scrolled) { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }   /* white text over the cover */
+nav.nav:not(.is-scrolled) .nav-logo,
+nav.nav:not(.is-scrolled) .nav-links a,
+nav.nav:not(.is-scrolled) .nav-links a:hover,
+nav.nav:not(.is-scrolled) .nav-links a[aria-current] { color: #FFFFFF; }
+nav.nav:not(.is-scrolled) .nav-links a::after { background: #FFFFFF; }
+nav.nav:not(.is-scrolled) :focus-visible { outline-color: #FFFFFF; }

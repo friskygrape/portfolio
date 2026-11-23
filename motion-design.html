@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Motion Design Subagents &amp; Skills · Deron Li</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
+  <link rel="shortcut icon" href="images/favicon.ico">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-8R2R3N4KR2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-8R2R3N4KR2');
+  </script>
+  <link rel="preload" href="fonts/radio-canada-big-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/radio-canada-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/nav.css">
+  <link rel="stylesheet" href="css/tool-stickers.css">
+  <link rel="stylesheet" href="css/case-study.css">
+  <link rel="stylesheet" href="css/toc.css">
+  <style>
+    /* this page only: the laptop render is 16:10, and the way back to AI x Design */
+    .media video.is-1610 { aspect-ratio: 16 / 10; }
+    .back { display: inline-flex; align-items: center; gap: 8px; color: var(--ink); font-size: var(--t-body); font-weight: 600; }
+    .back .arrow { width: 24px; height: 24px; color: var(--accent); transition: transform 0.3s var(--out); }
+    .back:hover .arrow { transform: translateX(-8px); }
+    .sec--end { padding-bottom: 24px; }
+    .h2 + .film-h { margin-top: 48px; }
+    .h3 + .p { margin-top: 16px; }
+    .p + .fig { margin-top: 32px; }
+    .trio > * { padding-top: 0; border-top: 0; }   /* no rule above the process images (Deron, 2026-11-23) */
+    .step-img { aspect-ratio: 16 / 10; margin-bottom: 20px; border-radius: var(--r); overflow: hidden; background: var(--plate); border: 1px solid var(--line); }
+    /* Tools: the same sticker row as AI x Design (css/tool-stickers.css + js/tool-stickers.js), on the
+       four columns of the case-study meta grid. Flat marks at rest; each spins in as a 3D sticker on scroll
+       and lifts as a die-cut sticker on hover. Their baked set: images/motion/tool-stickers/. */
+    .tools { margin-top: 40px; }
+    .cs-hero { overflow-x: clip; }   /* the sticker canvas bleeds 150px past its row (room for the fly-in): never let it widen the page */   /* straight under the summary: no rule, no label (Deron, 2026-11-23) */
+    /* the AI x Design spacing: equal 104px columns on an 8px gap, logos centred over their names */
+    .tool-row { display: grid; grid-template-columns: repeat(5, 104px); justify-content: start; gap: 0 8px; margin: 0 0 0 -4px; }   /* -4px: the first name ("Claude Code", nearly the column's width) lines up with the summary */
+    @media (max-width: 768px) {
+      .tool-row { grid-template-columns: repeat(3, 104px); gap: 24px 8px; }   /* phones: 3 + 2, the desktop columns, so no name wraps */
+    }
+    /* the case-study TOC, in the left margin beside the 980 column, level with the title; hidden where the margin can't hold it */
+    .cs-toc { position: fixed; z-index: 10; top: calc(var(--nav-h) + 96px); left: 32px; width: 160px; }
+    @media (max-width: 1419px) { .cs-toc { display: none; } }
+    .step-img img, .step-img video { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+    /* text styles: the page's own redesign styles (the case-study styles were tried and reverted, Deron 2026-11-23) */
+    .cs-title { margin-top: 0; }   /* no eyebrow above the title (Deron, 2026-11-23) */
+    .tool-row .tt-name { color: var(--ink); font-size: var(--t-label); font-weight: 500; line-height: 1.5; }
+    /* process step titles: the case studies' item title (.h4: "Multi-Role Complexity"), 18px / 500 */
+    .trio .t { font-size: var(--t-body); font-weight: 500; line-height: 1.2; letter-spacing: 0.01em; }
+    .trio .d { margin-top: 8px; font-size: var(--cs-body); line-height: 1.5; }
+    /* the case studies' body (.body-lg: 18px / 1.5, 16px on phones) for section text and step text */
+    :root { --cs-body: var(--t-body); }
+    @media (max-width: 768px) { :root { --cs-body: 16px; } }
+    .p { font-size: var(--cs-body); line-height: 1.5; }
+    /* the case studies' section eyebrow (.h5, like "Context"), in ink rather than purple (Deron, 2026-11-23) */
+    .kicker { display: block; color: var(--ink); font-family: var(--font-display); font-size: var(--t-body); font-weight: 500; line-height: 1.5; letter-spacing: 0.04em; text-transform: uppercase; }
+    .kicker::before { content: none; }
+    .kicker + .h2 { margin-top: 8px; }
+  </style>
+  <script>document.documentElement.classList.add('js');</script>
+</head>
+<body>
+
+<nav class="nav" aria-label="Main">
+  <div class="wrap nav-in">
+    <a class="nav-logo" href="index.html">Deron Li</a>
+    <div class="nav-links label"><a href="index.html#work">Work</a><a href="ai-design.html" aria-current="page">AI x Design</a><a href="about.html">About</a></div>
+  </div>
+</nav>
+
+<aside class="cs-toc" aria-label="On this page">
+  <a class="toc-back" href="ai-design.html">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+    AI x Design
+  </a>
+  <div class="toc-track">
+    <div class="toc-indicator">
+      <span class="toc-indicator-layer toc-indicator-layer--1"></span>
+      <span class="toc-indicator-layer toc-indicator-layer--2"></span>
+      <span class="toc-indicator-layer toc-indicator-layer--3"></span>
+      <span class="toc-indicator-layer toc-indicator-layer--4"></span>
+      <span class="toc-indicator-layer toc-indicator-layer--5"></span>
+    </div>
+    <ul>
+      <li><a class="toc-link" href="#summary">Summary</a></li>
+      <li><a class="toc-link" href="#process">Process</a></li>
+      <li><a class="toc-link" href="#film">Animations</a></li>
+    </ul>
+  </div>
+</aside>
+
+<main>
+
+  <header class="cs-hero" id="summary">
+    <div class="col">
+      <h1 class="cs-title rv-t"><b>Motion Design Subagents &amp; Skills</b></h1>
+      <p class="cs-summary rv-t">I love motion design, and I wanted to see how AI could speed up the way I plan and build it. So I built a motion design subagent, plus a set of skills that structure and refine the process the way I want it. Together they have helped me make promo videos for my work, build motion in code and tell better stories.</p>
+      <div class="tools label rv-t" role="group" aria-label="Tools" data-stickers="images/motion/tool-stickers/"><div class="tt-stage"><ul class="tool-row">
+          <li class="tt-item" style="--i:0"><span class="tt-slot"><img class="tt-mark" src="images/ai/tools/sticker/marks/claude-code.svg" alt="" width="48" height="48" decoding="async" style="left:8.50%;top:8.48%;width:82.91%;height:82.91%"></span><span class="tt-name">Claude Code</span></li>
+          <li class="tt-item" style="--i:1"><span class="tt-slot"><img class="tt-mark" src="images/ai/tools/sticker/marks/cursor.svg" alt="" width="48" height="48" decoding="async" style="left:14.48%;top:14.65%;width:70.94%;height:70.94%"></span><span class="tt-name">Cursor</span></li>
+          <li class="tt-item" style="--i:2"><span class="tt-slot"><img class="tt-mark" src="images/ai/tools/sticker/marks/blender.svg" alt="" width="48" height="48" decoding="async" style="left:10.74%;top:10.71%;width:78.42%;height:78.42%"></span><span class="tt-name">Blender</span></li>
+          <li class="tt-item" style="--i:3"><span class="tt-slot"><img class="tt-mark" src="images/ai/tools/sticker/marks/remotion.svg" alt="" width="48" height="48" decoding="async" style="left:13.66%;top:13.66%;width:72.77%;height:72.77%"></span><span class="tt-name">Remotion</span></li>
+          <li class="tt-item" style="--i:4"><span class="tt-slot"><img class="tt-mark" src="images/ai/tools/sticker/marks/elevenlabs.svg" alt="" width="48" height="48" decoding="async" style="left:16.72%;top:16.70%;width:66.56%;height:66.56%"></span><span class="tt-name">ElevenLabs</span></li>
+        </ul></div></div>
+    </div>
+  </header>
+
+  <section class="sec" id="process">
+    <div class="col">
+      <p class="kicker label rv-t">Process</p>
+      <h2 class="h2 rv-t">I Don't Start with a Render</h2>
+      <p class="p rv-t">Rendering in 3D is expensive. A render can take hours, and fixing one small mistake can take hours more. So I spend most of my time planning and testing low-fidelity prototypes before I build the final piece.</p>
+      <div class="trio rv-t">
+        <div><div class="step-img"><img src="images/ai/motion/process/01-idea.jpg" alt="A Claude Code session in dark mode: a request for a finance app promo with a 3D phone, and a reply that breaks the idea into three numbered steps" width="960" height="600" loading="lazy" decoding="async" /></div><p class="t">Start with an Idea</p><p class="d">I come in with a direction and talk through how to build it. That becomes a beat sheet: what happens, when, and where the camera is.</p></div>
+        <div><div class="step-img"><img src="images/ai/motion/process/02-storyboard.jpg" alt="Storyboard for the Kept promo: six numbered frames of a simple grey phone, each with its time, what happens, the camera move and the on-screen text" width="960" height="600" loading="lazy" decoding="async" /></div><p class="t">Storyboard</p><p class="d">One still frame for each beat, built in plain HTML and CSS. This is where changes are cheap.</p></div>
+        <div><div class="step-img"><video class="js-step-loop" muted loop playsinline preload="none" poster="images/ai/motion/process/03-prototype.jpg" width="960" height="600" aria-label="The HTML and CSS prototype of the Kept promo playing in the browser with a play bar under it: a simple phone turns and the net worth card lifts"><source src="images/ai/motion/process/03-prototype.mp4" type="video/mp4"></video></div><p class="t">Block It Out</p><p class="d">A playable low-fidelity prototype in HTML and CSS. The shapes are rough, but the timing, camera path and choreography are real.</p></div>
+        <div><div class="step-img"><img src="images/ai/motion/process/04-blender-test.jpg" alt="An early Blender test render: the whole silver phone standing on a reflective floor under soft studio lighting" width="960" height="600" loading="lazy" decoding="async" /></div><p class="t">Test It in Blender</p><p class="d">A quick low-resolution render and a few stills show me the scene, the materials and the lighting.</p></div>
+        <div><div class="step-img"><img src="images/ai/motion/process/05-render-iterate.jpg" alt="A later render after several rounds: a teal phone tilted the other way on a soft coloured background, with the savings goal card lifted and orange accents" width="960" height="600" loading="lazy" decoding="async" /></div><p class="t">Render and Iterate</p><p class="d">Blender renders the full piece at 1080p. I watch it, fix what is off and render again until it is right.</p></div>
+        <div><div class="step-img"><img src="images/ai/motion/process/06-elevenlabs.jpg" alt="The ElevenLabs symbol on a white tile, seen face on" width="960" height="600" loading="lazy" decoding="async" /></div><p class="t">Sound and Music</p><p class="d">Music and sound effects come from ElevenLabs, cut to land on the beats.</p></div>
+      </div>
+    </div>
+  </section>
+
+    <section class="sec" id="film">
+    <div class="col">
+      <p class="kicker label rv-t">Animations</p>
+      <h2 class="h2 rv-t">Animations I Built with Claude Code</h2>
+
+      <h3 class="h3 film-h rv-t" id="assistant">My Little Assistant</h3>
+      <p class="p rv-t">A cozy film about Claude Code as my little assistant, helping with my design process. I wanted to test how well Fable 5.2 could make a full-length 3D video in Blender with realistic lighting, and how closely it could follow my prompts and feedback. I learned to break longer pieces with several scenes into separate shots. Otherwise every change means re-rendering the whole video, which takes 10 to 16 hours each time.</p>
+      <figure class="fig fig--wide rv"><div class="media"><div class="media-in"><video controls playsinline preload="none" poster="images/ai/my-little-assistant-poster.jpg" aria-label="My Little Assistant, 56 seconds, with sound"><source src="images/ai/motion/my-little-assistant-1080.mp4" type="video/mp4"></video></div></div></figure>
+
+      <h3 class="h3 rv-t" id="kept">Kept</h3>
+      <p class="p rv-t">A promo for a fictional finance app. I believe motion helps tell a story, so I made this video to show what the app could do. I experimented with timing, UI motion, sound effects and music. It became the foundation for how I approach new motion work.</p>
+      <figure class="fig fig--wide rv"><div class="media"><div class="media-in"><video controls playsinline preload="none" poster="images/ai/kept-promo-poster.webp" aria-label="Kept promo, 18 seconds, with sound"><source src="images/ai/kept-promo-1080.mp4" type="video/mp4"></video></div></div></figure>
+
+      <h3 class="h3 rv-t" id="mockups">Phone Promo and Laptop Loop</h3>
+      <p class="p rv-t">I got tired of good-looking UI mockups being locked behind a paywall. That was the original reason I built the subagent and skills. I wanted these assets built exactly how I like them, without paying for a service or running out of credits. I started with motion for the UI alone, moved on to 3D renders of the mockups, then added prompts to control the camera. It makes my work more engaging than a static image I bought and can't change.</p>
+      <figure class="fig fig--wide rv"><div class="media"><div class="media-in"><video controls playsinline preload="none" poster="images/ai/motion/phone-promo-poster.jpg" aria-label="Phone promo, 5 seconds, with sound"><source src="images/ai/motion/phone-promo-1080.mp4" type="video/mp4"></video></div></div></figure>
+      <figure class="fig fig--wide rv"><div class="media"><div class="media-in"><video controls playsinline preload="none" loop class="is-1610" poster="images/ai/motion/laptop-loop-poster.jpg" aria-label="Laptop loop, 10 seconds, no sound"><source src="images/ai/motion/laptop-loop-1440x900.mp4" type="video/mp4"></video></div></div></figure>
+    </div>
+  </section>
+
+  <section class="sec sec--end" data-read-end>
+    <div class="col">
+      <a class="back rv-t" href="ai-design.html#showcase"><svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg> Back to AI x Design</a>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="grid foot-main">
+      <div class="foot-lead rv-t"><p class="foot-line">Let's Connect!</p><a class="foot-cta label" href="https://www.linkedin.com/in/deronli/" target="_blank" rel="noopener">LinkedIn <svg class="arrow ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13.5V18a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4.5"/><path class="out" d="M14.5 4H20v5.5M20 4l-9 9"/></svg></a></div>
+      <ul class="foot-links rv-t">
+        <li><a href="ai-design.html">AI x Design <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></li>
+        <li><a href="about.html">About <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></li>
+      </ul>
+    </div>
+    <div class="foot-base label">
+      <a class="foot-top" href="#summary">Back to top <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg></a>
+    </div>
+  </div>
+</footer>
+
+<script src="js/site-nav.js"></script>
+<script src="js/case-study.js"></script>
+<script>
+/* the small prototype clip in the process steps: plays only in view, and only when motion is allowed */
+(() => {
+  const v = document.querySelector('.js-step-loop');
+  if (!v || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  new IntersectionObserver(([e]) => { if (e.isIntersecting) v.play().catch(() => {}); else v.pause(); }, { threshold: 0.4 }).observe(v);
+})();
+</script>
+<script src="js/toc.js"></script>
+<script type="module" src="js/tool-stickers.js"></script>
+</body>
+</html>

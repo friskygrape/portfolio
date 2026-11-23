@@ -1,0 +1,59 @@
+/* ════════════════════════════════════════════════════════
+   BRAND LAYER (redesign branch, 2026-11-22)
+   For pages still built on css/site.css: swaps the typeface and the colours to the
+   redesign brand, and maps the old palette names onto it. Load it straight after site.css.
+   Used by: ai-design.html and the four case studies (with css/case-study-brand.css after it).
+   The values match the homepage tokens in index.html.
+   ════════════════════════════════════════════════════════ */
+
+@font-face { font-family: 'Radio Canada Big'; font-weight: 400 700; font-display: swap; src: url(../fonts/radio-canada-big-latin.woff2) format('woff2'); }
+@font-face { font-family: 'Radio Canada'; font-weight: 400 700; font-display: swap; src: url(../fonts/radio-canada-latin.woff2) format('woff2'); }
+
+:root {
+  /* typeface: Geist and Open Sans become the redesign pair */
+  --font-display: 'Radio Canada Big', 'Helvetica Neue', Arial, sans-serif;
+  --font-text:    'Radio Canada', 'Helvetica Neue', Arial, sans-serif;
+  --font-heading: var(--font-display);
+  --font-body:    var(--font-text);
+  --font:         var(--font-body);
+
+  /* redesign palette */
+  --ground: #EEEEEC;
+  --sheet:  #FFFFFF;
+  --well:   #E2E2DF;
+  --ink:    #121212;
+  --body:   #55554F;
+  --line:   #D4D4D0;
+  --night:  #141413;
+  --night-body: #A3A39D;
+  --night-line: #32322F;
+  --accent: #4D00C0;
+  --accent-night: #A27BFF;
+  /* redesign type sizes (same values as index.html and about.html) */
+  --t-label: 16px;
+  --t-body:  18px;
+  --t-lead:  24px;
+  --t-title: 32px;
+  --t-display: clamp(44px, 8.4vw, 120px);   /* the display style: a page's opening line */
+  --r: 8px;
+  --soft: cubic-bezier(0.4, 0, 0.2, 1);
+  --out:  cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* the old palette, mapped onto the redesign */
+  --text:     var(--ink);
+  --charcoal: var(--ink);
+  --silver:   var(--body);
+  --muted:    var(--body);
+  --ash:      #8A8A84;
+  --mist:     var(--line);
+  --white:    var(--sheet);
+  --purple:   var(--accent);
+  --lavender: var(--accent);
+  --plum:     var(--accent);
+  --nav-bg:   var(--ground);
+}
+
+/* page ground */
+html, body { background: var(--ground); color: var(--body); }
+
+::selection { background: #F3D7F5; color: var(--ink); }

@@ -5,6 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AI x Design · Deron Li</title>
   <link rel="stylesheet" href="css/site.css">
+  <link rel="stylesheet" href="css/brand.css">
+  <link rel="preload" href="fonts/radio-canada-big-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/radio-canada-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/nav.css">
+  <link rel="stylesheet" href="css/tool-stickers.css">
   <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
   <link rel="shortcut icon" href="images/favicon.ico">
@@ -24,16 +29,17 @@
        ════════════════════════════════════════════════════ */
 
     :root {
-      --nv-bg: #F7F6F4;
-      --nv-card: #FFFFFF;
-      --nv-ink: #0C0A09;
-      --nv-body: #57534E;
-      --nv-mute: #8A847E;
-      --nv-line: #E7E5E4;
-      --nv-line-soft: #EFEEEC;
-      --nv-row: #F5F5F4;
-      --nv-dark: #1C1917;
-      --nv-dark-2: #292524;
+      /* the page's own names, pointed at the brand tokens in css/brand.css */
+      --nv-bg: var(--ground);
+      --nv-card: var(--sheet);
+      --nv-ink: var(--ink);
+      --nv-body: var(--body);
+      --nv-mute: var(--ash);
+      --nv-line: var(--line);
+      --nv-line-soft: var(--well);
+      --nv-row: var(--ground);
+      --nv-dark: var(--night);
+      --nv-dark-2: var(--night-line);
       --nv-dark-line: rgba(255, 255, 255, 0.09);
       --nv-max: 980px;
       --nv-gutter: 40px;
@@ -71,7 +77,7 @@
       content: '';
       position: absolute;
       inset: 0 0 30%;
-      background: repeating-linear-gradient(0deg, rgba(12, 10, 9, 0.025) 0 1px, transparent 1px 4px);
+      background: repeating-linear-gradient(0deg, rgba(18, 18, 18, 0.025) 0 1px, transparent 1px 4px);
       mask-image: radial-gradient(ellipse 60% 70% at 50% 30%, black, transparent);
       pointer-events: none;
     }
@@ -159,26 +165,53 @@
 
     .nv-ctas {
       display: flex;
+      flex-wrap: wrap;
       justify-content: center;
-      gap: 10px;
+      gap: 12px;
       margin-top: 36px;
     }
+    /* Buttons: the redesign button (homepage and About). 56px tall, 8px corners, label type,
+       an arrow that nudges on hover. Primary is ink with the night violet arrow and turns accent
+       on hover; the secondary is the white sheet with an accent arrow and turns night violet. */
     .nv-btn {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      padding: 12px 22px;
-      border-radius: 99px;
-      border: 1px solid var(--nv-line);
-      background: var(--nv-card);
-      color: var(--nv-ink);
+      gap: 12px;
+      height: 56px;
+      padding: 0 24px;
+      border-radius: var(--r);
+      background: var(--sheet);
+      color: var(--ink);
+      font-weight: 600;
       text-decoration: none;
-      transition: background-color 0.25s ease, transform 0.25s var(--nv-ease);
+      transition: background-color 0.3s var(--soft), color 0.3s var(--soft);
     }
-    .nv-btn:hover { transform: translateY(-1px); background: var(--nv-row); }
-    .nv-btn--dark { background: var(--nv-ink); border-color: var(--nv-ink); color: var(--white); }
-    .nv-btn--dark:hover { background: var(--nv-dark-2); }
-    .nv-btn svg { width: 16px; height: 16px; }
+    .nv-btn .arrow { width: 20px; height: 20px; flex: none; color: var(--accent); transition: transform 0.4s var(--out), color 0.3s var(--soft); }
+    .nv-btn:hover { background: var(--accent); color: var(--sheet); }
+    .nv-btn:hover .arrow { color: var(--sheet); transform: translateY(4px); }
+    .nv-btn--dark { background: var(--ink); color: var(--sheet); }
+    .nv-btn--dark .arrow { color: var(--accent-night); }
+    .nv-btn--dark:hover { background: var(--accent); }
+    .nv-btn--dark:hover .arrow { color: var(--sheet); }
+    @media (prefers-reduced-motion: reduce) { .nv-btn:hover .arrow { transform: none; } }
+
+    /* The hero's one call to action: the tertiary link, the same text style as the homepage's "View case study" (18px, 600), the label in ink with the down arrow beneath it,
+       pointing to the first section. The arrow is the accent and drops a little on hover. */
+    .nv-down { display: inline-flex; flex-direction: column; align-items: center; gap: 8px; padding: 8px 12px; color: var(--ink); font-family: var(--font-text); font-size: var(--t-body); font-weight: 600; line-height: 1.5; text-decoration: none; transition: color 0.3s var(--soft); }
+    .nv-down .arrow { width: 24px; height: 24px; color: var(--accent); transition: transform 0.4s var(--out); }
+    .nv-down:hover { color: var(--accent); }
+    .nv-down:hover .arrow { transform: translateY(6px); }
+    @media (prefers-reduced-motion: reduce) { .nv-down:hover .arrow { transform: none; } }
+
+    /* Text styles: the site.css classes on this page take the redesign weights, leading and
+       tracking (sizes stay on the site.css scale). Same roles as the homepage. */
+    .display { font-size: var(--t-display); font-weight: 600; line-height: 1.04; letter-spacing: -0.04em; }      /* display: the homepage size and style (--t-display, css/brand.css) */
+    .h1      { font-weight: 600; line-height: 1.15; letter-spacing: -0.025em; }     /* section heading, as .h-section */
+    .h3      { font-weight: 600; line-height: 1.25; letter-spacing: -0.015em; }     /* small title */
+    .lead    { line-height: 1.4; }
+    .label   { font-family: var(--font-text); font-size: var(--text-label); font-weight: 500; line-height: 1.5; }
+    .nv-btn.label { font-weight: 600; }
+    .tag     { font-family: var(--font-text); font-weight: 500; }
 
     .nv-hero .nv-badge { animation: nv-up 0.7s var(--nv-ease) 0.1s backwards; }
     .nv-hero .nv-title { animation: nv-up 0.8s var(--nv-ease) 0.2s backwards; }
@@ -206,8 +239,8 @@
        motion and no WebGL keep the flat marks and skip the entrance. Contact
        shading exists only inside the 3D sticker. Layout: one compact strip
        on desktop; at 760px and below, a centred 4 + 3 pyramid.
+       The sticker parts (slot, mark, name, canvas) are shared: css/tool-stickers.css + js/tool-stickers.js.
        ════════════════════════════════════════════════════ */
-    .tt-stage { position: relative; }
     /* Desktop: one compact strip of stickers, evenly spaced. */
     /* Every tool takes the same column: 104px fits the widest name ("Claude Code", ~96px at 16px)
        with air, and the 8px gap makes an even 112px pitch. Logos centre in their columns and names
@@ -222,26 +255,6 @@
       padding: 0;
       list-style: none;
     }
-    .tt-item { position: relative; min-width: 0; display: flex; flex-direction: column; align-items: center; }
-    .tt-slot { position: relative; display: block; width: 52px; aspect-ratio: 1; }   /* stickers 43-50px on their longest side */
-    /* The flat logo: the official SVG, placed exactly where the sticker's printed mark sits, so the
-       3D sticker can grow out of it on hover. It is also the reduced-motion and no-WebGL state. */
-    .tt-mark {
-      position: absolute;
-      max-width: none;
-      object-fit: contain;
-    }
-    /* With WebGL, a flat mark stays hidden until its sticker has spun in and landed on it */
-    .tt-live .tt-item:not(.is-in) .tt-mark { visibility: hidden; }
-    /* Short name under each logo; it fades in once its sticker has landed */
-    .tt-name {
-      margin-top: 12px;
-      color: var(--nv-body);   /* type: .tag */
-      white-space: nowrap;
-    }
-    .tt-live .tt-name { opacity: 0; }   /* with WebGL, the script fades each name in with its landing, in step with scroll */
-    .tt-live .tt-item.is-in .tt-name { opacity: 1; }
-    .tt-canvas { position: absolute; display: block; pointer-events: none; }
     /* Mobile: the same equal columns, 4 + 3 and centred: 84px columns with a 4px gap give an 88px
        pitch in both rows (348px wide). Items are top-aligned, so a wrapped name never moves its logo. */
     @media (max-width: 760px) {
@@ -404,7 +417,7 @@
     }
     #showcase .nv-card:hover {
       translate: 0 -4px;
-      box-shadow: 0 18px 40px -18px rgba(28, 25, 23, 0.22);
+      box-shadow: 0 18px 40px -18px rgba(18, 18, 18, 0.22);
     }
 
     /* ── Scroll motion (Showcase + Process) ──
@@ -831,16 +844,16 @@
 
     /* ── Hero palette: the light version of the page ──
        A warm beige ground (from Deron's card reference) with the page's own dark greys for type.
-       Slightly deeper at the edges so the hero ends clearly against the #F7F6F4 page.
+       Slightly deeper at the edges so the hero ends clearly against the page ground.
        The strokes and cursors use the card palette (coral, pink, forest, sky, navy, rust, mustard). */
     .nv-hero {
       --hv-bg: #E2DCD1;  --hv-bg-2: #E5DFD4; --hv-edge: #DDD6CA;   /* warm beige */
-      --hv-ink: var(--nv-ink);            /* headline #0C0A09: 14.5:1 */
-      --hv-body: var(--nv-body);          /* sub line #57534E: 5.6:1 */
+      --hv-ink: var(--nv-ink);            /* headline, ink #121212 */
+      --hv-body: var(--nv-body);          /* sub line, body #55554F */
       --hv-line: var(--nv-body);
       --hv-you: #2A3590;                  /* navy "You" tag, white text 10.4:1 */
       --hs-claude: #C8392A;               /* rust "Claude" tag, white text 5.2:1 */
-      --hv-grid: rgba(12, 10, 9, 0.16);
+      --hv-grid: rgba(18, 18, 18, 0.16);
       background: radial-gradient(120% 90% at 50% 42%, var(--hv-bg-2) 40%, var(--hv-edge));
       color: var(--hv-body);
     }
@@ -854,10 +867,6 @@
     }
     .nv-hero .nv-title { color: var(--hv-ink); }
     .nv-hero .nv-sub { color: var(--hv-body); }
-    .nv-hero .nv-btn { background: transparent; border-color: var(--hv-line); color: var(--hv-ink); }
-    .nv-hero .nv-btn:hover { background: rgba(12, 10, 9, 0.06); }
-    .nv-hero .nv-btn--dark { background: var(--nv-ink); border-color: var(--nv-ink); color: var(--nv-bg); }
-    .nv-hero .nv-btn--dark:hover { background: var(--nv-dark-2); }
     .nv-hero { touch-action: pan-y pinch-zoom; }          /* sideways drags paint on touch, vertical drags still scroll */
     .hs-layer {
       position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none;
@@ -886,7 +895,7 @@
       white-space: nowrap;
     }
     .hs-cur--deron  { --hs-c: var(--hv-you); }
-    .hs-cur--deron .hs-tag { color: #FFFFFF; }
+    .hs-cur--deron .hs-tag { color: var(--sheet); }
     .hs-cur--claude { --hs-c: var(--hs-claude); }
     @media (max-width: 768px) { .hs-tag { padding: 2px 8px; font-size: var(--text-caption); } }
 
@@ -928,13 +937,13 @@
     .e-case { position: relative; cursor: pointer; transition: translate 0.4s var(--nv-ease), box-shadow 0.4s var(--nv-ease); }
     .e-hit { position: absolute; inset: 0; z-index: 2; border: 0; padding: 0; background: none; border-radius: inherit; cursor: pointer; }
     .e-hit:focus-visible { outline: 2px solid var(--nv-ink); outline-offset: 4px; }
-    @media (hover: hover) { .e-case:hover { translate: 0 -6px; box-shadow: 0 18px 40px -18px rgba(28, 25, 23, 0.22); } }
-    .e-case:active { translate: 0 -2px; box-shadow: 0 8px 20px -12px rgba(28, 25, 23, 0.2); transition-duration: 0.12s; }
+    @media (hover: hover) { .e-case:hover { translate: 0 -6px; box-shadow: 0 18px 40px -18px rgba(18, 18, 18, 0.22); } }
+    .e-case:active { translate: 0 -2px; box-shadow: 0 8px 20px -12px rgba(18, 18, 18, 0.2); transition-duration: 0.12s; }
     @media (prefers-reduced-motion: reduce) { .e-case, .e-case:hover, .e-case:active { translate: none; } }
 
     /* Lightbox: the full Kept promo, 1080p with sound. It only loads and plays when the visitor presses play. */
     .nv-lightbox { margin: auto; width: min(1120px, calc(100vw - 48px)); max-width: none; max-height: none; padding: 0; border: 0; background: transparent; overflow: visible; }
-    .nv-lightbox::backdrop { background: rgba(12, 10, 9, 0.82); }
+    .nv-lightbox::backdrop { background: rgba(18, 18, 18, 0.82); }
     .nv-lightbox video { display: block; width: 100%; aspect-ratio: 16 / 9; border-radius: 12px; background: #000; }
     .nv-lb-close {
       position: absolute; right: 0; bottom: calc(100% + 12px); display: inline-flex; align-items: center; gap: 6px;
@@ -947,7 +956,7 @@
 
     /* Media windows */
     /* Both projects share one window: 16:9, same border and fill */
-    .e-film, .e-shot { aspect-ratio: 16 / 9; border-radius: 12px; overflow: hidden; border: 1px solid var(--nv-line); background: #F4F2F0; }
+    .e-film, .e-shot { aspect-ratio: 16 / 9; border-radius: 12px; overflow: hidden; border: 1px solid var(--nv-line); background: var(--ground); }
     .e-vid { display: block; width: 100%; height: 100%; object-fit: cover; }
     /* A wider image sits matted and centred in the window, shown whole. A 16:9 image fills it edge to edge. */
     .e-shot { display: grid; place-items: center; padding: 20px; line-height: 0; }
@@ -993,16 +1002,11 @@
 </head>
 <body>
 
-<nav>
-  <a class="logo label" href="index.html">Deron Li</a>
-  <div class="nav-links">
-    <a href="index.html#work" class="label">Work</a>
-    <a href="ai-design.html" class="label">AI x Design</a>
-    <a href="about.html" class="label">About</a>
+<nav class="nav" aria-label="Main">
+  <div class="wrap nav-in">
+    <a class="nav-logo" href="index.html">Deron Li</a>
+    <div class="nav-links label"><a href="index.html#work">Work</a><a href="ai-design.html" aria-current="page">AI x Design</a><a href="about.html">About</a></div>
   </div>
-  <button class="nav-hamburger" aria-label="Toggle menu" aria-expanded="false">
-    <span></span><span></span><span></span>
-  </button>
 </nav>
 
 <main>
@@ -1022,8 +1026,7 @@
       <p class="nv-sub lead">An evolving look at how I integrate AI into my design workflows and the side projects I am building along the way.</p>
 
       <div class="nv-ctas">
-        <a class="nv-btn nv-btn--dark label" href="#showcase">Built with Claude Code</a>
-        <a class="nv-btn label" href="#process">My AI Workflow</a>
+        <a class="nv-down" href="#showcase">Built with Claude Code <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg></a>
       </div>
     </div>
   </header>
@@ -1034,7 +1037,7 @@
     <div class="nv-head nv-in">
       <h2 class="nv-h2 h1">My Side Projects</h2>
       <p class="nv-intro body-lg">I have always believed the best way to learn is by building. Here are a few side projects I have been tinkering with, and the AI tools I used to build them.</p>
-      <div class="nv-tools" role="group" aria-label="Tools I use">
+      <div class="nv-tools" role="group" aria-label="Tools I use" data-stickers="images/ai/tools/sticker/">
         <div class="tt-stage">
           <ul class="tt-row">
             <li class="tt-item" style="--i:0"><span class="tt-slot"><img class="tt-mark" src="images/ai/tools/sticker/marks/claude-code.svg" alt="" width="48" height="48" decoding="async" style="left:8.50%;top:8.48%;width:82.91%;height:82.91%"></span><span class="tt-name tag">Claude Code</span></li>
@@ -1051,7 +1054,7 @@
     </div>
     <div class="e-grid">
       <article class="e-case e-case--ag">
-        <button type="button" class="e-hit" data-lightbox="kept-lightbox" aria-haspopup="dialog" aria-label="Watch the Kept promo in full, 1080p with sound"></button>
+        <a class="e-hit" href="motion-design.html" aria-label="Open Motion Design Subagents &amp; Skills"></a>
         <div class="e-film"><video class="js-loop-video e-vid" muted loop playsinline preload="metadata" poster="images/ai/kept-promo-poster.webp" aria-label="A promo for Kept, a fictional finance app: a 3D phone, rendered in Blender by the Brand and Motion Design Agent, focuses on its net worth, cash flow and savings goal tiles"><source src="images/ai/kept-promo.webm" type="video/webm"><source src="images/ai/kept-promo.mp4" type="video/mp4"></video></div>
         <div class="e-cap"><h3 class="e-title h3">Motion Design Subagents &amp; Skills</h3><div class="e-copy"><p class="e-text body">I love motion design and the subtle details that bring an interface to life. To bridge the gap, I started developing custom subagents and skills for Claude Code to automate motion work that would otherwise take days or weeks to build manually.</p><div class="e-meta"><div class="nv-tags "><span class="nv-tag tag">Claude Code</span><span class="nv-tag tag">Blender</span><span class="nv-tag tag">Remotion</span><span class="nv-tag tag">ElevenLabs</span></div></div></div></div>
       </article>
@@ -1164,13 +1167,9 @@
     </div>
   </section>
 
-  <dialog class="nv-lightbox" id="kept-lightbox" aria-label="Kept promo video">
-    <button type="button" class="nv-lb-close label" data-close>Close <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
-    <video controls playsinline preload="none" poster="images/ai/kept-promo-poster.webp"><source src="images/ai/kept-promo-1080.mp4" type="video/mp4"></video>
-  </dialog>
 </main>
 
-<script src="js/nav.js" defer></script>
+<script src="js/site-nav.js" defer></script>
 <script>
 /* ════════════════════════════════════════════════════
    HERO SESSION: "two hands on one canvas"
@@ -1635,7 +1634,7 @@
       if (px.outcome === 'help' && px.target) { resolveNow(px, px.target); for (const c of px.cells) c.fade0 = T; px.target.reveal = Infinity; px.target.done = true; }
       else startScatter(px);
     }
-    for (const s of strokes) s.fadeAt = Math.min(s.fadeAt, T + 2.4);
+    for (const s of strokes) if (!s.amb) s.fadeAt = Math.min(s.fadeAt, T + 2.4);   /* the background sketches keep their own time */
     cur.d.el.classList.add('is-pointer'); cur.d.sx = 0; cur.c.sx = 0;
   }
   function exitVisitor() {
@@ -1872,9 +1871,9 @@
     }
   }
 
-  /* ── ambient: Claude's pixel strokes and napkin sketches around the edges ──
-     Drawn in the same cells as Claude's strokes in the session, held for a while, then they let
-     go from the oldest end and fall away. Two kinds take turns: long gestures that can run off
+  /* ── ambient: napkin sketches around the edges ──
+     Drawn by hand in the same grainy paint as Deron's strokes (not Claude's pixels: Deron, 2026-11-23),
+     held for a while, then they fade from the oldest end. Two kinds take turns: long gestures that can run off
      the edge of the screen, and rough lo-fi wireframes (a phone, a browser window, a card, a
      flow, a chart). They keep clear of the copy and of where the session paints. */
   const SKETCH_COLS = [PAL.ultra, PAL.teal, '#C8392A', PAL.verm];
@@ -1985,35 +1984,33 @@
     const pool = SKETCH_COLS, used = new Set(amb.map((a) => a.color));
     let col = pool[ambCol++ % pool.length];
     for (let i = 0; i < pool.length && used.has(col); i++) col = pool[ambCol++ % pool.length];
-    const rad = (wide ? 24 : 17) * 0.46;                  /* background sketches: one even width, finer than the session's brush */
+    const w = (wide ? 24 : 17) * 0.46 * 2.4;              /* background sketches: finer than the session's brush */
     const a = { zi, color: col, parts: [], breakAt: 0, broken: false };
     let t = T;
     for (const pts of parts) {
       if (pts.length < 2) continue;
-      const path = segPath(pts, BRUSH), px = makePix(path, col, 'amb', rad, true);   /* clean: whole cells, no soft fringe, so the width stays even */
-      px.amb = true; pixes.unshift(px);                    /* behind the session's own strokes */
+      /* drawn by hand, in the same grainy paint as Deron's strokes (Deron, 2026-11-23: not pixels) */
+      const path = segPath(pts, BRUSH), st = newStroke(col), wn = noise(st.seed + 3);
+      for (const p of path.pts) addPt(st, p.x, p.y, w * (0.9 + 0.2 * (wn(p.d * 0.02) + 0.5)));
+      st.amb = true; st.done = true; st.reveal = settled ? Infinity : 0;
+      strokes.unshift(st);                                 /* behind the session's own strokes */
       const dur = clamp(path.L / 980, 0.15, 0.75);
-      a.parts.push({ px, t0: t, dur }); t += dur + 0.05;
-      if (settled) { for (const c of px.cells) c.born = T - 1; px.mode = 'hold'; }
+      a.parts.push({ s: st, t0: t, dur }); t += dur + 0.05;
     }
     a.breakAt = t + 7 + r() * 5;
     amb.push(a); ambLastZone = zi;
   }
   function ambBreak(a) {
-    const r = rng(seedN++ * 19), n = a.parts.length;
-    a.parts.forEach(({ px }, i) => {
-      startScatter(px);
-      for (const c of px.cells) { c.delay = (i / n) * 0.7 + (c.d / (px.L || 1)) * (n > 1 ? 0.25 : 0.8) + r() * 0.15; c.life = 0.8 + r() * 0.6; }   /* lets go from where it began */
-    });
+    const n = a.parts.length;
+    a.parts.forEach(({ s }, i) => { s.fadeAt = T + (i / n) * 0.7; s.fadeDur = 1.2; });   /* fades away from where it began */
     a.broken = true;
   }
   function ambTick() {
-    amb = amb.filter((a) => a.parts.some((p) => pixes.includes(p.px)));
+    amb = amb.filter((a) => a.parts.some((p) => strokes.includes(p.s)));
     for (const a of amb) {
-      for (const p of a.parts) if (p.px.mode === 'draw' && T >= p.t0) {
-        const u = clamp((T - p.t0) / p.dur, 0, 1), front = E.inOut(u) * p.px.L;
-        for (const c of p.px.cells) if (c.born < 0 && c.d <= front) c.born = T;
-        if (u >= 1) p.px.mode = 'hold';
+      for (const p of a.parts) if (p.s.reveal < p.s.len && T >= p.t0) {
+        const u = clamp((T - p.t0) / p.dur, 0, 1);
+        p.s.reveal = u >= 1 ? Infinity : E.inOut(u) * p.s.len;
       }
       if (!a.broken && T >= a.breakAt) { ambBreak(a); ambNext = Math.max(ambNext, T + 1.4); }
     }
@@ -2461,409 +2458,8 @@
 })();
 </script>
 
-<!-- ════════ TOOLS STICKERS: flat logos at rest; the hovered one becomes a die-cut 3D sticker (three.js) ════════ -->
-<script type="module">
-(() => {
-  const sec = document.querySelector('.nv-tools');
-  const stage = sec && sec.querySelector('.tt-stage');
-  if (!stage) return;
-  const items = [...stage.querySelectorAll('.tt-item')];
-  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const glOK = (() => { try { return !!document.createElement('canvas').getContext('webgl2'); } catch (e) { return false; } })();
-  if (reduce || !glOK || new URLSearchParams(location.search).has('ttstatic')) return; // flat logos only
-
-  const ASSETS = 'images/ai/tools/sticker/';
-  const THREE_URL = 'https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.min.js';
-  // Shared with the Blender build (work/ai-page-tools-tiles/sticker/build_stickers.py). 1 unit = slot width.
-  const T = 0.10;                                   // sticker thickness: ~5px edge at 48px
-  const BF = 0.036, SF = 6, BB = 0.010, SB = 2;     // front round bevel (~2px rim highlight), back bevel
-  const BORDER = 0.08;                              // white die-cut border beyond the mark (outlines.py)
-  const COLS = 4, ROWS = 2;                          // print atlas grid (7 cells used)
-  const HIT_PAD = 8;                                 // css px around the slot: a 68px hover target for a 48px mark
-  const H_MID = 0.085, H_LIFT = 0.26, H_HOVER = 0.24; // gap under the sticker; masks baked at 0, H_MID, H_LIFT
-  const MASK = 2.2;                                  // shadow mask extent (slot widths)
-  const KEY = [-0.42, 0.78, 1.0];                    // direction to the key light (top-left, front)
-  const VIEW = 14 * Math.PI / 180;                   // a lifted sticker is seen from a little below: its bottom edge reads
-  const DIST = 6;                                    // camera distance in slot widths (gentle perspective)
-  // Calibrated against the brand colours: a lit face renders paper white, marks within a few levels of their official values
-  const KEY_I = 2.25, HEMI_I = 1.0, ENV_I = 0.12, BOUNCE_I = 1.6, SPEC = 0.4;
-  const BLEED = 150;                                 // canvas bleed (css px): room for stickers dropping in from above
-  const VIEWN = 6;                                   // each sticker's viewport, in slot widths (fits the fly-in path)
-  const TILT_HOVER = 0.30;                           // max tilt (rad, ~17°) toward the pointer
-  const TAP_MS = 650;                                // touch: a tap turns the mark into a sticker this long, then it settles
-  // The transformation, driven by one spring m (0 = flat logo, 1 = lifted sticker):
-  //   0 to 0.10   the 3D print fades in over the flat logo (same mark, same pixels), then the logo hides
-  //   0 to 0.55   the white border grows out from behind the mark to its full die-cut line
-  //   0.12 to 1   depth arrives as it rises: thickness, bevel, lift, the camera's low angle, shadow, tilt
-  const SWAP = 0.10, GROW = 0.55, RISE = 0.12;
-
-  // Entrance, anchored to scroll and repeatable. Strip progress p runs from 0 (the strip's centre at the
-  // bottom of the viewport) to 1 (its centre at the middle of the viewport), so every sticker has fully
-  // landed by mid-viewport, however fast the page moves. Each sticker plays across its own long slice of p
-  // (45% of the range, offset left to right), so neighbours overlap and the row moves like a wave.
-  // A light per-frame follow (~0.12) smooths wheel steps; scrolling up rewinds against the same mapping.
-  //   q 0 to 0.15   fades in, a little above its slot
-  //   q 0 to 0.8    settles down ~45px (30px on mobile) with a gentle 135° turn about Y and a slight tip,
-  //                 ease-in-out, coming down to the page
-  //   q 0.8 to 1    border and depth settle into the bare mark; its name fades in
-  const IN = { slice: 0.45, fade: 0.15, land: 0.8, drop: 45, dropM: 30, fan: 0.1, lift: 0.45,
-               turn: 0.75 * Math.PI, tip: 0.3, follow: 0.12 };  // max progress per second · follow gain · neighbour lag (~125ms)
-
-  // The flat marks stay hidden until their sticker lands on them
-  // (if WebGL fails they are shown at once).
-  sec.classList.add('tt-live');
-  const showMarks = () => items.forEach((li) => li.classList.add('is-in'));
-  const fail = (e) => { console.warn('[tools stickers] flat logos only', e); showMarks(); };
-  const lazy = new IntersectionObserver((es) => {
-    if (es.some((e) => e.isIntersecting)) { lazy.disconnect(); init().catch(fail); }
-  }, { rootMargin: '600px 0px' });
-  lazy.observe(stage);
-
-  const clamp01 = (x) => Math.min(1, Math.max(0, x));
-  const smooth = (x) => { x = clamp01(x); return x * x * (3 - 2 * x); };
-  const easeOutCubic = (x) => { x = clamp01(x); return 1 - (1 - x) ** 3; };
-
-  // A sticker whose border and depth can grow. Same rings as build_stickers.py at full growth; at
-  // grow 0 / depth 0 it is a zero-thickness plate hugging the mark (the outline pulled in by BORDER).
-  function sticker(THREE, P) {
-    const n = P.length, N = [];
-    for (let i = 0; i < n; i++) {
-      const a = P[(i + n - 1) % n], b = P[i], c = P[(i + 1) % n];
-      const e1x = b[1] - a[1], e1y = a[0] - b[0], e2x = c[1] - b[1], e2y = b[0] - c[0];
-      const l1 = Math.hypot(e1x, e1y), l2 = Math.hypot(e2x, e2y);
-      const nx = e1x / l1 + e2x / l2, ny = e1y / l1 + e2y / l2, l = Math.hypot(nx, ny);
-      N.push([nx / l, ny / l]);
-    }
-    const phis = [];
-    for (let k = 0; k <= SB; k++) phis.push([0, -Math.PI / 2 + (Math.PI / 2) * k / SB]);
-    for (let k = 0; k <= SF; k++) phis.push([1, (Math.PI / 2) * k / SF]);
-    const R = phis.length, V = R * n + 2 * n;
-    const pos = new Float32Array(V * 3), nor = new Float32Array(V * 3), uv = new Float32Array(V * 2), idx = [];
-    for (let r = 0; r < R - 1; r++) for (let i = 0; i < n; i++) {
-      const j = (i + 1) % n, a = r * n + i, b = r * n + j, c = (r + 1) * n + j, d = (r + 1) * n + i;
-      idx.push(a, b, c, a, c, d);
-    }
-    // caps: triangulated once on the full cut line, reused at every growth stage
-    const tri = THREE.ShapeUtils.triangulateShape(P.map((p) => new THREE.Vector2(p[0], p[1])), []);
-    const back = R * n, front = R * n + n;
-    for (const f of tri) { idx.push(front + f[0], front + f[1], front + f[2]); idx.push(back + f[0], back + f[2], back + f[1]); }
-    const g = new THREE.BufferGeometry();
-    g.setAttribute('position', new THREE.BufferAttribute(pos, 3));
-    g.setAttribute('normal', new THREE.BufferAttribute(nor, 3));
-    g.setAttribute('uv', new THREE.BufferAttribute(uv, 2));
-    g.setIndex(idx);
-    let last = '';
-    // grow: border 0..1, depth: thickness/bevel 0..1
-    g.shape = (grow, depth) => {
-      const key = grow.toFixed(4) + depth.toFixed(4);
-      if (key === last) return; last = key;
-      const pull = BORDER * (1 - grow) * 0.97;            // stop just short of the cusp at sharp mark tips
-      const t = T * depth, bf = BF * depth, bb = BB * depth, half = t / 2;
-      const set = (v, x, y, z, nx, ny, nz) => {
-        pos[v * 3] = x; pos[v * 3 + 1] = y; pos[v * 3 + 2] = z - half;
-        // flat plate: normals lean to +Z, so a thin sticker never shades like a thick one
-        const mx = nx * depth, my = ny * depth, mz = nz * depth + (1 - depth), ml = Math.hypot(mx, my, mz) || 1;
-        nor[v * 3] = mx / ml; nor[v * 3 + 1] = my / ml; nor[v * 3 + 2] = mz / ml;
-        uv[v * 2] = x + 0.5; uv[v * 2 + 1] = 0.5 - y;
-      };
-      for (let r = 0; r < R; r++) {
-        const [front, p] = phis[r];
-        const ins = pull + (front ? bf * (1 - Math.cos(p)) : bb * (1 - Math.cos(p)));
-        const z = front ? t - bf + bf * Math.sin(p) : bb * (1 + Math.sin(p));
-        const c = Math.cos(p), s = Math.sin(p);
-        for (let i = 0; i < n; i++) set(r * n + i, P[i][0] - N[i][0] * ins, P[i][1] - N[i][1] * ins, z, N[i][0] * c, N[i][1] * c, s);
-      }
-      for (let i = 0; i < n; i++) {
-        const b0 = i * 3, f0 = ((R - 1) * n + i) * 3;
-        set(back + i, pos[b0], pos[b0 + 1], pos[b0 + 2] + half, 0, 0, -1);
-        uv[(back + i) * 2] = uv[(back + i) * 2 + 1] = 0.02;   // the back is plain white backing (a white corner of the cell)
-        set(front + i, pos[f0], pos[f0 + 1], pos[f0 + 2] + half, 0, 0, 1);
-      }
-      g.attributes.position.needsUpdate = g.attributes.normal.needsUpdate = g.attributes.uv.needsUpdate = true;
-    };
-    return g;
-  }
-  const loadTex = (THREE, url) => new Promise((res, rej) => new THREE.TextureLoader().load(url, res, undefined, rej));
-
-  async function init() {
-    const THREE = await import(THREE_URL);
-    const [cut, logos, masks] = await Promise.all([
-      fetch(ASSETS + 'outlines.json').then((r) => r.json()),
-      loadTex(THREE, ASSETS + 'sticker-logos.webp'),
-      loadTex(THREE, ASSETS + 'sticker-shadows.webp'),
-    ]);
-
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'low-power' });
-    renderer.setClearColor(0x000000, 0);
-    renderer.outputColorSpace = THREE.SRGBColorSpace;
-    renderer.toneMapping = THREE.NoToneMapping;     // a filmic curve turns the marks pastel
-    renderer.autoClear = false;
-    const canvas = renderer.domElement;
-    canvas.className = 'tt-canvas';
-    canvas.setAttribute('aria-hidden', 'true');
-    canvas.style.left = canvas.style.top = -BLEED + 'px';
-    stage.appendChild(canvas);
-
-    // Soft studio environment for the satin highlight that slides along the bevel as the sticker tilts
-    const pm = new THREE.PMREMGenerator(renderer);
-    const envScene = new THREE.Scene();
-    envScene.add(new THREE.Mesh(new THREE.BoxGeometry(20, 20, 20), new THREE.MeshBasicMaterial({ color: new THREE.Color(0.55, 0.54, 0.53), side: THREE.BackSide })));
-    const kd = new THREE.Vector3(...KEY).normalize();
-    const panel = new THREE.Mesh(new THREE.PlaneGeometry(7, 7), new THREE.MeshBasicMaterial({ color: new THREE.Color(5, 4.9, 4.7) }));
-    panel.position.copy(kd).multiplyScalar(8); panel.lookAt(0, 0, 0); envScene.add(panel);
-    const envMap = pm.fromScene(envScene, 0.04).texture;
-    pm.dispose();
-
-    logos.colorSpace = THREE.SRGBColorSpace;
-    logos.flipY = false;
-    logos.anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy());
-    masks.colorSpace = THREE.NoColorSpace;
-
-    const shadowMat = (i) => new THREE.ShaderMaterial({
-      transparent: true, depthWrite: false,
-      uniforms: { map: { value: masks }, w: { value: new THREE.Vector3(1, 0, 0) }, k: { value: 0.3 }, fade: { value: 0 }, row: { value: i } },
-      vertexShader: 'varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }',
-      fragmentShader: `uniform sampler2D map; uniform vec3 w; uniform float k; uniform float fade; uniform float row; varying vec2 vUv;
-        void main(){
-          // atlas: one row per sticker (top = first), columns flat / mid / lift
-          vec2 u = vec2(vUv.x / 3.0, 1.0 - (row + 1.0 - vUv.y) / ${cut.tiles.length}.0);
-          float a = texture2D(map, u).r * w.x + texture2D(map, u + vec2(1.0/3.0, 0.0)).r * w.y + texture2D(map, u + vec2(2.0/3.0, 0.0)).r * w.z;
-          vec2 e = min(vUv, 1.0 - vUv);
-          a *= smoothstep(0.0, 0.16, min(e.x, e.y));
-          gl_FragColor = vec4(0.110, 0.098, 0.090, clamp(a * k * fade, 0.0, 1.0));   // warm ink #1C1917
-        }`,
-    });
-    const shadowGeo = new THREE.PlaneGeometry(MASK, MASK);
-
-    const tiles = items.map((li, i) => {
-      const f = cut.tiles[i].p, P = [];
-      for (let k = 0; k < f.length; k += 2) P.push([f[k] / 1000, f[k + 1] / 1000]);   // thousandths of the slot
-      const geo = sticker(THREE, P);
-      const map = logos.clone();
-      map.repeat.set(1 / COLS, 1 / ROWS);
-      map.offset.set((i % COLS) / COLS, Math.floor(i / COLS) / ROWS);
-      map.needsUpdate = true;
-      const mat = new THREE.MeshPhysicalMaterial({ map, roughness: 0.55, metalness: 0, specularIntensity: SPEC, envMap, envMapIntensity: ENV_I, transparent: true });
-      const mesh = new THREE.Mesh(geo, mat);
-      const sh = new THREE.Mesh(shadowGeo, shadowMat(i));
-      // each sticker has its own little scene and camera, drawn into its own scissored viewport
-      const scene = new THREE.Scene();
-      const key = new THREE.DirectionalLight(0xffffff, KEY_I); key.position.copy(kd);
-      const bounce = new THREE.DirectionalLight(0xfaf6f0, BOUNCE_I); bounce.position.set(0, -1, 0.15);
-      scene.add(key, bounce, new THREE.HemisphereLight(0xffffff, 0xf6f3ee, HEMI_I), mesh, sh);
-      const camera = new THREE.PerspectiveCamera(20, 1, 1, 10000);
-      const spring = () => ({ x: 0, v: 0, t: 0 });
-      return { li, slot: li.querySelector('.tt-slot'), flatEls: [...li.querySelectorAll('.tt-mark')], name: li.querySelector('.tt-name'), mesh, sh, mat, scene, camera,
-        cx: 0, cy: 0, s: 1, m: spring(), rx: spring(), ry: spring(), press: spring(), flat: true, q: 1, qt: 1, col: 0, mid: 0 };
-    });
-
-    // ── layout: stickers mirror the DOM slots (CSS owns the responsive row) ──
-    let cw = 0, ch = 0, mobile = false;
-    const order = [];                                  // stickers left to right, row by row
-    const mq = matchMedia('(max-width: 760px)');
-    function layout() {
-      mobile = mq.matches;
-      const sr = stage.getBoundingClientRect();
-      cw = sr.width + BLEED * 2; ch = sr.height + BLEED * 2;
-      // cap the drawing buffer by pixels as well as DPR
-      const dpr = Math.min(window.devicePixelRatio || 1, 2, Math.sqrt(2.4e6 / (cw * ch)));
-      renderer.setPixelRatio(dpr);
-      renderer.setSize(cw, ch, false);
-      canvas.style.width = cw + 'px'; canvas.style.height = ch + 'px';
-      for (const t of tiles) {
-        const r = t.slot.getBoundingClientRect();
-        t.s = r.width;
-        t.cx = r.left + r.width / 2 - sr.left;
-        t.cy = r.top + r.height / 2 - sr.top;
-      }
-      // rows (4 + 3 on mobile): each sticker's column in its row and its offset from the row's centre
-      const rows = new Map();
-      for (const t of tiles) { const k = Math.round(t.cy); rows.set(k, [...(rows.get(k) || []), t]); }
-      order.length = 0;
-      for (const row of [...rows.entries()].sort((a, b) => a[0] - b[0]).map((e) => e[1]))
-        row.sort((a, b) => a.cx - b.cx).forEach((t, c, r) => { t.col = c; t.mid = c - (r.length - 1) / 2; t.rowLen = r.length; order.push(t); });
-      progress(true);
-      draw();
-    }
-
-    // ── state → scene (per sticker: slot centre at the origin, page at z = 0, css px units) ──
-    let clock = 0;
-    function place(t) {
-      const s = t.s, m = Math.max(0, t.m.x), press = clamp01(t.press.x);
-      let op = clamp01(m / SWAP);
-      let grow = easeOutCubic(m / GROW);
-      const rise = Math.max(0, (m - RISE) / (1 - RISE));       // may overshoot above 1: the springy top of the lift
-      let depth = smooth(rise);
-      let h = H_HOVER * rise;
-      h -= h * press;                                         // press pushes it back down flat
-      let free = clamp01(h / H_HOVER);                        // tilt only as far as it has risen
-      let spin = 0;
-      let ox = 0, oy = 0, tip = 0;
-      if (t.q < 1) {
-        // scroll-scrubbed entrance (see IN): override the hover state completely
-        const q = t.q;
-        if (q <= 0) return false;                              // not arrived: nothing drawn, flat mark hidden
-        const f = clamp01(q / IN.land), away = 1 - smooth(f);   // ease-in-out
-        const r = clamp01((q - IN.land) / (1 - IN.land));     // settle phase
-        op = smooth(q / IN.fade) * (1 - smooth((r - 0.8) / 0.2));   // fades off over the bare mark at the very end
-        oy = (mobile ? IN.dropM : IN.drop) / s * away;         // settling down from just above (slot units, up)
-        ox = t.mid * IN.fan * away;                            // the faintest fan from the row's centre
-        h = IN.lift * away * away;
-        spin = -IN.turn * away;                                // a soft 135° turn, unwinding as it lands
-        tip = IN.tip * away;                                   // tipped back a little, levels as it lands
-        depth = 1 - smooth(r);
-        grow = 1 - smooth(r);
-        free = 0;
-      }
-      t.mesh.geometry.shape(grow, depth);
-      const scale = s * (1 + 0.06 * depth - 0.03 * press);
-      t.mesh.position.set(ox * s, oy * s, (h + T * depth / 2) * s);
-      t.mesh.scale.setScalar(scale);
-      t.mesh.rotation.set(t.rx.x * free + tip, t.ry.x * free + spin, 0, 'YXZ');
-      // the shadow lies on the page under the sticker, offset down-right by the key light as it rises
-      t.sh.position.set((ox - t.ry.x * free * 0.05 + h * 0.25) * s, (oy + t.rx.x * free * 0.05 - h * 0.35) * s, 0);
-      t.sh.scale.setScalar(scale);
-      t.sh.scale.x = scale * Math.max(0.12, Math.abs(Math.cos(spin)));   // the shadow narrows as the sticker turns edge-on
-      const w = t.sh.material.uniforms.w.value;
-      if (h <= H_MID) { const k = Math.max(0, h / H_MID); w.set(1 - k, k, 0); }
-      else { const k = Math.min(1, (h - H_MID) / (H_LIFT - H_MID)); w.set(0, 1 - k, k); }
-      t.sh.material.uniforms.fade.value = depth * grow * op * op * op * (1 - 0.6 * clamp01((h - H_LIFT) / 0.6));   // no shadow while flat; it lags the fade-in, softens when high
-      t.mat.opacity = op;
-      // camera: straight on while flat (the 3D print lands exactly on the flat logo), easing to a low
-      // three-quarter view as depth arrives so the edge band reads under the lifted sticker
-      const v = VIEW * Math.min(1, depth), d = DIST * s, zf = T * Math.min(1, depth) * s;
-      t.camera.position.set(0, -Math.sin(v) * d, zf + Math.cos(v) * d);
-      t.camera.lookAt(0, 0, zf);
-      t.camera.fov = 2 * Math.atan((VIEWN * s / 2) / d) * 180 / Math.PI;
-      t.camera.updateProjectionMatrix();
-      // the flat logo hides once the print fully covers it, and returns before the print fades out
-      const flat = op < 1;
-      if (flat !== t.flat) { t.flat = flat; for (const el of t.flatEls) el.style.visibility = flat ? '' : 'hidden'; }
-      // the bare mark shows once the sticker has landed (and under its last fade), hides while airborne
-      const r = clamp01((t.q - IN.land) / (1 - IN.land));
-      const shown = t.q >= 1 || (t.q > IN.land && op < 1 && r > 0.8);
-      if (shown !== t.li.classList.contains('is-in')) t.li.classList.toggle('is-in', shown);
-      // the name fades in over the sticker's last 20%, in step with scroll
-      const nameOp = t.q >= 1 ? '' : String(smooth(r));
-      if (t.name.style.opacity !== nameOp) t.name.style.opacity = nameOp;
-      return t.q < 1 ? op > 0 : m > 1e-4;
-    }
-    function view(t) {
-      const n = VIEWN * t.s;
-      renderer.setViewport(t.cx + BLEED - n / 2, ch - (t.cy + BLEED) - n / 2, n, n);
-      renderer.setScissor(t.cx + BLEED - n / 2, ch - (t.cy + BLEED) - n / 2, n, n);
-    }
-    function draw() {
-      renderer.setScissorTest(false);
-      renderer.clear();
-      renderer.setScissorTest(true);
-      clock = performance.now();
-      const live = tiles.filter(place);                      // only stickers that are not flat logos are drawn
-      for (const t of live) { t.mesh.visible = false; t.sh.visible = true; view(t); renderer.render(t.scene, t.camera); }
-      for (const t of live) { t.mesh.visible = true; t.sh.visible = false; view(t); renderer.clearDepth(); renderer.render(t.scene, t.camera); }
-    }
-
-    // ── input ──
-    let pointer = null, down = -1, tap = -1, tapTimer = 0;
-    const over = (t, px, py) => Math.abs(px - t.cx) <= t.s / 2 + HIT_PAD && Math.abs(py - t.cy) <= t.s / 2 + HIT_PAD;
-    const hit = (px, py) => tiles.findIndex((t) => over(t, px, py));
-    function aim() {
-      for (const [i, t] of tiles.entries()) {
-        const on = pointer && !pointer.touch && t.q >= 1 && over(t, pointer.x, pointer.y);   // airborne stickers ignore hover
-        if (on) {
-          // the lifted face turns toward the pointer: the near edge dips, the far edge catches the light
-          const dx = Math.max(-0.5, Math.min(0.5, (pointer.x - t.cx) / t.s)), dy = Math.max(-0.5, Math.min(0.5, (pointer.y - t.cy) / t.s));
-          t.ry.t = dx * 2 * TILT_HOVER;
-          t.rx.t = dy * 2 * TILT_HOVER;
-        } else { t.rx.t = 0; t.ry.t = 0; }
-        t.m.t = on || tap === i ? 1 : 0;
-        t.press.t = down === i && !(pointer && pointer.touch) ? 1 : 0;
-      }
-      kick();
-    }
-    const local = (e) => { const r = stage.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top, touch: e.pointerType === 'touch' }; };
-    stage.addEventListener('pointermove', (e) => { pointer = local(e); aim(); });
-    stage.addEventListener('pointerleave', () => { if (pointer && pointer.touch) return; pointer = null; down = -1; aim(); });
-    stage.addEventListener('pointerdown', (e) => { pointer = local(e); down = hit(pointer.x, pointer.y); aim(); });
-    const up = () => {
-      if (down < 0) return;
-      if (pointer && pointer.touch) {
-        // touch: a tap turns the mark into a sticker for a moment, then it lies back down flat
-        tap = down; clearTimeout(tapTimer);
-        tapTimer = setTimeout(() => { tap = -1; aim(); }, TAP_MS);
-        pointer = null;
-      }
-      down = -1; aim();
-    };
-    stage.addEventListener('pointerup', up);
-    stage.addEventListener('pointercancel', up);
-
-    // ── loop: renders only while something moves and the strip is on screen (0 frames idle) ──
-    // m: springy (damping ratio ~0.6, one soft overshoot at the top of the lift); tilt: smooth follow
-    const SPR = { m: [150, 15], rx: [140, 18], ry: [140, 18], press: [700, 44] };
-    let running = false, visible = false, last = 0;
-    const stats = { frames: 0, ms: 0 };
-    function step(now) {
-      const dt = Math.min(1 / 30, Math.max(0, (now - last) / 1000)); last = now;
-      let busy = false;
-      for (const t of tiles) for (const k in SPR) {
-        const s = t[k], [K, C] = SPR[k];
-        s.v += (K * (s.t - s.x) - C * s.v) * dt; s.x += s.v * dt;
-        if (k === 'm' && s.x < 0) { s.x = 0; s.v = 0; }       // a flat logo can't sink into the page
-        if (Math.abs(s.v) > 1e-4 || Math.abs(s.t - s.x) > 1e-4) busy = true; else { s.x = s.t; s.v = 0; }
-      }
-      // the entrance follows its scroll-anchored target with a light per-frame follow (smooths wheel steps,
-      // never caps the rate), then stops: no frames once every sticker has reached its target
-      const k = 1 - Math.pow(1 - IN.follow, dt * 60);
-      for (const t of tiles) {
-        if (t.q === t.qt) continue;
-        t.q += (t.qt - t.q) * k;
-        if (Math.abs(t.qt - t.q) < 2e-3) t.q = t.qt; else busy = true;
-      }
-      const t0 = performance.now(); draw(); stats.ms += performance.now() - t0; stats.frames++;
-      if (busy && visible) requestAnimationFrame(step); else running = false;
-    }
-    function kick() { if (running || !visible) return; running = true; last = performance.now(); requestAnimationFrame(step); }
-    new IntersectionObserver((es) => {
-      visible = es.some((e) => e.isIntersecting);
-      // off screen nothing needs to animate: jump every sticker to where scroll puts it, so it never
-      // comes back frozen mid-flight
-      if (!visible) { for (const t of tiles) t.q = t.qt; draw(); }
-      if (visible) kick();
-    }, { rootMargin: '80px 0px' }).observe(stage);
-    document.addEventListener('visibilitychange', () => { if (!document.hidden) kick(); });
-    new ResizeObserver(layout).observe(stage);
-    layout();
-
-    // ── entrance target from scroll: strip centre from the bottom of the viewport to its middle, each sticker
-    // on its own overlapping slice. Plays once: a sticker that has landed stays put when scrolling back up. ──
-    function progress(snap) {
-      const vh = window.innerHeight;
-      let moved = false;
-      const sr = stage.getBoundingClientRect(), mid = sr.top + sr.height / 2;
-      const p = (vh - mid) / (vh / 2);                    // 0: strip centre at the bottom · 1: at mid-viewport
-      for (const t of tiles) {
-        const o = t.rowLen > 1 ? (t.col / (t.rowLen - 1)) * (1 - IN.slice) : 0;
-        const qt = t.qMax = Math.max(t.qMax || 0, clamp01((p - o) / IN.slice));   // the furthest it has got: never moves backwards
-        if (qt !== t.qt) { t.qt = qt; moved = true; }
-        if (snap || t.q === undefined) t.q = qt;
-      }
-      if (moved) kick();
-    }
-    addEventListener('scroll', () => progress(false), { passive: true });
-    addEventListener('resize', () => progress(false));
-    progress(true);
-
-    // verification hooks
-    window.__tt = { stats, tiles, renderer, draw,
-      // pose one sticker at a given morph and tilt without springs (for frame strips)
-      // freeze the entrance at a given scroll progress (for frame strips)
-      scrub(q) { for (const t of tiles) { t.qt = t.q = q; } draw(); },
-      pose(i, m, rx = 0, ry = 0) { for (const [j, t] of tiles.entries()) { const v = j === i ? m : 0; t.m.x = t.m.t = v; t.m.v = 0; t.rx.x = t.rx.t = j === i ? rx : 0; t.ry.x = t.ry.t = j === i ? ry : 0; } draw(); },
-    };
-  }
-})();
-</script>
+<!-- ════════ TOOLS STICKERS: flat logos at rest; the hovered one becomes a die-cut 3D sticker (shared script) ════════ -->
+<script type="module" src="js/tool-stickers.js"></script>
 <script>
 /* Project cards: the motion card opens the Kept promo in a lightbox (it waits for play), Extra Life Mart opens in a new tab */
 (() => {
