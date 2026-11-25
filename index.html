@@ -397,7 +397,7 @@
 
     /* ════════ WORK ════════
        Two rows on a 12-column grid, 7 + 5 then 5 + 7. Tiles in a row share every edge.
-       The frame takes an <img> today and a looping <video class="media-asset"> later. */
+       The frame holds a looping, muted <video class="media-asset"> (the case-study promos) that plays only in view. */
     .work { padding: 96px 0 136px; scroll-margin-top: var(--nav-h); }
     .work-head { padding-bottom: 16px; border-bottom: 1px solid var(--line); }
     .h-section { color: var(--ink); font-family: var(--font-display); font-size: var(--t-title); font-weight: 600; line-height: 1.15; letter-spacing: -0.025em; }
@@ -416,6 +416,10 @@
     .media-asset { width: 100%; height: 100%; object-fit: cover; object-position: var(--pos, 50% 50%); transition: transform var(--hov-t) var(--out); }
     @media (hover: hover) and (pointer: fine) { .tile:hover .media-asset { transform: translateY(var(--hov-shift)); } }
     .tile:focus-visible .media-asset { transform: translateY(var(--hov-shift)); }
+    /* the still sits over its video at all times, and fades away only while the video plays on hover */
+    .media-poster { position: absolute; inset: 0; pointer-events: none; }
+    .media-asset.media-poster, .js[data-enter] .rv.in .media-asset.media-poster { transition: opacity 0.5s var(--out), transform var(--hov-t) var(--out), scale 1s var(--out) var(--d, 0ms), filter 0.95s var(--out) var(--d, 0ms); }
+    .media.is-live .media-poster { opacity: 0; }
 
     .cap { flex: 1; display: flex; flex-direction: column; align-items: flex-start; margin-top: 20px; }   /* both captions in a row end on the same line */
     .co { color: var(--body); }
@@ -598,7 +602,7 @@
       <div class="work-head rv-t"><h2 class="h-section" id="work-title">Selected Work</h2></div>
       <ul class="grid work-grid">
         <li class="is-wide"><a class="tile rv" href="support.html">
-          <div class="media" style="--pos: 50% 46%"><div class="media-pan"><img class="media-asset" src="images/homepage/support.png" alt="TouchBistro Call Times" decoding="async" /></div></div>
+          <div class="media" style="--pos: 50% 46%"><div class="media-pan"><video class="media-asset js-tile-video" muted loop playsinline preload="none" data-start="3.5" poster="images/homepage/support-promo-poster.jpg" aria-label="TouchBistro Call Times: the support tool on a laptop, from a search for a username to the venue dashboard"><source src="images/homepage/support-promo.webm" type="video/webm"><source src="images/homepage/support-promo.mp4" type="video/mp4"></video><img class="media-asset media-poster" src="images/homepage/support-promo-poster.jpg" alt="" aria-hidden="true" decoding="async" /></div></div>
           <div class="cap">
             <p class="co label">TouchBistro</p>
             <h3 class="title">Reducing Customer Call Times by 33% from 18 to <span class="num" data-from="18" data-to="12">12</span> Minutes</h3>
@@ -606,7 +610,7 @@
           </div>
         </a></li>
         <li><a class="tile rv" href="discounts.html" style="--d: 100ms">
-          <div class="media" style="--pos: 50% 52%"><div class="media-pan"><img class="media-asset" src="images/homepage/discounts.png" alt="TouchBistro Advanced Discounts" decoding="async" /></div></div>
+          <div class="media" style="--pos: 50% 52%"><div class="media-pan"><video class="media-asset js-tile-video" muted loop playsinline preload="none" data-start="6" poster="images/homepage/discounts-promo-poster.jpg" aria-label="TouchBistro Advanced Discounts: a custom discount applied on the point-of-sale iPad and printed on the bill"><source src="images/homepage/discounts-promo.webm" type="video/webm"><source src="images/homepage/discounts-promo.mp4" type="video/mp4"></video><img class="media-asset media-poster" src="images/homepage/discounts-promo-poster.jpg" alt="" aria-hidden="true" decoding="async" /></div></div>
           <div class="cap">
             <p class="co label">TouchBistro</p>
             <h3 class="title">Securing a Restaurant with 12 Locations through Advanced Discounts</h3>
@@ -614,7 +618,7 @@
           </div>
         </a></li>
         <li><a class="tile rv" href="optik.html">
-          <div class="media" style="--pos: 50% 50%"><div class="media-pan"><img class="media-asset" src="images/homepage/optik.png" alt="TELUS Optik TV" decoding="async" /></div></div>
+          <div class="media" style="--pos: 50% 50%"><div class="media-pan"><video class="media-asset js-tile-video" muted loop playsinline preload="none" data-start="3" poster="images/homepage/optik-promo-poster.jpg" aria-label="TELUS Optik TV: phones showing the theme pack picker, the order summary and checkout"><source src="images/homepage/optik-promo.mp4" type="video/mp4"></video><img class="media-asset media-poster" src="images/homepage/optik-promo-poster.jpg" alt="" aria-hidden="true" decoding="async" /></div></div>
           <div class="cap">
             <p class="co label">TELUS</p>
             <h3 class="title">Growing Optik TV Daily Orders from 200 to <span class="num" data-from="200" data-to="2500" data-suffix="+">2,500+</span></h3>
@@ -622,7 +626,7 @@
           </div>
         </a></li>
         <li class="is-wide"><a class="tile rv" href="onboarding.html" style="--d: 100ms">
-          <div class="media" style="--pos: 50% 50%"><div class="media-pan"><img class="media-asset" src="images/homepage/onboarding.png" alt="TELUS Retention" decoding="async" /></div></div>
+          <div class="media" style="--pos: 50% 50%"><div class="media-pan"><video class="media-asset js-tile-video" muted loop playsinline preload="none" data-start="4" poster="images/homepage/onboarding-promo-poster.jpg" aria-label="TELUS Retention: the My TELUS app onboarding screens on a phone, from data usage to paying a bill"><source src="images/homepage/onboarding-promo.webm" type="video/webm"><source src="images/homepage/onboarding-promo.mp4" type="video/mp4"></video><img class="media-asset media-poster" src="images/homepage/onboarding-promo-poster.jpg" alt="" aria-hidden="true" decoding="async" /></div></div>
           <div class="cap">
             <p class="co label">TELUS</p>
             <h3 class="title">Increasing My TELUS App Retention from 40.6% to <span class="num" data-from="40.6" data-to="62.6" data-dec="1" data-suffix="%">62.6%</span></h3>
@@ -1376,6 +1380,50 @@
     const ask = () => { if (!queued) { queued = true; requestAnimationFrame(place); } };
     addEventListener('scroll', ask, { passive: true }); addEventListener('resize', ask); ask();
   }
+
+  /* ── Selected Work videos: the still (.media-poster) shows at all times. On hover (or keyboard focus) the video
+     plays and the still fades away once it is moving. Leaving fades the still back in, then pauses the video, so
+     coming back carries on from the same frame. Touch screens have no hover, so they show the stills only.
+     Under reduced motion only the stills show ── */
+  (() => {
+    const vids = $$('.js-tile-video');
+    if (reduce || !vids.length) return;
+    const hover = matchMedia('(hover: hover) and (pointer: fine)').matches;
+    /* the first play starts on the poster's frame (data-start, seconds), so nothing jumps */
+    const cue = (v) => {
+      if (v.dataset.cued) return; v.dataset.cued = '1'; v.preload = 'auto';
+      const at = parseFloat(v.dataset.start) || 0;
+      if (!at) return;
+      if (v.readyState >= 1) v.currentTime = at; else v.addEventListener('loadedmetadata', () => { if (v.currentTime < 0.5) v.currentTime = at; }, { once: true });
+    };
+    const FADE = 500;                                    /* matches the .media-poster opacity transition */
+    const play = (v) => {
+      const m = v.closest('.media');
+      clearTimeout(v._stop); v._want = true;
+      cue(v);
+      const show = () => { if (v._want) m.classList.add('is-live'); };
+      if (!v.paused && v.readyState >= 3) show(); else v.addEventListener('playing', show, { once: true });
+      v.play().catch(() => {});
+    };
+    const stop = (v) => {
+      v._want = false;
+      v.closest('.media').classList.remove('is-live');
+      clearTimeout(v._stop); v._stop = setTimeout(() => { if (!v._want) v.pause(); }, FADE);
+    };
+    /* load a video once its tile nears the screen so the first hover starts at once */
+    const warm = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { cue(e.target); warm.unobserve(e.target); } }), { rootMargin: '25% 0px' });
+    vids.forEach((v) => {
+      const tile = v.closest('.tile');
+      if (hover) {
+        warm.observe(v);
+        tile.addEventListener('pointerenter', () => play(v));
+        tile.addEventListener('pointerleave', () => stop(v));
+      }
+      tile.addEventListener('focus', () => play(v));
+      tile.addEventListener('blur', () => stop(v));
+    });
+    document.addEventListener('visibilitychange', () => { if (document.hidden) vids.forEach(stop); });
+  })();
 
   /* ── AI stage: a few seconds of each project, one at a time, only while in view ── */
   (() => {
