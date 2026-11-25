@@ -21,6 +21,7 @@
   <link rel="stylesheet" href="css/tool-stickers.css">
   <link rel="stylesheet" href="css/case-study.css">
   <link rel="stylesheet" href="css/toc.css">
+  <link rel="stylesheet" href="css/cs-hotfix.css">
   <style>
     /* this page only: the laptop render is 16:10 */
     .media video.is-1610 { aspect-ratio: 16 / 10; }
@@ -41,8 +42,15 @@
       .tool-row { grid-template-columns: repeat(3, 104px); gap: 24px 8px; }   /* phones: 3 + 2, the desktop columns, so no name wraps */
     }
     /* the case-study TOC, in the left margin beside the 980 column, level with the title; hidden where the margin can't hold it */
-    .cs-toc { position: fixed; z-index: 10; top: calc(var(--nav-h) + 96px); left: 32px; width: 160px; }
-    @media (max-width: 1419px) { .cs-toc { display: none; } }
+    /* the case-study TOC, placed exactly like the other case studies (Deron): a 1200px body with 40px padding,
+       a 180px TOC column, a 60px gap and the content beside it; sticky 80px from the top; hidden at 1024px and below */
+    @media (min-width: 1025px) {
+      main { display: grid; grid-template-columns: 180px minmax(0, 1fr); gap: 0 60px; align-items: start; max-width: 1200px; margin: 0 auto; padding-left: 40px; padding-right: 40px; box-sizing: border-box; }
+      main > * { grid-column: 2; }
+      main > .cs-toc { grid-column: 1; grid-row: 1 / span 20; position: sticky; top: 80px; padding-top: 10px; margin-top: calc(var(--nav-h) + 96px); z-index: 10; width: 180px; }
+      main .col { width: 100%; margin: 0; }
+    }
+    @media (max-width: 1024px) { .cs-toc { display: none; } }
     .step-img img, .step-img video { display: block; width: 100%; height: 100%; object-fit: cover; }
 
     /* text styles: the page's own redesign styles (the case-study styles were tried and reverted, Deron 2026-11-23) */
@@ -71,28 +79,22 @@
   </div>
 </nav>
 
+
+
+<main>
 <aside class="cs-toc" aria-label="On this page">
   <a class="toc-back" href="ai-design.html">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
     AI x Design
   </a>
   <div class="toc-track">
-    <div class="toc-indicator">
-      <span class="toc-indicator-layer toc-indicator-layer--1"></span>
-      <span class="toc-indicator-layer toc-indicator-layer--2"></span>
-      <span class="toc-indicator-layer toc-indicator-layer--3"></span>
-      <span class="toc-indicator-layer toc-indicator-layer--4"></span>
-      <span class="toc-indicator-layer toc-indicator-layer--5"></span>
-    </div>
     <ul>
-      <li><a class="toc-link" href="#summary">Summary</a></li>
-      <li><a class="toc-link" href="#process">Process</a></li>
-      <li><a class="toc-link" href="#film">Animations</a></li>
+      <li><a class="toc-link" href="#summary"><span class="toc-num">01</span>Summary</a></li>
+      <li><a class="toc-link" href="#process"><span class="toc-num">02</span>Process</a></li>
+      <li><a class="toc-link" href="#film"><span class="toc-num">03</span>Animations</a></li>
     </ul>
   </div>
 </aside>
-
-<main>
 
   <header class="cs-hero" id="summary">
     <div class="col">
@@ -156,7 +158,7 @@
   new IntersectionObserver(([e]) => { if (e.isIntersecting) v.play().catch(() => {}); else v.pause(); }, { threshold: 0.4 }).observe(v);
 })();
 </script>
-<script src="js/toc.js"></script>
+<script src="js/cs-toc.js"></script>
 <script type="module" src="js/tool-stickers.js"></script>
 </body>
 </html>

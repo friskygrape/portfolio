@@ -1,0 +1,72 @@
+/* ════════════════════════════════════════════════════════
+   CASE-STUDY HOTFIX (hotfix/case-study-toc-headers, 2026-11-25)
+   Loaded last by support, discounts, optik, onboarding and motion-design. One small file so the hotfix is
+   easy to review and to revert, and so the five pages (two different stylesheet systems) share it.
+   1. The side TOC: numbered items; an 8px grey dash each; the active dash grows to 32px and pushes the
+      number and name inward, the active dash and number turn purple, the name eases to ink at 650.
+      Behaviour: js/cs-toc.js.
+   2. Section headers: Geist Mono caps, +0.12em, grey, after the section number in purple mono ("02  CONTEXT").
+      Summary counts as 01 but has no header, so the first header is 02. Numbers match the TOC.
+   3. Bold words in case-study copy: brand ink instead of purple.
+   4. Text smoothing: antialiased, as on the redesign (Deron: "bring back the antialiasing"), on these five pages only.
+   ════════════════════════════════════════════════════════ */
+@font-face { font-family: 'Geist Mono'; font-weight: 100 900; font-display: swap; src: url(../fonts/geist-mono-latin.woff2) format('woff2'); }
+
+.cs-toc, .cs-sections, .sec, .cs-hero, .cs-section {
+  --hf-ink: var(--ink, #121212);
+  --hf-quiet: #6B6B65;
+  --hf-accent: var(--accent, #4D00C0);
+  --hf-text: 'Radio Canada', 'Helvetica Neue', Arial, sans-serif;
+  --hf-mono: 'Geist Mono', ui-monospace, Menlo, monospace;
+  --hf-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── 1. TOC ── */
+.cs-toc ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 0; }
+.cs-toc .toc-link {
+  display: flex; align-items: center; gap: 12px; min-height: 36px; padding: 0;
+  color: var(--hf-quiet); font-family: var(--hf-text); font-size: 16px; font-weight: 500; line-height: 1.4; text-transform: none; text-decoration: none;
+  transition: color .45s var(--hf-out), font-weight .45s var(--hf-out);
+}
+.cs-toc .toc-link::before { content: ''; flex: none; width: 8px; height: 2px; background: currentColor; transition: width .55s var(--hf-out), background .3s ease; }
+.cs-toc .toc-num { display: inline-block; min-width: 2.4ch; font-family: var(--hf-mono); font-weight: 400; letter-spacing: 0; font-variant-numeric: tabular-nums; color: inherit; transition: color .45s var(--hf-out); }
+.cs-toc .toc-link:hover { color: var(--hf-ink); }
+.cs-toc .toc-link.is-on { color: var(--hf-ink); font-weight: 650; }
+.cs-toc .toc-link.is-on::before { width: 32px; background: var(--hf-accent); }
+.cs-toc .toc-link.is-on .toc-num { color: var(--hf-accent); }
+@media (prefers-reduced-motion: reduce) { .cs-toc .toc-link, .cs-toc .toc-link::before, .cs-toc .toc-num { transition: none; } }
+
+/* ── 2. Section headers ── */
+.cs-sections { counter-reset: cs-sec 1; }          /* Summary is 01 (no header), so the first header reads 02 */
+main:has(> .sec) { counter-reset: cs-sec 1; }       /* Motion Design: the hero is Summary, its sections follow */
+.cs-section > h5, .sec > .col > .kicker {
+  display: flex; align-items: baseline; gap: 16px;
+  font-family: var(--hf-mono); font-size: 16px; font-weight: 400; line-height: 1.5; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--body, #55554F);
+}
+.cs-section > h5::before, .sec > .col > .kicker::before {
+  content: counter(cs-sec, decimal-leading-zero); counter-increment: cs-sec; color: var(--hf-accent);
+  width: auto; height: auto; background: none;   /* Motion Design's kicker had a 24px rule here */
+}
+@media (max-width: 768px) { .cs-section > h5, .sec > .col > .kicker { font-size: 13px; } }
+
+/* ── 3. Bold words in the copy: brand ink, not purple ── */
+.cs-hero strong, .cs-hero b, .cs-section strong, .cs-section b { color: var(--hf-ink); }
+
+/* ── 4. Text smoothing (these five pages only) ── */
+body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+/* Summary meta labels (My Role, Team, Timeline, Areas): brand ink instead of purple (Deron) */
+.cs-meta-item p:first-child { color: var(--ink, #121212); }
+
+/* Portrait tablet (769-1024px): every 3-column grid becomes 2 columns (Deron). Phones keep their single column. */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .cs-features, .cs-stats, .cs-channels, .cs-split--3, .cs-issues, .cs-metrics, .cs-more-grid,
+  .srv-3col, .srv-channel-cards, .trio, .stats, .feat { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* Portrait tablet and down (1024px and below): no TOC, the content takes the full width (Deron: too tight there) */
+@media (max-width: 1024px) {
+  .cs-layout { grid-template-columns: minmax(0, 1fr); }
+  .cs-toc { display: none; }
+}
