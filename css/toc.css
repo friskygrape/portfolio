@@ -1,28 +1,8 @@
 /* ════════ CASE-STUDY TABLE OF CONTENTS (shared) ════════
    The look of the four case studies' TOC (site.css through the brand layer), in redesign tokens, for
-   pages not on site.css (Motion Design, 2026-11-23). Script: js/toc.js. Each page places .cs-toc itself. */
+   pages not on site.css (Motion Design, 2026-11-23). Script: js/cs-toc.js (hotfix: the diamond indicator was replaced, see css/cs-hotfix.css). Each page places .cs-toc itself. */
 .cs-toc ul { margin: 0; padding: 0; list-style: none; }
 .toc-track { position: relative; }
-.toc-indicator { position: absolute; left: 0; top: 0; width: 12px; height: 12px; pointer-events: none; }
-/* the active marker: a diamond with two fainter copies that trail it as it moves */
-.toc-indicator-layer {
-  position: absolute; left: 0; top: 0; width: 12px; height: 12px;
-  background: var(--accent); border-radius: 3px; transform: rotate(45deg); will-change: transform;
-  --float-travel: 3px; --layer-offset: 0px;
-  animation: toc-diamond-idle 2.8s ease-in-out infinite; animation-fill-mode: backwards; animation-play-state: paused;
-  transition: opacity 0.3s ease;
-}
-@keyframes toc-diamond-idle {
-  0%, 100% { transform: translateY(calc(var(--toc-layer-y, 0px) + var(--layer-offset, 0px))) rotate(45deg); }
-  50%       { transform: translateY(calc(var(--toc-layer-y, 0px) + var(--layer-offset, 0px) - var(--float-travel))) rotate(45deg); }
-}
-.toc-indicator-layer--1 { opacity: 1.00; z-index: 5; --float-travel: 2px;  animation-delay: 0s; }
-.toc-indicator-layer--2 { opacity: 0.40; z-index: 4; --float-travel: 5px;  animation-delay: 0.14s; --layer-offset: 4px; }
-.toc-indicator-layer--3 { opacity: 0.24; z-index: 3; --float-travel: 8px;  animation-delay: 0.28s; --layer-offset: 8px; }
-.toc-indicator-layer--4 { opacity: 0;    z-index: 2; --float-travel: 8px;  animation-delay: 0.42s; }
-.toc-indicator-layer--5 { opacity: 0;    z-index: 1; --float-travel: 10px; animation-delay: 0.56s; }
-@media (prefers-reduced-motion: reduce) { .toc-indicator-layer { animation: none; will-change: auto; transform: rotate(45deg); } }
-
 .toc-back { display: flex; align-items: center; gap: 6px; margin-bottom: 29px; color: var(--body); font-family: var(--font-display); font-size: var(--t-label); font-weight: 400; text-decoration: none; transition: color 0.3s ease; }
 .toc-back:hover { color: var(--accent); }
 .toc-back svg { flex-shrink: 0; }
