@@ -20,22 +20,10 @@
 /* lines that were black at a low alpha now use the brand line colour */
 .about-hero { border-bottom-color: var(--line); }
 
-/* the cover runs up under the nav, so the nav has no background when the page loads
-   (it takes the blurred ground once you scroll, from css/nav.css) */
-.cs-page { padding-top: 0; }
-
-/* Over the cover photo the nav has no background, and the covers range from light to dark
-   (the Onboarding leaves, the Optik keyboard). So the top of every cover gets a soft dark
-   fade, and the nav is white while it sits there. Once you scroll it takes the blurred
-   ground and its normal ink colours from css/nav.css. */
-.cs-cover { position: relative; }
-.cs-cover::before { content: ''; position: absolute; inset: 0 0 auto 0; z-index: 1; height: 180px; pointer-events: none;
-  background: linear-gradient(to bottom, rgba(18, 18, 18, 0.55), rgba(18, 18, 18, 0)); }
-nav.nav:not(.is-scrolled) { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }   /* white text over the cover */
-nav.nav:not(.is-scrolled) .nav-logo,
-nav.nav:not(.is-scrolled) .nav-links a,
-nav.nav:not(.is-scrolled) .nav-links a:hover,
-nav.nav:not(.is-scrolled) .nav-links a[aria-current] { color: #FFFFFF; }
-nav.nav:not(.is-scrolled) .nav-links a::after { background: #FFFFFF; }
-nav.nav.has-menu:not(.is-scrolled):not(.is-open) .nav-toggle { color: #FFFFFF; }   /* the hamburger, white over the cover until the menu opens */
-nav.nav:not(.is-scrolled) :focus-visible { outline-color: #FFFFFF; }
+/* Top of the page, matching Support (Deron, 2026-11-25): no full-bleed cover any more. The title sits on the
+   page ground with the nav above it (128px down, Support's hero spacing), then meta, then 01 Summary, whose
+   visual is the old cover photo, in the content column with 8px corners. */
+.cs-page { padding-top: 128px; }
+@media (max-width: 768px) { .cs-page { padding-top: 96px; } }
+.cs-summary-shot { margin: 40px 0 0; border-radius: 8px; overflow: hidden; }
+.cs-summary-shot img { display: block; width: 100%; height: auto; }

@@ -4,12 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TouchBistro — Advanced Discounts · Deron Li</title>
-  <link rel="stylesheet" href="css/site.css">
   <link rel="preload" href="fonts/radio-canada-big-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="fonts/radio-canada-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="css/brand.css">
-  <link rel="stylesheet" href="css/case-study-brand.css">
-  <link rel="stylesheet" href="css/nav.css">
+  <link rel="preload" href="fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/nav-glass.css">
+  <link rel="stylesheet" href="css/type-v2.css">
+  <link rel="stylesheet" href="css/case-study-v2.css">
   <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
   <link rel="shortcut icon" href="images/favicon.ico">
@@ -24,890 +24,223 @@
 </head>
 <body>
 
-<nav class="nav" aria-label="Main">
-  <div class="wrap nav-in">
-    <a class="nav-logo" href="index.html">Deron Li</a>
-    <div class="nav-links label"><a href="index.html#work" aria-current="page">Work</a><a href="ai-design.html">AI x Design</a><a href="about.html">About</a></div>
-  </div>
+<nav class="pill pill-nav" aria-label="Main">
+  <a class="pill-logo" href="index.html">Deron Li</a>
+  <div class="pill-links"><a href="index.html">Home</a><a href="index.html#work" aria-current="page">Work</a><a href="ai-design.html">AI x Design</a><a href="about.html">About</a></div>
 </nav>
 
-<div class="cs-page">
+<nav class="pill toc" aria-label="Sections">
+  <button class="toc-toggle" type="button" aria-expanded="false" aria-controls="toc-list"><span data-toc-current><span><span class="toc-num">01</span>Summary</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></button>
+  <ol class="toc-list" id="toc-list">
+    <li><a href="#summary"><span><span class="toc-num">01</span>Summary</span></a></li>
+    <li><a href="#context"><span><span class="toc-num">02</span>Context</span></a></li>
+    <li><a href="#problem"><span><span class="toc-num">03</span>Problem</span></a></li>
+    <li><a href="#research"><span><span class="toc-num">04</span>Research</span></a></li>
+    <li><a href="#solution"><span><span class="toc-num">05</span>Solution</span></a></li>
+    <li><a href="#validation"><span><span class="toc-num">06</span>Validation</span></a></li>
+    <li><a href="#impact"><span><span class="toc-num">07</span>Impact</span></a></li>
+    <li><a href="#reflection"><span><span class="toc-num">08</span>Reflection</span></a></li>
+  </ol>
+</nav>
 
-  <div class="cs-cover">
-    <img src="images/homepage/discounts.png" alt="TouchBistro Advanced Discounts" />
-  </div>
+<main>
 
-  <div class="cs-body">
+  <aside class="cs-rail" aria-label="On this page">
+    <div class="cs-toc">
+      <a class="toc-back" href="index.html#work"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>Featured Work</a>
+        <ul>
+        <li><a class="toc-link" href="#summary"><span class="toc-num">01</span>Summary</a></li>
+        <li><a class="toc-link" href="#context"><span class="toc-num">02</span>Context</a></li>
+        <li><a class="toc-link" href="#problem"><span class="toc-num">03</span>Problem</a></li>
+        <li><a class="toc-link" href="#research"><span class="toc-num">04</span>Research</a></li>
+        <li><a class="toc-link" href="#solution"><span class="toc-num">05</span>Solution</a></li>
+        <li><a class="toc-link" href="#validation"><span class="toc-num">06</span>Validation</a></li>
+        <li><a class="toc-link" href="#impact"><span class="toc-num">07</span>Impact</a></li>
+        <li><a class="toc-link" href="#reflection"><span class="toc-num">08</span>Reflection</a></li>
+        </ul>
+    </div>
+  </aside>
 
-    <div class="cs-layout">
-
-      <aside class="cs-toc">
-        <a class="toc-back" href="index.html#work">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
-          Featured Work
-        </a>
-        <div class="toc-track">
-          <div class="toc-indicator">
-            <span class="toc-indicator-layer toc-indicator-layer--1"></span>
-            <span class="toc-indicator-layer toc-indicator-layer--2"></span>
-            <span class="toc-indicator-layer toc-indicator-layer--3"></span>
-            <span class="toc-indicator-layer toc-indicator-layer--4"></span>
-            <span class="toc-indicator-layer toc-indicator-layer--5"></span>
-          </div>
-          <ul>
-            <li><a class="toc-link" href="#summary">Summary</a></li>
-            <li><a class="toc-link" href="#context">Context</a></li>
-            <li><a class="toc-link" href="#problem">Problem</a></li>
-            <li><a class="toc-link" href="#research">Research</a></li>
-            <li><a class="toc-link" href="#solution">Solution</a></li>
-            <li><a class="toc-link" href="#validation">Validation</a></li>
-            <li><a class="toc-link" href="#impact">Impact</a></li>
-            <li><a class="toc-link" href="#reflection">Reflection</a></li>
-          </ul>
+  <header class="band band--ground band--hero" id="top">
+    <div class="wrap">
+      <div class="text">
+        <h1 class="display">Securing a Restaurant with 12 Locations through Advanced Discounts</h1>
+        <div class="meta">
+          <div><p class="label">My Role</p><p class="body">Lead Product Designer</p></div>
+          <div><p class="label">Team</p><p class="body">VP of Product<br>Product Manager<br>Development<br>QA</p></div>
+          <div><p class="label">Timeline</p><p class="body">March 2025 – April 2025</p></div>
+          <div><p class="label">Areas</p><p class="body">Restaurant<br>POS<br>Discounts</p></div>
         </div>
-      </aside>
-
-      <div class="cs-sections">
-
-        <header class="cs-hero" id="summary">
-          <h1 class="cs-title h1">Securing a Restaurant with 12 Locations through Advanced Discounts</h1>
-          <div class="cs-meta">
-            <div class="cs-meta-item">
-              <p>My Role</p>
-              <p>Lead Product Designer</p>
-            </div>
-            <div class="cs-meta-item">
-              <p>Team</p>
-              <p>VP of Product<br>Product Manager<br>Development<br>QA</p>
-            </div>
-            <div class="cs-meta-item">
-              <p>Timeline</p>
-              <p>March 2025 – April 2025</p>
-            </div>
-            <div class="cs-meta-item">
-              <p>Areas</p>
-              <p>Restaurant<br>POS<br>Discounts</p>
-            </div>
-          </div>
-          <p class="cs-summary body-lg">I designed advanced discount capabilities to compete for mid-market customers based on user research and sales feedback I collected. This secured a mid-market customer with <strong>12 locations</strong>. The new experience launched to <strong>40+</strong> beta customers and processed <strong>$6.7M</strong> in sales transactions with <strong>5,100+</strong> discounts applied, totalling <strong>$23,000</strong> in customer savings over 3 months.</p>
-          <div class="cs-placeholder"><div class="cs-placeholder-inner"><img src="images/discounts/Discount - summary.png" alt="Advanced discounts summary" /></div></div>
-        </header>
-
-        <section class="cs-section" id="context">
-          <h5><svg class="cs-section-icon cs-section-icon--book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" pathLength="100"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" pathLength="100"/></svg>Context</h5>
-          <h2 class="h2">TouchBistro is a Restaurant Management and POS Company</h2>
-          <p class="body-lg">Restaurants use TouchBistro's Cloud platform (a web-based management system) to configure their menus, staff, and settings, which sync across multiple venues and to their POS (point-of-sale) systems.</p>
-        </section>
-
-        <section class="cs-section" id="problem">
-          <h5><svg class="cs-section-icon cs-section-icon--search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Problem</h5>
-          <h2 class="h2">Missing Mid-Market Opportunities Due to Limited Discount Features</h2>
-          <p class="body-lg">The sales team reported consistent interest from mid-market customers (restaurants with 10+ locations) wanting to partner with TouchBistro, but our discount capabilities fell short. Prospects needed more advanced discount features to maintain their existing workflows and new capabilities to support their growth.</p>
-          <p class="body-lg">This gap presented a strategic opportunity to evolve our discount solutions and capture a new market segment.</p>
-        </section>
-
-        <section class="cs-section" id="research">
-          <h5><svg class="cs-section-icon cs-section-icon--chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="15" y="5" width="4" height="12" rx="1"/><rect x="7" y="8" width="4" height="9" rx="1"/><path d="M11 13H7"/><path d="M19 9h-4"/><path d="M3 3v16a2 2 0 0 0 2 2h16"/></svg>Research</h5>
-          <h2 class="h2">Understanding Customer Needs</h2>
-          <p class="body-lg">Before designing a solution to capture the mid-market's needs, I wanted to ensure we weren't overlooking our existing customers and the challenges they faced. I conducted a survey with current TouchBistro customers to understand how they use discounts, what pain points they experience, and what capabilities they were missing.</p>
-          <h3 class="h3">Surveying Our Existing Customers</h3>
-          <p class="body-lg">I identified customers who made changes to their discounts in the last 3 months and worked with product marketing to craft a recruitment email for a survey. We received <strong>55 responses</strong> from managers and owners across both full-service and quick service restaurants within one week.</p>
-
-          <!-- Survey results visualization v2 -->
-          <div class="srv-viz">
-            <!-- Row 1: Where Discounts Are Applied (full width) -->
-            <div class="srv-block">
-              <h3 class="h3 srv-block-title">Where Discounts Are Applied</h3>
-              <div class="srv-channel-cards" id="srv-channels">
-                <div class="srv-channel-card">
-                  <svg class="srv-channel-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></svg>
-                  <span class="srv-channel-card-pct" data-target="96">96%</span>
-                  <span class="srv-channel-card-name">Dine-In</span>
-                  <div class="srv-channel-track"><div class="srv-channel-fill" style="--pct: 96%; --delay: 0s"></div></div>
-                </div>
-                <div class="srv-channel-card">
-                  <svg class="srv-channel-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-                  <span class="srv-channel-card-pct" data-target="25">25%</span>
-                  <span class="srv-channel-card-name">Takeout</span>
-                  <div class="srv-channel-track"><div class="srv-channel-fill" style="--pct: 25%; --delay: 0.1s"></div></div>
-                </div>
-                <div class="srv-channel-card">
-                  <svg class="srv-channel-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></svg>
-                  <span class="srv-channel-card-pct" data-target="6">6%</span>
-                  <span class="srv-channel-card-name">Delivery</span>
-                  <div class="srv-channel-track"><div class="srv-channel-fill" style="--pct: 6%; --delay: 0.2s"></div></div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Row 2: Motivations (1 col) | What Customers Asked For (1 col) -->
-            <div class="srv-2col">
-              <div class="srv-block" style="margin-bottom: 0">
-                <h3 class="h3 srv-block-title">Top Discount Motivations</h3>
-                <div class="srv-motive-list" id="srv-motivations">
-                  <div class="srv-motive-row" style="--delay: 0s">
-                    <span class="srv-motive-rank">1</span>
-                    <div class="srv-motive-body">
-                      <span class="srv-motive-label">Customer Retention</span>
-                      <span class="srv-motive-desc">Building loyalty and bringing back customers</span>
-                    </div>
-                  </div>
-                  <div class="srv-motive-row" style="--delay: 0.08s">
-                    <span class="srv-motive-rank">2</span>
-                    <div class="srv-motive-body">
-                      <span class="srv-motive-label">Seasonal or Special Events</span>
-                      <span class="srv-motive-desc">Holiday promotions and event-based discounts</span>
-                    </div>
-                  </div>
-                  <div class="srv-motive-row" style="--delay: 0.16s">
-                    <span class="srv-motive-rank">3</span>
-                    <div class="srv-motive-body">
-                      <span class="srv-motive-label">Attracting New Customers</span>
-                      <span class="srv-motive-desc">First-time visitor incentives and acquisition</span>
-                    </div>
-                  </div>
-                  <div class="srv-motive-row" style="--delay: 0.24s">
-                    <span class="srv-motive-rank">4</span>
-                    <div class="srv-motive-body">
-                      <span class="srv-motive-label">Filling Seats During Slow Times</span>
-                      <span class="srv-motive-desc">Encouraging traffic during off-peak hours</span>
-                    </div>
-                  </div>
-                  <div class="srv-motive-row" style="--delay: 0.32s">
-                    <span class="srv-motive-rank">5</span>
-                    <div class="srv-motive-body">
-                      <span class="srv-motive-label">Encouraging Larger Orders</span>
-                      <span class="srv-motive-desc">Incentivizing higher spend per transaction</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="srv-block" style="margin-bottom: 0">
-                <h3 class="h3 srv-block-title">What Customers Asked For</h3>
-                <div class="srv-needs" id="srv-needs">
-                  <div class="srv-need" style="--delay: 0s">
-                    <svg class="srv-need-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-                    <div class="srv-motive-body">
-                      <span class="srv-motive-label">Custom POS Discounts</span>
-                      <span class="srv-motive-desc">On-the-fly discounts on the POS during an order</span>
-                    </div>
-                  </div>
-                  <div class="srv-need" style="--delay: 0.1s">
-                    <svg class="srv-need-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-                    <div class="srv-motive-body">
-                      <span class="srv-motive-label">Bill-Level Discounts</span>
-                      <span class="srv-motive-desc">A discount that applies to the entire order</span>
-                    </div>
-                  </div>
-                  <div class="srv-need" style="--delay: 0.2s">
-                    <svg class="srv-need-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
-                    <div class="srv-motive-body">
-                      <span class="srv-motive-label">Automated Discounts</span>
-                      <span class="srv-motive-desc">Triggered based on conditions set during creation</span>
-                    </div>
-                  </div>
-                  <div class="srv-need" style="--delay: 0.3s">
-                    <svg class="srv-need-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-                    <div class="srv-motive-body">
-                      <span class="srv-motive-label">BOGO Discounts</span>
-                      <span class="srv-motive-desc">Buy X, get Y to expand their discount offerings</span>
-                    </div>
-                  </div>
-                  <div class="srv-need" style="--delay: 0.4s">
-                    <svg class="srv-need-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.58 3.42 2 2 0 0 1 3.55 1.25h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.74a16 16 0 0 0 6 6l.91-.9a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 16z"/></svg>
-                    <div class="srv-motive-body">
-                      <span class="srv-motive-label">Promo Codes Via Text</span>
-                      <span class="srv-motive-desc">Send promotions to customers to bring them back</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <h3 class="h3">Problems with the Current Experience</h3>
-          <p class="body-lg">While doing an audit of the current experience, I identified other areas we'd need to improve as well.</p>
-          <div class="cs-placeholder"><div class="cs-placeholder-inner"><img src="images/discounts/problems.png" alt="Problems with the current discount experience" /></div></div>
-          <div class="cs-issues">
-            <div class="cs-issue">
-              <svg class="cs-issue-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-              <h4 class="cs-issue-title h4">Discount Types Are Unclear</h4>
-              <p class="cs-issue-desc body-lg">During discount creation, there's no distinction between item and bill discounts. Customers assume only item discounts exist.</p>
-            </div>
-            <div class="cs-issue">
-              <svg class="cs-issue-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z"/><path d="M16 8H8"/><path d="M16 12H8"/><path d="M13 16H8"/></svg>
-              <h4 class="cs-issue-title h4">Bill Discounts Display Incorrectly</h4>
-              <p class="cs-issue-desc body-lg">Discounts appear under each item instead of as a single line after the subtotal, cluttering receipts and wasting paper.</p>
-            </div>
-            <div class="cs-issue">
-              <svg class="cs-issue-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="8" height="8" rx="1"/><rect x="13" y="3" width="8" height="5" rx="1"/><rect x="13" y="12" width="8" height="9" rx="1"/><rect x="3" y="15" width="8" height="6" rx="1"/></svg>
-              <h4 class="cs-issue-title h4">Inconsistent UI</h4>
-              <p class="cs-issue-desc body-lg">The discount experience varies between the order and checkout screens, creating an inconsistent experience for staff.</p>
-            </div>
-          </div>
-          <!-- Customer needs -->
-          <h3 class="h3">Prioritizing Needs</h3>
-          <p class="body-lg">Working with the VP of Product, I mapped mid-market requirements against what our existing customers needed, finding where they overlapped and where they diverged.</p>
-          <div class="cs-compare">
-            <div class="cs-compare-card cs-compare-card--existing">
-              <span class="cs-compare-tag">
-              <svg class="cs-compare-tag-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-              Existing Customers
-            </span>
-              <p class="cs-compare-subtitle body-lg">1–5+ Locations</p>
-              <ul class="cs-compare-list">
-                <li><svg class="cs-compare-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 12 10 18 20 6"/></svg>Custom discounts</li>
-                <li><svg class="cs-compare-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 12 10 18 20 6"/></svg>Organized bill discounts</li>
-                <li><svg class="cs-compare-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 12 10 18 20 6"/></svg>Automatic discounts</li>
-                <li><svg class="cs-compare-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 12 10 18 20 6"/></svg>BOGO discounts</li>
-              </ul>
-            </div>
-            <div class="cs-compare-card cs-compare-card--midmarket">
-              <span class="cs-compare-tag">
-              <svg class="cs-compare-tag-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-              Mid-Market
-            </span>
-              <p class="cs-compare-subtitle body-lg">10+ Locations</p>
-              <ul class="cs-compare-list">
-                <li><svg class="cs-compare-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 12 10 18 20 6"/></svg>Promo codes</li>
-                <li><svg class="cs-compare-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 12 10 18 20 6"/></svg>Minimum spend</li>
-                <li><svg class="cs-compare-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 12 10 18 20 6"/></svg>Automatic discounts</li>
-                <li><svg class="cs-compare-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 12 10 18 20 6"/></svg>BOGOs and Combo discounts</li>
-                <li><svg class="cs-compare-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 12 10 18 20 6"/></svg>Scheduled discounts</li>
-              </ul>
-            </div>
-          </div>
-        </section>
-
-        <section class="cs-section" id="solution">
-          <h5><svg class="cs-section-icon cs-section-icon--bulb" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></svg>Solution</h5>
-          <h2 class="h2">Overhauling the Discount Experience</h2>
-          <h3 class="h3">Cloud: Discount Configurations</h3>
-          <p class="body-lg">To address the confusion around discount types, I redesigned the creation flow to explicitly distinguish between item-level and bill-level discounts. Businesses can now select a discount type (Item, Bill, BOGO, Combo, Cash), define the amount, specify eligible menu items and the condition when it can be applied. Mid-market customers identified promo codes as essential for their marketing campaigns. The new system allows businesses to configure custom promo codes with validity periods and application rules, solving a key adoption barrier.</p>
-          <div class="cs-placeholder"><div class="cs-placeholder-inner"><video src="https://res.cloudinary.com/dh3awz0yq/video/upload/v1775766887/Create_Discount_V2_tpd9zr.mp4" autoplay controls muted loop playsinline></video></div></div>
-          <div class="cs-placeholder"><div class="cs-placeholder-inner"><video src="https://res.cloudinary.com/dh3awz0yq/video/upload/v1775781184/Create_promo_code_v2_bsqvue.mp4" autoplay controls muted loop playsinline></video></div></div>
-          <h3 class="h3">POS: Applying Discounts and Promo Codes to Orders</h3>
-          <p class="body-lg">Staff can apply discounts using the new experience and create custom discounts for unique situations by specifying the reason and amount, addressing a top customer request for flexibility in their workflow. When customers provide a promo code at the venue, staff enter it on the POS to apply the discount.</p>
-          <div class="cs-placeholder"><div class="cs-placeholder-inner"><video src="https://res.cloudinary.com/dh3awz0yq/video/upload/v1775764102/Applying_discounts_and_promos_syyuii.mp4" autoplay controls muted loop playsinline></video></div></div>
-          <div class="cs-placeholder"><div class="cs-placeholder-inner"><video src="https://res.cloudinary.com/dh3awz0yq/video/upload/v1775767076/Applying_promos_j7dm3g.mp4" autoplay controls muted loop playsinline></video></div></div>
-          <div class="cs-split cs-split--3">
-            <div class="cs-split-item">
-              <div class="cs-placeholder"><div class="cs-placeholder-inner"><img src="images/discounts/autodiscounts.png" alt="Automatic discount application" /></div></div>
-              <h4 class="h4">Automatic Discounts</h4>
-              <p class="body-lg">Discounts apply automatically when the configured conditions are met (eligible items, minimum spend, schedule).</p>
-            </div>
-            <div class="cs-split-item">
-              <div class="cs-placeholder"><div class="cs-placeholder-inner"><img src="images/discounts/improvedBills.png" alt="Improved bill discount display on receipt" /></div></div>
-              <h4 class="h4">Improved Bill Discount Display</h4>
-              <p class="body-lg">Bill discounts now appear as a single line after the subtotal, reducing receipt clutter and making them visually distinct from item discounts.</p>
-            </div>
-            <div class="cs-split-item">
-              <div class="cs-placeholder"><div class="cs-placeholder-inner"><img src="images/discounts/unifiedUI.png" alt="Unified discount modal across screens" /></div></div>
-              <h4 class="h4">Unified Discount Modal</h4>
-              <p class="body-lg">Standardized the discount modal and confirmation flow across the order and checkout screens, creating a consistent experience for staff.</p>
-            </div>
-          </div>
-          <h3 class="h3">Before and After</h3>
-          <h4 class="h4">Discount Configurations</h4>
-          <div class="cs-placeholder"><div class="cs-placeholder-inner"><img src="images/discounts/Comparison.png" alt="Discount configuration comparison" /></div></div>
-          <h4 class="h4" style="margin-top: 40px;">Applying Discounts</h4>
-          <div class="cs-placeholder"><div class="cs-placeholder-inner"><img src="images/discounts/POS_before_after.png" alt="Applying discounts before and after" /></div></div>
-        </section>
-
-        <section class="cs-section" id="validation">
-          <h5><svg class="cs-section-icon cs-section-icon--check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" pathLength="100"/><polyline points="8 12.5 11 15.5 16.5 9" pathLength="100"/></svg>Validation</h5>
-          <h2 class="h2">Launched to 40+ Beta Customers</h2>
-          <p class="body-lg">The new experience was released to <strong>40+</strong> beta customers, processing approximately <strong>$6.7 million</strong> in sales transactions over 3 months with <strong>5,100+</strong> discounts applied and <strong>$23,000+</strong> saved for customers.</p>
-          <div class="cs-metrics">
-            <div class="cs-metric">
-              <div class="cs-metric-header">
-                <p class="cs-metric-label overline">Sales Transactions</p>
-              </div>
-              <div class="cs-metric-value">
-                <span class="cs-metric-number h1" data-count="6.7" data-prefix="$" data-suffix="M">0</span>
-              </div>
-            </div>
-            <div class="cs-metric">
-              <div class="cs-metric-header">
-                <p class="cs-metric-label overline">Discounts Applied</p>
-              </div>
-              <div class="cs-metric-value">
-                <span class="cs-metric-number h1" data-count="5100" data-suffix="+">0</span>
-              </div>
-            </div>
-            <div class="cs-metric">
-              <div class="cs-metric-header">
-                <p class="cs-metric-label overline">Customer Savings</p>
-              </div>
-              <div class="cs-metric-value">
-                <span class="cs-metric-number h1" data-count="23000" data-prefix="$" data-suffix="+">0</span>
-              </div>
-            </div>
-          </div>
-          <div class="cs-features cs-features--1col">
-            <div class="cs-feature">
-              <svg class="cs-feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-              <h4 class="cs-feature-title h4">Phased Feature Rollout</h4>
-              <p class="cs-feature-desc body-lg">Due to development timelines, features like BOGO, Combos, Cash Discounts, and Scheduling were postponed to a future release.</p>
-            </div>
-          </div>
-
-          <h3 class="h3">Things to Improve</h3>
-          <p class="body-lg">Our team reached out to a few beta customers to see what could be improved.</p>
-          <ul class="cs-todo">
-            <li class="cs-todo-item">
-              <svg class="cs-todo-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4"/></svg>
-              <span class="body-lg">Businesses wanted to set exact start/end times (e.g., 6:00 PM) rather than waiting for the start or end of the business day for promo codes to be active</span>
-            </li>
-            <li class="cs-todo-item">
-              <svg class="cs-todo-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4"/></svg>
-              <span class="body-lg">Entering the promo code manually each time was tedious, staff would rather have the promo code selectable</span>
-            </li>
-            <li class="cs-todo-item">
-              <svg class="cs-todo-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4"/></svg>
-              <span class="body-lg">Max spend saw minimal usage and was planned to be removed</span>
-            </li>
-            <li class="cs-todo-item">
-              <svg class="cs-todo-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4"/></svg>
-              <span class="body-lg">Businesses wanted the ability to exclude certain menu items or groups from contributing to the minimum spend threshold</span>
-            </li>
-          </ul>
-        </section>
-
-        <section class="cs-section" id="impact">
-          <h5><svg class="cs-section-icon cs-section-icon--trend" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="2 17 8.5 10.5 13.5 15.5 22 7" pathLength="100"/><polyline points="16 7 22 7 22 13" pathLength="100"/></svg>Impact</h5>
-          <h2 class="h2">Secured First Mid-Market Customer Through Advanced Discounts</h2>
-          <p class="body-lg">The advanced discount capabilities directly enabled TouchBistro to close a deal with a <strong>12-location restaurant chain across Canada</strong>. This was one of the first mid-market customers acquired through this initiative.</p>
-          <h3 class="h3">Key Deciding Factors:</h3>
-          <ul class="cs-arrow-list">
-            <li class="cs-arrow-item">
-              <svg class="cs-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-              <span>Promo code integration with their existing mail coupon campaigns</span>
-            </li>
-            <li class="cs-arrow-item">
-              <svg class="cs-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-              <span>Automated discounts reducing manual errors and staff workload across all locations</span>
-            </li>
-            <li class="cs-arrow-item">
-              <svg class="cs-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-              <span>Manage all the discount configurations for all locations in one place</span>
-            </li>
-          </ul>
-        </section>
-
-        <section class="cs-section" id="reflection">
-          <h5><svg class="cs-section-icon cs-section-icon--speech" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Reflection</h5>
-          <h2 class="h2">Balancing New and Existing Customer Needs</h2>
-          <p class="body-lg">When building for a new customer segment, we need to make sure we're not forgetting the needs of our existing customer segment. My research revealed that mid-market customers had some priorities that didn't overlap. Existing customers had specific pain points with the current system, while mid-market customers needed granular control over when, where, and how discounts applied.</p>
-          <p class="body-lg">This insight shaped my approach. Instead of simply expanding features, I focused on building flexibility through advanced configurations. This shift from "more features" to "more control" served both audiences.</p>
-        </section>
-
       </div>
     </div>
+  </header>
 
-  </div>
-</div>
+  <!-- ═══ 01 Summary ═══ -->
+  <section class="band band--sheet" id="summary">
+    <div class="wrap">
+      <div class="text">
+        <p class="eyebrow label"><span class="num">01</span><span class="name">Summary</span></p>
+        <p class="body">I designed advanced discount capabilities to compete for mid-market customers based on user research and sales feedback I collected. This secured a mid-market customer with <strong>12 locations</strong>. The new experience launched to <strong>40+</strong> beta customers and processed <strong>$6.7M</strong> in sales transactions with <strong>5,100+</strong> discounts applied, totalling <strong>$23,000</strong> in customer savings over 3 months.</p>
+      </div>
+      <figure class="visual shot"><img src="images/homepage/discounts.png" alt="TouchBistro Advanced Discounts" /></figure>
+    </div>
+  </section>
 
-<section class="cs-more">
-  <div class="cs-more-inner">
-    <p class="cs-more-heading">More Projects</p>
-    <div class="cs-more-grid">
+  <!-- ═══ 02 Context ═══ -->
+  <section class="band band--ground" id="context">
+    <div class="wrap">
+      <div class="text">
+        <p class="eyebrow label"><span class="num">02</span><span class="name">Context</span></p>
+        <h2 class="title">TouchBistro is a Restaurant Management and POS Company</h2>
+        <p class="body">Restaurants use TouchBistro's Cloud platform (a web-based management system) to configure their menus, staff, and settings, which sync across multiple venues and to their POS (point-of-sale) systems.</p>
+      </div>
+    </div>
+  </section>
 
-      <a class="cs-more-card" href="support.html">
-        <div class="cs-more-img">
-          <img src="images/homepage/support.png" alt="TouchBistro Agent Access" />
-        </div>
-        <p class="cs-more-company">TouchBistro</p>
-        <p class="cs-more-title">Reducing Customer Call Times by 33% from 18 to 12 Minutes</p>
+  <!-- ═══ 03 Problem ═══ -->
+  <section class="band band--sheet" id="problem">
+    <div class="wrap">
+      <div class="text">
+        <p class="eyebrow label"><span class="num">03</span><span class="name">Problem</span></p>
+        <h2 class="title">Missing Mid-Market Opportunities Due to Limited Discount Features</h2>
+        <p class="body">The sales team reported consistent interest from mid-market customers (restaurants with 10+ locations) wanting to partner with TouchBistro, but our discount capabilities fell short. Prospects needed more advanced discount features to maintain their existing workflows and new capabilities to support their growth.</p>
+        <p class="body">This gap presented a strategic opportunity to evolve our discount solutions and capture a new market segment.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 04 Research ═══ -->
+  <section class="band band--ground" id="research">
+    <div class="wrap">
+      <div class="text">
+        <p class="eyebrow label"><span class="num">04</span><span class="name">Research</span></p>
+        <h2 class="title">Understanding Customer Needs</h2>
+        <p class="body">Before designing a solution to capture the mid-market's needs, I wanted to ensure we weren't overlooking our existing customers and the challenges they faced. I conducted a survey with current TouchBistro customers to understand how they use discounts, what pain points they experience, and what capabilities they were missing.</p>
+      </div>
+      <div class="subblock">
+        <h3 class="sub">Surveying Our Existing Customers</h3>
+        <p class="body">I identified customers who made changes to their discounts in the last 3 months and worked with product marketing to craft a recruitment email for a survey. We received <strong>55 responses</strong> from managers and owners across both full-service and quick service restaurants within one week.</p>
+      </div>
+      <div class="subblock"><h3 class="sub">Where Discounts Are Applied</h3></div>
+      <ul class="grid grid--3" role="list"><li class="item"><p class="title figure-num">96%</p><p class="label">Dine-In</p><div class="bar" aria-hidden="true"><span style="--pct: 96%"></span></div></li><li class="item"><p class="title figure-num">25%</p><p class="label">Takeout</p><div class="bar" aria-hidden="true"><span style="--pct: 25%"></span></div></li><li class="item"><p class="title figure-num">6%</p><p class="label">Delivery</p><div class="bar" aria-hidden="true"><span style="--pct: 6%"></span></div></li></ul>
+      <div class="grid grid--2" style="margin-top: var(--gap-visual)"><div class="item"><h3 class="sub">Top Discount Motivations</h3><ol class="list list--ranked" role="list"><li><span class="label rank">1</span><div><p class="sub">Customer Retention</p><p class="body">Building loyalty and bringing back customers</p></div></li><li><span class="label rank">2</span><div><p class="sub">Seasonal or Special Events</p><p class="body">Holiday promotions and event-based discounts</p></div></li><li><span class="label rank">3</span><div><p class="sub">Attracting New Customers</p><p class="body">First-time visitor incentives and acquisition</p></div></li><li><span class="label rank">4</span><div><p class="sub">Filling Seats During Slow Times</p><p class="body">Encouraging traffic during off-peak hours</p></div></li><li><span class="label rank">5</span><div><p class="sub">Encouraging Larger Orders</p><p class="body">Incentivizing higher spend per transaction</p></div></li></ol></div><div class="item"><h3 class="sub">What Customers Asked For</h3><ul class="list" role="list"><li><p class="sub">Custom POS Discounts</p><p class="body">On-the-fly discounts on the POS during an order</p></li><li><p class="sub">Bill-Level Discounts</p><p class="body">A discount that applies to the entire order</p></li><li><p class="sub">Automated Discounts</p><p class="body">Triggered based on conditions set during creation</p></li><li><p class="sub">BOGO Discounts</p><p class="body">Buy X, get Y to expand their discount offerings</p></li><li><p class="sub">Promo Codes Via Text</p><p class="body">Send promotions to customers to bring them back</p></li></ul></div></div>
+      <div class="subblock">
+        <h3 class="sub">Problems with the Current Experience</h3>
+        <p class="body">While doing an audit of the current experience, I identified other areas we'd need to improve as well.</p>
+      </div>
+      <figure class="visual shot"><img src="images/discounts/problems.png" alt="Problems with the current discount experience" loading="lazy" /></figure>
+      <ul class="grid grid--3" role="list" style="margin-top: var(--gap-visual)"><li class="item"><h4 class="sub">Discount Types Are Unclear</h4><p class="body">During discount creation, there's no distinction between item and bill discounts. Customers assume only item discounts exist.</p></li><li class="item"><h4 class="sub">Bill Discounts Display Incorrectly</h4><p class="body">Discounts appear under each item instead of as a single line after the subtotal, cluttering receipts and wasting paper.</p></li><li class="item"><h4 class="sub">Inconsistent UI</h4><p class="body">The discount experience varies between the order and checkout screens, creating an inconsistent experience for staff.</p></li></ul>
+      <div class="subblock">
+        <h3 class="sub">Prioritizing Needs</h3>
+        <p class="body">Working with the VP of Product, I mapped mid-market requirements against what our existing customers needed, finding where they overlapped and where they diverged.</p>
+      </div>
+      <div class="grid grid--2"><div class="item"><p class="label">Existing Customers</p><p class="body">1–5+ Locations</p><ul class="list" role="list"><li class="body">Custom discounts</li><li class="body">Organized bill discounts</li><li class="body">Automatic discounts</li><li class="body">BOGO discounts</li></ul></div><div class="item"><p class="label">Mid-Market</p><p class="body">10+ Locations</p><ul class="list" role="list"><li class="body">Promo codes</li><li class="body">Minimum spend</li><li class="body">Automatic discounts</li><li class="body">BOGOs and Combo discounts</li><li class="body">Scheduled discounts</li></ul></div></div>
+    </div>
+  </section>
+
+  <!-- ═══ 05 Solution ═══ -->
+  <section class="band band--sheet" id="solution">
+    <div class="wrap">
+      <div class="text">
+        <p class="eyebrow label"><span class="num">05</span><span class="name">Solution</span></p>
+        <h2 class="title">Overhauling the Discount Experience</h2>
+      </div>
+      <div class="subblock">
+        <h3 class="sub">Cloud: Discount Configurations</h3>
+        <p class="body">To address the confusion around discount types, I redesigned the creation flow to explicitly distinguish between item-level and bill-level discounts. Businesses can now select a discount type (Item, Bill, BOGO, Combo, Cash), define the amount, specify eligible menu items and the condition when it can be applied. Mid-market customers identified promo codes as essential for their marketing campaigns. The new system allows businesses to configure custom promo codes with validity periods and application rules, solving a key adoption barrier.</p>
+      </div>
+      <figure class="visual shot"><video class="js-loop" src="https://res.cloudinary.com/dh3awz0yq/video/upload/v1775766887/Create_Discount_V2_tpd9zr.mp4" muted loop playsinline preload="metadata" aria-label="Creating a discount"></video></figure>
+      <figure class="visual shot"><video class="js-loop" src="https://res.cloudinary.com/dh3awz0yq/video/upload/v1775781184/Create_promo_code_v2_bsqvue.mp4" muted loop playsinline preload="metadata" aria-label="Creating a promo code"></video></figure>
+      <div class="subblock">
+        <h3 class="sub">POS: Applying Discounts and Promo Codes to Orders</h3>
+        <p class="body">Staff can apply discounts using the new experience and create custom discounts for unique situations by specifying the reason and amount, addressing a top customer request for flexibility in their workflow. When customers provide a promo code at the venue, staff enter it on the POS to apply the discount.</p>
+      </div>
+      <figure class="visual shot"><video class="js-loop" src="https://res.cloudinary.com/dh3awz0yq/video/upload/v1775764102/Applying_discounts_and_promos_syyuii.mp4" muted loop playsinline preload="metadata" aria-label="Applying discounts and promo codes on the POS"></video></figure>
+      <figure class="visual shot"><video class="js-loop" src="https://res.cloudinary.com/dh3awz0yq/video/upload/v1775767076/Applying_promos_j7dm3g.mp4" muted loop playsinline preload="metadata" aria-label="Applying a promo code"></video></figure>
+      <ul class="grid grid--3" role="list" style="margin-top: var(--gap-sub)"><li class="item"><figure class="shot"><img src="images/discounts/autodiscounts.png" alt="Automatic discount application" loading="lazy" /></figure><h4 class="sub">Automatic Discounts</h4><p class="body">Discounts apply automatically when the configured conditions are met (eligible items, minimum spend, schedule).</p></li><li class="item"><figure class="shot"><img src="images/discounts/improvedBills.png" alt="Improved bill discount display on receipt" loading="lazy" /></figure><h4 class="sub">Improved Bill Discount Display</h4><p class="body">Bill discounts now appear as a single line after the subtotal, reducing receipt clutter and making them visually distinct from item discounts.</p></li><li class="item"><figure class="shot"><img src="images/discounts/unifiedUI.png" alt="Unified discount modal across screens" loading="lazy" /></figure><h4 class="sub">Unified Discount Modal</h4><p class="body">Standardized the discount modal and confirmation flow across the order and checkout screens, creating a consistent experience for staff.</p></li></ul>
+      <div class="subblock">
+        <h3 class="sub">Before and After</h3>
+      </div>
+      <p class="label caption">Discount Configurations</p>
+      <figure class="visual shot"><img src="images/discounts/Comparison.png" alt="Discount configuration comparison" loading="lazy" /></figure>
+      <p class="label caption">Applying Discounts</p>
+      <figure class="visual shot"><img src="images/discounts/POS_before_after.png" alt="Applying discounts before and after" loading="lazy" /></figure>
+    </div>
+  </section>
+
+  <!-- ═══ 06 Validation ═══ -->
+  <section class="band band--ground" id="validation">
+    <div class="wrap">
+      <div class="text">
+        <p class="eyebrow label"><span class="num">06</span><span class="name">Validation</span></p>
+        <h2 class="title">Launched to 40+ Beta Customers</h2>
+      </div>
+      <div class="stats-split"><div class="stats"><div><p class="label">Sales Transactions</p><p class="stat">$6.7M</p></div><div><p class="label">Discounts Applied</p><p class="stat">5,100+</p></div><div><p class="label">Customer Savings</p><p class="stat">$23,000+</p></div></div><p class="body">The new experience was released to <strong>40+</strong> beta customers, processing approximately <strong>$6.7 million</strong> in sales transactions over 3 months with <strong>5,100+</strong> discounts applied and <strong>$23,000+</strong> saved for customers.</p></div>
+      <div class="subblock">
+        <h3 class="sub">Phased Feature Rollout</h3>
+        <p class="body">Due to development timelines, features like BOGO, Combos, Cash Discounts, and Scheduling were postponed to a future release.</p>
+      </div>
+      <div class="subblock">
+        <h3 class="sub">Things to Improve</h3>
+        <p class="body">Our team reached out to a few beta customers to see what could be improved.</p>
+      </div>
+      <ul class="list" role="list"><li class="body">Businesses wanted to set exact start/end times (e.g., 6:00 PM) rather than waiting for the start or end of the business day for promo codes to be active</li><li class="body">Entering the promo code manually each time was tedious, staff would rather have the promo code selectable</li><li class="body">Max spend saw minimal usage and was planned to be removed</li><li class="body">Businesses wanted the ability to exclude certain menu items or groups from contributing to the minimum spend threshold</li></ul>
+    </div>
+  </section>
+
+  <!-- ═══ 07 Impact ═══ -->
+  <section class="band band--night" id="impact">
+    <div class="wrap">
+      <div class="text">
+        <p class="eyebrow label"><span class="num">07</span><span class="name">Impact</span></p>
+        <h2 class="title">Secured First Mid-Market Customer Through Advanced Discounts</h2>
+        <p class="body">The advanced discount capabilities directly enabled TouchBistro to close a deal with a <strong>12-location restaurant chain across Canada</strong>. This was one of the first mid-market customers acquired through this initiative.</p>
+      </div>
+      <div class="subblock">
+        <h3 class="sub">Key Deciding Factors:</h3>
+      </div>
+      <ul class="list" role="list"><li class="body">Promo code integration with their existing mail coupon campaigns</li><li class="body">Automated discounts reducing manual errors and staff workload across all locations</li><li class="body">Manage all the discount configurations for all locations in one place</li></ul>
+    </div>
+  </section>
+
+  <!-- ═══ 08 Reflection ═══ -->
+  <section class="band band--sheet" id="reflection">
+    <div class="wrap">
+      <div class="text">
+        <p class="eyebrow label"><span class="num">08</span><span class="name">Reflection</span></p>
+        <h2 class="title">Balancing New and Existing Customer Needs</h2>
+        <p class="body">When building for a new customer segment, we need to make sure we're not forgetting the needs of our existing customer segment. My research revealed that mid-market customers had some priorities that didn't overlap. Existing customers had specific pain points with the current system, while mid-market customers needed granular control over when, where, and how discounts applied.</p>
+        <p class="body">This insight shaped my approach. Instead of simply expanding features, I focused on building flexibility through advanced configurations. This shift from "more features" to "more control" served both audiences.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<section class="more" aria-labelledby="more-heading" data-read-end>
+  <div class="wrap">
+    <p class="label" id="more-heading">More Projects</p>
+    <div class="more-grid">
+      <a class="more-card" href="support.html">
+        <div class="more-img"><img src="images/homepage/support.png" alt="TouchBistro Agent Access" loading="lazy" /></div>
+        <p class="label">TouchBistro</p>
+        <p class="body">Reducing Customer Call Times by 33% from 18 to 12 Minutes</p>
       </a>
-
-      <a class="cs-more-card" href="optik.html">
-        <div class="cs-more-img">
-          <img src="images/homepage/optik.png" alt="TELUS Optik TV" />
-        </div>
-        <p class="cs-more-company">TELUS</p>
-        <p class="cs-more-title">Growing Optik TV Daily Orders from 200 to 2,500+</p>
+      <a class="more-card" href="optik.html">
+        <div class="more-img"><img src="images/homepage/optik.png" alt="TELUS Optik TV" loading="lazy" /></div>
+        <p class="label">TELUS</p>
+        <p class="body">Growing Optik TV Daily Orders from 200 to 2,500+</p>
       </a>
-
-      <a class="cs-more-card" href="onboarding.html">
-        <div class="cs-more-img">
-          <img src="images/homepage/onboarding.png" alt="TELUS My App Retention" />
-        </div>
-        <p class="cs-more-company">TELUS</p>
-        <p class="cs-more-title">Increasing the My TELUS App Retention from 40.6% to 62.6%</p>
+      <a class="more-card" href="onboarding.html">
+        <div class="more-img"><img src="images/homepage/onboarding.png" alt="TELUS My App Retention" loading="lazy" /></div>
+        <p class="label">TELUS</p>
+        <p class="body">Increasing the My TELUS App Retention from 40.6% to 62.6%</p>
       </a>
-
     </div>
   </div>
 </section>
 
-<script>
-(function () {
-  const targets = [
-    document.getElementById('summary'),
-    ...document.querySelectorAll('.cs-section[id]')
-  ].filter(Boolean);
-  const links = document.querySelectorAll('.toc-link');
-
-  const indicator = document.querySelector('.toc-indicator');
-  const layers = [...document.querySelectorAll('.toc-indicator-layer')];
-  let currentIndicatorId = null;
-  let lastClickedId = null;
-  let lastClickedAt = 0;
-  const PIN_DURATION = 1200;
-
-  const INDICATOR_SIZE = 12;
-  const REST_OFFSETS  = [0, 0, 0, 0, 0];
-  const LERP_RATE       = 0.18;
-  const SCROLL_DURATION = 500;
-  const MAX_EXTRA_SEP = 5;
-  const layerState = layers.map(() => ({ y: 0 }));
-  let targetY = 0;
-  let maxExtraSep = 0;
-  let animating = false;
-  let firstPlacement = true;
-  let syncActive = false;
-
-  const trackEl = document.querySelector('.toc-track');
-  let inactiveLinkH = 0, activeLinkH = 0, baseLinkTop = 0;
-  function measureLinkHeights() {
-    const ref = links[0];
-    const clone = ref.cloneNode(true);
-    clone.classList.remove('active');
-    clone.style.transition = 'none';
-    clone.style.position = 'absolute';
-    clone.style.visibility = 'hidden';
-    clone.style.pointerEvents = 'none';
-    ref.parentNode.appendChild(clone);
-    inactiveLinkH = clone.getBoundingClientRect().height;
-    clone.classList.add('active');
-    activeLinkH = clone.getBoundingClientRect().height;
-    clone.remove();
-    baseLinkTop = ref.getBoundingClientRect().top - trackEl.getBoundingClientRect().top;
-  }
-  measureLinkHeights();
-
-  function targetForLink(a) {
-    const idx = [...links].indexOf(a);
-    return baseLinkTop + idx * inactiveLinkH + (activeLinkH - INDICATOR_SIZE) / 2;
-  }
-
-  function layerTargetFor(i) {
-    if (i === 0) return targetY + REST_OFFSETS[0];
-    return layerState[i - 1].y + (REST_OFFSETS[i] - REST_OFFSETS[i - 1]);
-  }
-
-  function tick() {
-    let stillMoving = false;
-    for (let i = 0; i < layerState.length; i++) {
-      const s = layerState[i];
-
-      if (i === 0 && syncActive) {
-        layers[0].style.setProperty('--toc-layer-y', `${s.y}px`);
-        stillMoving = true;
-        continue;
-      }
-
-      const lt = layerTargetFor(i);
-      const dy = lt - s.y;
-      s.y += dy * LERP_RATE;
-
-      if (i > 0) {
-        const restGap = REST_OFFSETS[i] - REST_OFFSETS[i - 1];
-        const maxAbsGap = Math.abs(restGap) + maxExtraSep;
-        const gap = s.y - layerState[i - 1].y;
-        if (Math.abs(gap) > maxAbsGap) {
-          s.y = layerState[i - 1].y + Math.sign(gap) * maxAbsGap;
-        }
-      }
-
-      layers[i].style.setProperty('--toc-layer-y', `${s.y}px`);
-      if (Math.abs(dy) > 0.1) stillMoving = true;
-    }
-    if (stillMoving) {
-      requestAnimationFrame(tick);
-    } else {
-      layerState[0].y = targetY + REST_OFFSETS[0];
-      for (let i = 1; i < layerState.length; i++) {
-        layerState[i].y = layerState[i - 1].y + (REST_OFFSETS[i] - REST_OFFSETS[i - 1]);
-      }
-      for (let i = 0; i < layerState.length; i++) {
-        layers[i].style.setProperty('--toc-layer-y', `${layerState[i].y}px`);
-      }
-      animating = false;
-    }
-  }
-
-  function moveIndicator(id) {
-    if (lastClickedId && id !== lastClickedId) return;
-    if (id === currentIndicatorId) return;
-    currentIndicatorId = id;
-    const active = document.querySelector(`.toc-link[href="#${id}"]`);
-    if (!active) return;
-    const newTarget = targetForLink(active);
-    if (firstPlacement) {
-      targetY = newTarget;
-      layerState[0].y = newTarget + REST_OFFSETS[0];
-      for (let i = 1; i < layerState.length; i++) {
-        layerState[i].y = layerState[i - 1].y + (REST_OFFSETS[i] - REST_OFFSETS[i - 1]);
-      }
-      for (let i = 0; i < layerState.length; i++) {
-        layers[i].style.setProperty('--toc-layer-y', `${layerState[i].y}px`);
-      }
-      firstPlacement = false;
-      layers.forEach(l => l.style.animationPlayState = 'running');
-    } else {
-      const D = Math.abs(newTarget - layerState[0].y);
-      maxExtraSep = Math.min(MAX_EXTRA_SEP, Math.max(0.3, D / 22));
-      targetY = newTarget;
-      if (!animating) {
-        animating = true;
-        requestAnimationFrame(tick);
-      }
-    }
-  }
-
-  function setActive(id) {
-    links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + id));
-    moveIndicator(id);
-  }
-
-  const tocEl = document.querySelector('.cs-toc');
-  function findActive() {
-    const cut = tocEl ? tocEl.getBoundingClientRect().bottom : 88;
-    let id = targets[0]?.id;
-    for (const t of targets) {
-      if (t.getBoundingClientRect().top <= cut) id = t.id;
-    }
-
-    if (lastClickedId) {
-      if (Date.now() - lastClickedAt < PIN_DURATION) {
-        return lastClickedId;
-      }
-      lastClickedId = null;
-    }
-
-    if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 4) {
-      return targets[targets.length - 1].id;
-    }
-
-    return id;
-  }
-
-  const io = new IntersectionObserver(
-    () => setActive(findActive()),
-    { rootMargin: '-88px 0px 0px 0px', threshold: Array.from({ length: 21 }, (_, i) => i / 20) }
-  );
-  targets.forEach(t => io.observe(t));
-
-  const SCROLL_OFFSET = 80;
-
-  function syncScrollAndIndicator(yScrollTarget, yIndicatorTarget, duration) {
-    const startScroll = window.scrollY;
-    const startLead = layerState[0].y;
-    const dScroll = yScrollTarget - startScroll;
-    const dLead = yIndicatorTarget - startLead;
-    const startTime = performance.now();
-    syncActive = true;
-
-    function step(now) {
-      const t = Math.min((now - startTime) / duration, 1);
-      const eased = t < 0.5
-        ? 4 * t * t * t
-        : 1 - Math.pow(-2 * t + 2, 3) / 2;
-      window.scrollTo({ top: startScroll + dScroll * eased, behavior: 'instant' });
-      layerState[0].y = startLead + dLead * eased;
-      if (t < 1) {
-        requestAnimationFrame(step);
-      } else {
-        layerState[0].y = yIndicatorTarget;
-        syncActive = false;
-      }
-    }
-    requestAnimationFrame(step);
-
-    if (!animating) {
-      animating = true;
-      requestAnimationFrame(tick);
-    }
-  }
-
-  links.forEach(a => {
-    a.addEventListener('click', e => {
-      e.preventDefault();
-      const id = a.getAttribute('href').slice(1);
-      const sec = document.getElementById(id);
-      if (!sec) return;
-
-      lastClickedId = id;
-      lastClickedAt = Date.now();
-      currentIndicatorId = id;
-
-      const yIndicator = targetForLink(a);
-      let _el = sec, _top = 0;
-      while (_el) { _top += _el.offsetTop; _el = _el.offsetParent; }
-      const yScroll = _top - SCROLL_OFFSET;
-
-      links.forEach(l => l.classList.toggle('active', l === a));
-
-      targetY = yIndicator;
-      const D = Math.abs(yIndicator - layerState[0].y);
-      maxExtraSep = Math.min(MAX_EXTRA_SEP, Math.max(0.3, D / 22));
-
-      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (reduced) {
-        window.scrollTo({ top: yScroll, behavior: 'instant' });
-        for (let i = 0; i < layerState.length; i++) {
-          layerState[i].y = yIndicator;
-          layers[i].style.transform = `translateY(${yIndicator}px) rotate(45deg)`;
-        }
-        return;
-      }
-
-      syncScrollAndIndicator(yScroll, yIndicator, SCROLL_DURATION);
-    });
-  });
-
-  setActive(findActive());
-
-  // Fade-in by mini-section. Headings absorb body text/lists below them
-  // until the next heading. Standalone blocks (cs-placeholder, cs-features,
-  // cs-results, cs-stats, cs-retention) are their own group.
-  const fadeGroups = new WeakMap();
-  const isHeading = el => /^H[1-5]$/.test(el.tagName);
-  const isStandaloneBlock = el =>
-    el.classList.contains('cs-placeholder') ||
-    el.classList.contains('cs-features') ||
-    el.classList.contains('cs-results') ||
-    el.classList.contains('cs-stats') ||
-    el.classList.contains('cs-retention') ||
-    el.classList.contains('cs-compare') ||
-    el.classList.contains('cs-issues') ||
-    el.classList.contains('cs-quote') ||
-    el.classList.contains('cs-research-card') ||
-    el.classList.contains('cs-split');
-  // Headings and standalone blocks are each their own group (so the
-  // heading staggers in before its body). Consecutive body elements
-  // (paragraphs, lists) merge into a single group so a multi-paragraph
-  // body doesn't reveal one line at a time.
-  function buildFadeGroups(parent) {
-    const groups = [];
-    let current = [];
-    for (const child of parent.children) {
-      if (isHeading(child) || isStandaloneBlock(child)) {
-        if (current.length) { groups.push(current); current = []; }
-        groups.push([child]);
-      } else {
-        current.push(child);
-      }
-    }
-    if (current.length) groups.push(current);
-    return groups;
-  }
-
-  const fadeIO = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        const group = fadeGroups.get(e.target);
-        if (group) {
-          group.forEach(el => el.classList.add('is-visible'));
-        } else {
-          e.target.classList.add('is-visible');
-        }
-        fadeIO.unobserve(e.target);
-      }
-    });
-  }, { rootMargin: '0px 0px -20% 0px', threshold: 0 });
-
-  document.querySelectorAll('.cs-hero, .cs-section').forEach(parent => {
-    fadeIO.observe(parent);
-    buildFadeGroups(parent).forEach(group => {
-      fadeGroups.set(group[0], group);
-      fadeIO.observe(group[0]);
-    });
-  });
-
-  // Fire the animation as soon as the h5 (icon row) first touches the
-  // viewport from below, so the full animation plays while the icon
-  // scrolls up into reading position.
-  const iconReplayIO = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      const section = e.target.closest('.cs-section');
-      if (section) section.classList.toggle('in-view', e.isIntersecting);
-    });
-  }, { threshold: 0 });
-  document.querySelectorAll('.cs-section h5').forEach(el => iconReplayIO.observe(el));
-
-  const featuresIO = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('is-animated');
-        featuresIO.unobserve(e.target);
-      }
-    });
-  }, { rootMargin: '0px 0px -10% 0px', threshold: 0.01 });
-  document.querySelectorAll('.cs-features').forEach(el => featuresIO.observe(el));
-
-  const videoIO = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.play().catch(() => {});
-      } else {
-        e.target.pause();
-      }
-    });
-  }, { threshold: 0.5 });
-  document.querySelectorAll('.cs-placeholder-inner video').forEach(v => videoIO.observe(v));
-
-  const metricsIO = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (!e.isIntersecting) return;
-      const container = e.target;
-      container.classList.add('is-counting');
-      container.querySelectorAll('.cs-metric').forEach((card, i) => {
-        setTimeout(() => card.classList.add('is-visible'), i * 220);
-      });
-      container.querySelectorAll('[data-count]').forEach((el, i) => {
-        const target = parseFloat(el.dataset.count);
-        const prefix = el.dataset.prefix || '';
-        const suffix = el.dataset.suffix || '';
-        const isDecimal = el.dataset.count.includes('.');
-        const duration = 1600;
-        const startDelay = 450 + i * 220;
-        setTimeout(() => {
-          const start = performance.now();
-          function tick(now) {
-            const t = Math.min((now - start) / duration, 1);
-            const eased = 1 - Math.pow(1 - t, 3);
-            const value = target * eased;
-            el.textContent = prefix + (isDecimal ? value.toFixed(1) : Math.round(value).toLocaleString()) + suffix;
-            if (t < 1) requestAnimationFrame(tick);
-          }
-          requestAnimationFrame(tick);
-        }, startDelay);
-      });
-      metricsIO.unobserve(container);
-    });
-  }, { threshold: 0.3 });
-  document.querySelectorAll('.cs-metrics').forEach(el => metricsIO.observe(el));
-
-
-  const researchCardIO = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (!e.isIntersecting) return;
-      e.target.classList.add('is-visible');
-      researchCardIO.unobserve(e.target);
-    });
-  }, { rootMargin: '0px 0px -10% 0px', threshold: 0.1 });
-  document.querySelectorAll('.cs-research-card').forEach(el => researchCardIO.observe(el));
-
-  const compareIO = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (!e.isIntersecting) return;
-      e.target.querySelectorAll('.cs-compare-card').forEach((item, i) => {
-        setTimeout(() => item.classList.add('is-visible'), i * 150);
-      });
-      compareIO.unobserve(e.target);
-    });
-  }, { rootMargin: '0px 0px -10% 0px', threshold: 0.1 });
-  document.querySelectorAll('.cs-compare').forEach(el => compareIO.observe(el));
-
-  const motivationsIO = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (!e.isIntersecting) return;
-      e.target.querySelectorAll('.cs-motivation').forEach((item, i) => {
-        setTimeout(() => item.classList.add('is-visible'), i * 100);
-      });
-      motivationsIO.unobserve(e.target);
-    });
-  }, { rootMargin: '0px 0px -10% 0px', threshold: 0.1 });
-  document.querySelectorAll('.cs-motivations').forEach(el => motivationsIO.observe(el));
-
-  const channelsIO = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (!e.isIntersecting) return;
-      e.target.querySelectorAll('.cs-channel').forEach((item, i) => {
-        setTimeout(() => item.classList.add('is-visible'), i * 140);
-      });
-      channelsIO.unobserve(e.target);
-    });
-  }, { rootMargin: '0px 0px -10% 0px', threshold: 0.1 });
-  document.querySelectorAll('.cs-channels').forEach(el => channelsIO.observe(el));
-
-  const issuesIO = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('is-animated');
-        issuesIO.unobserve(e.target);
-      }
-    });
-  }, { rootMargin: '0px 0px -10% 0px', threshold: 0.01 });
-  document.querySelectorAll('.cs-issues').forEach(el => issuesIO.observe(el));
-
-  const arrowListIO = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (!e.isIntersecting) return;
-      e.target.querySelectorAll('.cs-arrow-item').forEach((item, i) => {
-        setTimeout(() => item.classList.add('is-visible'), i * 130);
-      });
-      arrowListIO.unobserve(e.target);
-    });
-  }, { rootMargin: '0px 0px -15% 0px', threshold: 0.1 });
-  document.querySelectorAll('.cs-arrow-list').forEach(el => arrowListIO.observe(el));
-
-  const todoListIO = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (!e.isIntersecting) return;
-      e.target.querySelectorAll('.cs-todo-item').forEach((item, i) => {
-        setTimeout(() => item.classList.add('is-visible'), i * 130);
-      });
-      todoListIO.unobserve(e.target);
-    });
-  }, { rootMargin: '0px 0px -5% 0px', threshold: 0 });
-  document.querySelectorAll('.cs-todo').forEach(el => todoListIO.observe(el));
-
-  function countUp(el, target, duration) {
-    const start = performance.now();
-    (function step(now) {
-      const p = Math.min((now - start) / duration, 1);
-      const eased = 1 - Math.pow(1 - p, 3);
-      el.textContent = Math.round(eased * target) + '%';
-      if (p < 1) requestAnimationFrame(step);
-    })(start);
-  }
-
-  const srvBarIO = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (!e.isIntersecting) return;
-      e.target.querySelectorAll('.srv-motive-row, .srv-motive-rank, .srv-channel-fill, .srv-need').forEach(el => el.classList.add('is-animated'));
-      e.target.querySelectorAll('.srv-channel-card-pct[data-target]').forEach((el, i) => {
-        setTimeout(() => countUp(el, +el.dataset.target, 1200), i * 150);
-      });
-      srvBarIO.unobserve(e.target);
-    });
-  }, { threshold: 0.2 });
-  document.querySelectorAll('#srv-motivations, #srv-channels, #srv-needs').forEach(el => srvBarIO.observe(el));
-
-  const coverImg = document.querySelector('.cs-cover img');
-  let ticking = false;
-  function updateParallax() {
-    if (coverImg) {
-      coverImg.style.transform = `translateY(${window.scrollY * 0.25}px)`;
-    }
-    ticking = false;
-  }
-  window.addEventListener('scroll', () => {
-    if (!ticking) {
-      requestAnimationFrame(updateParallax);
-      ticking = true;
-    }
-  }, { passive: true });
-  updateParallax();
-})();
-</script>
-
-<script src="js/site-nav.js" defer></script>
-<script src="js/lightbox.js" defer></script>
+<script src="js/nav-glass.js"></script>
+<script src="js/case-study-v2.js"></script>
 </body>
 </html>

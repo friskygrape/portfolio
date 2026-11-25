@@ -1,0 +1,133 @@
+/* ════════════════════════════════════════════════════════
+   TYPE v2 (case-study-redesign branch, 2026-11-25): the case studies' text styles, in one place.
+   Loaded by support.html (with css/case-study-v2.css) and by discounts, optik and onboarding
+   (after their old CSS, so it wins) until those pages get the full layout rebuild.
+
+   Six styles, one role each:
+     display  72 / 40   Radio Canada Big 400   page title
+     title    48 / 32   Radio Canada Big 400   section titles
+     sub      24 / 20   Radio Canada Big 500   subheads, item titles, pull quotes
+     body     18 / 16   Radio Canada 400, grey, leading 1.65 / 1.6   every paragraph and list item
+     label    16 / 13   Geist Mono caps, +0.12em   eyebrows, meta labels, attributions, tags, counts
+     stat     96 / 64   Radio Canada Big 400   result numerals
+   Part 1 is the styles themselves (used by name on the v2 pages).
+   Part 2 maps the old case-study classes onto them, scoped to .cs-page (the old pages only).
+   ════════════════════════════════════════════════════════ */
+@font-face { font-family: 'Radio Canada Big'; font-weight: 400 700; font-display: swap; src: url(../fonts/radio-canada-big-latin.woff2) format('woff2'); }
+@font-face { font-family: 'Radio Canada'; font-weight: 400 700; font-display: swap; src: url(../fonts/radio-canada-latin.woff2) format('woff2'); }
+@font-face { font-family: 'Geist Mono'; font-weight: 100 900; font-display: swap; src: url(../fonts/geist-mono-latin.woff2) format('woff2'); }
+
+:root {
+  --ink:    #121212;
+  --body:   #55554F;
+  --quiet:  #6B6B65;   /* the TOC's inactive items */
+  --accent: #4D00C0;
+  --night-body: #A3A39D;
+  --accent-night: #A27BFF;
+
+  --font-display: 'Radio Canada Big', 'Helvetica Neue', Arial, sans-serif;
+  --font-text:    'Radio Canada', 'Helvetica Neue', Arial, sans-serif;
+  --font-mono:    'Geist Mono', ui-monospace, Menlo, monospace;
+  --t-display: 72px;
+  --t-title:   48px;
+  --t-sub:     24px;
+  --t-body:    18px;
+  --lh-body:   1.65;   /* extra leading for long full-width lines */
+  --t-stat:    96px;
+  --t-label:   16px;   /* the site's desktop minimum */
+}
+@media (max-width: 768px) {
+  :root { --t-display: 40px; --t-title: 32px; --t-sub: 20px; --t-body: 16px; --lh-body: 1.6; --t-stat: 64px; --t-label: 13px; }
+}
+
+/* ── Part 1: the styles ───────────────────────────────── */
+.display, .title, .sub { font-family: var(--font-display); font-weight: 400; color: var(--ink); text-wrap: wrap; }
+.display { font-size: var(--t-display); line-height: 1.04; letter-spacing: -0.03em; }
+.title   { font-size: var(--t-title);   line-height: 1.1;  letter-spacing: -0.025em; }
+.sub     { font-size: var(--t-sub);     line-height: 1.3;  letter-spacing: -0.015em; font-weight: 500; }
+.body    { font-family: var(--font-text); font-size: var(--t-body); line-height: var(--lh-body); font-weight: 400; color: var(--body); text-wrap: pretty; }
+.body strong { font-weight: 600; color: var(--ink); }
+.label   { font-family: var(--font-mono); font-size: var(--t-label); line-height: 1.5; font-weight: 400; letter-spacing: 0.12em; text-transform: uppercase; color: var(--body); }
+.stat    { font-family: var(--font-display); font-size: var(--t-stat); font-weight: 400; line-height: 1; letter-spacing: -0.04em; font-variant-numeric: lining-nums; }
+.hl { color: var(--accent); }
+.display .hl { white-space: nowrap; }
+
+/* ── Part 2: the old case-study pages (discounts, optik, onboarding) ──
+   Same six styles, applied to their existing classes. Layout, images and copy are untouched. */
+
+/* display: the page title */
+.cs-page .cs-title {
+  font-family: var(--font-display); font-size: var(--t-display); font-weight: 400; line-height: 1.04; letter-spacing: -0.03em; color: var(--ink);
+}
+
+/* title: section titles */
+.cs-page .cs-section h2, .cs-page .h2 {
+  font-family: var(--font-display); font-size: var(--t-title); font-weight: 400; line-height: 1.1; letter-spacing: -0.025em; color: var(--ink);
+}
+
+/* sub: every subhead and item title (the old h3 and h4 sizes merge into one, as on Support) */
+.cs-page .cs-section h3, .cs-page .h3, .cs-page .cs-section h4, .cs-page .h4,
+.cs-page .cs-feature-title, .cs-page .cs-issue-title, .cs-page .srv-block-title, .cs-page .srv-motive-label,
+.cs-page .cs-retention-platform, .cs-page .cs-result-row-values {
+  font-family: var(--font-display); font-size: var(--t-sub); font-weight: 500; line-height: 1.3; letter-spacing: -0.015em; color: var(--ink); text-transform: none;
+}
+
+/* body: every paragraph, list item and description */
+.cs-page .body-lg, .cs-page .cs-summary, .cs-page .cs-feature-desc, .cs-page .cs-issue-desc, .cs-page .cs-compare-subtitle,
+.cs-page .cs-compare-list li, .cs-page .cs-arrow-item, .cs-page .cs-todo-item, .cs-page .srv-motive-desc,
+.cs-page .cs-retention-visitors {
+  font-family: var(--font-text); font-size: var(--t-body); font-weight: 400; line-height: var(--lh-body); letter-spacing: 0; color: var(--body);
+}
+/* text on coloured surfaces (the purple metric cards, the chat bubbles) keeps the colour its surface sets */
+.cs-page .cs-metric-unit, .cs-page .cs-chat-bubble, .cs-page .cs-chat-bubble p {
+  font-family: var(--font-text); font-size: var(--t-body); font-weight: 400; line-height: var(--lh-body); letter-spacing: 0;
+}
+.cs-page .body-lg strong, .cs-page .cs-summary strong { font-weight: 600; color: var(--ink); }
+.cs-page .cs-meta-item p:last-child {
+  font-family: var(--font-text); font-size: var(--t-body); font-weight: 400; line-height: var(--lh-body); letter-spacing: 0; text-transform: none; color: var(--ink);
+}
+
+/* label: mono caps for eyebrows, meta labels, tags, ranks, legends and counts */
+.cs-page .cs-section h5, .cs-page .cs-meta-item p:first-child, .cs-page .overline, .cs-page .tag, .cs-page .cs-metric-rank,
+.cs-page .cs-compare-tag, .cs-page .srv-motive-rank, .cs-page .srv-channel-card-name, .cs-page .cs-result-row-platform,
+.cs-page .cs-result-lift, .cs-page .cs-retention-legend-item {
+  font-family: var(--font-mono); font-size: var(--t-label); font-weight: 400; line-height: 1.5; letter-spacing: 0.12em; text-transform: uppercase;
+}
+/* label colour: grey on the page; on coloured surfaces (metric cards, compare tags, result rows) the surface's own colour stays */
+.cs-page .cs-section h5, .cs-page .cs-meta-item p:first-child, .cs-page .srv-channel-card-name, .cs-page .cs-retention-legend-item { color: var(--body); }
+.cs-page .srv-motive-rank { color: var(--accent); }
+/* the chart's SVG labels take the mono face; their size stays tied to the chart's own scale */
+.cs-page .cs-retention-label, .cs-page .cs-retention-axis-label { font-family: var(--font-mono); letter-spacing: 0.04em; }
+
+/* section eyebrows: no icon, the section number in the accent, then the name ("01  CONTEXT"), like Support */
+.cs-page .cs-sections { counter-reset: cs-sec; }
+.cs-page .cs-section > h5 { display: flex; align-items: baseline; gap: 16px; margin-bottom: 24px; }
+.cs-page .cs-section > h5 .cs-section-icon { display: none; }
+.cs-page .cs-section > h5::before { counter-increment: cs-sec; content: counter(cs-sec, decimal-leading-zero); color: var(--accent); }
+
+/* result numerals in the three-up metric cards: the cards are about 280px wide, too narrow for the 96px stat
+   ("147,000" would be cut off), so they take the title size; their colour stays the card's */
+.cs-page .cs-metric-number {
+  font-family: var(--font-display); font-size: var(--t-title); font-weight: 400; line-height: 1.1; letter-spacing: -0.025em; font-variant-numeric: lining-nums;
+}
+/* the survey percentages sit in small cards, so they take the title size rather than the 96px stat */
+.cs-page .srv-channel-card-pct {
+  font-family: var(--font-display); font-size: var(--t-title); font-weight: 400; line-height: 1.1; letter-spacing: -0.025em; color: var(--ink);
+}
+
+/* TOC section numbers: the same purple mono as the section eyebrows, in a fixed slot so every name lines up
+   (Summary has no number, as it has no eyebrow, and keeps an empty slot) */
+.toc-num { display: inline-block; min-width: 2.4ch; margin-right: 8px; font-family: var(--font-mono); font-weight: 400; letter-spacing: 0; color: var(--accent); font-variant-numeric: tabular-nums; }
+.cs-toc .toc-link .toc-num { margin-right: 0; }   /* the side TOC's flex gap spaces it */
+.cs-page .cs-toc .toc-link .toc-num { margin-right: 8px; }   /* the old pages' TOC links are not flex */
+
+/* TOC text: as on Support (Radio Canada 16, grey; the current item turns ink at the same size) */
+.cs-page .toc-link, .cs-toc .toc-link { font-family: var(--font-text); font-size: 16px; font-weight: 500; line-height: 1.4; color: var(--quiet); }
+.cs-toc .toc-link:hover, .cs-toc .toc-link.active { color: var(--ink); font-size: 16px; font-weight: 500; }
+.cs-toc .toc-back { font-family: var(--font-text); font-size: 16px; font-weight: 600; color: var(--ink); }
+
+/* More Projects: labels in mono, card titles in the body style (white on night) */
+.cs-more .cs-more-heading, .cs-more .cs-more-company {
+  font-family: var(--font-mono); font-size: var(--t-label); font-weight: 400; line-height: 1.5; letter-spacing: 0.12em; text-transform: uppercase; color: var(--night-body);
+}
+.cs-more .cs-more-title { font-family: var(--font-text); font-size: var(--t-body); font-weight: 400; line-height: 1.5; color: #FFFFFF; }

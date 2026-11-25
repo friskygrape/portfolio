@@ -1,0 +1,376 @@
+/* ════════════════════════════════════════════════════════
+   CASE STUDY TEMPLATE v2 (redesign, case-study-redesign branch). Shared by the redesigned case studies:
+   support.html first, then discounts, optik and onboarding as they're rebuilt. The old css/case-study.css stays
+   for pages not yet redesigned. Built from the Support prototype (Brand and Motion Design Agent/work/case-study-redesign/proto-support).
+   - One 980px column. Every block starts on its left edge; visuals also end on its right edge.
+   - Text is left-aligned and never sits in a box.
+   - Sections are full-width background bands (page off-white / white, Impact dark).
+   - Six text styles (display, title, subhead, body, label, stat), in css/type-v2.css.
+   - Only exception: in variant B, carousels may run past the right edge.
+   ════════════════════════════════════════════════════════ */
+/* The fonts, the type tokens and the six text styles live in css/type-v2.css (load it first). */
+
+:root {
+  /* colour (the site's redesign palette, css/brand.css) */
+  --ground: #FAFAF9;   /* a whisper off white (Deron, 2026-11-25); the site ground is #EEEEEC */
+  --sheet:  #FFFFFF;
+  --ink:    #121212;
+  --body:   #55554F;
+  --quiet:  #6B6B65;   /* the TOC's inactive items (round-1 value) */
+  --line:   #D4D4D0;
+  --night:  #141413;
+  --night-body: #A3A39D;
+  --night-line: #32322F;
+  --accent: #4D00C0;
+  --accent-night: #A27BFF;
+
+  /* layout */
+  --container: 980px;
+  --gutter: 16px;
+  --vw: 100vw;                                      /* page width without the scrollbar, set by the script */
+  --cw: min(var(--container), calc(var(--vw) - var(--gutter) * 2));
+  --r: 8px;                                         /* screenshots and videos only */
+
+  /* spacing (4/8 scale) */
+  --band-y: 96px;         /* band top and bottom padding */
+  --gap-eyebrow: 32px;    /* eyebrow to title */
+  --gap-title: 24px;      /* title to its paragraph */
+  --gap-para: 16px;       /* paragraph to paragraph */
+  --gap-visual: 64px;     /* a section's text to its first visual */
+  --gap-tile: 24px;       /* visual to visual, and column gaps */
+  --gap-sub: 96px;        /* above a subhead */
+  --gap-sub-visual: 32px; /* subhead text to its visual */
+
+  --out: cubic-bezier(0.16, 1, 0.3, 1);
+  --soft: cubic-bezier(0.4, 0, 0.2, 1);
+}
+@media (max-width: 768px) {
+  :root {
+    --band-y: 64px; --gap-eyebrow: 24px; --gap-title: 16px; --gap-visual: 40px; --gap-tile: 16px;
+    --gap-sub: 64px; --gap-sub-visual: 24px;
+  }
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scrollbar-gutter: stable; -webkit-text-size-adjust: 100%; overflow-x: clip; }
+body {
+  margin: 0; background: var(--ground); color: var(--body);
+  font-family: var(--font-text); font-size: var(--t-body); line-height: 1.6;
+  -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+}
+img, video { display: block; max-width: 100%; }
+h1, h2, h3, h4, p, figure, blockquote, ul { margin: 0; padding: 0; }
+ul { list-style: none; }
+a { color: inherit; }
+::selection { background: #F3D7F5; color: var(--ink); }
+
+.wrap { width: var(--cw); margin-inline: auto; }
+/* With the side TOC (1340px and up): the 180px TOC column, a 100px gap and the 980 content column
+   are centred as one 1260px group (the live case studies' layout, with a wider gap, Deron).
+   The content column shifts 140px right of centre. */
+:root { --wrap-left: calc((var(--vw) - var(--cw)) / 2); }
+@media (min-width: 1340px) {
+  :root { --wrap-left: calc((var(--vw) - 1260px) / 2 + 280px); }
+  .wrap { margin-left: var(--wrap-left); margin-right: 0; }
+}
+/* Tablet landscape and small laptops (1024-1339px): the TOC still fits if the content column narrows.
+   180px TOC + 64px gap + a fluid column, 40px outer margins, centred as one group (Deron: fit it when there's room). */
+@media (min-width: 1024px) and (max-width: 1339.98px) {
+  :root { --rail-off: 244px; --cw: min(var(--container), calc(var(--vw) - 80px - 244px)); --wrap-left: calc((var(--vw) - var(--cw) - 244px) / 2 + 244px); }
+  .wrap { margin-left: var(--wrap-left); margin-right: 0; }
+}
+
+/* The nav (glass pill) lives in css/nav-glass.css + js/nav-glass.js, shared by every page. */
+
+/* ── Table of contents (page chrome, outside the 980 content rule) ──
+   Wide screens (1420px and up): a vertical list in the left margin, placed like the Motion Design page. Plain type, no background.
+   Narrower screens and phones: a glass pill under the nav showing the current section; tap it for the list.
+   Always visible from the first paint; marks the section you're in and scrolls with an offset. */
+.toc { top: 78px; padding: 4px; }
+.toc-list { list-style: none; margin: 0; padding: 0; }
+.pill.is-night .toc-num { color: var(--accent-night); }
+.band[id] { scroll-margin-top: 68px; }   /* the eyebrow lands 32px under the pills (they end at 132px) */
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+
+/* the pill + list (unused: below 1024px there is no TOC, Deron) */
+.toc-toggle {
+  display: inline-flex; align-items: center; gap: 8px; height: 44px; padding: 0 12px 0 16px;
+  appearance: none; border: 0; background: none; cursor: pointer; font: inherit; font-size: 16px; font-weight: 500; color: var(--ink);
+}
+.pill.is-night .toc-toggle { color: #FFFFFF; }
+.toc-toggle svg { width: 16px; height: 16px; transition: transform .25s var(--out); }
+.toc.is-open .toc-toggle svg { transform: rotate(180deg); }
+.toc-list {
+  position: absolute; top: calc(100% + 8px); left: 50%; transform: translateX(-50%);
+  display: flex; flex-direction: column; min-width: 220px; padding: 8px;
+  background: #FFFFFF;   /* solid: the open list must stay readable over any text */
+  border: 1px solid rgba(255, 255, 255, 0.6); border-radius: 8px; box-shadow: 0 8px 32px rgba(18, 18, 18, 0.12);
+  opacity: 0; visibility: hidden; transition: opacity .2s var(--out), visibility 0s linear .2s;
+}
+.toc.is-open .toc-list { opacity: 1; visibility: visible; transition: opacity .2s var(--out), visibility 0s; }
+.toc.is-open { -webkit-backdrop-filter: none; backdrop-filter: none; background: #FFFFFF; }
+.toc.is-open.is-night { background: #141413; }
+.pill.is-night .toc-list { background: #141413; border-color: rgba(255, 255, 255, 0.14); }
+.toc-list a { width: 100%; padding: 0 12px; }
+.toc-list a::after { left: 12px; right: auto; width: 24px; }
+@media (max-width: 768px) {
+  .toc { top: 76px; }
+  .toc-toggle { font-size: 14px; }
+  .band[id] { scroll-margin-top: 88px; }   /* pills end at 128px; the eyebrow lands 24px under them */
+}
+
+/* ── Side TOC (1024px and up; the column narrows between 1024 and 1339), like the live case studies ──
+   Its own 180px column, 100px left of the content, sticky 80px from the top (+10px), starting level with the content.
+   The highlight is the round-1 dash: a short dash per item that grows into a line on the active one.
+   No background: each link flips its own text colour over the dark bands. */
+.cs-rail { display: none; }
+/* No room for the side TOC below 1024px (tablet portrait and phones): no TOC at all, not even the pill (Deron) */
+@media (max-width: 1023.98px) { .toc { display: none; } }
+@media (min-width: 1024px) {
+  .toc { display: none; }
+  .cs-rail {
+    display: block; position: sticky; top: 80px; z-index: 20; height: 0; padding-top: 1px;   /* the 1px stops the two margins collapsing into each other */
+    margin-top: calc(var(--band-y) + 32px); margin-bottom: calc((var(--band-y) + 32px + 1px) * -1);   /* level with the hero's content, takes no space */
+  }
+  .band[id] { scroll-margin-top: 0px; }
+}
+.cs-toc { position: absolute; top: 0; left: calc(var(--wrap-left) - var(--rail-off, 280px)); width: 180px; padding-top: 10px; }
+.cs-toc ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 0; }
+/* round-1 style: a short dash before each item; the active dash grows into a line and the text turns ink */
+.toc-back { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; margin-bottom: 24px; color: var(--ink); font-family: var(--font-text); font-size: 16px; font-weight: 600; text-decoration: none; transition: color 0.25s var(--soft); }
+.toc-back svg { width: 20px; height: 20px; flex: none; transition: transform 0.4s var(--out); }
+.toc-back:hover svg { transform: translateX(-4px); }
+.toc-link { display: flex; align-items: center; gap: 12px; min-height: 36px; color: var(--quiet); font-family: var(--font-text); font-size: 16px; font-weight: 500; text-decoration: none; transition: color 0.25s var(--soft); }
+.toc-link::before { content: ''; flex: none; width: 8px; height: 2px; background: currentColor; }   /* one dash length for every item; the active dash grows and pushes the text inward (Deron) */
+.toc-link:hover, .toc-link.is-on { color: var(--ink); }
+/* active (Deron): the dash grows into a longer line and pushes the number and name inward as it grows,
+   so the line never crowds the number; colour and weight ease in alongside */
+.toc-link { transition: color .45s var(--out), font-weight .45s var(--out); }
+.toc-link::before { transition: width .55s var(--out), background .3s var(--soft); }
+.toc-link.is-on { font-weight: 650; }
+.toc-link.is-on::before { width: 32px; background: var(--accent); }
+.toc-link.on-night.is-on::before { background: var(--accent-night); }
+/* over the dark bands: the same, in light colours */
+.toc-back.on-night, .toc-link.on-night:hover, .toc-link.on-night.is-on { color: #FFFFFF; }
+.toc-link.on-night { color: var(--night-body); }
+.toc-link.on-night .toc-num { color: inherit; }
+/* purple only on the selected item (Deron): inactive numbers and dashes follow the grey text */
+.cs-toc .toc-link .toc-num { color: inherit; transition: color .45s var(--out); }
+.cs-toc .toc-link.is-on .toc-num { color: var(--accent); }
+.cs-toc .toc-link.on-night.is-on .toc-num { color: var(--accent-night); }
+@media (prefers-reduced-motion: reduce) { .toc-link, .toc-link::before, .toc-back, .toc-back svg { transition: none; } }
+
+/* ── Variant toggle (prototype only) ──────────────────── */
+.variant {
+  position: absolute; top: 20px; right: 20px; z-index: 60;
+  display: flex; align-items: center; gap: 2px; padding: 2px;
+  background: var(--ink); border-radius: 999px; font-size: 13px; line-height: 1; white-space: nowrap;
+}
+.variant span { color: var(--night-body); padding: 0 8px 0 12px; }
+.variant button {
+  appearance: none; border: 0; cursor: pointer; font: inherit; font-weight: 600; white-space: nowrap;
+  height: 32px; padding: 0 12px; border-radius: 999px; background: transparent; color: var(--night-body);
+  transition: background-color .2s var(--soft), color .2s var(--soft);
+}
+.variant button[aria-pressed="true"] { background: var(--sheet); color: var(--ink); }
+.variant button:focus-visible { outline: 2px solid var(--accent-night); outline-offset: 2px; }
+
+/* ── Bands: full-width backgrounds, content in the 980 column ── */
+.band { padding-block: var(--band-y); }
+.band--ground { background: var(--ground); }
+.band--sheet  { background: var(--sheet); }
+.band--night  { background: var(--night); color: var(--night-body); }
+.band--hero   { padding-top: calc(var(--band-y) + 32px); }
+
+/* ── Text styles: css/type-v2.css. Here, only their colours on the dark band. ── */
+.band--night .display, .band--night .title, .band--night .sub { color: var(--sheet); }
+.band--night .body { color: var(--night-body); }
+.band--night .body strong { color: var(--sheet); }
+.band--night .hl { color: var(--accent-night); }
+
+/* Eyebrow: the section number in the accent, then its name, both in the mono label style */
+.eyebrow { display: flex; gap: 16px; }
+.eyebrow .num { color: var(--accent); }
+.band--night .label { color: var(--night-body); }
+.band--night .eyebrow .num { color: var(--accent-night); }
+
+/* Rhythm */
+.eyebrow + .display, .eyebrow + .title { margin-top: var(--gap-eyebrow); }
+.title + .body, .display + .body, .eyebrow + .body { margin-top: var(--gap-title); }   /* eyebrow + body: a section with no title yet (Summary) */
+.body + .body { margin-top: var(--gap-para); }
+.text + * { margin-top: var(--gap-visual); }                  /* a section's text to its visuals */
+.wrap > * + .visual, .wrap > .visual + * { margin-top: var(--gap-tile); }
+.wrap > .text + * { margin-top: var(--gap-visual); }
+.wrap > .subblock { margin-top: var(--gap-sub); }
+.wrap > .subblock + .visual { margin-top: var(--gap-sub-visual); }
+.subblock .sub + .body { margin-top: var(--gap-para); }
+
+/* ── The one split: Impact ─────────────────────────────
+   The result numbers on the left (columns 1–6), the paragraph on the right (columns 7–12),
+   on the 12-column grid of the 980 column. Phones: stacked. */
+.stats-split {
+  display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gap-tile); align-items: start;
+}
+.stats { grid-column: 1 / span 6; display: flex; flex-direction: column; gap: 16px; }
+.stats-split > .body { grid-column: 7 / -1; padding-top: 9px; }   /* optical: the first cap line meets the top of "33%" (measured) */
+.stat { color: var(--sheet); }   /* the stat style itself is in css/type-v2.css */
+.stat .hl { color: var(--accent-night); }
+@media (max-width: 768px) {
+  .stats-split { display: block; }
+  .stats-split > .body { margin-top: var(--gap-visual); padding-top: 0; }
+}
+
+/* Meta row in the hero: four columns, label over body */
+.meta { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--gap-tile); padding-top: 32px; border-top: 1px solid var(--line); }
+.meta .label { margin-bottom: 8px; }
+.meta .body { color: var(--ink); }
+.display + .meta { margin-top: var(--gap-visual); }
+.meta + .summary { margin-top: var(--gap-visual); }
+
+/* ── Visual forms ─────────────────────────────────────── */
+.shot { border-radius: var(--r); overflow: hidden; background: var(--sheet); }
+.shot img, .shot video { width: 100%; height: auto; }
+
+/* Text grids: equal columns on the visuals' gap; one hairline opens the group */
+.grid { display: grid; gap: 40px var(--gap-tile); padding-top: 32px; border-top: 1px solid var(--line); }
+.grid--2 { grid-template-columns: repeat(2, 1fr); }
+.grid--3 { grid-template-columns: repeat(3, 1fr); }
+.item .body { margin-top: 8px; }
+@media (max-width: 768px) { .grid--2, .grid--3 { grid-template-columns: 1fr; row-gap: 32px; } .meta { grid-template-columns: repeat(2, 1fr); row-gap: 24px; } }
+
+/* Pull quotes: the subhead style in ink, attribution in the label style */
+.pull { display: flex; flex-direction: column; justify-content: space-between; gap: 24px; }
+.pull blockquote { margin: 0; }
+.pull blockquote p { text-indent: -0.42em; }   /* hangs the opening mark so the words line up on the edge */
+.pull figcaption { display: flex; flex-wrap: wrap; gap: 0 12px; }
+.pull .who { color: var(--ink); }
+
+/* ── Carousel ─────────────────────────────────────────── */
+.carousel { --slide: var(--cw); }
+.carousel-track {
+  display: flex; gap: var(--gap-tile);
+  overflow-x: auto; overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory; scroll-behavior: smooth;
+  scrollbar-width: none; -webkit-overflow-scrolling: touch;
+}
+.carousel-track::-webkit-scrollbar { display: none; }
+.carousel-track:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
+.carousel .slide { flex: 0 0 var(--slide); scroll-snap-align: start; }
+.carousel-bar { display: flex; align-items: center; justify-content: space-between; margin-top: 16px; }
+.carousel-count { font-variant-numeric: tabular-nums; }
+.carousel-count b { color: var(--ink); font-weight: 600; }
+.carousel-btns { display: flex; gap: 8px; }
+.carousel-btns button {
+  appearance: none; border: 1px solid var(--line); padding: 0; cursor: pointer; width: 44px; height: 44px; border-radius: 999px;
+  display: grid; place-items: center; background: transparent; color: var(--ink);
+  transition: background-color .2s var(--soft), opacity .2s var(--soft), transform .2s var(--out);
+}
+.carousel-btns button:hover { background: var(--ground); }
+.carousel-btns button:active { transform: scale(0.94); }
+.carousel-btns button:disabled { opacity: 0.35; cursor: default; background: transparent; transform: none; }
+.carousel-btns button:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.carousel-btns svg { width: 20px; height: 20px; }
+
+/* Variant B: the track runs past the column's right edge to the screen edge.
+   The first slide still starts on the column's left edge. */
+.is-b .carousel {
+  --bleed: calc(var(--vw) - var(--wrap-left) - var(--cw));   /* from the column's right edge to the screen edge */
+  --slide: min(1240px, calc(var(--cw) + var(--bleed) - 72px));
+}
+.is-b .carousel-track { margin-right: calc(var(--bleed) * -1); }
+.is-b .carousel .slide:last-child { margin-right: var(--bleed); }
+@media (max-width: 768px) { .is-b .carousel { --slide: calc(var(--cw) - 32px); } }
+
+/* ── More Projects (the site's pattern, on the 980 column) ── */
+.more { background: var(--night); padding-block: 96px; }
+.more .label { color: var(--night-body); }
+.more-grid { margin-top: 32px; display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gap-tile); }
+.more-card { display: flex; flex-direction: column; gap: 16px; text-decoration: none; }
+.more-img { border-radius: var(--r); overflow: hidden; aspect-ratio: 16 / 10; background: #201F24; }
+.more-img img { width: 100%; height: 100%; object-fit: cover; transition: transform .4s var(--out); }
+.more-card:hover .more-img img { transform: scale(1.03); }
+.more-card .body { margin-top: -8px; color: var(--sheet); }
+
+@media (max-width: 768px) {
+  .more { padding-block: 64px; }
+  .more-grid { grid-template-columns: 1fr; gap: 40px; }
+  .toc a { font-size: 14px; }
+  .variant { top: 80px; right: 50%; transform: translateX(50%); }
+  .band--hero { padding-top: 152px; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }
+
+/* ════════════════════════════════════════════════════════
+   v2 COMPONENTS FOR THE OTHER CASE STUDIES (discounts, optik, onboarding; 2026-11-25)
+   Their page-specific widgets, rebuilt in the v2 language: no boxes around text, the six text styles,
+   hairlines to separate rows, 8px corners only on visuals. Their data is unchanged.
+   ════════════════════════════════════════════════════════ */
+/* rhythm for the extra compositions */
+.wrap > .subblock + * { margin-top: var(--gap-sub-visual); }
+.wrap > .subblock + .subblock { margin-top: var(--gap-sub); }
+.wrap > .grid + .visual, .wrap > .grid + .list, .wrap > .stats-split + * { margin-top: var(--gap-visual); }
+.wrap > .caption { margin-top: var(--gap-sub-visual); }
+.wrap > .caption + .visual { margin-top: 16px; }
+.item > * + * { margin-top: 8px; }
+.item > .shot { margin-bottom: 16px; }
+.item > .shot + * { margin-top: 0; }
+
+/* a list of plain rows split by hairlines (replaces the arrow, checkbox and ranked lists) */
+.list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+.list > li { padding: 16px 0; border-bottom: 1px solid var(--line); }
+.list > li .sub + .body { margin-top: 4px; }
+.list--ranked > li { display: grid; grid-template-columns: 40px 1fr; align-items: baseline; }
+.list--ranked .rank { color: var(--accent); }
+.item .list { margin-top: 24px; }
+.band--night .list, .band--night .list > li { border-color: var(--night-line); }
+
+/* survey percentages with a thin bar (Discounts) */
+.bar { height: 4px; border-radius: 2px; background: var(--line); overflow: hidden; margin-top: 16px; }
+.bar > span { display: block; height: 100%; width: var(--pct); background: var(--accent); border-radius: inherit; }
+.item > .title + .label { margin-top: 4px; }
+
+/* result figures in a grid (Discounts validation, Onboarding call drivers): label, numeral (title size), unit */
+.figure-num { font-variant-numeric: lining-nums tabular-nums; }
+.stats .label + .stat { margin-top: 8px; }
+.stats > div + div { margin-top: 24px; }
+.band:not(.band--night) .stat { color: var(--ink); }
+.band:not(.band--night) .stat .hl { color: var(--accent); }
+
+/* before/after rows (Onboarding results) */
+.result-rows > div { display: grid; grid-template-columns: 1fr auto; align-items: baseline; gap: 4px 16px; padding: 16px 0; border-bottom: 1px solid var(--line); }
+.result-rows > div > .label:first-child { grid-column: 1 / -1; }
+.result-rows .lift { color: var(--accent); }
+.band--night .result-rows > div { border-color: var(--night-line); }
+.band--night .result-rows .lift { color: var(--accent-night); }
+.band--night .item .sub { color: var(--sheet); }
+
+/* the support-chat illustration (Optik): bubbles are part of the picture, so they keep a fill; 8px corners */
+.chat { display: flex; flex-direction: column; gap: 12px; }
+.chat .bubble { max-width: 58%; padding: 14px 20px; border-radius: 8px; }
+.chat .bubble--agent { align-self: flex-end; background: #4B286D; color: #FFFFFF; border-bottom-right-radius: 2px; }
+.chat .bubble--customer { align-self: flex-start; background: var(--line); color: var(--ink); border-bottom-left-radius: 2px; }
+@media (max-width: 768px) { .chat .bubble { max-width: 85%; } }
+
+/* retention charts (Onboarding): the original SVG charts, restyled; static bars */
+.charts { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--gap-visual) var(--gap-tile); }
+.cs-retention-chart { display: grid; grid-template-columns: 1fr auto; align-items: start; column-gap: 24px; row-gap: 12px; }
+.cs-retention-meta .sub + .label { margin-top: 4px; }
+.cs-retention-legend { display: flex; flex-direction: column; gap: 4px; }
+.cs-retention-legend .label { display: flex; align-items: center; gap: 8px; }
+.cs-retention-swatch { width: 12px; height: 12px; border-radius: 2px; flex: none; }
+.cs-retention-swatch--with { background: var(--accent); }
+.cs-retention-swatch--without { background: #8A8A84; }
+.cs-retention-svg { grid-column: 1 / -1; width: 100%; height: auto; display: block; overflow: visible; margin-top: 12px; }
+.cs-retention-grid-line { stroke: var(--line); stroke-width: 1.5; stroke-dasharray: 4 4; }
+.cs-retention-bar--with { fill: var(--accent); }
+.cs-retention-bar--without { fill: #8A8A84; }
+.cs-retention-label, .cs-retention-axis-label { font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.04em; fill: var(--body); }
+.cs-retention-label--with { fill: var(--ink); }
+.band--night .cs-retention-grid-line { stroke: var(--night-line); }
+.band--night .cs-retention-bar--with, .band--night .cs-retention-swatch--with { fill: var(--accent-night); background: var(--accent-night); }
+.band--night .cs-retention-label, .band--night .cs-retention-axis-label { fill: var(--night-body); }
+.band--night .cs-retention-label--with { fill: #FFFFFF; }
+@media (max-width: 768px) { .charts { grid-template-columns: 1fr; } }
+.stats-split > .body-col { grid-column: 7 / -1; padding-top: 9px; }
+.stats-split > .body-col .body + .body { margin-top: var(--gap-para); }
+@media (max-width: 768px) { .stats-split > .body-col { margin-top: var(--gap-visual); padding-top: 0; } }

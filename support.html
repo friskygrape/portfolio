@@ -4,12 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TouchBistro — Reducing Customer Call Times · Deron Li</title>
-  <link rel="stylesheet" href="css/site.css">
   <link rel="preload" href="fonts/radio-canada-big-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="fonts/radio-canada-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="css/brand.css">
-  <link rel="stylesheet" href="css/case-study-brand.css">
-  <link rel="stylesheet" href="css/nav.css">
+  <link rel="preload" href="fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/nav-glass.css">
+  <link rel="stylesheet" href="css/type-v2.css">
+  <link rel="stylesheet" href="css/case-study-v2.css">
   <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
   <link rel="shortcut icon" href="images/favicon.ico">
@@ -24,568 +24,253 @@
 </head>
 <body>
 
-<nav class="nav" aria-label="Main">
-  <div class="wrap nav-in">
-    <a class="nav-logo" href="index.html">Deron Li</a>
-    <div class="nav-links label"><a href="index.html#work" aria-current="page">Work</a><a href="ai-design.html">AI x Design</a><a href="about.html">About</a></div>
-  </div>
-</nav>
-
-<div class="cs-page">
-
-  <div class="cs-cover">
-    <img src="images/homepage/support.png" alt="TouchBistro Agent Access" />
-  </div>
-
-  <div class="cs-body">
-
-    <div class="cs-layout">
-
-      <aside class="cs-toc">
-        <a class="toc-back" href="index.html#work">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
-          Featured Work
-        </a>
-        <div class="toc-track">
-          <div class="toc-indicator">
-            <span class="toc-indicator-layer toc-indicator-layer--1"></span>
-            <span class="toc-indicator-layer toc-indicator-layer--2"></span>
-            <span class="toc-indicator-layer toc-indicator-layer--3"></span>
-            <span class="toc-indicator-layer toc-indicator-layer--4"></span>
-            <span class="toc-indicator-layer toc-indicator-layer--5"></span>
-          </div>
-          <ul>
-            <li><a class="toc-link" href="#summary">Summary</a></li>
-            <li><a class="toc-link" href="#context">Context</a></li>
-            <li><a class="toc-link" href="#problem">Problem</a></li>
-            <li><a class="toc-link" href="#research">Research</a></li>
-            <li><a class="toc-link" href="#solution">Solution</a></li>
-            <li><a class="toc-link" href="#validation">Validation</a></li>
-            <li><a class="toc-link" href="#impact">Impact</a></li>
-            <li><a class="toc-link" href="#reflection">Reflection</a></li>
-          </ul>
-        </div>
-      </aside>
-
-      <div class="cs-sections">
-
-        <header class="cs-hero" id="summary">
-          <h1 class="cs-title h1">Reducing Customer Call Times by 33% from 18 to 12 Minutes</h1>
-          <div class="cs-meta">
-            <div class="cs-meta-item">
-              <p>My Role</p>
-              <p>Lead Product Designer</p>
-            </div>
-            <div class="cs-meta-item">
-              <p>Team</p>
-              <p>Product Director<br>Product Owner<br>Development<br>QA</p>
-            </div>
-            <div class="cs-meta-item">
-              <p>Timeline</p>
-              <p>January 2025</p>
-            </div>
-            <div class="cs-meta-item">
-              <p>Areas</p>
-              <p>Support<br>Call Time Reduction<br>IA</p>
-            </div>
-          </div>
-          <p class="cs-summary body-lg">I redesigned an internal support tool to solve a critical troubleshooting gap where agents couldn't reproduce customer issues. After conducting interview with support agents to identify pain points, I designed user-level impersonation capabilities and reorganized the information architecture to improve navigation and clarity. This reduced average support call times by <strong>33%</strong>, from <strong>18 to 12 minutes</strong> per case.</p>
-          <div class="cs-placeholder"><div class="cs-placeholder-inner"><img src="images/support/summary.png" alt="Agent Access summary" /></div></div>
-        </header>
-
-        <section class="cs-section" id="context">
-          <h5><svg class="cs-section-icon cs-section-icon--book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" pathLength="100"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" pathLength="100"/></svg>Context</h5>
-          <h2 class="h2">Supporting Customers Using an Internal Tool</h2>
-          <p class="body-lg">TouchBistro's Cloud platform is where restaurant owners manage operations like menus, staff, reports, and settings. Owners assign different permission levels to team members based on their roles (e.g., managers get full access, accountants only see reporting).</p>
-          <p class="body-lg">Agent Access is an internal tool that helps support agents configure customer accounts. Agents can view details, enable features, and troubleshoot issues. A key feature allows agents to view the account as an admin to make changes when customers call for help.</p>
-          <div class="cs-placeholder"><div class="cs-placeholder-inner"><img src="images/support/context.png" alt="Agent Access tool overview" /></div></div>
-        </section>
-
-        <section class="cs-section" id="problem">
-          <h5><svg class="cs-section-icon cs-section-icon--search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Problem</h5>
-          <h2 class="h2">Agents and Customers Weren't Seeing the Same Thing</h2>
-          <p class="body-lg">When customers with limited permissions called for help, agents could only view their accounts as admins with full access. This created a disconnect where customers experienced issues that agents couldn't see or reproduce. The result was significant time wasted on calls just trying to understand the customer's perspective before troubleshooting could begin.</p>
-          <p class="body-lg">This presented an opportunity to reduce inflated call times and improve troubleshooting accuracy by closing the visibility gap between agents and customers.</p>
-        </section>
-
-        <section class="cs-section" id="research">
-          <h5><svg class="cs-section-icon cs-section-icon--chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="15" y="5" width="4" height="12" rx="1"/><rect x="7" y="8" width="4" height="9" rx="1"/><path d="M11 13H7"/><path d="M19 9h-4"/><path d="M3 3v16a2 2 0 0 0 2 2h16"/></svg>Research</h5>
-          <h2 class="h2">Understanding Agent Workflows and Pain Points</h2>
-          <p class="body-lg">I conducted interviews with support agents to understand their challenges. Agents explained that admin-level impersonation worked well for single-location customers with one role, but grew complicated with customers belonging to multiple venues.</p>
-          <div class="cs-features">
-            <div class="cs-feature">
-              <svg class="cs-feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-              <h4 class="cs-feature-title h4">Multi-Role Complexity</h4>
-              <p class="cs-feature-desc body-lg">Customers with different roles across venues made impersonation challenging.</p>
-            </div>
-            <div class="cs-feature">
-              <svg class="cs-feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
-              <h4 class="cs-feature-title h4">Unable to Reproduce Errors</h4>
-              <p class="cs-feature-desc body-lg">Agents relied on questions and logs to diagnose issues they couldn't see themselves.</p>
-            </div>
-            <div class="cs-feature">
-              <svg class="cs-feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="1" width="12" height="6" rx="1"/><rect x="1" y="17" width="9" height="6" rx="1"/><rect x="14" y="17" width="9" height="6" rx="1"/><path d="M12 7v5M5.5 12h13M5.5 12v5M18.5 12v5"/></svg>
-              <h4 class="cs-feature-title h4">No Corporate Hierarchy</h4>
-              <p class="cs-feature-desc body-lg">Venues appeared as a flat list with no visibility into which corporation they belonged to.</p>
-            </div>
-            <div class="cs-feature">
-              <svg class="cs-feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-              <h4 class="cs-feature-title h4">Tedious ID Navigation</h4>
-              <p class="cs-feature-desc body-lg">Moving between records required copying and pasting IDs into the search filter manually.</p>
-            </div>
-            <div class="cs-feature">
-              <svg class="cs-feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
-              <h4 class="cs-feature-title h4">Confusing Terminology</h4>
-              <p class="cs-feature-desc body-lg">Labels like "Entity Type" weren't meaningful to non-technical agents.</p>
-            </div>
-          </div>
-          <div class="cs-placeholder" style="margin-top: 40px"><div class="cs-placeholder-inner"><img src="images/support/research.png" alt="Research findings" /></div></div>
-          <h4 class="h4">Customer's vs. Agent's View</h4>
-          <p class="body-lg">Customers only see what their role allows. Agents impersonating an admin always see everything. That gap made it impossible to reproduce permission-based issues without knowing exactly which role the customer was in.</p>
-          <div class="cs-placeholder"><div class="cs-placeholder-inner"><img src="images/support/no_organization.png" alt="Lack of corporation-level organization" /></div></div>
-          <div class="cs-placeholder"><div class="cs-placeholder-inner"><img src="images/support/copy_paste.png" alt="Copy-paste workflow friction" /></div></div>
-        </section>
-
-        <section class="cs-section" id="solution">
-          <h5><svg class="cs-section-icon cs-section-icon--bulb" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></svg>Solution</h5>
-          <h2 class="h2">User-Level Impersonation to Match Customer Perspectives</h2>
-          <p class="body-lg">After gathering feedback from agents and discussions with the team, I designed an experience to enable user-level impersonation. This solution allows agents to select specific staff member accounts and view their experience based on permission level and venue access, enabling agents to accurately reproduce what customers are seeing and troubleshoot issues quicker.</p>
-          <div class="cs-placeholder"><div class="cs-placeholder-inner"><img src="images/support/userimpersonation%20successful.png" alt="User impersonation successful state" /></div></div>
-          <h4 class="h4">User-Level Impersonation</h4>
-          <p class="body-lg">Agents can now share a 1:1 experience with the customer.</p>
-          <div class="cs-placeholder"><div class="cs-placeholder-inner"><video src="https://res.cloudinary.com/dh3awz0yq/video/upload/v1775781679/Showcase_-_User_Impersonations_fhvgdw.mp4" autoplay controls muted loop playsinline></video></div></div>
-          <h4 class="h4">Impersonate Using the Staff Member List</h4>
-          <p class="body-lg">I added a new page under venue details displaying all staff members within that venue and their assigned roles/permissions. This allows agents to select the appropriate account to impersonate.</p>
-          <div class="cs-placeholder"><div class="cs-placeholder-inner"><video src="https://res.cloudinary.com/dh3awz0yq/video/upload/v1775781680/Showcase_-_User_Impersonations_only_ipwnfw.mp4" autoplay controls muted loop playsinline></video></div></div>
-          <h4 class="h4">Impersonate Via Username</h4>
-          <p class="body-lg">To address the multi-venue, multi-role challenge, agents can search by username to impersonate users who have multiple roles across different venues or corporations.</p>
-          <h3 class="h3">Improving the Information Architecture</h3>
-          <p class="body-lg">To address the lack of organizational structure, I organized venues under their parent corporations. This hierarchy allows agents to quickly identify which venues belong to which corporations and understand their relationships. I also replaced technical terminology with more accessible language.</p>
-          <div class="cs-placeholder"><div class="cs-placeholder-inner"><img src="images/support/ia-comparison.png" alt="Information architecture comparison" /></div></div>
-          <h3 class="h3">Reduced Navigation Steps</h3>
-          <p class="body-lg">Instead of requiring agents to copy and paste IDs and manually switch search filters, IDs are now clickable hyperlinks that navigate directly to those sections. This directly reduces time spent jumping between related information.</p>
-          <div class="cs-placeholder"><div class="cs-placeholder-inner"><video src="https://res.cloudinary.com/dh3awz0yq/video/upload/v1775786921/New_Navigation_V2_zudeyc.mp4" autoplay controls muted loop playsinline></video></div></div>
-        </section>
-
-        <section class="cs-section" id="validation">
-          <h5><svg class="cs-section-icon cs-section-icon--check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" pathLength="100"/><polyline points="8 12.5 11 15.5 16.5 9" pathLength="100"/></svg>Validation</h5>
-          <h2 class="h2">Positive Feedback From Stakeholders</h2>
-          <p class="body-lg">We shared the redesign with support agents and developers who use the tool daily. Feedback was overwhelmingly positive. Agents immediately saw how user-level impersonation would improve their workflow. Developers appreciated the clearer hierarchy structure showing venue organization and more intuitive information architecture. QA teams were excited about how the improvements would help them identify problems with specific user accounts during testing.</p>
-          <div class="cs-quotes">
-            <div class="cs-quote">
-              <p class="cs-quote-text">You have no idea how long I've been wanting to see the hierarchy on here and how venues are grouped! This makes me so happy because it makes my life so much easier when I have to look up and fix a customer's account.</p>
-              <div class="cs-quote-attr">
-                <span class="cs-quote-name">David</span>
-                <span class="cs-quote-role">Staff Developer</span>
-              </div>
-            </div>
-            <div class="cs-quote">
-              <p class="cs-quote-text">These changes are amazing! I'm on calls daily and I have to ask 20+ questions each time to understand an issue I can't see. Now I can just impersonate their account.</p>
-              <div class="cs-quote-attr">
-                <span class="cs-quote-name">Bhavin</span>
-                <span class="cs-quote-role">Support Agent</span>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section class="cs-section" id="impact">
-          <h5><svg class="cs-section-icon cs-section-icon--trend" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="2 17 8.5 10.5 13.5 15.5 22 7" pathLength="100"/><polyline points="16 7 22 7 22 13" pathLength="100"/></svg>Impact</h5>
-          <h2 class="h2">Reducing Support Calls by 33%</h2>
-          <p class="body-lg">After launching the redesign, support calls from customers experiencing issues on Cloud dropped <strong>33%</strong>, from <strong>18 minutes to 12 minutes</strong>, on average, within the <strong>first month</strong> of the release. Agents could now see exactly what each user experienced, allowing for faster diagnosis and tailored solutions.</p>
-        </section>
-
-        <section class="cs-section" id="reflection">
-          <h5><svg class="cs-section-icon cs-section-icon--speech" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Reflection</h5>
-          <h2 class="h2">Internal Tools Need the Same Design Care</h2>
-          <p class="body-lg">This project demonstrated that internal tools deserve the same design rigor as customer-facing products. Support agents rely on Agent Access dozens of times daily. Improving their experience compounds into significant efficiency gains and better customer outcomes.</p>
-          <p class="body-lg">The cross-functional impact was particularly rewarding. What began as a support efficiency problem became a win for developers needing better debugging tools and QA teams requiring user-level testing capabilities.</p>
-        </section>
-
-      </div>
-    </div>
-
-  </div>
+<div class="variant" role="group" aria-label="Prototype variant">
+  <span>Carousel</span>
+  <button type="button" data-v="a" aria-pressed="true">A Contained</button>
+  <button type="button" data-v="b" aria-pressed="false">B Extends</button>
 </div>
 
-<section class="cs-more">
-  <div class="cs-more-inner">
-    <p class="cs-more-heading">More Projects</p>
-    <div class="cs-more-grid">
+<nav class="pill pill-nav" aria-label="Main">
+  <a class="pill-logo" href="index.html">Deron Li</a>
+  <div class="pill-links"><a href="index.html">Home</a><a href="index.html#work" aria-current="page">Work</a><a href="ai-design.html">AI x Design</a><a href="about.html">About</a></div>
+</nav>
 
-      <a class="cs-more-card" href="discounts.html">
-        <div class="cs-more-img">
-          <img src="images/homepage/discounts.png" alt="TouchBistro Advanced Discounts" />
+<nav class="pill toc" aria-label="Sections">
+  <button class="toc-toggle" type="button" aria-expanded="false" aria-controls="toc-list"><span data-toc-current><span><span class="toc-num">01</span>Summary</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></button>
+  <ol class="toc-list" id="toc-list">
+    <li><a href="#summary"><span><span class="toc-num">01</span>Summary</span></a></li>
+    <li><a href="#context"><span><span class="toc-num">02</span>Context</span></a></li>
+    <li><a href="#problem"><span><span class="toc-num">03</span>Problem</span></a></li>
+    <li><a href="#research"><span><span class="toc-num">04</span>Research</span></a></li>
+    <li><a href="#solution"><span><span class="toc-num">05</span>Solution</span></a></li>
+    <li><a href="#validation"><span><span class="toc-num">06</span>Validation</span></a></li>
+    <li><a href="#impact"><span><span class="toc-num">07</span>Impact</span></a></li>
+    <li><a href="#reflection"><span><span class="toc-num">08</span>Reflection</span></a></li>
+  </ol>
+</nav>
+
+<main>
+
+  <aside class="cs-rail" aria-label="On this page">
+    <div class="cs-toc">
+      <a class="toc-back" href="index.html#work"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>Featured Work</a>
+        <ul>
+        <li><a class="toc-link" href="#summary"><span class="toc-num">01</span>Summary</a></li>
+        <li><a class="toc-link" href="#context"><span class="toc-num">02</span>Context</a></li>
+        <li><a class="toc-link" href="#problem"><span class="toc-num">03</span>Problem</a></li>
+        <li><a class="toc-link" href="#research"><span class="toc-num">04</span>Research</a></li>
+        <li><a class="toc-link" href="#solution"><span class="toc-num">05</span>Solution</a></li>
+        <li><a class="toc-link" href="#validation"><span class="toc-num">06</span>Validation</a></li>
+        <li><a class="toc-link" href="#impact"><span class="toc-num">07</span>Impact</a></li>
+        <li><a class="toc-link" href="#reflection"><span class="toc-num">08</span>Reflection</a></li>
+        </ul>
+    </div>
+  </aside>
+
+  <!-- ═══ Summary ═══ -->
+  <header class="band band--ground band--hero" id="top">
+    <div class="wrap">
+      <div class="text">
+        <h1 class="display">Reducing Customer Call Times <span class="hl">by 33%</span> from 18 to 12 Minutes</h1>
+        <div class="meta">
+          <div><p class="label">My Role</p><p class="body">Lead Product Designer</p></div>
+          <div><p class="label">Team</p><p class="body">Product Director<br>Product Owner<br>Development<br>QA</p></div>
+          <div><p class="label">Timeline</p><p class="body">January 2025</p></div>
+          <div><p class="label">Areas</p><p class="body">Support<br>Call Time Reduction<br>IA</p></div>
         </div>
-        <p class="cs-more-company">TouchBistro</p>
-        <p class="cs-more-title">Securing a Restaurant with 10+ Locations through Advanced Discounts</p>
-      </a>
+      </div>
+    </div>
+  </header>
 
-      <a class="cs-more-card" href="optik.html">
-        <div class="cs-more-img">
-          <img src="images/homepage/optik.png" alt="TELUS Optik TV" />
+  <!-- ═══ 01 Summary ═══ -->
+  <section class="band band--sheet" id="summary">
+    <div class="wrap">
+      <div class="text">
+        <p class="eyebrow label"><span class="num">01</span><span class="name">Summary</span></p>
+        <p class="body">I redesigned an internal support tool to solve a critical troubleshooting gap where agents couldn't reproduce customer issues. After conducting interview with support agents to identify pain points, I designed user-level impersonation capabilities and reorganized the information architecture to improve navigation and clarity. This reduced average support call times by <strong>33%</strong>, from <strong>18 to 12 minutes</strong> per case.</p>
+      </div>
+      <figure class="visual shot"><img src="images/homepage/support.png" alt="TouchBistro Agent Access" width="2260" height="1412" /></figure>
+    </div>
+  </section>
+
+  <!-- ═══ 02 Context ═══ -->
+  <section class="band band--ground" id="context">
+    <div class="wrap">
+      <div class="text">
+        <p class="eyebrow label"><span class="num">02</span><span class="name">Context</span></p>
+        <h2 class="title">Supporting Customers <span class="hl">Using an Internal Tool</span></h2>
+                <p class="body">TouchBistro's Cloud platform is where restaurant owners manage operations like menus, staff, reports, and settings. Owners assign different permission levels to team members based on their roles (e.g., managers get full access, accountants only see reporting).</p>
+        <p class="body">Agent Access is an internal tool that helps support agents configure customer accounts. Agents can view details, enable features, and troubleshoot issues. A key feature allows agents to view the account as an admin to make changes when customers call for help.</p>
+      </div>
+      <figure class="visual shot"><img src="images/support/context.png" alt="Agent Access tool overview" width="3241" height="1270" loading="lazy" /></figure>
+    </div>
+  </section>
+
+  <!-- ═══ 03 Problem ═══ -->
+  <section class="band band--sheet" id="problem">
+    <div class="wrap">
+      <div class="text">
+        <p class="eyebrow label"><span class="num">03</span><span class="name">Problem</span></p>
+        <h2 class="title">Agents and Customers <span class="hl">Weren't Seeing the Same Thing</span></h2>
+                <p class="body">When customers with limited permissions called for help, agents could only view their accounts as admins with full access. This created a disconnect where customers experienced issues that agents couldn't see or reproduce. The result was significant time wasted on calls just trying to understand the customer's perspective before troubleshooting could begin.</p>
+        <p class="body">This presented an opportunity to reduce inflated call times and improve troubleshooting accuracy by closing the visibility gap between agents and customers.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 04 Research ═══ -->
+  <section class="band band--ground" id="research">
+    <div class="wrap">
+      <div class="text">
+        <p class="eyebrow label"><span class="num">04</span><span class="name">Research</span></p>
+        <h2 class="title">Understanding Agent Workflows and <span class="hl">Pain Points</span></h2>
+                <p class="body">I conducted interviews with support agents to understand their challenges. Agents explained that admin-level impersonation worked well for single-location customers with one role, but grew complicated with customers belonging to multiple venues.</p>
+      </div>
+      <ul class="grid grid--3" role="list">
+        <li class="item"><h4 class="sub">Multi-Role Complexity</h4><p class="body">Customers with different roles across venues made impersonation challenging.</p></li>
+        <li class="item"><h4 class="sub">Unable to Reproduce Errors</h4><p class="body">Agents relied on questions and logs to diagnose issues they couldn't see themselves.</p></li>
+        <li class="item"><h4 class="sub">No Corporate Hierarchy</h4><p class="body">Venues appeared as a flat list with no visibility into which corporation they belonged to.</p></li>
+        <li class="item"><h4 class="sub">Tedious ID Navigation</h4><p class="body">Moving between records required copying and pasting IDs into the search filter manually.</p></li>
+        <li class="item"><h4 class="sub">Confusing Terminology</h4><p class="body">Labels like "Entity Type" weren't meaningful to non-technical agents.</p></li>
+      </ul>
+      <figure class="visual shot" style="margin-top: var(--gap-visual)"><img src="images/support/research.png" alt="Research findings" width="3241" height="1270" loading="lazy" /></figure>
+      <div class="subblock">
+        <h4 class="sub">Customer's vs. Agent's View</h4>
+        <p class="body">Customers only see what their role allows. Agents impersonating an admin always see everything. That gap made it impossible to reproduce permission-based issues without knowing exactly which role the customer was in.</p>
+      </div>
+      <div class="visual carousel" data-carousel>
+        <div class="carousel-track" tabindex="0" role="region" aria-roledescription="carousel" aria-label="Pain points in the old tool">
+          <figure class="slide shot"><img src="images/support/no_organization.png" alt="Lack of corporation-level organization" width="2400" height="1232" loading="lazy" /></figure>
+          <figure class="slide shot"><img src="images/support/copy_paste.png" alt="Copy-paste workflow friction" width="2400" height="1232" loading="lazy" /></figure>
         </div>
-        <p class="cs-more-company">TELUS</p>
-        <p class="cs-more-title">Growing Optik TV Daily Orders from 200 to 2,500+</p>
-      </a>
-
-      <a class="cs-more-card" href="onboarding.html">
-        <div class="cs-more-img">
-          <img src="images/homepage/onboarding.png" alt="TELUS My App Retention" />
+        <div class="carousel-bar">
+          <p class="carousel-count label" aria-live="polite"><b data-cur>1</b> / <span data-total>2</span></p>
+          <div class="carousel-btns">
+            <button type="button" data-prev aria-label="Previous image"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg></button>
+            <button type="button" data-next aria-label="Next image"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg></button>
+          </div>
         </div>
-        <p class="cs-more-company">TELUS</p>
-        <p class="cs-more-title">Increasing the My TELUS App Retention from 40.6% to 62.6%</p>
-      </a>
+      </div>
+    </div>
+  </section>
 
+  <!-- ═══ 05 Solution ═══ -->
+  <section class="band band--sheet" id="solution">
+    <div class="wrap">
+      <div class="text">
+        <p class="eyebrow label"><span class="num">05</span><span class="name">Solution</span></p>
+        <h2 class="title">User-Level Impersonation to <span class="hl">Match Customer Perspectives</span></h2>
+                <p class="body">After gathering feedback from agents and discussions with the team, I designed an experience to enable user-level impersonation. This solution allows agents to select specific staff member accounts and view their experience based on permission level and venue access, enabling agents to accurately reproduce what customers are seeing and troubleshoot issues quicker.</p>
+      </div>
+      <figure class="visual shot"><img src="images/support/userimpersonation%20successful.png" alt="User impersonation successful state" width="3200" height="1232" loading="lazy" /></figure>
+
+      <div class="subblock">
+        <h4 class="sub">User-Level Impersonation</h4>
+        <p class="body">Agents can now share a 1:1 experience with the customer.</p>
+      </div>
+      <figure class="visual shot"><video class="js-loop" src="https://res.cloudinary.com/dh3awz0yq/video/upload/v1775781679/Showcase_-_User_Impersonations_fhvgdw.mp4" muted loop playsinline preload="metadata" aria-label="User impersonation walkthrough"></video></figure>
+
+      <div class="subblock">
+        <h4 class="sub">Impersonate Using the Staff Member List</h4>
+        <p class="body">I added a new page under venue details displaying all staff members within that venue and their assigned roles/permissions. This allows agents to select the appropriate account to impersonate.</p>
+      </div>
+      <figure class="visual shot"><video class="js-loop" src="https://res.cloudinary.com/dh3awz0yq/video/upload/v1775781680/Showcase_-_User_Impersonations_only_ipwnfw.mp4" muted loop playsinline preload="metadata" aria-label="Staff member list walkthrough"></video></figure>
+
+      <div class="subblock">
+        <h4 class="sub">Impersonate Via Username</h4>
+        <p class="body">To address the multi-venue, multi-role challenge, agents can search by username to impersonate users who have multiple roles across different venues or corporations.</p>
+      </div>
+
+      <div class="subblock">
+        <h3 class="sub">Improving the Information Architecture</h3>
+        <p class="body">To address the lack of organizational structure, I organized venues under their parent corporations. This hierarchy allows agents to quickly identify which venues belong to which corporations and understand their relationships. I also replaced technical terminology with more accessible language.</p>
+      </div>
+      <figure class="visual shot"><img src="images/support/ia-comparison.png" alt="Information architecture comparison" width="3196" height="1232" loading="lazy" /></figure>
+
+      <div class="subblock">
+        <h3 class="sub">Reduced Navigation Steps</h3>
+        <p class="body">Instead of requiring agents to copy and paste IDs and manually switch search filters, IDs are now clickable hyperlinks that navigate directly to those sections. This directly reduces time spent jumping between related information.</p>
+      </div>
+      <figure class="visual shot"><video class="js-loop" src="https://res.cloudinary.com/dh3awz0yq/video/upload/v1775786921/New_Navigation_V2_zudeyc.mp4" muted loop playsinline preload="metadata" aria-label="Clickable ID navigation walkthrough"></video></figure>
+    </div>
+  </section>
+
+  <!-- ═══ 06 Validation ═══ -->
+  <section class="band band--ground" id="validation">
+    <div class="wrap">
+      <div class="text">
+        <p class="eyebrow label"><span class="num">06</span><span class="name">Validation</span></p>
+        <h2 class="title"><span class="hl">Positive Feedback</span> From Stakeholders</h2>
+                <p class="body">We shared the redesign with support agents and developers who use the tool daily. Feedback was overwhelmingly positive. Agents immediately saw how user-level impersonation would improve their workflow. Developers appreciated the clearer hierarchy structure showing venue organization and more intuitive information architecture. QA teams were excited about how the improvements would help them identify problems with specific user accounts during testing.</p>
+      </div>
+      <div class="grid grid--2">
+        <figure class="pull">
+          <blockquote><p class="sub">“You have no idea how long I've been wanting to see the hierarchy on here and how venues are grouped! This makes me so happy because it makes my life so much easier when I have to look up and fix a customer's account.”</p></blockquote>
+          <figcaption class="label"><span class="who">David</span><span>Staff Developer</span></figcaption>
+        </figure>
+        <figure class="pull">
+          <blockquote><p class="sub">“These changes are amazing! I'm on calls daily and I have to ask 20+ questions each time to understand an issue I can't see. Now I can just impersonate their account.”</p></blockquote>
+          <figcaption class="label"><span class="who">Bhavin</span><span>Support Agent</span></figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 07 Impact ═══ -->
+  <section class="band band--night" id="impact">
+    <div class="wrap">
+      <div class="text">
+        <p class="eyebrow label"><span class="num">07</span><span class="name">Impact</span></p>
+        <h2 class="title">Reducing Support Calls <span class="hl">by 33%</span></h2>
+      </div>
+      <div class="stats-split">
+        <div class="stats">
+          <p class="stat"><span class="hl">33%</span></p>
+          <p class="stat">18 → 12 min</p>
+        </div>
+        <p class="body">After launching the redesign, support calls from customers experiencing issues on Cloud dropped <strong>33%</strong>, from <strong>18 minutes to 12 minutes</strong>, on average, within the <strong>first month</strong> of the release. Agents could now see exactly what each user experienced, allowing for faster diagnosis and tailored solutions.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 08 Reflection ═══ -->
+  <section class="band band--ground" id="reflection">
+    <div class="wrap">
+      <div class="text">
+        <p class="eyebrow label"><span class="num">08</span><span class="name">Reflection</span></p>
+        <h2 class="title">Internal Tools Need <span class="hl">the Same Design Care</span></h2>
+                <p class="body">This project demonstrated that internal tools deserve the same design rigor as customer-facing products. Support agents rely on Agent Access dozens of times daily. Improving their experience compounds into significant efficiency gains and better customer outcomes.</p>
+        <p class="body">The cross-functional impact was particularly rewarding. What began as a support efficiency problem became a win for developers needing better debugging tools and QA teams requiring user-level testing capabilities.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<section class="more" aria-labelledby="more-heading" data-read-end>
+  <div class="wrap">
+    <p class="label" id="more-heading">More Projects</p>
+    <div class="more-grid">
+      <a class="more-card" href="discounts.html">
+        <div class="more-img"><img src="images/homepage/discounts.png" alt="TouchBistro Advanced Discounts" loading="lazy" /></div>
+        <p class="label">TouchBistro</p>
+        <p class="body">Securing a Restaurant with 10+ Locations through Advanced Discounts</p>
+      </a>
+      <a class="more-card" href="optik.html">
+        <div class="more-img"><img src="images/homepage/optik.png" alt="TELUS Optik TV" loading="lazy" /></div>
+        <p class="label">TELUS</p>
+        <p class="body">Growing Optik TV Daily Orders from 200 to 2,500+</p>
+      </a>
+      <a class="more-card" href="onboarding.html">
+        <div class="more-img"><img src="images/homepage/onboarding.png" alt="TELUS My App Retention" loading="lazy" /></div>
+        <p class="label">TELUS</p>
+        <p class="body">Increasing the My TELUS App Retention from 40.6% to 62.6%</p>
+      </a>
     </div>
   </div>
 </section>
 
-<script>
-(function () {
-  const targets = [
-    document.getElementById('summary'),
-    ...document.querySelectorAll('.cs-section[id]')
-  ].filter(Boolean);
-  const links = document.querySelectorAll('.toc-link');
-
-  const indicator = document.querySelector('.toc-indicator');
-  const layers = [...document.querySelectorAll('.toc-indicator-layer')];
-  let currentIndicatorId = null;
-  let lastClickedId = null;
-  let lastClickedAt = 0;
-  const PIN_DURATION = 1200;
-
-  const INDICATOR_SIZE = 12;
-  const REST_OFFSETS  = [0, 0, 0, 0, 0];
-  const LERP_RATE       = 0.18;
-  const SCROLL_DURATION = 500;
-  const MAX_EXTRA_SEP = 5;
-  const layerState = layers.map(() => ({ y: 0 }));
-  let targetY = 0;
-  let maxExtraSep = 0;
-  let animating = false;
-  let firstPlacement = true;
-  let syncActive = false;
-
-  const trackEl = document.querySelector('.toc-track');
-  let inactiveLinkH = 0, activeLinkH = 0, baseLinkTop = 0;
-  function measureLinkHeights() {
-    const ref = links[0];
-    const clone = ref.cloneNode(true);
-    clone.classList.remove('active');
-    clone.style.transition = 'none';
-    clone.style.position = 'absolute';
-    clone.style.visibility = 'hidden';
-    clone.style.pointerEvents = 'none';
-    ref.parentNode.appendChild(clone);
-    inactiveLinkH = clone.getBoundingClientRect().height;
-    clone.classList.add('active');
-    activeLinkH = clone.getBoundingClientRect().height;
-    clone.remove();
-    baseLinkTop = ref.getBoundingClientRect().top - trackEl.getBoundingClientRect().top;
-  }
-  measureLinkHeights();
-
-  function targetForLink(a) {
-    const idx = [...links].indexOf(a);
-    return baseLinkTop + idx * inactiveLinkH + (activeLinkH - INDICATOR_SIZE) / 2;
-  }
-
-  function layerTargetFor(i) {
-    if (i === 0) return targetY + REST_OFFSETS[0];
-    return layerState[i - 1].y + (REST_OFFSETS[i] - REST_OFFSETS[i - 1]);
-  }
-
-  function tick() {
-    let stillMoving = false;
-    for (let i = 0; i < layerState.length; i++) {
-      const s = layerState[i];
-
-      if (i === 0 && syncActive) {
-        layers[0].style.setProperty('--toc-layer-y', `${s.y}px`);
-        stillMoving = true;
-        continue;
-      }
-
-      const lt = layerTargetFor(i);
-      const dy = lt - s.y;
-      s.y += dy * LERP_RATE;
-
-      if (i > 0) {
-        const restGap = REST_OFFSETS[i] - REST_OFFSETS[i - 1];
-        const maxAbsGap = Math.abs(restGap) + maxExtraSep;
-        const gap = s.y - layerState[i - 1].y;
-        if (Math.abs(gap) > maxAbsGap) {
-          s.y = layerState[i - 1].y + Math.sign(gap) * maxAbsGap;
-        }
-      }
-
-      layers[i].style.setProperty('--toc-layer-y', `${s.y}px`);
-      if (Math.abs(dy) > 0.1) stillMoving = true;
-    }
-    if (stillMoving) {
-      requestAnimationFrame(tick);
-    } else {
-      layerState[0].y = targetY + REST_OFFSETS[0];
-      for (let i = 1; i < layerState.length; i++) {
-        layerState[i].y = layerState[i - 1].y + (REST_OFFSETS[i] - REST_OFFSETS[i - 1]);
-      }
-      for (let i = 0; i < layerState.length; i++) {
-        layers[i].style.setProperty('--toc-layer-y', `${layerState[i].y}px`);
-      }
-      animating = false;
-    }
-  }
-
-  function moveIndicator(id) {
-    if (lastClickedId && id !== lastClickedId) return;
-    if (id === currentIndicatorId) return;
-    currentIndicatorId = id;
-    const active = document.querySelector(`.toc-link[href="#${id}"]`);
-    if (!active) return;
-    const newTarget = targetForLink(active);
-    if (firstPlacement) {
-      targetY = newTarget;
-      layerState[0].y = newTarget + REST_OFFSETS[0];
-      for (let i = 1; i < layerState.length; i++) {
-        layerState[i].y = layerState[i - 1].y + (REST_OFFSETS[i] - REST_OFFSETS[i - 1]);
-      }
-      for (let i = 0; i < layerState.length; i++) {
-        layers[i].style.setProperty('--toc-layer-y', `${layerState[i].y}px`);
-      }
-      firstPlacement = false;
-      layers.forEach(l => l.style.animationPlayState = 'running');
-    } else {
-      const D = Math.abs(newTarget - layerState[0].y);
-      maxExtraSep = Math.min(MAX_EXTRA_SEP, Math.max(0.3, D / 22));
-      targetY = newTarget;
-      if (!animating) {
-        animating = true;
-        requestAnimationFrame(tick);
-      }
-    }
-  }
-
-  function setActive(id) {
-    links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + id));
-    moveIndicator(id);
-  }
-
-  const tocEl = document.querySelector('.cs-toc');
-  function findActive() {
-    const cut = tocEl ? tocEl.getBoundingClientRect().bottom : 88;
-    let id = targets[0]?.id;
-    for (const t of targets) {
-      if (t.getBoundingClientRect().top <= cut) id = t.id;
-    }
-
-    if (lastClickedId) {
-      if (Date.now() - lastClickedAt < PIN_DURATION) {
-        return lastClickedId;
-      }
-      lastClickedId = null;
-    }
-
-    if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 4) {
-      return targets[targets.length - 1].id;
-    }
-
-    return id;
-  }
-
-  const io = new IntersectionObserver(
-    () => setActive(findActive()),
-    { rootMargin: '-88px 0px 0px 0px', threshold: Array.from({ length: 21 }, (_, i) => i / 20) }
-  );
-  targets.forEach(t => io.observe(t));
-
-  const SCROLL_OFFSET = 80;
-
-  function syncScrollAndIndicator(yScrollTarget, yIndicatorTarget, duration) {
-    const startScroll = window.scrollY;
-    const startLead = layerState[0].y;
-    const dScroll = yScrollTarget - startScroll;
-    const dLead = yIndicatorTarget - startLead;
-    const startTime = performance.now();
-    syncActive = true;
-
-    function step(now) {
-      const t = Math.min((now - startTime) / duration, 1);
-      const eased = t < 0.5
-        ? 4 * t * t * t
-        : 1 - Math.pow(-2 * t + 2, 3) / 2;
-      window.scrollTo({ top: startScroll + dScroll * eased, behavior: 'instant' });
-      layerState[0].y = startLead + dLead * eased;
-      if (t < 1) {
-        requestAnimationFrame(step);
-      } else {
-        layerState[0].y = yIndicatorTarget;
-        syncActive = false;
-      }
-    }
-    requestAnimationFrame(step);
-
-    if (!animating) {
-      animating = true;
-      requestAnimationFrame(tick);
-    }
-  }
-
-  links.forEach(a => {
-    a.addEventListener('click', e => {
-      e.preventDefault();
-      const id = a.getAttribute('href').slice(1);
-      const sec = document.getElementById(id);
-      if (!sec) return;
-
-      lastClickedId = id;
-      lastClickedAt = Date.now();
-      currentIndicatorId = id;
-
-      const yIndicator = targetForLink(a);
-      let _el = sec, _top = 0;
-      while (_el) { _top += _el.offsetTop; _el = _el.offsetParent; }
-      const yScroll = _top - SCROLL_OFFSET;
-
-      links.forEach(l => l.classList.toggle('active', l === a));
-
-      targetY = yIndicator;
-      const D = Math.abs(yIndicator - layerState[0].y);
-      maxExtraSep = Math.min(MAX_EXTRA_SEP, Math.max(0.3, D / 22));
-
-      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (reduced) {
-        window.scrollTo({ top: yScroll, behavior: 'instant' });
-        for (let i = 0; i < layerState.length; i++) {
-          layerState[i].y = yIndicator;
-          layers[i].style.transform = `translateY(${yIndicator}px) rotate(45deg)`;
-        }
-        return;
-      }
-
-      syncScrollAndIndicator(yScroll, yIndicator, SCROLL_DURATION);
-    });
-  });
-
-  setActive(findActive());
-
-  // Fade-in by mini-section. Headings absorb body text/lists below them
-  // until the next heading. Standalone blocks (cs-placeholder, cs-features,
-  // cs-results, cs-stats, cs-retention) are their own group.
-  const fadeGroups = new WeakMap();
-  const isHeading = el => /^H[1-5]$/.test(el.tagName);
-  const isStandaloneBlock = el =>
-    el.classList.contains('cs-placeholder') ||
-    el.classList.contains('cs-features') ||
-    el.classList.contains('cs-results') ||
-    el.classList.contains('cs-stats') ||
-    el.classList.contains('cs-retention') ||
-    el.classList.contains('cs-quote') ||
-    el.classList.contains('cs-quotes');
-  // Headings and standalone blocks are each their own group (so the
-  // heading staggers in before its body). Consecutive body elements
-  // (paragraphs, lists) merge into a single group so a multi-paragraph
-  // body doesn't reveal one line at a time.
-  function buildFadeGroups(parent) {
-    const groups = [];
-    let current = [];
-    for (const child of parent.children) {
-      if (isHeading(child) || isStandaloneBlock(child)) {
-        if (current.length) { groups.push(current); current = []; }
-        groups.push([child]);
-      } else {
-        current.push(child);
-      }
-    }
-    if (current.length) groups.push(current);
-    return groups;
-  }
-
-  const fadeIO = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        const group = fadeGroups.get(e.target);
-        if (group) {
-          group.forEach(el => el.classList.add('is-visible'));
-        } else {
-          e.target.classList.add('is-visible');
-        }
-        fadeIO.unobserve(e.target);
-      }
-    });
-  }, { rootMargin: '0px 0px -20% 0px', threshold: 0 });
-
-  document.querySelectorAll('.cs-hero, .cs-section').forEach(parent => {
-    fadeIO.observe(parent);
-    buildFadeGroups(parent).forEach(group => {
-      fadeGroups.set(group[0], group);
-      fadeIO.observe(group[0]);
-    });
-  });
-
-  // Fire the animation as soon as the h5 (icon row) first touches the
-  // viewport from below, so the full animation plays while the icon
-  // scrolls up into reading position.
-  const iconReplayIO = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      const section = e.target.closest('.cs-section');
-      if (section) section.classList.toggle('in-view', e.isIntersecting);
-    });
-  }, { threshold: 0 });
-  document.querySelectorAll('.cs-section h5').forEach(el => iconReplayIO.observe(el));
-
-  const featuresIO = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('is-animated');
-        featuresIO.unobserve(e.target);
-      }
-    });
-  }, { rootMargin: '0px 0px -10% 0px', threshold: 0.01 });
-  document.querySelectorAll('.cs-features').forEach(el => featuresIO.observe(el));
-
-  const videoIO = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.play().catch(() => {});
-      } else {
-        e.target.pause();
-      }
-    });
-  }, { threshold: 0.5 });
-  document.querySelectorAll('.cs-placeholder-inner video').forEach(v => videoIO.observe(v));
-
-  const arrowListIO = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (!e.isIntersecting) return;
-      e.target.querySelectorAll('.cs-arrow-item').forEach((item, i) => {
-        setTimeout(() => item.classList.add('is-visible'), i * 130);
-      });
-      arrowListIO.unobserve(e.target);
-    });
-  }, { rootMargin: '0px 0px -15% 0px', threshold: 0.1 });
-  document.querySelectorAll('.cs-arrow-list').forEach(el => arrowListIO.observe(el));
-
-  const coverImg = document.querySelector('.cs-cover img');
-  let ticking = false;
-  function updateParallax() {
-    if (coverImg) {
-      coverImg.style.transform = `translateY(${window.scrollY * 0.25}px)`;
-    }
-    ticking = false;
-  }
-  window.addEventListener('scroll', () => {
-    if (!ticking) {
-      requestAnimationFrame(updateParallax);
-      ticking = true;
-    }
-  }, { passive: true });
-  updateParallax();
-})();
-</script>
-
-<script src="js/site-nav.js" defer></script>
-<script src="js/lightbox.js" defer></script>
+<script src="js/nav-glass.js"></script>
+<script src="js/case-study-v2.js"></script>
 </body>
 </html>

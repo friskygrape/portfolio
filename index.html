@@ -17,7 +17,7 @@
   </script>
   <link rel="preload" href="fonts/radio-canada-big-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="fonts/radio-canada-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="css/nav.css">
+  <link rel="stylesheet" href="css/nav-glass.css">
   <script>document.documentElement.classList.add('js'); if (new URLSearchParams(location.search).get('hero') === 'centre') document.documentElement.dataset.hero = 'centre';   /* review switch: the centred landing */</script>
   <style>
     /* ════════════════════════════════════════════════════
@@ -91,7 +91,7 @@
     .label { font-family: var(--font-text); font-size: var(--t-label); font-weight: 500; line-height: 1.5; }
     .arrow { width: 20px; height: 20px; flex: none; transition: transform 0.4s var(--out); }
 
-    /* ════════ NAV: shared, in css/nav.css (behaviour in js/site-nav.js). The night state over the AI section is set by the script below. ════════ */
+    /* ════════ NAV: the shared glass pill, css/nav-glass.css + js/nav-glass.js (it finds the dark AI section on its own) ════════ */
 
     /* ════════ HERO ════════ */
     .hero { position: relative; overflow-x: clip; min-height: 100svh; padding-top: var(--nav-h); display: flex; flex-direction: column; }
@@ -561,11 +561,9 @@
 </head>
 <body>
 
-<nav class="nav" aria-label="Main">
-  <div class="wrap nav-in">
-    <a class="nav-logo" href="index.html">Deron Li</a>
-    <div class="nav-links label"><a href="#work">Work</a><a href="ai-design.html">AI x Design</a><a href="about.html">About</a></div>
-  </div>
+<nav class="pill pill-nav" aria-label="Main">
+  <a class="pill-logo" href="index.html">Deron Li</a>
+  <div class="pill-links"><a href="index.html" aria-current="page">Home</a><a href="index.html#work">Work</a><a href="ai-design.html">AI x Design</a><a href="about.html">About</a></div>
 </nav>
 
 <main>
@@ -679,8 +677,8 @@
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 
   /* ── Nav ── */
-  const nav = $('.nav');   /* scrolled state: js/site-nav.js; the dark AI section sets the night state here */
-  new IntersectionObserver(([e]) => nav.classList.toggle('is-night', e.isIntersecting), { rootMargin: '0px 0px -100% 0px' }).observe($('.ai'));
+  /* the nav (css/nav-glass.css + js/nav-glass.js) finds the dark AI section on its own */
+  const nav = $('nav.pill-nav');
 
   /* ── Numbers that count to their value ── */
   const fmt = (v, dec) => v.toLocaleString('en-CA', { minimumFractionDigits: dec, maximumFractionDigits: dec });
@@ -1251,7 +1249,7 @@
       const w = Math.max(2, Math.round(cw * k)), h = Math.max(2, Math.round(ch * k));
       if (cv.width !== w || cv.height !== h) { cv.width = w; cv.height = h; gl.viewport(0, 0, w, h); }
       gl.uniform2f(U('r'), w, h); gl.uniform1f(U('mob'), phone && !corner ? 1 : 0); gl.uniform1f(U('ctr'), corner ? 1 : 0);   /* ?hero=centre places the scarves itself, so it uses the desktop form at every width */
-      gl.uniform1f(U('nv'), nav.offsetHeight / Math.max(1, ch));
+      gl.uniform1f(U('nv'), (nav.offsetTop + nav.offsetHeight) / Math.max(1, ch));   /* where the nav pill ends (it floats 16px down) */
     };
     let t = +(new URLSearchParams(location.search).get('t') || 0) + 20, last = 0, raf = 0, on = false;
     let tex = 1;
@@ -1437,7 +1435,7 @@
 
 })();
 </script>
-<script src="js/site-nav.js"></script>
+<script src="js/nav-glass.js"></script>
 </body>
 </html>
 

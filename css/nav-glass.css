@@ -1,0 +1,107 @@
+/* ════════════════════════════════════════════════════════
+   SITE NAV: GLASS PILL (case-study-redesign branch, 2026-11-25). Shared by every page.
+   A small centred glass pill: "Deron Li", then Home / Work / AI x Design / About. Mark the page's link with aria-current="page".
+   Behaviour (js/nav-glass.js): .is-scrolled after 8px, slides away while you scroll down and returns on the way up,
+   .is-night over any dark background under it (or inside [data-nav-dark]), and on phones (768px and below)
+   a menu button that opens a full-screen sheet.
+   Markup:
+     <nav class="pill pill-nav" aria-label="Main">
+       <a class="pill-logo" href="index.html">Deron Li</a>
+       <div class="pill-links"><a href="index.html">Home</a><a href="index.html#work">Work</a><a href="ai-design.html">AI x Design</a><a href="about.html">About</a></div>
+     </nav>
+   The glass look (.pill) is also used by the case studies' section pill.
+   Selectors are specific enough to beat the old bare `nav` rule in css/site.css.
+   ════════════════════════════════════════════════════════ */
+@font-face { font-family: 'Radio Canada Big'; font-weight: 400 700; font-display: swap; src: url(../fonts/radio-canada-big-latin.woff2) format('woff2'); }
+@font-face { font-family: 'Radio Canada'; font-weight: 400 700; font-display: swap; src: url(../fonts/radio-canada-latin.woff2) format('woff2'); }
+html { scrollbar-gutter: stable; }
+@view-transition { navigation: auto; }
+::view-transition-old(root), ::view-transition-new(root) { animation-duration: 0.35s; animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+nav.pill-nav { view-transition-name: site-nav; }
+::view-transition-group(site-nav) { animation-duration: 0s; }
+
+.pill {
+  --ng-ink: #121212; --ng-line: #D4D4D0; --ng-accent: #4D00C0; --ng-ground: #FAFAF9; --ng-sheet: #FFFFFF;
+  --ng-display: 'Radio Canada Big', 'Helvetica Neue', Arial, sans-serif;
+  --ng-text: 'Radio Canada', 'Helvetica Neue', Arial, sans-serif;
+  --ng-soft: cubic-bezier(0.4, 0, 0.2, 1); --ng-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+.pill {
+  position: fixed; top: 16px; left: 50%; right: auto; bottom: auto; z-index: 100; transform: translateX(-50%);
+  display: flex; align-items: center; justify-content: flex-start; gap: 8px; height: auto; margin: 0; padding: 4px 16px;
+  font-family: var(--ng-text); -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+  /* clear glass (Deron): a thin diagonal sheen instead of a white fill, a light blur so the page reads through,
+     bright rim edges and a fine grain (::before) so it reads as a glass surface, not a white or empty pill */
+  background: linear-gradient(120deg, rgba(255, 255, 255, 0.62) 0%, rgba(255, 255, 255, 0.36) 40%, rgba(255, 255, 255, 0.30) 62%, rgba(255, 255, 255, 0.52) 100%);   /* frosted: a milky sheen, brighter at the corners */
+  -webkit-backdrop-filter: blur(28px) saturate(1.8); backdrop-filter: blur(28px) saturate(1.8);
+  border: 1px solid rgba(255, 255, 255, 0.35); border-radius: 999px;
+  --glass-rim: inset 0 1px 0 rgba(255, 255, 255, 0.45), inset 0 -1px 0 rgba(255, 255, 255, 0.15), inset 0 0 0 0.5px rgba(18, 18, 18, 0.06), inset 0 8px 16px -8px rgba(255, 255, 255, 0.5);
+  box-shadow: var(--glass-rim), 0 1px 2px rgba(18, 18, 18, 0.06), 0 8px 20px rgba(18, 18, 18, 0.10), 0 24px 56px rgba(18, 18, 18, 0.10);   /* elevated: it floats above the page at all times */
+  white-space: nowrap;
+  transition: background .35s var(--ng-soft), border-color .35s var(--ng-soft), box-shadow .35s var(--ng-soft), transform .45s var(--ng-out);
+}
+.pill::before {   /* fine grain: the glass texture */
+  content: ''; position: absolute; inset: 0; border-radius: inherit; z-index: -1; pointer-events: none; opacity: 0.55;
+  /* white-only frost grain (no grey): noise drives alpha, colour is pure white, so it textures without dulling */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 1.6 -0.75'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.pill a, .pill button { text-shadow: 0 0 12px rgba(255, 255, 255, 0.9), 0 0 2px rgba(255, 255, 255, 0.8); }   /* keeps the links legible on clear glass */
+.pill-nav.is-away { transform: translate(-50%, calc(-100% - 24px)); }
+.pill-nav.is-away:focus-within { transform: translateX(-50%); }
+.pill-links { display: flex; align-items: center; gap: 8px; }
+.pill a {
+  position: relative; display: inline-flex; align-items: center; height: 44px; padding: 0 12px;   /* 12 + 8 + 12 = 32px between words */
+  font-size: 16px; font-weight: 500; line-height: 1; color: var(--ng-ink); text-decoration: none;
+  transition: color .35s var(--ng-soft);
+}
+.pill a::after { content: ''; position: absolute; left: 12px; right: 12px; bottom: 10px; height: 1.5px; background: currentColor; transform: scaleX(0); transform-origin: left; transition: transform .35s var(--ng-out); }
+.pill a:hover::after, .pill a[aria-current]::after { transform: scaleX(1); }
+.pill .pill-logo { font-family: var(--ng-display); font-weight: 600; letter-spacing: -0.01em; margin-right: 80px; }   /* logo sits apart from the links (Deron) */
+.pill .pill-logo::after { content: none; }
+.pill :focus-visible { outline: 2px solid currentColor; outline-offset: 2px; border-radius: 999px; }
+.pill.is-night {
+  background: linear-gradient(120deg, rgba(255, 255, 255, 0.20) 0%, rgba(255, 255, 255, 0.10) 40%, rgba(255, 255, 255, 0.08) 62%, rgba(255, 255, 255, 0.16) 100%);   /* the same clear glass over the dark bands */
+  border-color: rgba(255, 255, 255, 0.10);
+  --glass-rim: inset 0 1px 0 rgba(255, 255, 255, 0.18), inset 0 -1px 0 rgba(255, 255, 255, 0.10), inset 0 8px 16px -8px rgba(255, 255, 255, 0.12);
+  box-shadow: var(--glass-rim), 0 8px 24px rgba(0, 0, 0, 0.28);
+}
+.pill.is-night::before { opacity: 0.22; }
+.pill.is-night a, .pill.is-night .nav-toggle { color: #FFFFFF; text-shadow: 0 0 12px rgba(0, 0, 0, 0.7), 0 0 2px rgba(0, 0, 0, 0.6); }
+.nav-toggle { display: none; }
+
+/* phones: the logo and a menu button; the links open as a full-screen sheet */
+@media (max-width: 768px) {
+  .pill-nav.has-menu { left: 16px; right: 16px; transform: none; justify-content: space-between; padding: 4px 4px 4px 8px; overflow: visible; }
+  .pill .pill-logo { margin-right: 0; }
+  .pill-nav.has-menu.is-away { transform: translateY(calc(-100% - 24px)); }
+  .pill-nav.has-menu.is-away:focus-within { transform: none; }
+  /* open: no transform or blur on the pill, so the fixed sheet inside it covers the whole screen */
+  .pill-nav.is-open { -webkit-backdrop-filter: none; backdrop-filter: none; transform: none; }
+  .pill-nav.has-menu .nav-toggle {
+    position: relative; display: grid; place-items: center; width: 44px; height: 44px; padding: 0;
+    border: 0; background: none; color: var(--ng-ink); cursor: pointer; -webkit-tap-highlight-color: transparent;
+  }
+  .nav-toggle i { position: absolute; left: 12px; right: 12px; height: 2px; border-radius: 2px; background: currentColor; transition: transform .4s var(--ng-out); }
+  .nav-toggle i:nth-child(1) { transform: translateY(-4px); }
+  .nav-toggle i:nth-child(2) { transform: translateY(4px); }
+  .pill-nav.is-open .nav-toggle i:nth-child(1) { transform: rotate(45deg); }
+  .pill-nav.is-open .nav-toggle i:nth-child(2) { transform: rotate(-45deg); }
+  .pill-nav.has-menu .pill-links {
+    position: fixed; inset: 0; z-index: -1; flex-direction: column; align-items: stretch; gap: 0;
+    padding: 96px 24px 40px; background: var(--ng-ground); overflow-y: auto;
+    opacity: 0; visibility: hidden; transform: translateY(-8px);
+    transition: opacity .3s var(--ng-soft), transform .45s var(--ng-out), visibility 0s linear .3s;
+  }
+  .pill-nav.is-open .pill-links { opacity: 1; visibility: visible; transform: none; transition: opacity .3s var(--ng-soft), transform .45s var(--ng-out), visibility 0s; }
+  .pill-nav.has-menu .pill-links a {
+    height: auto; padding: 20px 0; border-bottom: 1px solid var(--ng-line); color: var(--ng-ink);
+    font-family: var(--ng-display); font-size: 24px; font-weight: 600; line-height: 1.25; letter-spacing: -0.015em;
+  }
+  .pill-nav.has-menu .pill-links a::after { content: none; }
+  .pill-nav.has-menu .pill-links a[aria-current] { color: var(--ng-accent); }
+  .pill-nav.is-open, .pill-nav.is-open.is-night { background: var(--ng-sheet); }
+  .pill-nav.is-open a.pill-logo, .pill-nav.is-open .nav-toggle { color: var(--ng-ink); }
+  body:has(.pill-nav.is-open) .toc, body:has(.pill-nav.is-open) .variant { visibility: hidden; }   /* the open menu covers everything */
+}
+
+@media (prefers-reduced-motion: reduce) { .pill, .pill * { transition: none !important; } }

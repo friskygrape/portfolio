@@ -4,12 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TELUS — App Retention · Deron Li</title>
-  <link rel="stylesheet" href="css/site.css">
   <link rel="preload" href="fonts/radio-canada-big-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="fonts/radio-canada-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="css/brand.css">
-  <link rel="stylesheet" href="css/case-study-brand.css">
-  <link rel="stylesheet" href="css/nav.css">
+  <link rel="preload" href="fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/nav-glass.css">
+  <link rel="stylesheet" href="css/type-v2.css">
+  <link rel="stylesheet" href="css/case-study-v2.css">
   <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
   <link rel="shortcut icon" href="images/favicon.ico">
@@ -24,219 +24,155 @@
 </head>
 <body>
 
-<nav class="nav" aria-label="Main">
-  <div class="wrap nav-in">
-    <a class="nav-logo" href="index.html">Deron Li</a>
-    <div class="nav-links label"><a href="index.html#work" aria-current="page">Work</a><a href="ai-design.html">AI x Design</a><a href="about.html">About</a></div>
-  </div>
+<nav class="pill pill-nav" aria-label="Main">
+  <a class="pill-logo" href="index.html">Deron Li</a>
+  <div class="pill-links"><a href="index.html">Home</a><a href="index.html#work" aria-current="page">Work</a><a href="ai-design.html">AI x Design</a><a href="about.html">About</a></div>
 </nav>
 
-<div class="cs-page">
+<nav class="pill toc" aria-label="Sections">
+  <button class="toc-toggle" type="button" aria-expanded="false" aria-controls="toc-list"><span data-toc-current><span><span class="toc-num">01</span>Summary</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></button>
+  <ol class="toc-list" id="toc-list">
+    <li><a href="#summary"><span><span class="toc-num">01</span>Summary</span></a></li>
+    <li><a href="#context"><span><span class="toc-num">02</span>Context</span></a></li>
+    <li><a href="#problem"><span><span class="toc-num">03</span>Problem</span></a></li>
+    <li><a href="#research"><span><span class="toc-num">04</span>Research</span></a></li>
+    <li><a href="#solution"><span><span class="toc-num">05</span>Solution</span></a></li>
+    <li><a href="#impact"><span><span class="toc-num">06</span>Impact</span></a></li>
+    <li><a href="#reflection"><span><span class="toc-num">07</span>Reflection</span></a></li>
+  </ol>
+</nav>
 
-  <div class="cs-cover">
-    <img src="images/onboarding/onboarding_cover.png" alt="TELUS My App Retention" />
-  </div>
+<main>
 
-  <div class="cs-body">
+  <aside class="cs-rail" aria-label="On this page">
+    <div class="cs-toc">
+      <a class="toc-back" href="index.html#work"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>Featured Work</a>
+        <ul>
+        <li><a class="toc-link" href="#summary"><span class="toc-num">01</span>Summary</a></li>
+        <li><a class="toc-link" href="#context"><span class="toc-num">02</span>Context</a></li>
+        <li><a class="toc-link" href="#problem"><span class="toc-num">03</span>Problem</a></li>
+        <li><a class="toc-link" href="#research"><span class="toc-num">04</span>Research</a></li>
+        <li><a class="toc-link" href="#solution"><span class="toc-num">05</span>Solution</a></li>
+        <li><a class="toc-link" href="#impact"><span class="toc-num">06</span>Impact</a></li>
+        <li><a class="toc-link" href="#reflection"><span class="toc-num">07</span>Reflection</a></li>
+        </ul>
+    </div>
+  </aside>
 
-    <div class="cs-layout">
-
-      <aside class="cs-toc">
-        <a class="toc-back" href="index.html#work">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
-          Featured Work
-        </a>
-        <div class="toc-track">
-          <div class="toc-indicator">
-            <span class="toc-indicator-layer toc-indicator-layer--1"></span>
-            <span class="toc-indicator-layer toc-indicator-layer--2"></span>
-            <span class="toc-indicator-layer toc-indicator-layer--3"></span>
-            <span class="toc-indicator-layer toc-indicator-layer--4"></span>
-            <span class="toc-indicator-layer toc-indicator-layer--5"></span>
-          </div>
-          <ul>
-            <li><a class="toc-link" href="#summary">Summary</a></li>
-            <li><a class="toc-link" href="#context">Context</a></li>
-            <li><a class="toc-link" href="#problem">Problem</a></li>
-            <li><a class="toc-link" href="#research">Research</a></li>
-            <li><a class="toc-link" href="#solution">Solution</a></li>
-            <li><a class="toc-link" href="#impact">Impact</a></li>
-            <li><a class="toc-link" href="#reflection">Reflection</a></li>
-          </ul>
+  <header class="band band--ground band--hero" id="top">
+    <div class="wrap">
+      <div class="text">
+        <h1 class="display">Increasing the My TELUS App Retention from 40.6% to 62.6%</h1>
+        <div class="meta">
+          <div><p class="label">My Role</p><p class="body">Product Designer</p></div>
+          <div><p class="label">Team</p><p class="body">Product Owner<br>Developer<br>Content Writer<br>QA</p></div>
+          <div><p class="label">Timeline</p><p class="body">April – May 2020</p></div>
+          <div><p class="label">Areas</p><p class="body">Onboarding<br>Retention<br>Self-Service</p></div>
         </div>
-      </aside>
+      </div>
+    </div>
+  </header>
 
-      <div class="cs-sections">
+  <!-- ═══ 01 Summary ═══ -->
+  <section class="band band--sheet" id="summary">
+    <div class="wrap">
+      <div class="text">
+        <p class="eyebrow label"><span class="num">01</span><span class="name">Summary</span></p>
+        <p class="body">I redesigned the onboarding experience for the My TELUS App to educate customers on self-serve capabilities and reduce call centre dependency. By introducing benefit-oriented animations highlighting high-impact features, I boosted 1-month retention from <strong>40.6% to 62.6%</strong> and grew High-Value Self-Service Activity (HVSSA) from <strong>1.9% to 3.7%</strong> within the <strong>first month</strong>.</p>
+      </div>
+      <figure class="visual shot"><img src="images/onboarding/onboarding_cover.png" alt="TELUS My App Retention" /></figure>
+    </div>
+  </section>
 
-        <header class="cs-hero" id="summary">
-          <h1 class="cs-title h1">Increasing the My TELUS App Retention from 40.6% to 62.6%</h1>
-          <div class="cs-meta">
-            <div class="cs-meta-item">
-              <p>My Role</p>
-              <p>Product Designer</p>
-            </div>
-            <div class="cs-meta-item">
-              <p>Team</p>
-              <p>Product Owner<br>Developer<br>Content Writer<br>QA</p>
-            </div>
-            <div class="cs-meta-item">
-              <p>Timeline</p>
-              <p>April – May 2020</p>
-            </div>
-            <div class="cs-meta-item">
-              <p>Areas</p>
-              <p>Onboarding<br>Retention<br>Self-Service</p>
-            </div>
-          </div>
-          <p class="cs-summary body-lg">I redesigned the onboarding experience for the My TELUS App to educate customers on self-serve capabilities and reduce call centre dependency. By introducing benefit-oriented animations highlighting high-impact features, I boosted 1-month retention from <strong>40.6% to 62.6%</strong> and grew High-Value Self-Service Activity (HVSSA) from <strong>1.9% to 3.7%</strong> within the <strong>first month</strong>.</p>
-          <div class="cs-placeholder"><div class="cs-placeholder-inner"><img src="images/onboarding/summary.png" alt="My TELUS App onboarding summary" /></div></div>
-        </header>
+  <!-- ═══ 02 Context ═══ -->
+  <section class="band band--ground" id="context">
+    <div class="wrap">
+      <div class="text">
+        <p class="eyebrow label"><span class="num">02</span><span class="name">Context</span></p>
+        <h2 class="title">Empowering Self-Service within The My TELUS App</h2>
+        <p class="body">The My TELUS App is the primary hub for customers to manage their accounts. Whether tracking data usage or paying bills, the goal was to empower users to handle tasks independently, shifting reliance away from support channels and toward self-service.</p>
+      </div>
+      <figure class="visual shot"><img src="images/onboarding/mytelusapp.png" alt="The My TELUS App home screen" loading="lazy" /></figure>
+    </div>
+  </section>
 
-        <section class="cs-section" id="context">
-          <h5><svg class="cs-section-icon cs-section-icon--book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" pathLength="100"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" pathLength="100"/></svg>Context</h5>
-          <h2 class="h2">Empowering Self-Service within The My TELUS App</h2>
-          <p class="body-lg">The My TELUS App is the primary hub for customers to manage their accounts. Whether tracking data usage or paying bills, the goal was to empower users to handle tasks independently, shifting reliance away from support channels and toward self-service.</p>
-          <div class="cs-placeholder"><div class="cs-placeholder-inner"><img src="images/onboarding/mytelusapp.png" alt="The My TELUS App home screen" /></div></div>
-        </section>
+  <!-- ═══ 03 Problem ═══ -->
+  <section class="band band--sheet" id="problem">
+    <div class="wrap">
+      <div class="text">
+        <p class="eyebrow label"><span class="num">03</span><span class="name">Problem</span></p>
+        <h2 class="title">High Call Volumes and Service Abandonment</h2>
+        <p class="body">The My TELUS services (web &amp; app) were seeing a significant drop-off in engagement, with only <strong>40% of users</strong> returning to manage their accounts after the <strong>first 90 days</strong>. This lack of retention contributed to <strong>1.5 million calls</strong> within that same window.</p>
+        <p class="body">While these issues spanned all of the My TELUS services, this presented an opportunity to use the mobile app as a driver for digital adoption. By redesigning the onboarding to lead with the app's value, we could proactively increase user retention and shift behaviour toward self-service, reducing the overall need for call centre support.</p>
+      </div>
+    </div>
+  </section>
 
-        <section class="cs-section" id="problem">
-          <h5><svg class="cs-section-icon cs-section-icon--search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Problem</h5>
-          <h2 class="h2">High Call Volumes and Service Abandonment</h2>
-          <p class="body-lg">The My TELUS services (web &amp; app) were seeing a significant drop-off in engagement, with only <strong>40% of users</strong> returning to manage their accounts after the <strong>first 90 days</strong>. This lack of retention contributed to <strong>1.5 million calls</strong> within that same window.</p>
-          <p class="body-lg">While these issues spanned all of the My TELUS services, this presented an opportunity to use the mobile app as a driver for digital adoption. By redesigning the onboarding to lead with the app's value, we could proactively increase user retention and shift behaviour toward self-service, reducing the overall need for call centre support.</p>
-        </section>
+  <!-- ═══ 04 Research ═══ -->
+  <section class="band band--ground" id="research">
+    <div class="wrap">
+      <div class="text">
+        <p class="eyebrow label"><span class="num">04</span><span class="name">Research</span></p>
+        <h2 class="title">Analyzing Call Drivers to Identify High-Impact Features</h2>
+        <p class="body">To understand the landscape of customer frustration, I analyzed the top reasons users were calling support. This allowed us to pinpoint exactly which app features would provide the most immediate relief to both the customer and the business.</p>
+      </div>
+      <div class="subblock">
+        <h3 class="sub">Top Call Drivers</h3>
+      </div>
+      <ul class="grid grid--3" role="list"><li class="item"><p class="label rank">01</p><p class="label">Data Usage Inquiries</p><p class="title figure-num">147,000</p><p class="body">calls/year</p></li><li class="item"><p class="label rank">02</p><p class="label">Onboarding / Account Setup</p><p class="title figure-num">110,000</p><p class="body">calls/year</p></li><li class="item"><p class="label rank">03</p><p class="label">Billing Inquiries</p><p class="title figure-num">65,000</p><p class="body">calls/year</p></li></ul>
+      <div class="subblock">
+        <h3 class="sub">Education Bridges the Awareness Gap</h3>
+        <p class="body">The data showed that customers weren't avoiding the My TELUS App. They just didn't know it could solve these specific problems. I realized that by educating users in the first few seconds, we could shift their behaviour from calling support to using the self-serve tools already in the app.</p>
+      </div>
+      <div class="subblock">
+        <h3 class="sub">The Existing Onboarding Experience</h3>
+        <p class="body">The original flow focused on administrative hurdles rather than value. Users had to navigate generic welcomes, dense legal text, and immediate permission prompts before reaching the dashboard. This created a barrier to entry that failed to show what the app could actually do, missing the chance to give users a reason to return.</p>
+      </div>
+      <figure class="visual shot"><img src="images/onboarding/currentonboarding.png" alt="Current onboarding experience" loading="lazy" /></figure>
+    </div>
+  </section>
 
-        <section class="cs-section" id="research">
-          <h5><svg class="cs-section-icon cs-section-icon--chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="15" y="5" width="4" height="12" rx="1"/><rect x="7" y="8" width="4" height="9" rx="1"/><path d="M11 13H7"/><path d="M19 9h-4"/><path d="M3 3v16a2 2 0 0 0 2 2h16"/></svg>Research</h5>
-          <h2 class="h2">Analyzing Call Drivers to Identify High-Impact Features</h2>
-          <p class="body-lg">To understand the landscape of customer frustration, I analyzed the top reasons users were calling support. This allowed us to pinpoint exactly which app features would provide the most immediate relief to both the customer and the business.</p>
-          <h3 class="h3">Top Call Drivers</h3>
-          <div class="cs-metrics">
-            <div class="cs-metric">
-              <div class="cs-metric-header">
-                <span class="cs-metric-rank tag">01</span>
-                <p class="cs-metric-label overline">Data Usage Inquiries</p>
-              </div>
-              <div class="cs-metric-value">
-                <span class="cs-metric-number h1" data-count="147000">0</span>
-                <span class="cs-metric-unit body">calls/year</span>
-              </div>
-            </div>
-            <div class="cs-metric">
-              <div class="cs-metric-header">
-                <span class="cs-metric-rank tag">02</span>
-                <p class="cs-metric-label overline">Onboarding / Account Setup</p>
-              </div>
-              <div class="cs-metric-value">
-                <span class="cs-metric-number h1" data-count="110000">0</span>
-                <span class="cs-metric-unit body">calls/year</span>
-              </div>
-            </div>
-            <div class="cs-metric">
-              <div class="cs-metric-header">
-                <span class="cs-metric-rank tag">03</span>
-                <p class="cs-metric-label overline">Billing Inquiries</p>
-              </div>
-              <div class="cs-metric-value">
-                <span class="cs-metric-number h1" data-count="65000">0</span>
-                <span class="cs-metric-unit body">calls/year</span>
-              </div>
-            </div>
-          </div>
-          <h3 class="h3">Education Bridges the Awareness Gap</h3>
-          <p class="body-lg">The data showed that customers weren't avoiding the My TELUS App. They just didn't know it could solve these specific problems. I realized that by educating users in the first few seconds, we could shift their behaviour from calling support to using the self-serve tools already in the app.</p>
-          <h3 class="h3">The Existing Onboarding Experience</h3>
-          <p class="body-lg">The original flow focused on administrative hurdles rather than value. Users had to navigate generic welcomes, dense legal text, and immediate permission prompts before reaching the dashboard. This created a barrier to entry that failed to show what the app could actually do, missing the chance to give users a reason to return.</p>
-          <div class="cs-placeholder"><div class="cs-placeholder-inner"><img src="images/onboarding/currentonboarding.png" alt="Current onboarding experience" /></div></div>
-        </section>
+  <!-- ═══ 05 Solution ═══ -->
+  <section class="band band--sheet" id="solution">
+    <div class="wrap">
+      <div class="text">
+        <p class="eyebrow label"><span class="num">05</span><span class="name">Solution</span></p>
+        <h2 class="title">Reducing Friction and Leading with Value</h2>
+        <p class="body">I optimized the onboarding flow by removing unnecessary friction. I eliminated the generic welcome screen and deferred permission requests like notifications until later in the journey. This created space to introduce animated benefit cards before the user landed on the homepage.</p>
+      </div>
+      <figure class="visual shot"><video class="js-loop" src="https://res.cloudinary.com/dh3awz0yq/video/upload/v1776632188/Onboarding_Animation_u0pkh1.mp4" muted loop playsinline preload="metadata" aria-label="New onboarding flow"></video></figure>
+      <div class="subblock">
+        <h3 class="sub">This streamlined approach focused on:</h3>
+      </div>
+      <ul class="grid grid--3" role="list"><li class="item"><h4 class="sub">Visual Storytelling</h4><p class="body">Showing where features live in the interface rather than just describing them.</p></li><li class="item"><h4 class="sub">Purposeful Motion</h4><p class="body">Using animation to guide attention to key actions, reducing the cognitive load of learning the UI.</p></li><li class="item"><h4 class="sub">Immediate Utility</h4><p class="body">Prioritizing Data, Billing, and Support to demonstrate the app's value within the first few seconds.</p></li></ul>
+    </div>
+  </section>
 
-        <section class="cs-section" id="solution">
-          <h5><svg class="cs-section-icon cs-section-icon--bulb" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></svg>Solution</h5>
-          <h2 class="h2">Reducing Friction and Leading with Value</h2>
-          <p class="body-lg">I optimized the onboarding flow by removing unnecessary friction. I eliminated the generic welcome screen and deferred permission requests like notifications until later in the journey. This created space to introduce animated benefit cards before the user landed on the homepage.</p>
-          <div class="cs-placeholder"><div class="cs-placeholder-inner"><video src="https://res.cloudinary.com/dh3awz0yq/video/upload/v1776632188/Onboarding_Animation_u0pkh1.mp4" autoplay controls muted loop playsinline></video></div></div>
-          <h3 class="h3">This streamlined approach focused on:</h3>
-          <div class="cs-features">
-            <div class="cs-feature">
-              <svg class="cs-feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/>
-                <circle cx="12" cy="12" r="3"/>
-              </svg>
-              <h4 class="cs-feature-title h4">Visual Storytelling</h4>
-              <p class="cs-feature-desc body-lg">Showing where features live in the interface rather than just describing them.</p>
-            </div>
-            <div class="cs-feature">
-              <svg class="cs-feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M12 3l1.5 5.5a2 2 0 0 0 1 1L20 11l-5.5 1.5a2 2 0 0 0-1 1L12 19l-1.5-5.5a2 2 0 0 0-1-1L4 11l5.5-1.5a2 2 0 0 0 1-1L12 3z"/>
-              </svg>
-              <h4 class="cs-feature-title h4">Purposeful Motion</h4>
-              <p class="cs-feature-desc body-lg">Using animation to guide attention to key actions, reducing the cognitive load of learning the UI.</p>
-            </div>
-            <div class="cs-feature">
-              <svg class="cs-feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
-              </svg>
-              <h4 class="cs-feature-title h4">Immediate Utility</h4>
-              <p class="cs-feature-desc body-lg">Prioritizing Data, Billing, and Support to demonstrate the app's value within the first few seconds.</p>
-            </div>
-          </div>
-        </section>
-
-        <section class="cs-section" id="impact">
-          <h5><svg class="cs-section-icon cs-section-icon--trend" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="2 17 8.5 10.5 13.5 15.5 22 7" pathLength="100"/><polyline points="16 7 22 7 22 13" pathLength="100"/></svg>Impact</h5>
-          <h2 class="h2">Increased Android Retention from 40.6% to 62.6%</h2>
-          <p class="body-lg">Streamlining the flow and focusing on education led to a sustained improvement in how users stayed engaged. The data shows that users who experienced the new onboarding were significantly more likely to return and perform high-value self-service activities (HVSSA) compared to those who did not.</p>
-          <div class="cs-results">
-            <div class="cs-result">
-              <p class="cs-result-title overline">Retention · 1 Month</p>
-              <div class="cs-result-row">
-                <p class="cs-result-row-platform">Android</p>
-                <div class="cs-result-row-content">
-                  <p class="cs-result-row-values">40.6% <span class="cs-result-arrow">→</span> 62.6%</p>
-                  <span class="cs-result-lift">+22 pts</span>
-                </div>
-              </div>
-              <div class="cs-result-row">
-                <p class="cs-result-row-platform">iOS</p>
-                <div class="cs-result-row-content">
-                  <p class="cs-result-row-values">53.3% <span class="cs-result-arrow">→</span> 64.4%</p>
-                  <span class="cs-result-lift">+11.1 pts</span>
-                </div>
-              </div>
-            </div>
-            <div class="cs-result">
-              <p class="cs-result-title overline">Self-Service Activity · 1 Month</p>
-              <div class="cs-result-row">
-                <p class="cs-result-row-platform">Android</p>
-                <div class="cs-result-row-content">
-                  <p class="cs-result-row-values">1.9% <span class="cs-result-arrow">→</span> 3.7%</p>
-                  <span class="cs-result-lift">+1.8 pts</span>
-                </div>
-              </div>
-              <div class="cs-result-row">
-                <p class="cs-result-row-platform">iOS</p>
-                <div class="cs-result-row-content">
-                  <p class="cs-result-row-values">4.6% <span class="cs-result-arrow">→</span> 6.6%</p>
-                  <span class="cs-result-lift">+2 pts</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <p class="body-lg">The results remained consistent over a <strong>3-month period</strong>, proving that when we proactively show users how to solve their problems in-app, they are significantly more likely to choose self-service over calling support.</p>
-
-          <div class="cs-retention">
-            <h3 class="h3">Retention Over 3 Months In-App</h3>
-            <p class="body-lg">Percentage of users in each cohort coming back within 1-3 months of launching the app for the first time.</p>
-            <div class="cs-retention-grid">
+  <!-- ═══ 06 Impact ═══ -->
+  <section class="band band--night" id="impact">
+    <div class="wrap">
+      <div class="text">
+        <p class="eyebrow label"><span class="num">06</span><span class="name">Impact</span></p>
+        <h2 class="title">Increased Android Retention from 40.6% to 62.6%</h2>
+        <p class="body">Streamlining the flow and focusing on education led to a sustained improvement in how users stayed engaged. The data shows that users who experienced the new onboarding were significantly more likely to return and perform high-value self-service activities (HVSSA) compared to those who did not.</p>
+      </div>
+      <div class="grid grid--2"><div class="item"><p class="label">Retention · 1 Month</p><div class="result-rows"><div><p class="label">Android</p><p class="sub figure-num">40.6% <span class="cs-result-arrow">→</span> 62.6%</p><p class="label lift">+22 pts</p></div><div><p class="label">iOS</p><p class="sub figure-num">53.3% <span class="cs-result-arrow">→</span> 64.4%</p><p class="label lift">+11.1 pts</p></div></div></div><div class="item"><p class="label">Self-Service Activity · 1 Month</p><div class="result-rows"><div><p class="label">Android</p><p class="sub figure-num">1.9% <span class="cs-result-arrow">→</span> 3.7%</p><p class="label lift">+1.8 pts</p></div><div><p class="label">iOS</p><p class="sub figure-num">4.6% <span class="cs-result-arrow">→</span> 6.6%</p><p class="label lift">+2 pts</p></div></div></div></div>
+      <div class="subblock">
+        <p class="body">The results remained consistent over a <strong>3-month period</strong>, proving that when we proactively show users how to solve their problems in-app, they are significantly more likely to choose self-service over calling support.</p>
+      </div>
+      <div class="subblock">
+        <h3 class="sub">Retention Over 3 Months In-App</h3>
+        <p class="body">Percentage of users in each cohort coming back within 1-3 months of launching the app for the first time.</p>
+      </div>
+      <div class="visual charts">
               <div class="cs-retention-chart">
                 <div class="cs-retention-meta">
-                  <h4 class="cs-retention-platform">Android</h4>
-                  <p class="cs-retention-visitors">32K Visitors</p>
+                  <h4 class="sub cs-retention-platform">Android</h4>
+                  <p class="label cs-retention-visitors">32K Visitors</p>
                 </div>
                 <div class="cs-retention-legend">
-                  <span class="cs-retention-legend-item"><span class="cs-retention-swatch cs-retention-swatch--with"></span>With Onboarding</span>
-                  <span class="cs-retention-legend-item"><span class="cs-retention-swatch cs-retention-swatch--without"></span>Without Onboarding</span>
+                  <span class="label cs-retention-legend-item"><span class="cs-retention-swatch cs-retention-swatch--with"></span>With Onboarding</span>
+                  <span class="label cs-retention-legend-item"><span class="cs-retention-swatch cs-retention-swatch--without"></span>Without Onboarding</span>
                 </div>
                 <svg class="cs-retention-svg" viewBox="0 0 400 280" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
                   <line class="cs-retention-grid-line" x1="0" y1="40"  x2="400" y2="40"/>
@@ -264,12 +200,12 @@
               </div>
               <div class="cs-retention-chart">
                 <div class="cs-retention-meta">
-                  <h4 class="cs-retention-platform">iOS</h4>
-                  <p class="cs-retention-visitors">107K Visitors</p>
+                  <h4 class="sub cs-retention-platform">iOS</h4>
+                  <p class="label cs-retention-visitors">107K Visitors</p>
                 </div>
                 <div class="cs-retention-legend">
-                  <span class="cs-retention-legend-item"><span class="cs-retention-swatch cs-retention-swatch--with"></span>With Onboarding</span>
-                  <span class="cs-retention-legend-item"><span class="cs-retention-swatch cs-retention-swatch--without"></span>Without Onboarding</span>
+                  <span class="label cs-retention-legend-item"><span class="cs-retention-swatch cs-retention-swatch--with"></span>With Onboarding</span>
+                  <span class="label cs-retention-legend-item"><span class="cs-retention-swatch cs-retention-swatch--without"></span>Without Onboarding</span>
                 </div>
                 <svg class="cs-retention-svg" viewBox="0 0 400 280" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
                   <line class="cs-retention-grid-line" x1="0" y1="40"  x2="400" y2="40"/>
@@ -294,22 +230,20 @@
                   <text class="cs-retention-axis-label" x="200" y="252" text-anchor="middle">2 Months</text>
                   <text class="cs-retention-axis-label" x="330" y="252" text-anchor="middle">3 Months</text>
                 </svg>
-              </div>
-            </div>
-          </div>
-
-          <div class="cs-retention cs-retention--hvssa">
-            <h3 class="h3">HVSSA Over 3 Months In-App</h3>
-            <p class="body-lg">Percentage of users in each cohort coming back to perform High-Valued Self-Service Activities (Example: paying their bill) within 1-3 months of launching the app for the first time.</p>
-            <div class="cs-retention-grid">
+              </div></div>
+      <div class="subblock">
+        <h3 class="sub">HVSSA Over 3 Months In-App</h3>
+        <p class="body">Percentage of users in each cohort coming back to perform High-Valued Self-Service Activities (Example: paying their bill) within 1-3 months of launching the app for the first time.</p>
+      </div>
+      <div class="visual charts">
               <div class="cs-retention-chart">
                 <div class="cs-retention-meta">
-                  <h4 class="cs-retention-platform">Android</h4>
-                  <p class="cs-retention-visitors">12K Visitors</p>
+                  <h4 class="sub cs-retention-platform">Android</h4>
+                  <p class="label cs-retention-visitors">12K Visitors</p>
                 </div>
                 <div class="cs-retention-legend">
-                  <span class="cs-retention-legend-item"><span class="cs-retention-swatch cs-retention-swatch--with"></span>With Onboarding</span>
-                  <span class="cs-retention-legend-item"><span class="cs-retention-swatch cs-retention-swatch--without"></span>Without Onboarding</span>
+                  <span class="label cs-retention-legend-item"><span class="cs-retention-swatch cs-retention-swatch--with"></span>With Onboarding</span>
+                  <span class="label cs-retention-legend-item"><span class="cs-retention-swatch cs-retention-swatch--without"></span>Without Onboarding</span>
                 </div>
                 <svg class="cs-retention-svg" viewBox="0 0 400 280" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
                   <line class="cs-retention-grid-line" x1="0" y1="40"  x2="400" y2="40"/>
@@ -337,12 +271,12 @@
               </div>
               <div class="cs-retention-chart">
                 <div class="cs-retention-meta">
-                  <h4 class="cs-retention-platform">iOS</h4>
-                  <p class="cs-retention-visitors">30K Visitors</p>
+                  <h4 class="sub cs-retention-platform">iOS</h4>
+                  <p class="label cs-retention-visitors">30K Visitors</p>
                 </div>
                 <div class="cs-retention-legend">
-                  <span class="cs-retention-legend-item"><span class="cs-retention-swatch cs-retention-swatch--with"></span>With Onboarding</span>
-                  <span class="cs-retention-legend-item"><span class="cs-retention-swatch cs-retention-swatch--without"></span>Without Onboarding</span>
+                  <span class="label cs-retention-legend-item"><span class="cs-retention-swatch cs-retention-swatch--with"></span>With Onboarding</span>
+                  <span class="label cs-retention-legend-item"><span class="cs-retention-swatch cs-retention-swatch--without"></span>Without Onboarding</span>
                 </div>
                 <svg class="cs-retention-svg" viewBox="0 0 400 280" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
                   <line class="cs-retention-grid-line" x1="0" y1="40"  x2="400" y2="40"/>
@@ -367,484 +301,48 @@
                   <text class="cs-retention-axis-label" x="200" y="252" text-anchor="middle">2 Months</text>
                   <text class="cs-retention-axis-label" x="330" y="252" text-anchor="middle">3 Months</text>
                 </svg>
-              </div>
-            </div>
-          </div>
-        </section>
+              </div></div>
+    </div>
+  </section>
 
-        <section class="cs-section" id="reflection">
-          <h5><svg class="cs-section-icon cs-section-icon--speech" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Reflection</h5>
-          <h2 class="h2">Education Drives Adoption</h2>
-          <p class="body-lg">This project reinforced that onboarding isn't just about showing features. It's about demonstrating value quickly. Customers needed to understand what the app could do for them before they'd invest time exploring it.</p>
-          <p class="body-lg">The success of this project influenced how I approach onboarding in future products: focus on benefits over features, use motion purposefully to guide attention, and keep content concise to maintain engagement during those critical first interactions.</p>
-        </section>
-
+  <!-- ═══ 07 Reflection ═══ -->
+  <section class="band band--ground" id="reflection">
+    <div class="wrap">
+      <div class="text">
+        <p class="eyebrow label"><span class="num">07</span><span class="name">Reflection</span></p>
+        <h2 class="title">Education Drives Adoption</h2>
+        <p class="body">This project reinforced that onboarding isn't just about showing features. It's about demonstrating value quickly. Customers needed to understand what the app could do for them before they'd invest time exploring it.</p>
+        <p class="body">The success of this project influenced how I approach onboarding in future products: focus on benefits over features, use motion purposefully to guide attention, and keep content concise to maintain engagement during those critical first interactions.</p>
       </div>
     </div>
+  </section>
 
-  </div>
-</div>
+</main>
 
-<section class="cs-more">
-  <div class="cs-more-inner">
-    <p class="cs-more-heading">More Projects</p>
-    <div class="cs-more-grid">
-
-      <a class="cs-more-card" href="discounts.html">
-        <div class="cs-more-img">
-          <img src="images/homepage/discounts.png" alt="TouchBistro Advanced Discounts" />
-        </div>
-        <p class="cs-more-company">TouchBistro</p>
-        <p class="cs-more-title">Securing a Restaurant with 10+ Locations through Advanced Discounts</p>
+<section class="more" aria-labelledby="more-heading" data-read-end>
+  <div class="wrap">
+    <p class="label" id="more-heading">More Projects</p>
+    <div class="more-grid">
+      <a class="more-card" href="discounts.html">
+        <div class="more-img"><img src="images/homepage/discounts.png" alt="TouchBistro Advanced Discounts" loading="lazy" /></div>
+        <p class="label">TouchBistro</p>
+        <p class="body">Securing a Restaurant with 10+ Locations through Advanced Discounts</p>
       </a>
-
-      <a class="cs-more-card" href="support.html">
-        <div class="cs-more-img">
-          <img src="images/homepage/support.png" alt="TouchBistro Support" />
-        </div>
-        <p class="cs-more-company">TouchBistro</p>
-        <p class="cs-more-title">Reducing Customer Call Times by 33% from 18 to 12 Minutes</p>
+      <a class="more-card" href="support.html">
+        <div class="more-img"><img src="images/homepage/support.png" alt="TouchBistro Support" loading="lazy" /></div>
+        <p class="label">TouchBistro</p>
+        <p class="body">Reducing Customer Call Times by 33% from 18 to 12 Minutes</p>
       </a>
-
-      <a class="cs-more-card" href="optik.html">
-        <div class="cs-more-img">
-          <img src="images/homepage/optik.png" alt="TELUS Optik TV" />
-        </div>
-        <p class="cs-more-company">TELUS</p>
-        <p class="cs-more-title">Growing Optik TV Daily Orders from 200 to 2,500+</p>
+      <a class="more-card" href="optik.html">
+        <div class="more-img"><img src="images/homepage/optik.png" alt="TELUS Optik TV" loading="lazy" /></div>
+        <p class="label">TELUS</p>
+        <p class="body">Growing Optik TV Daily Orders from 200 to 2,500+</p>
       </a>
-
     </div>
   </div>
 </section>
 
-<script>
-(function () {
-  const targets = [
-    document.getElementById('summary'),
-    ...document.querySelectorAll('.cs-section[id]')
-  ].filter(Boolean);
-  const links = document.querySelectorAll('.toc-link');
-
-  const indicator = document.querySelector('.toc-indicator');
-  const layers = [...document.querySelectorAll('.toc-indicator-layer')];
-  let currentIndicatorId = null;
-  let lastClickedId = null;
-  let lastClickedAt = 0;
-  const PIN_DURATION = 1200;
-
-  // 3-layer indicator with chain (train-like) motion. Pure lerp — no spring,
-  // no overshoot, no bounce — gives a clean ease-out: large step at the start
-  // of the move, decreasing as each layer approaches its target.
-  // The visible gap between adjacent layers is capped per move, scaled by
-  // trip distance (short hops ~1px extra; top-to-bottom hits the 5px cap).
-  const INDICATOR_SIZE = 12;
-  const REST_OFFSETS  = [0, 0, 0, 0, 0]; // all stacked at rest — only top visible
-  const LERP_RATE       = 0.18;          // for trail lerp (lead is driven directly during click)
-  const SCROLL_DURATION = 500;           // ms — same eased progress drives both scroll + lead
-  // Per-pair cap. Total max spread (head → tail) ≈ MAX_EXTRA_SEP × (layers - 1)
-  // = 5 × 4 = 20px on a long trip.
-  const MAX_EXTRA_SEP = 5;
-  const layerState = layers.map(() => ({ y: 0 }));
-  let targetY = 0;
-  let maxExtraSep = 0;                 // updated per-move, scaled by trip distance
-  let animating = false;
-  let firstPlacement = true;
-  let syncActive = false;              // true while click-driven scroll+indicator sync is running
-
-  // Cache inactive + active link heights once. We can't read offsetHeight
-  // at click/scroll time because the font-size transition makes that value
-  // mid-flight — the indicator would target the in-between size and drift.
-  // With cached heights we compute the active link's final center geometrically.
-  // Using getBoundingClientRect (float) instead of offsetHeight (int) — the
-  // 0.4px rounding compounds to a visible shift over 6+ rows.
-  const trackEl = document.querySelector('.toc-track');
-  let inactiveLinkH = 0, activeLinkH = 0, baseLinkTop = 0;
-  function measureLinkHeights() {
-    const ref = links[0];
-    const clone = ref.cloneNode(true);
-    clone.classList.remove('active');
-    clone.style.transition = 'none';
-    clone.style.position = 'absolute';
-    clone.style.visibility = 'hidden';
-    clone.style.pointerEvents = 'none';
-    ref.parentNode.appendChild(clone);
-    inactiveLinkH = clone.getBoundingClientRect().height;
-    clone.classList.add('active');
-    activeLinkH = clone.getBoundingClientRect().height;
-    clone.remove();
-    baseLinkTop = ref.getBoundingClientRect().top - trackEl.getBoundingClientRect().top;
-  }
-  measureLinkHeights();
-
-  function targetForLink(a) {
-    const idx = [...links].indexOf(a);
-    return baseLinkTop + idx * inactiveLinkH + (activeLinkH - INDICATOR_SIZE) / 2;
-  }
-
-  function layerTargetFor(i) {
-    if (i === 0) return targetY + REST_OFFSETS[0];
-    return layerState[i - 1].y + (REST_OFFSETS[i] - REST_OFFSETS[i - 1]);
-  }
-
-  function tick() {
-    let stillMoving = false;
-    for (let i = 0; i < layerState.length; i++) {
-      const s = layerState[i];
-
-      // While a click-driven sync animation is running, the lead's position
-      // is set externally (see syncScrollAndIndicator). Don't lerp it here.
-      if (i === 0 && syncActive) {
-        layers[0].style.setProperty('--toc-layer-y', `${s.y}px`);
-        stillMoving = true;
-        continue;
-      }
-
-      const lt = layerTargetFor(i);
-      const dy = lt - s.y;
-      s.y += dy * LERP_RATE;
-
-      // Cap the visible gap to the layer in front
-      if (i > 0) {
-        const restGap = REST_OFFSETS[i] - REST_OFFSETS[i - 1];
-        const maxAbsGap = Math.abs(restGap) + maxExtraSep;
-        const gap = s.y - layerState[i - 1].y;
-        if (Math.abs(gap) > maxAbsGap) {
-          s.y = layerState[i - 1].y + Math.sign(gap) * maxAbsGap;
-        }
-      }
-
-      layers[i].style.setProperty('--toc-layer-y', `${s.y}px`);
-      if (Math.abs(dy) > 0.1) stillMoving = true;
-    }
-    if (stillMoving) {
-      requestAnimationFrame(tick);
-    } else {
-      // Snap each layer onto its rest position relative to the lead
-      layerState[0].y = targetY + REST_OFFSETS[0];
-      for (let i = 1; i < layerState.length; i++) {
-        layerState[i].y = layerState[i - 1].y + (REST_OFFSETS[i] - REST_OFFSETS[i - 1]);
-      }
-      for (let i = 0; i < layerState.length; i++) {
-        layers[i].style.setProperty('--toc-layer-y', `${layerState[i].y}px`);
-      }
-      animating = false;
-    }
-  }
-
-  function moveIndicator(id) {
-    if (lastClickedId && id !== lastClickedId) return;
-    if (id === currentIndicatorId) return;
-    currentIndicatorId = id;
-    const active = document.querySelector(`.toc-link[href="#${id}"]`);
-    if (!active) return;
-    const newTarget = targetForLink(active);
-    if (firstPlacement) {
-      targetY = newTarget;
-      layerState[0].y = newTarget + REST_OFFSETS[0];
-      for (let i = 1; i < layerState.length; i++) {
-        layerState[i].y = layerState[i - 1].y + (REST_OFFSETS[i] - REST_OFFSETS[i - 1]);
-      }
-      for (let i = 0; i < layerState.length; i++) {
-        layers[i].style.setProperty('--toc-layer-y', `${layerState[i].y}px`);
-      }
-      firstPlacement = false;
-      layers.forEach(l => l.style.animationPlayState = 'running');
-    } else {
-      // Trip-distance-scaled separation cap (per-pair).
-      // Short hop (~30px) → ~1.4px per pair (~5.5px total trail);
-      // full top-to-bottom (~240px) → 5px per pair (20px total trail).
-      const D = Math.abs(newTarget - layerState[0].y);
-      maxExtraSep = Math.min(MAX_EXTRA_SEP, Math.max(0.3, D / 22));
-      targetY = newTarget;
-      if (!animating) {
-        animating = true;
-        requestAnimationFrame(tick);
-      }
-    }
-  }
-
-  function setActive(id) {
-    links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + id));
-    moveIndicator(id);
-  }
-
-  const tocEl = document.querySelector('.cs-toc');
-  function findActive() {
-    const cut = tocEl ? tocEl.getBoundingClientRect().bottom : 88;
-    let id = targets[0]?.id;
-    for (const t of targets) {
-      if (t.getBoundingClientRect().top <= cut) id = t.id;
-    }
-
-    if (lastClickedId) {
-      // Time-based pin: hold the active state on the clicked link until the
-      // smooth scroll has had time to land, regardless of direction or distance.
-      if (Date.now() - lastClickedAt < PIN_DURATION) {
-        return lastClickedId;
-      }
-      lastClickedId = null;
-    }
-
-    if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 4) {
-      return targets[targets.length - 1].id;
-    }
-
-    return id;
-  }
-
-  const io = new IntersectionObserver(
-    () => setActive(findActive()),
-    { rootMargin: '-88px 0px 0px 0px', threshold: Array.from({ length: 21 }, (_, i) => i / 20) }
-  );
-  targets.forEach(t => io.observe(t));
-
-  // SCROLL_OFFSET matches .cs-section { scroll-margin-top: 80px }
-  const SCROLL_OFFSET = 80;
-
-  // The lead layer's position and the page scroll position are driven from
-  // the SAME eased progress over SCROLL_DURATION. They start, ease, and
-  // finish in lockstep — by definition synchronized.
-  function syncScrollAndIndicator(yScrollTarget, yIndicatorTarget, duration) {
-    const startScroll = window.scrollY;
-    const startLead = layerState[0].y;
-    const dScroll = yScrollTarget - startScroll;
-    const dLead = yIndicatorTarget - startLead;
-    const startTime = performance.now();
-    syncActive = true;
-
-    function step(now) {
-      const t = Math.min((now - startTime) / duration, 1);
-      // Ease-in-out cubic: gentle start, peak velocity at midpoint, gentle end.
-      const eased = t < 0.5
-        ? 4 * t * t * t
-        : 1 - Math.pow(-2 * t + 2, 3) / 2;
-      // 'instant' overrides the html { scroll-behavior: smooth } so the
-      // browser doesn't layer its own smooth-scroll on top of ours.
-      window.scrollTo({ top: startScroll + dScroll * eased, behavior: 'instant' });
-      layerState[0].y = startLead + dLead * eased;
-      if (t < 1) {
-        requestAnimationFrame(step);
-      } else {
-        layerState[0].y = yIndicatorTarget;
-        syncActive = false;
-      }
-    }
-    requestAnimationFrame(step);
-
-    if (!animating) {
-      animating = true;
-      requestAnimationFrame(tick);
-    }
-  }
-
-  links.forEach(a => {
-    a.addEventListener('click', e => {
-      e.preventDefault();
-      const id = a.getAttribute('href').slice(1);
-      const sec = document.getElementById(id);
-      if (!sec) return;
-
-      lastClickedId = id;
-      lastClickedAt = Date.now();
-      currentIndicatorId = id;
-
-      const yIndicator = targetForLink(a);
-      let _el = sec, _top = 0;
-      while (_el) { _top += _el.offsetTop; _el = _el.offsetParent; }
-      const yScroll = _top - SCROLL_OFFSET;
-
-      links.forEach(l => l.classList.toggle('active', l === a));
-
-      targetY = yIndicator;
-      const D = Math.abs(yIndicator - layerState[0].y);
-      maxExtraSep = Math.min(MAX_EXTRA_SEP, Math.max(0.3, D / 22));
-
-      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (reduced) {
-        window.scrollTo({ top: yScroll, behavior: 'instant' });
-        for (let i = 0; i < layerState.length; i++) {
-          layerState[i].y = yIndicator;
-          layers[i].style.transform = `translateY(${yIndicator}px) rotate(45deg)`;
-        }
-        return;
-      }
-
-      syncScrollAndIndicator(yScroll, yIndicator, SCROLL_DURATION);
-    });
-  });
-
-  setActive(findActive());
-
-  // Fade-in by mini-section. A heading starts a group that absorbs the
-  // body text/lists below it until the next heading. Standalone blocks
-  // (cs-placeholder, cs-features, cs-results, cs-stats, cs-retention)
-  // are their own group. The IO watches each group's first element and
-  // reveals the whole group together at 20% from the bottom of viewport.
-  // The section itself is also observed (retention chart animations still
-  // hang off `.cs-section.is-visible`).
-  const fadeGroups = new WeakMap();
-  const isHeading = el => /^H[1-5]$/.test(el.tagName);
-  const isStandaloneBlock = el =>
-    el.classList.contains('cs-placeholder') ||
-    el.classList.contains('cs-features') ||
-    el.classList.contains('cs-results') ||
-    el.classList.contains('cs-stats') ||
-    el.classList.contains('cs-retention');
-  // Headings and standalone blocks are each their own group (so the
-  // heading staggers in before its body). Consecutive body elements
-  // (paragraphs, lists) merge into a single group so a multi-paragraph
-  // body doesn't reveal one line at a time.
-  function buildFadeGroups(parent) {
-    const groups = [];
-    let current = [];
-    for (const child of parent.children) {
-      if (isHeading(child) || isStandaloneBlock(child)) {
-        if (current.length) { groups.push(current); current = []; }
-        groups.push([child]);
-      } else {
-        current.push(child);
-      }
-    }
-    if (current.length) groups.push(current);
-    return groups;
-  }
-
-  const fadeIO = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        const group = fadeGroups.get(e.target);
-        if (group) {
-          group.forEach(el => el.classList.add('is-visible'));
-        } else {
-          e.target.classList.add('is-visible');
-        }
-        fadeIO.unobserve(e.target);
-      }
-    });
-  }, { rootMargin: '0px 0px -20% 0px', threshold: 0 });
-
-  document.querySelectorAll('.cs-hero, .cs-section').forEach(parent => {
-    fadeIO.observe(parent);
-    buildFadeGroups(parent).forEach(group => {
-      fadeGroups.set(group[0], group);
-      fadeIO.observe(group[0]);
-    });
-  });
-
-  // Metrics count-up + bar fill
-  const metricsIO = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (!e.isIntersecting) return;
-      const container = e.target;
-      container.classList.add('is-counting');
-      container.querySelectorAll('.cs-metric').forEach((card, i) => {
-        setTimeout(() => card.classList.add('is-visible'), i * 220);
-      });
-      container.querySelectorAll('[data-count]').forEach((el, i) => {
-        const target = parseInt(el.dataset.count, 10);
-        const duration = 1600;
-        const startDelay = 450 + i * 220;
-        setTimeout(() => {
-          const start = performance.now();
-          function tick(now) {
-            const t = Math.min((now - start) / duration, 1);
-            const eased = 1 - Math.pow(1 - t, 3);
-            el.textContent = Math.round(target * eased).toLocaleString();
-            if (t < 1) requestAnimationFrame(tick);
-          }
-          requestAnimationFrame(tick);
-        }, startDelay);
-      });
-      metricsIO.unobserve(container);
-    });
-  }, { threshold: 0.3 });
-  document.querySelectorAll('.cs-metrics').forEach(el => metricsIO.observe(el));
-
-  // Section icon replay — fires the animation as soon as the h5 (icon row)
-  // first touches the viewport from below, so the user sees the full
-  // animation play while the icon scrolls up into reading position.
-  // Threshold 0 = any intersection at all, so the 0.3s delay + ~0.5-0.9s
-  // animation runs as the h5 enters and travels up.
-  const iconReplayIO = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      const section = e.target.closest('.cs-section');
-      if (section) section.classList.toggle('in-view', e.isIntersecting);
-    });
-  }, { threshold: 0 });
-  document.querySelectorAll('.cs-section h5').forEach(el => iconReplayIO.observe(el));
-
-  // Features stagger
-  const featuresIO = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('is-animated');
-        featuresIO.unobserve(e.target);
-      }
-    });
-  }, { rootMargin: '0px 0px -10% 0px', threshold: 0.01 });
-  document.querySelectorAll('.cs-features').forEach(el => featuresIO.observe(el));
-
-  // Keep retention/HVSSA chart label text at a fixed pixel size across
-  // breakpoints. SVG viewBox is 400 wide; screen pixels = fontSize *
-  // (svgWidth / 400). To pin screen pixels to a target, fontSize =
-  // target * 400 / svgWidth. Mobile uses 14px target (16 was crowded
-  // against the narrower bars on phone widths).
-  const CHART_VIEWBOX_W = 400;
-  const mobileQ = window.matchMedia('(max-width: 768px)');
-  function syncChartFontSizes() {
-    const target = mobileQ.matches ? 14 : 16;
-    document.querySelectorAll('.cs-retention-svg').forEach(svg => {
-      const w = svg.getBoundingClientRect().width;
-      if (!w) return;
-      const fs = target * CHART_VIEWBOX_W / w;
-      svg.style.setProperty('--chart-label-fs', fs + 'px');
-    });
-  }
-  mobileQ.addEventListener('change', syncChartFontSizes);
-  if (typeof ResizeObserver !== 'undefined') {
-    const chartRO = new ResizeObserver(syncChartFontSizes);
-    document.querySelectorAll('.cs-retention-svg').forEach(svg => chartRO.observe(svg));
-  } else {
-    window.addEventListener('resize', syncChartFontSizes);
-  }
-  syncChartFontSizes();
-
-  // Auto play / pause videos based on viewport visibility
-  const videoIO = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.play().catch(() => {});
-      } else {
-        e.target.pause();
-      }
-    });
-  }, { threshold: 0.5 });
-  document.querySelectorAll('.cs-placeholder-inner video').forEach(v => videoIO.observe(v));
-
-  // Parallax — cover only
-  const coverImg = document.querySelector('.cs-cover img');
-
-  let ticking = false;
-  function updateParallax() {
-    if (coverImg) {
-      coverImg.style.transform = `translateY(${window.scrollY * 0.25}px)`;
-    }
-    ticking = false;
-  }
-
-  window.addEventListener('scroll', () => {
-    if (!ticking) {
-      requestAnimationFrame(updateParallax);
-      ticking = true;
-    }
-  }, { passive: true });
-
-  updateParallax();
-})();
-</script>
-
-<script src="js/site-nav.js" defer></script>
-<script src="js/lightbox.js" defer></script>
+<script src="js/nav-glass.js"></script>
+<script src="js/case-study-v2.js"></script>
 </body>
 </html>
