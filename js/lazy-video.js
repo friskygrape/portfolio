@@ -22,8 +22,8 @@
     return;
   }
 
-  /* someone pressing play always works, even before the video was near */
-  vids.forEach(v => v.addEventListener('play', () => load(v), { once: true }));
+  /* someone pressing play always works, even before the video was near. Giving it a src cancels that play, so start it again. */
+  vids.forEach(v => v.addEventListener('play', () => { if (v.dataset.src) { load(v); v.play().catch(() => {}); } }));
   if (saveData) return;
 
   const near = new IntersectionObserver(es => es.forEach(e => {
@@ -33,7 +33,8 @@
   const userPaused = new WeakSet();
   const seen = new IntersectionObserver(es => es.forEach(e => {
     const v = e.target;
-    if (e.isIntersecting) { if (!reduce && !userPaused.has(v)) v.play().catch(() => {}); }
+    /* load first: on a refresh, Chrome restores the scroll and can report "in view" before "near" (2026-11-26 bug) */
+    if (e.isIntersecting) { if (!reduce && !userPaused.has(v)) { load(v); v.play().catch(() => {}); } }
     else if (!v.paused) { v.dataset.autoPause = '1'; v.pause(); }
   }), { threshold: 0.25 });
 
